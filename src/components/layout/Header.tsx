@@ -25,24 +25,32 @@ export function Header() {
         label: t("home"),
         icon: Home,
         iconColor: "text-amber-400",
+        gradient:
+          "radial-gradient(circle at 50% 50%, rgba(251,191,36,0.5) 0%, rgba(234,88,12,0.16) 54%, transparent 72%)",
       },
       {
         href: "/catalog",
         label: t("shop"),
         icon: ShoppingBag,
         iconColor: "text-orange-400",
+        gradient:
+          "radial-gradient(circle at 50% 50%, rgba(251,146,60,0.45) 0%, rgba(194,65,12,0.14) 54%, transparent 72%)",
       },
       {
         href: "/#hits",
         label: t("collections"),
         icon: Layers,
         iconColor: "text-amber-300",
+        gradient:
+          "radial-gradient(circle at 50% 50%, rgba(252,211,77,0.4) 0%, rgba(120,53,15,0.12) 55%, transparent 72%)",
       },
       {
         href: "/blog",
         label: t("blog"),
         icon: Newspaper,
         iconColor: "text-amber-500",
+        gradient:
+          "radial-gradient(circle at 50% 50%, rgba(245,158,11,0.42) 0%, rgba(67,20,7,0.12) 54%, transparent 72%)",
       },
     ],
     [t]
