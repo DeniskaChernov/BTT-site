@@ -3,21 +3,28 @@
 @tailwind utilities;
 
 :root {
-  /* Design tokens — Bententrade */
-  --btt-bg: #fafaf8;
-  --btt-surface: #ffffff;
-  --btt-foreground: #141414;
-  --btt-muted: #5c5c5c;
-  --btt-border: #e8e6e1;
-  --btt-primary: #0f3d2e;
-  --btt-primary-hover: #0a2e22;
-  --btt-accent: #c45c26;
-  --btt-accent-hover: #a34d20;
-  --btt-success: #1d6b4a;
-  --btt-radius: 14px;
-  --btt-radius-sm: 10px;
-  --btt-shadow: 0 12px 40px rgba(15, 61, 46, 0.08);
-  --btt-shadow-sm: 0 4px 18px rgba(20, 20, 20, 0.06);
+  /* Чёрно-коричневая палитра 2026 + стекло */
+  --btt-bg: #070605;
+  --btt-bg-mid: #120f0e;
+  --btt-elevated: #1c1816;
+  --btt-surface: rgba(28, 24, 22, 0.55);
+  --btt-foreground: #faf8f5;
+  --btt-muted: #a89f98;
+  --btt-muted-2: #78716c;
+  --btt-border: rgba(255, 255, 255, 0.06);
+  --btt-glass-highlight: rgba(251, 191, 36, 0.14);
+  --btt-primary: #c2410c;
+  --btt-primary-hover: #ea580c;
+  --btt-primary-soft: rgba(234, 88, 12, 0.15);
+  --btt-accent: #f59e0b;
+  --btt-accent-soft: rgba(245, 158, 11, 0.12);
+  --btt-brown-deep: #431407;
+  --btt-success: #34d399;
+  --btt-radius: 1.25rem;
+  --btt-radius-sm: 0.75rem;
+  --btt-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+  --btt-shadow-sm: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --btt-glow: 0 0 60px rgba(234, 88, 12, 0.12);
   --background: var(--btt-bg);
   --foreground: var(--btt-foreground);
 }
@@ -27,19 +34,107 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-[var(--btt-bg)] text-[var(--btt-foreground)] antialiased;
+    @apply min-h-screen text-[var(--btt-foreground)] antialiased;
     font-feature-settings: "ss01" on, "cv02" on;
+    background-color: var(--btt-bg);
+    background-image:
+      radial-gradient(ellipse 100% 80% at 50% -30%, rgba(120, 53, 15, 0.35), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(194, 65, 12, 0.12), transparent 50%),
+      radial-gradient(ellipse 50% 35% at 0% 100%, rgba(67, 20, 7, 0.5), transparent 45%);
+    background-attachment: fixed;
   }
   ::selection {
-    background: rgba(196, 92, 38, 0.2);
+    background: rgba(245, 158, 11, 0.25);
+    color: var(--btt-foreground);
   }
 }
 
 @layer utilities {
   .btt-container {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10;
   }
+
+  /* Glass — как на 21st.dev / community glass-morphism */
+  .btt-glass {
+    @apply rounded-[var(--btt-radius)] border border-white/[0.08] bg-white/[0.04] shadow-[var(--btt-shadow-sm)] backdrop-blur-2xl;
+    box-shadow:
+      var(--btt-shadow-sm),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .btt-glass-strong {
+    @apply rounded-[var(--btt-radius)] border border-amber-500/20 bg-stone-900/50 backdrop-blur-3xl;
+    box-shadow:
+      var(--btt-shadow),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+      0 0 0 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .btt-glass-cta {
+    @apply rounded-full border border-amber-400/30 bg-gradient-to-b from-white/10 to-white/[0.02] px-6 py-3 text-sm font-semibold text-stone-100 shadow-lg backdrop-blur-xl transition hover:border-amber-400/50 hover:from-white/15;
+  }
+
+  .btt-mesh {
+    background-image:
+      radial-gradient(at 40% 20%, rgba(194, 65, 12, 0.2) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(120, 53, 15, 0.25) 0px, transparent 45%),
+      radial-gradient(at 0% 50%, rgba(67, 20, 7, 0.4) 0px, transparent 50%);
+  }
+
+  .btt-grid-bg {
+    background-size: 40px 40px;
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+
   .btt-card {
-    @apply rounded-[var(--btt-radius)] border border-[var(--btt-border)] bg-[var(--btt-surface)] shadow-[var(--btt-shadow-sm)];
+    @apply btt-glass;
+  }
+
+  .btt-shimmer {
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.06) 55%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: btt-shimmer 4s ease-in-out infinite;
+  }
+}
+
+@keyframes btt-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes btt-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes btt-pulse-ring {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
   }
 }

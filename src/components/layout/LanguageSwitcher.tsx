@@ -16,7 +16,7 @@ export function LanguageSwitcher() {
 
   return (
     <div
-      className="inline-flex rounded-full border border-btt-border bg-btt-surface p-0.5 text-xs font-medium"
+      className="inline-flex rounded-full border border-white/15 bg-white/[0.05] p-0.5 text-xs font-semibold backdrop-blur-md"
       role="group"
       aria-label="Language"
     >
@@ -29,10 +29,10 @@ export function LanguageSwitcher() {
             router.replace(pathname, { locale: loc });
           }}
           className={clsx(
-            "rounded-full px-2.5 py-1 transition-colors",
+            "rounded-full px-3 py-1.5 transition-all",
             current === loc
-              ? "bg-btt-primary text-white shadow-sm"
-              : "text-btt-muted hover:text-foreground"
+              ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md"
+              : "text-stone-400 hover:text-stone-200"
           )}
         >
           {labels[loc]}

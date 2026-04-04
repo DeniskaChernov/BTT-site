@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
-import { Sun, Droplets, Trees } from "lucide-react";
+import { ArrowRight, Droplets, Sun, Trees } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function HeroSection() {
@@ -16,85 +16,114 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden border-b border-btt-border bg-[radial-gradient(1200px_600px_at_20%_-10%,rgba(15,61,46,0.12),transparent),radial-gradient(900px_500px_at_90%_10%,rgba(196,92,38,0.12),transparent)]">
-      <div className="btt-container grid gap-12 py-16 md:grid-cols-2 md:py-24">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-xl"
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-btt-muted">
-            Bententrade
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-btt-primary md:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
-            {t("title")}
-          </h1>
-          <p className="mt-4 text-lg text-btt-muted">{t("subtitle")}</p>
+    <section className="relative overflow-hidden">
+      <div className="btt-mesh btt-grid-bg absolute inset-0 opacity-90" aria-hidden />
+      <div
+        className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-amber-600/15 blur-[100px]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-orange-950/50 blur-[90px]"
+        aria-hidden
+      />
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/catalog"
-              className="inline-flex items-center justify-center rounded-full bg-btt-primary px-6 py-3 text-sm font-semibold text-white shadow-btt transition hover:bg-[var(--btt-primary-hover)]"
+      <div className="relative btt-container py-12 md:py-20 lg:py-28">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* Текст + CTA — асимметричная колонка */}
+          <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
-              {t("cta_buy")}
-            </Link>
-            <Link
-              href="/#quiz"
-              className="inline-flex items-center justify-center rounded-full border border-btt-border bg-btt-surface px-6 py-3 text-sm font-semibold shadow-btt-sm transition hover:border-btt-primary/30"
-            >
-              {t("cta_pick")}
-            </Link>
-          </div>
+              <p className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-amber-200/90">
+                Bententrade · 2026
+              </p>
+              <h1 className="mt-6 text-3xl font-bold leading-[1.12] tracking-tight text-stone-50 md:text-4xl lg:text-5xl">
+                {t("title")}
+              </h1>
+              <p className="mt-5 max-w-md text-lg leading-relaxed text-stone-400">
+                {t("subtitle")}
+              </p>
 
-          <ul className="mt-8 flex flex-wrap gap-4 text-sm text-btt-muted">
-            <li className="rounded-full border border-btt-border bg-white/70 px-3 py-1">
-              {t("micro_total")}
-            </li>
-            <li className="rounded-full border border-btt-border bg-white/70 px-3 py-1">
-              {t("micro_guest")}
-            </li>
-            <li className="rounded-full border border-btt-border bg-white/70 px-3 py-1">
-              {h("trust_payments")}
-            </li>
-          </ul>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.08 }}
-          className="relative"
-        >
-          <div className="btt-card relative aspect-[4/3] overflow-hidden">
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  "url(https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80)",
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/45 via-black/10 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 rounded-btt border border-white/20 bg-white/10 p-4 text-white backdrop-blur-md">
-              <p className="text-sm font-medium">{h("trust_ship")}</p>
-              <p className="mt-1 text-xs text-white/80">{h("trust_batch")}</p>
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            {items.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="btt-card flex items-center gap-3 p-4 transition hover:shadow-btt"
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-btt-primary/10 text-btt-primary">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </span>
-                <span className="text-sm font-medium leading-snug">{label}</span>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Link href="/catalog">
+                  <motion.span
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-900/40 sm:w-auto"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {t("cta_buy")}
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                  </motion.span>
+                </Link>
+                <Link href="/#quiz">
+                  <motion.span
+                    className="btt-glass-cta inline-flex w-full items-center justify-center sm:w-auto"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {t("cta_pick")}
+                  </motion.span>
+                </Link>
               </div>
-            ))}
+            </motion.div>
           </div>
-        </motion.div>
+
+          {/* Визуал — стекло + изображение */}
+          <div className="lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="relative"
+            >
+              <div className="relative aspect-[16/11] overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-2xl backdrop-blur-xl">
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{
+                    backgroundImage:
+                      "url(https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1400&q=85)",
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-amber-950/30" />
+                <div className="absolute inset-0 btt-shimmer opacity-40" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                  <div className="btt-glass max-w-lg rounded-2xl p-5">
+                    <p className="text-sm font-semibold text-stone-100">
+                      {h("trust_ship")}
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-stone-400">
+                      {h("trust_batch")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Плавающие иконки доверия */}
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                {items.map(({ icon: Icon, label }, i) => (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35 + i * 0.08 }}
+                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                    className="btt-glass flex items-center gap-3 p-4 transition hover:border-amber-500/30"
+                  >
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/10 text-amber-400 ring-1 ring-amber-500/20">
+                      <Icon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <span className="text-sm font-medium leading-snug text-stone-200">
+                      {label}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

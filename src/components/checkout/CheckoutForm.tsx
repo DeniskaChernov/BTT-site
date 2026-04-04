@@ -62,7 +62,7 @@ export function CheckoutForm() {
   if (lines.length === 0 && !done) {
     return (
       <div className="btt-container py-16 text-center">
-        <p className="text-btt-muted">{tc("empty")}</p>
+        <p className="text-stone-400">{tc("empty")}</p>
       </div>
     );
   }
@@ -70,15 +70,15 @@ export function CheckoutForm() {
   if (done) {
     return (
       <div className="btt-container max-w-lg py-16">
-        <div className="btt-card p-8 text-center">
-          <p className="text-lg font-semibold text-btt-success">{t("success")}</p>
-          <p className="mt-2 text-sm text-btt-muted">
+        <div className="btt-glass-strong rounded-3xl p-8 text-center">
+          <p className="text-lg font-semibold text-emerald-400">{t("success")}</p>
+          <p className="mt-2 text-sm text-stone-400">
             Sandbox: редиректы Payme/Click здесь подключаются к боевым ключам.
           </p>
           <button
             type="button"
             onClick={() => router.push("/catalog")}
-            className="mt-6 rounded-full bg-btt-primary px-6 py-3 text-sm font-semibold text-white"
+            className="mt-6 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg"
           >
             {c("learn_more")}
           </button>
@@ -88,58 +88,58 @@ export function CheckoutForm() {
   }
 
   return (
-    <div className="btt-container grid gap-10 py-10 lg:grid-cols-[1fr_360px]">
-      <form onSubmit={onPay} className="space-y-6">
+    <div className="btt-container grid gap-10 py-10 lg:grid-cols-[1fr_380px]">
+      <form onSubmit={onPay} className="btt-glass space-y-6 rounded-3xl p-6 md:p-8">
         <div>
-          <h1 className="text-2xl font-semibold">{t("title")}</h1>
-          <p className="mt-1 text-sm text-btt-muted">{t("guest")}</p>
-          <p className="mt-1 text-xs text-btt-muted">{t("login_hint")}</p>
+          <h1 className="text-2xl font-bold text-stone-50 md:text-3xl">{t("title")}</h1>
+          <p className="mt-1 text-sm text-stone-400">{t("guest")}</p>
+          <p className="mt-1 text-xs text-stone-500">{t("login_hint")}</p>
           {oneClick && (
-            <p className="mt-2 rounded-btt border border-btt-accent/30 bg-btt-accent/5 px-3 py-2 text-sm">
+            <p className="mt-2 rounded-2xl border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-sm text-amber-100">
               {t("one_click_title")}: {t("one_click_hint")}
             </p>
           )}
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="grid gap-1 text-sm">
+          <label className="grid gap-1 text-sm text-stone-300">
             {c("name")}
             <input
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="rounded-btt border border-btt-border px-3 py-2"
+              className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
             />
           </label>
-          <label className="grid gap-1 text-sm">
+          <label className="grid gap-1 text-sm text-stone-300">
             {c("phone")}
             <input
               required
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="rounded-btt border border-btt-border px-3 py-2"
+              className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
             />
           </label>
         </div>
-        <label className="grid gap-1 text-sm">
+        <label className="grid gap-1 text-sm text-stone-300">
           {c("address")}
           <input
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="rounded-btt border border-btt-border px-3 py-2"
+            className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
           />
         </label>
 
         <div>
-          <p className="text-sm font-medium">{t("shipping")}</p>
-          <div className="mt-2 flex gap-2">
+          <p className="text-sm font-medium text-stone-200">{t("shipping")}</p>
+          <div className="mt-2 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => setShip("courier")}
-              className={`rounded-full px-4 py-2 text-sm ${
+              className={`rounded-full px-4 py-2 text-sm transition ${
                 ship === "courier"
-                  ? "bg-btt-primary text-white"
-                  : "border border-btt-border"
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md"
+                  : "border border-white/15 text-stone-300 hover:bg-white/[0.05]"
               }`}
             >
               {t("ship_courier")}
@@ -147,10 +147,10 @@ export function CheckoutForm() {
             <button
               type="button"
               onClick={() => setShip("pickup")}
-              className={`rounded-full px-4 py-2 text-sm ${
+              className={`rounded-full px-4 py-2 text-sm transition ${
                 ship === "pickup"
-                  ? "bg-btt-primary text-white"
-                  : "border border-btt-border"
+                  ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md"
+                  : "border border-white/15 text-stone-300 hover:bg-white/[0.05]"
               }`}
             >
               {t("ship_pickup")}
@@ -159,7 +159,7 @@ export function CheckoutForm() {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{t("pay_method")}</p>
+          <p className="text-sm font-medium text-stone-200">{t("pay_method")}</p>
           <div className="mt-2 grid gap-2 sm:grid-cols-2">
             {(
               [
@@ -173,8 +173,10 @@ export function CheckoutForm() {
             ).map(([key, id]) => (
               <label
                 key={id}
-                className={`flex cursor-pointer items-center gap-2 rounded-btt border px-3 py-2 text-sm ${
-                  pay === id ? "border-btt-primary bg-btt-primary/5" : "border-btt-border"
+                className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-sm text-stone-300 ${
+                  pay === id
+                    ? "border-amber-500/50 bg-amber-500/10"
+                    : "border-white/10 hover:border-white/20"
                 }`}
               >
                 <input
@@ -187,32 +189,32 @@ export function CheckoutForm() {
               </label>
             ))}
           </div>
-          <p className="mt-2 text-xs text-btt-muted">{t("delivery_note")}</p>
+          <p className="mt-2 text-xs text-stone-500">{t("delivery_note")}</p>
           {err && <p className="mt-2 text-sm text-red-600">{t("error_pay")}</p>}
         </div>
 
         <button
           type="submit"
-          className="rounded-full bg-btt-accent px-8 py-3 text-sm font-semibold text-white shadow-btt-sm"
+          className="rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg"
         >
           {t("place_order")}
         </button>
       </form>
 
-      <aside className="btt-card h-fit p-6">
-        <p className="text-sm font-semibold">{t("summary")}</p>
-        <ul className="mt-4 space-y-3 text-sm">
+      <aside className="btt-glass-strong h-fit rounded-3xl p-6">
+        <p className="text-sm font-semibold text-stone-300">{t("summary")}</p>
+        <ul className="mt-4 space-y-3 text-sm text-stone-400">
           {lines.map((l) => (
             <li key={l.sku} className="flex justify-between gap-2">
-              <span className="line-clamp-2">{l.name}</span>
-              <span>{l.qtyKg} kg</span>
+              <span className="line-clamp-2 text-stone-200">{l.name}</span>
+              <span className="shrink-0 text-stone-500">{l.qtyKg} kg</span>
             </li>
           ))}
         </ul>
-        <p className="mt-6 text-lg font-bold">
+        <p className="mt-6 text-2xl font-bold tabular-nums text-amber-400">
           {formatUzs(subtotalUz)}
         </p>
-        <p className="mt-1 text-xs text-btt-muted">{c("total_to_pay")}</p>
+        <p className="mt-1 text-xs text-stone-500">{c("total_to_pay")}</p>
       </aside>
     </div>
   );

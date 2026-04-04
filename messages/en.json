@@ -54,16 +54,21 @@
   },
   "segments": {
     "sub": "Fewer questions — faster checkout.",
+    "kicker": "Your path",
     "title": "Who are you?",
     "novice": "Beginner",
     "novice_desc": "1–2 kg quick start",
     "master": "Pro",
     "master_desc": "Palette, yield, batch",
     "wholesale": "Wholesale / HoReCa",
-    "wholesale_desc": "Quote, invoice, volume"
+    "wholesale_desc": "Quote, invoice, volume",
+    "cta": "Explore"
   },
   "home": {
+    "catalog_kicker": "Catalog",
     "hits": "Bestsellers & sets",
+    "hits_lead": "Popular picks — per-kg pricing, fast checkout.",
+    "quiz_kicker": "Smart picker",
     "quiz_title": "2-minute picker",
     "quiz_sub": "5 questions — SKUs & price",
     "reviews": "Reviews",

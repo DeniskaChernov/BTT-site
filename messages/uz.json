@@ -54,16 +54,21 @@
   },
   "segments": {
     "sub": "Kamroq savol — tezroq xarid.",
+    "kicker": "Marshrut",
     "title": "Kim siz?",
     "novice": "Yangi",
     "novice_desc": "1–2 kg, tez start",
     "master": "Usta",
     "master_desc": "Palitra, sarfi, partiya",
     "wholesale": "Ulgurji / HoReCa",
-    "wholesale_desc": "Tijoriy taklif, hisob-faktura"
+    "wholesale_desc": "Tijoriy taklif, hisob-faktura",
+    "cta": "Ko‘rish"
   },
   "home": {
+    "catalog_kicker": "Katalog",
     "hits": "Hitlar va to‘plamlar",
+    "hits_lead": "Mashhur pozitsiyalar — kg narxi, tez buyurtma.",
+    "quiz_kicker": "Aqlli tanlash",
     "quiz_title": "2 daqiqada tanlash",
     "quiz_sub": "5 savol — SKU va narx",
     "reviews": "Sharhlar",

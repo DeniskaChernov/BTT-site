@@ -94,14 +94,16 @@ export function RattanQuiz() {
   };
 
   return (
-    <div id="quiz" className="btt-card scroll-mt-24 p-6 md:p-10">
+    <div id="quiz" className="btt-glass-strong scroll-mt-24 p-6 md:p-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-xl font-semibold md:text-2xl">{t("start")}</h2>
-          <p className="mt-1 text-sm text-btt-muted">{t("hint")}</p>
+          <h2 className="text-xl font-semibold text-stone-50 md:text-2xl">
+            {t("start")}
+          </h2>
+          <p className="mt-1 text-sm text-stone-400">{t("hint")}</p>
         </div>
         {step > 0 && step <= 5 && (
-          <p className="text-xs font-medium text-btt-muted">
+          <p className="text-xs font-medium text-stone-500">
             {t("progress", { n: step, total: totalSteps })}
           </p>
         )}
@@ -112,7 +114,7 @@ export function RattanQuiz() {
           <button
             type="button"
             onClick={start}
-            className="rounded-full bg-btt-primary px-6 py-3 text-sm font-semibold text-white shadow-btt-sm"
+            className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-btt-sm"
           >
             {t("open")}
           </button>
@@ -143,7 +145,7 @@ export function RattanQuiz() {
                   setSegment(val);
                   setStep(2);
                 }}
-                className="rounded-btt border border-btt-border bg-btt-bg px-4 py-4 text-left text-sm font-semibold hover:border-btt-primary"
+                className="rounded-btt border border-white/15 bg-stone-950/50 px-4 py-4 text-left text-sm font-semibold hover:border-amber-500/50"
               >
                 {t(key as "novice")}
               </button>
@@ -166,7 +168,7 @@ export function RattanQuiz() {
                 setProductKind("material");
                 setStep(3);
               }}
-              className="rounded-btt border border-btt-border px-4 py-4 text-left hover:border-btt-primary"
+              className="rounded-btt border border-white/15 px-4 py-4 text-left hover:border-amber-500/50"
             >
               {t("kind_material")}
             </button>
@@ -176,7 +178,7 @@ export function RattanQuiz() {
                 setProductKind("planter");
                 setStep(3);
               }}
-              className="rounded-btt border border-btt-border px-4 py-4 text-left hover:border-btt-primary"
+              className="rounded-btt border border-white/15 px-4 py-4 text-left hover:border-amber-500/50"
             >
               {t("kind_planter")}
             </button>
@@ -206,7 +208,7 @@ export function RattanQuiz() {
                   setPlace(val);
                   setStep(4);
                 }}
-                className="rounded-btt border border-btt-border px-4 py-3 text-sm font-semibold hover:border-btt-primary"
+                className="rounded-btt border border-white/15 px-4 py-3 text-sm font-semibold hover:border-amber-500/50"
               >
                 {c(key)}
               </button>
@@ -237,7 +239,7 @@ export function RattanQuiz() {
                   setVol(val);
                   setStep(5);
                 }}
-                className="rounded-btt border border-btt-border px-4 py-3 text-sm font-semibold hover:border-btt-primary"
+                className="rounded-btt border border-white/15 px-4 py-3 text-sm font-semibold hover:border-amber-500/50"
               >
                 {c(key)}
               </button>
@@ -248,7 +250,7 @@ export function RattanQuiz() {
                 setVol("unknown");
                 setStep(5);
               }}
-              className="rounded-btt border border-btt-border px-4 py-3 text-sm font-semibold hover:border-btt-primary md:col-span-2"
+              className="rounded-btt border border-white/15 px-4 py-3 text-sm font-semibold hover:border-amber-500/50 md:col-span-2"
             >
               {t("opt_unknown")}
             </button>
@@ -276,7 +278,7 @@ export function RattanQuiz() {
                   key={id}
                   type="button"
                   onClick={() => onTime(t(key))}
-                  className="rounded-full border border-btt-border px-4 py-2 text-sm hover:border-btt-primary"
+                  className="rounded-full border border-white/15 px-4 py-2 text-sm hover:border-amber-500/50"
                 >
                   {t(key)}
                 </button>
@@ -294,7 +296,7 @@ export function RattanQuiz() {
           >
             <p className="text-sm font-medium">{t("result_quote")}</p>
             <input
-              className="w-full rounded-btt border border-btt-border px-4 py-3 text-sm"
+              className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
               placeholder="+998..."
               value={contact.phone}
               onChange={(e) =>
@@ -302,7 +304,7 @@ export function RattanQuiz() {
               }
             />
             <input
-              className="w-full rounded-btt border border-btt-border px-4 py-3 text-sm"
+              className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
               placeholder="Город / страна"
               value={contact.city}
               onChange={(e) =>
@@ -310,7 +312,7 @@ export function RattanQuiz() {
               }
             />
             <input
-              className="w-full rounded-btt border border-btt-border px-4 py-3 text-sm"
+              className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
               placeholder="Компания"
               value={contact.company}
               onChange={(e) =>
@@ -320,7 +322,7 @@ export function RattanQuiz() {
             <button
               type="button"
               onClick={submitQuote}
-              className="rounded-full bg-btt-primary px-6 py-3 text-sm font-semibold text-white"
+              className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white"
             >
               Отправить
             </button>
@@ -339,20 +341,20 @@ export function RattanQuiz() {
               {recommended.map((p) => (
                 <div
                   key={p.sku}
-                  className="rounded-btt border border-btt-border p-4"
+                  className="rounded-btt border border-white/15 p-4"
                 >
                   <p className="font-medium">{p.names[locale]}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => add(p, p.names[locale], pickQtyKg())}
-                      className="rounded-full bg-btt-primary px-3 py-1.5 text-xs font-semibold text-white"
+                      className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-3 py-1.5 text-xs font-semibold text-white"
                     >
                       {t("add_combo")}
                     </button>
                     <Link
                       href={`/product/${p.slug}`}
-                      className="rounded-full border border-btt-border px-3 py-1.5 text-xs font-semibold"
+                      className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold"
                     >
                       {t("open_pdp")}
                     </Link>
@@ -362,7 +364,7 @@ export function RattanQuiz() {
             </div>
             <Link
               href="/checkout"
-              className="inline-flex w-fit rounded-full bg-btt-accent px-6 py-3 text-sm font-semibold text-white"
+              className="inline-flex w-fit rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg"
             >
               {t("one_click")}
             </Link>
@@ -374,7 +376,7 @@ export function RattanQuiz() {
             key="done"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-8 text-sm font-medium text-btt-success"
+            className="mt-8 text-sm font-medium text-emerald-400"
           >
             {t("quote_success")}
           </motion.p>

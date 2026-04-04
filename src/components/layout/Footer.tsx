@@ -6,32 +6,47 @@ export async function Footer() {
   const n = await getTranslations("nav");
 
   return (
-    <footer className="mt-20 border-t border-btt-border bg-btt-surface">
-      <div className="btt-container grid gap-10 py-14 md:grid-cols-3">
+    <footer className="relative mt-24 border-t border-white/[0.08] bg-gradient-to-b from-transparent to-black/40">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/25 to-transparent" />
+      <div className="btt-container grid gap-12 py-16 md:grid-cols-3">
         <div>
-          <div className="flex items-center gap-2 font-semibold">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-btt bg-btt-primary text-sm text-white">
+          <div className="flex items-center gap-3 font-semibold text-stone-100">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-600 to-orange-700 text-sm font-bold text-white shadow-lg">
               BT
             </span>
-            Bententrade
+            <span className="text-lg">Bententrade</span>
           </div>
-          <p className="mt-3 max-w-sm text-sm text-btt-muted">{t("rights")}</p>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-stone-500">
+            {t("rights")}
+          </p>
         </div>
-        <div className="grid gap-2 text-sm">
-          <Link className="hover:underline" href="/catalog">
+        <div className="grid gap-3 text-sm">
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/catalog"
+          >
             {n("catalog")}
           </Link>
-          <Link className="hover:underline" href="/wholesale">
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/wholesale"
+          >
             {n("wholesale")}
           </Link>
-          <Link className="hover:underline" href="/export">
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/export"
+          >
             {n("export")}
           </Link>
-          <Link className="hover:underline" href="/faq">
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/faq"
+          >
             {n("faq")}
           </Link>
         </div>
-        <div className="grid gap-2 text-sm text-btt-muted">
+        <div className="grid gap-3 text-sm text-stone-500">
           <span>{t("privacy")}</span>
           <span>{t("offer")}</span>
         </div>

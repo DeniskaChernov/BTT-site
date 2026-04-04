@@ -3,20 +3,17 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 type Props = {
@@ -63,13 +60,11 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen font-sans`}
-      >
+      <body className={`${montserrat.variable} min-h-screen font-sans`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <Header />
-            <main className="min-h-[70vh]">{children}</main>
+            <main className="min-h-[75vh]">{children}</main>
             <Footer />
           </Providers>
         </NextIntlClientProvider>

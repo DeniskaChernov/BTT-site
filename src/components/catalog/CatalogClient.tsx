@@ -67,8 +67,8 @@ export function CatalogClient() {
       className={clsx(
         "rounded-full border px-3 py-1.5 text-xs font-medium transition",
         active
-          ? "border-btt-primary bg-btt-primary text-white"
-          : "border-btt-border bg-btt-surface hover:border-btt-primary/40"
+          ? "border-amber-500/50 bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md"
+          : "border-white/10 bg-white/[0.04] text-stone-300 hover:border-amber-500/30"
       )}
     >
       {label}
@@ -76,10 +76,10 @@ export function CatalogClient() {
   );
 
   return (
-    <div className="mt-8 grid gap-8 lg:grid-cols-[260px_1fr]">
-      <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+    <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]">
+      <aside className="btt-glass space-y-6 rounded-3xl p-5 lg:sticky lg:top-28 lg:self-start">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-btt-muted">
+          <p className="text-xs font-semibold uppercase tracking-wider text-amber-500/80">
             {t("filters")}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -88,7 +88,7 @@ export function CatalogClient() {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{t("filter_use")}</p>
+          <p className="text-sm font-medium text-stone-200">{t("filter_use")}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {chip("application", "all", t("all"), f.application === "all")}
             {chip("application", "outdoor", t("use_outdoor"), f.application === "outdoor")}
@@ -98,7 +98,7 @@ export function CatalogClient() {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{t("filter_thickness")}</p>
+          <p className="text-sm font-medium text-stone-200">{t("filter_thickness")}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {chip("thickness", "all", t("all"), f.thickness === "all")}
             {["3", "4", "5", "6", "7", "8", "0"].map((mm) =>
@@ -108,7 +108,7 @@ export function CatalogClient() {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{t("filter_color")}</p>
+          <p className="text-sm font-medium text-stone-200">{t("filter_color")}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {chip("color", "all", t("all"), f.color === "all")}
             {(
@@ -131,7 +131,7 @@ export function CatalogClient() {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{t("filter_shape")}</p>
+          <p className="text-sm font-medium text-stone-200">{t("filter_shape")}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {chip("shape", "all", t("all"), f.shape === "all")}
             {chip("shape", "round", t("shape_round"), f.shape === "round")}
@@ -142,7 +142,7 @@ export function CatalogClient() {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{t("filter_hardness")}</p>
+          <p className="text-sm font-medium text-stone-200">{t("filter_hardness")}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {chip("hardness", "all", t("all"), f.hardness === "all")}
             {chip("hardness", "soft", t("hard_soft"), f.hardness === "soft")}
@@ -152,7 +152,7 @@ export function CatalogClient() {
         </div>
 
         <div>
-          <p className="text-sm font-medium">{t("filter_stock")}</p>
+          <p className="text-sm font-medium text-stone-200">{t("filter_stock")}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {chip("stock", "all", t("all"), f.stock === "all")}
             {chip("stock", "in_stock", t("stock_in"), f.stock === "in_stock")}
@@ -173,7 +173,7 @@ export function CatalogClient() {
               stock: "all",
             })
           }
-          className="text-sm font-semibold text-btt-primary underline"
+          className="text-sm font-semibold text-amber-400 underline underline-offset-4 hover:text-amber-300"
         >
           {t("reset")}
         </button>
@@ -181,7 +181,7 @@ export function CatalogClient() {
 
       <div>
         {filtered.length === 0 ? (
-          <p className="text-sm text-btt-muted">{t("empty")}</p>
+          <p className="text-sm text-stone-500">{t("empty")}</p>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((p: Product) => (

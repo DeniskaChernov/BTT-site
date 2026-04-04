@@ -42,47 +42,48 @@ export function ProductCard({ product }: Props) {
   return (
     <motion.article
       layout
-      className="group relative flex flex-col overflow-hidden rounded-btt border border-btt-border bg-btt-surface shadow-btt-sm transition hover:shadow-btt"
-      whileHover={{ y: -2 }}
+      className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition duration-300 hover:border-amber-500/25 hover:shadow-[0_20px_60px_-15px_rgba(245,158,11,0.15)]"
+      whileHover={{ y: -4 }}
     >
       <Link href={`/product/${product.slug}`} className="block">
-        <div className="relative aspect-square overflow-hidden bg-black/5">
+        <div className="relative aspect-square overflow-hidden bg-stone-950">
           <Image
             src={img}
             alt={name}
             fill
             sizes="(max-width:768px) 100vw, 33vw"
-            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+            className="object-cover transition duration-700 group-hover:scale-105"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 transition group-hover:opacity-80" />
           {product.lowStock && (
-            <span className="absolute left-3 top-3 rounded-full bg-btt-accent px-2 py-1 text-xs font-semibold text-white">
+            <span className="absolute left-3 top-3 rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-2.5 py-1 text-xs font-semibold text-white shadow-lg">
               {t("low_stock")}
             </span>
           )}
         </div>
-        <div className="flex flex-1 flex-col p-4">
-          <h3 className="line-clamp-2 text-base font-semibold leading-snug">
+        <div className="flex flex-1 flex-col p-5">
+          <h3 className="line-clamp-2 text-base font-semibold leading-snug text-stone-100">
             {name}
           </h3>
-          <p className="mt-1 line-clamp-2 text-sm text-btt-muted">
+          <p className="mt-2 line-clamp-2 text-sm text-stone-500">
             {product.short[locale]}
           </p>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-lg font-bold text-btt-primary">
+          <div className="mt-4 flex items-baseline gap-2">
+            <span className="text-xl font-bold tabular-nums text-amber-400">
               {formatUzs(ppk)}
             </span>
-            <span className="text-xs text-btt-muted">{t("per_kg")}</span>
+            <span className="text-xs text-stone-500">{t("per_kg")}</span>
           </div>
-          <p className="mt-1 text-xs text-btt-muted">
+          <p className="mt-1 text-xs text-stone-600">
             {product.stock === "in_stock" ? c("stock_in") : c("stock_order")}
           </p>
         </div>
       </Link>
-      <div className="p-4 pt-0">
+      <div className="px-5 pb-5">
         <button
           type="button"
           onClick={onAdd}
-          className="w-full rounded-full bg-btt-primary py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--btt-primary-hover)]"
+          className="w-full rounded-full bg-gradient-to-r from-amber-600 to-orange-600 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-amber-500 hover:to-orange-500 hover:shadow-amber-900/30"
         >
           {t("add_cart")}
         </button>
@@ -90,7 +91,7 @@ export function ProductCard({ product }: Props) {
           <motion.p
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-2 text-center text-xs font-medium text-btt-success"
+            className="mt-2 text-center text-xs font-medium text-emerald-400"
           >
             ✓ {t("add_cart")}
           </motion.p>

@@ -1,7 +1,9 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { TiltCard } from "@/components/ui/TiltCard";
 import { motion } from "framer-motion";
+import { ArrowUpRight, Sparkles, Wrench, Warehouse } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function SegmentSection() {
@@ -11,52 +13,79 @@ export function SegmentSection() {
     {
       title: t("novice"),
       desc: t("novice_desc"),
-      href: "/catalog?segment=novice",
-      tone: "from-emerald-50 to-white",
+      href: "/catalog",
+      icon: Sparkles,
+      span: "md:col-span-2 lg:col-span-2",
+      accent: "from-amber-500/20 to-transparent",
     },
     {
       title: t("master"),
       desc: t("master_desc"),
-      href: "/catalog?segment=master",
-      tone: "from-amber-50 to-white",
+      href: "/catalog",
+      icon: Wrench,
+      span: "md:col-span-1 lg:col-span-1",
+      accent: "from-orange-600/15 to-transparent",
     },
     {
       title: t("wholesale"),
       desc: t("wholesale_desc"),
       href: "/wholesale",
-      tone: "from-slate-50 to-white",
+      icon: Warehouse,
+      span: "md:col-span-1 lg:col-span-1",
+      accent: "from-stone-600/30 to-transparent",
     },
   ];
 
   return (
-    <section className="btt-container py-16 md:py-20">
-      <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-          {t("title")}
-        </h2>
-        <p className="mt-2 text-btt-muted">{t("sub")}</p>
-      </div>
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
-        {cards.map((c, i) => (
-          <motion.div
-            key={c.title}
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.06, duration: 0.4 }}
-          >
-            <Link
-              href={c.href}
-              className={`block h-full rounded-btt border border-btt-border bg-gradient-to-br ${c.tone} p-6 shadow-btt-sm transition hover:-translate-y-0.5 hover:shadow-btt`}
+    <section className="relative py-16 md:py-24">
+      <div className="btt-container">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mx-auto max-w-2xl text-center lg:mx-0 lg:max-w-xl lg:text-left"
+        >
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+            {t("kicker")}
+          </span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">
+            {t("title")}
+          </h2>
+          <p className="mt-3 text-base text-stone-400">{t("sub")}</p>
+        </motion.div>
+
+        <div className="mt-12 grid auto-rows-fr gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {cards.map((c, i) => (
+            <motion.div
+              key={c.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.45 }}
+              className={c.span}
             >
-              <h3 className="text-lg font-semibold">{c.title}</h3>
-              <p className="mt-2 text-sm text-btt-muted">{c.desc}</p>
-              <span className="mt-4 inline-flex text-sm font-semibold text-btt-primary">
-                →
-              </span>
-            </Link>
-          </motion.div>
-        ))}
+              <TiltCard className="h-full">
+                <Link
+                  href={c.href}
+                  className={`group relative flex h-full min-h-[200px] flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br ${c.accent} p-8 shadow-xl backdrop-blur-xl transition hover:border-amber-500/35`}
+                >
+                  <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-500/10 blur-3xl transition group-hover:bg-amber-500/20" />
+                  <c.icon className="relative h-8 w-8 text-amber-400" strokeWidth={1.5} />
+                  <h3 className="relative mt-6 text-xl font-semibold text-stone-50">
+                    {c.title}
+                  </h3>
+                  <p className="relative mt-2 flex-1 text-sm leading-relaxed text-stone-400">
+                    {c.desc}
+                  </p>
+                  <span className="relative mt-6 inline-flex items-center gap-1 text-sm font-semibold text-amber-400 transition group-hover:gap-2">
+                    {t("cta")}
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              </TiltCard>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
