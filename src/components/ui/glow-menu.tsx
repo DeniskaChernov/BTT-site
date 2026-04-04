@@ -11,14 +11,6 @@ import type { LucideIcon } from "lucide-react";
 const ACTIVE_GLOW =
   "radial-gradient(ellipse 115% 100% at 50% 50%, rgba(251,191,36,0.26) 0%, rgba(234,88,12,0.12) 48%, rgba(67,20,7,0.05) 65%, transparent 76%)";
 
-export type GlowMenuItem = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-  /** Цвет иконки в активном состоянии (Tailwind) */
-  activeIconClass: string;
-};
-
 function pathMatches(pathname: string, href: string) {
   if (href === "/") return pathname === "/" || pathname === "";
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -160,42 +152,3 @@ export function GlowNavItem({
   );
 }
 
-/** Пункт меню с индивидуальным цветом активной иконки (разделы каталога и т.д.) */
-export function GlowMenuLink({ item }: { item: GlowMenuItem }) {
-  const pathname = usePathname();
-  const active = pathMatches(pathname, item.href);
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.href}
-      className="group relative shrink-0 overflow-hidden rounded-xl outline-none"
-      aria-current={active ? "page" : undefined}
-    >
-      <span
-        className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl transition-opacity duration-300"
-        style={{
-          background: ACTIVE_GLOW,
-          opacity: active ? 1 : 0,
-        }}
-        aria-hidden
-      />
-      <span
-        className={cn(
-          "relative flex items-center gap-2 whitespace-nowrap px-2.5 py-2 sm:px-3",
-          active ? "text-stone-50" : "text-stone-500 group-hover:text-stone-300"
-        )}
-      >
-        <Icon
-          className={cn(
-            "h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]",
-            "stroke-[1.5]",
-            active ? item.activeIconClass : "text-stone-500 group-hover:text-stone-400"
-          )}
-          aria-hidden
-        />
-        <span className="text-xs font-medium tracking-tight sm:text-sm">{item.label}</span>
-      </span>
-    </Link>
-  );
-}
