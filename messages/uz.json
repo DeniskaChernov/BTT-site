@@ -11,7 +11,9 @@
     "contacts": "Aloqa",
     "faq": "FAQ",
     "cart": "Savatcha",
-    "account": "Profil"
+    "account": "Profil",
+    "kinetic_menu": "Menyu",
+    "kinetic_close": "Yopish"
   },
   "common": {
     "from": "dan",

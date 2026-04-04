@@ -11,7 +11,9 @@
     "contacts": "Contacts",
     "faq": "FAQ",
     "cart": "Cart",
-    "account": "Account"
+    "account": "Account",
+    "kinetic_menu": "Menu",
+    "kinetic_close": "Close"
   },
   "common": {
     "from": "from",

@@ -11,7 +11,9 @@
     "contacts": "Контакты",
     "faq": "FAQ",
     "cart": "Корзина",
-    "account": "Профиль"
+    "account": "Профиль",
+    "kinetic_menu": "Меню",
+    "kinetic_close": "Закрыть"
   },
   "common": {
     "from": "от",
