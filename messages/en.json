@@ -4,6 +4,10 @@
     "home_desc": "Buy rattan and planters in Uzbekistan: indoor & outdoor, fast delivery, Uzcard, Humo, Payme, Click."
   },
   "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "collections": "Collections",
+    "blog": "Blog",
     "catalog": "Catalog",
     "wholesale": "Wholesale",
     "export": "Export",
@@ -57,9 +61,13 @@
   },
   "commerceHero": {
     "kicker": "Bententrade · 2026",
-    "headline_accent": "Artificial rattan",
-    "headline_rest": "and planters for home & outdoors",
-    "lead": "Catalog, wholesale, and export — delivery across Uzbekistan. Pick a path below."
+    "headline_accent": "Curate your picks",
+    "headline_rest": "into simple collections.",
+    "lead": "Four featured SKUs — profiles and planters. Open a product card and checkout in a few clicks."
+  },
+  "blog": {
+    "title": "Blog",
+    "lead": "Articles on rattan, care, and batches — coming soon. Browse the catalog or reach us via contacts for now."
   },
   "segments": {
     "sub": "Fewer questions — faster checkout.",

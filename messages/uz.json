@@ -4,6 +4,10 @@
     "home_desc": "O‘zbekistonda rattan va kashpo: ko‘cha va uy, tez yetkazib berish, Uzcard, Humo, Payme, Click."
   },
   "nav": {
+    "home": "Bosh sahifa",
+    "shop": "Do‘kon",
+    "collections": "Kolleksiyalar",
+    "blog": "Blog",
     "catalog": "Katalog",
     "wholesale": "Ulgurji",
     "export": "Eksport",
@@ -57,9 +61,13 @@
   },
   "commerceHero": {
     "kicker": "Bententrade · 2026",
-    "headline_accent": "Sun'iy rattan",
-    "headline_rest": "va uy hamda kocha uchun kashpo",
-    "lead": "Katalog, ulgurji va eksport — O‘zbekiston bo‘ylab yetkazib berish. Quyidagi yo‘lni tanlang."
+    "headline_accent": "Buyurtmani yig‘ing",
+    "headline_rest": "aniq to‘plamlardan.",
+    "lead": "To‘rtta hit — profil va kashpo. Mahsulot kartochkasini oching va bir necha klikda rasmiylashtiring."
+  },
+  "blog": {
+    "title": "Blog",
+    "lead": "Rattan, parvarish va partiyalar haqida maqolalar — tez orada. Hozircha katalogga qarang yoki aloqaga yozing."
   },
   "segments": {
     "sub": "Kamroq savol — tezroq xarid.",

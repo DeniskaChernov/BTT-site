@@ -47,7 +47,41 @@ export interface MenuBarItem {
 
 function pathMatches(pathname: string, href: string) {
   if (href === "/") return pathname === "/" || pathname === "";
+  /** «Магазин» — активен и в каталоге, и на карточке товара */
+  if (href === "/catalog") {
+    return (
+      pathname === "/catalog" ||
+      pathname.startsWith("/catalog/") ||
+      pathname.startsWith("/product/")
+    );
+  }
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function useHash() {
+  const [hash, setHash] = React.useState("");
+  React.useEffect(() => {
+    const sync = () => setHash(typeof window !== "undefined" ? window.location.hash : "");
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
+  return hash;
+}
+
+function itemIsActive(pathname: string, href: string, hash: string) {
+  if (href.includes("#")) {
+    const [pathPart, frag] = href.split("#");
+    const base = pathPart === "" || pathPart === "/" ? "/" : pathPart;
+    if (!pathMatches(pathname, base)) return false;
+    return hash === `#${frag}`;
+  }
+  if (href === "/") {
+    if (!pathMatches(pathname, "/")) return false;
+    if (hash === "#hits") return false;
+    return true;
+  }
+  return pathMatches(pathname, href);
 }
 
 export interface MenuBarProps {
@@ -63,6 +97,7 @@ export interface MenuBarProps {
 export const MenuBar = React.forwardRef<HTMLDivElement, MenuBarProps>(
   ({ className, items, embedded = false }, ref) => {
     const pathname = usePathname();
+    const hash = useHash();
 
     return (
       <motion.nav
@@ -84,7 +119,7 @@ export const MenuBar = React.forwardRef<HTMLDivElement, MenuBarProps>(
         >
           {items.map((item) => {
             const Icon = item.icon;
-            const isActive = pathMatches(pathname, item.href);
+            const isActive = itemIsActive(pathname, item.href, hash);
 
             return (
               <motion.li key={item.href} className="relative isolate shrink-0">

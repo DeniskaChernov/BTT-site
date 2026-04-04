@@ -8,16 +8,7 @@ import {
 } from "@/components/ui/glow-menu";
 import { MenuBar, type MenuBarItem } from "@/components/ui/menu-bar";
 import { useCart } from "@/contexts/CartContext";
-import {
-  Building2,
-  Globe2,
-  HelpCircle,
-  LayoutGrid,
-  Mail,
-  Plane,
-  ShoppingCart,
-  User,
-} from "lucide-react";
+import { Home, Layers, Newspaper, ShoppingBag, ShoppingCart, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -30,52 +21,36 @@ export function Header() {
   const menuItems: MenuBarItem[] = useMemo(
     () => [
       {
-        href: "/catalog",
-        label: t("catalog"),
-        icon: LayoutGrid,
+        href: "/",
+        label: t("home"),
+        icon: Home,
         iconColor: "text-amber-400",
         gradient:
           "radial-gradient(circle at 50% 50%, rgba(251,191,36,0.55) 0%, rgba(234,88,12,0.22) 50%, rgba(67,20,7,0.08) 68%, transparent 76%)",
       },
       {
-        href: "/wholesale",
-        label: t("wholesale"),
-        icon: Building2,
+        href: "/catalog",
+        label: t("shop"),
+        icon: ShoppingBag,
         iconColor: "text-orange-400",
         gradient:
           "radial-gradient(circle at 50% 50%, rgba(251,146,60,0.5) 0%, rgba(194,65,12,0.2) 50%, transparent 74%)",
       },
       {
-        href: "/export",
-        label: t("export"),
-        icon: Plane,
+        href: "/#hits",
+        label: t("collections"),
+        icon: Layers,
         iconColor: "text-amber-300",
         gradient:
           "radial-gradient(circle at 50% 50%, rgba(252,211,77,0.48) 0%, rgba(120,53,15,0.18) 55%, transparent 76%)",
       },
       {
-        href: "/about",
-        label: t("about"),
-        icon: Globe2,
+        href: "/blog",
+        label: t("blog"),
+        icon: Newspaper,
         iconColor: "text-amber-500",
         gradient:
           "radial-gradient(circle at 50% 50%, rgba(245,158,11,0.45) 0%, rgba(67,20,7,0.2) 52%, transparent 75%)",
-      },
-      {
-        href: "/contacts",
-        label: t("contacts"),
-        icon: Mail,
-        iconColor: "text-rose-400",
-        gradient:
-          "radial-gradient(circle at 50% 50%, rgba(251,113,133,0.42) 0%, rgba(234,88,12,0.15) 55%, transparent 76%)",
-      },
-      {
-        href: "/faq",
-        label: t("faq"),
-        icon: HelpCircle,
-        iconColor: "text-violet-400",
-        gradient:
-          "radial-gradient(circle at 50% 50%, rgba(167,139,250,0.45) 0%, rgba(251,191,36,0.12) 58%, transparent 78%)",
       },
     ],
     [t]

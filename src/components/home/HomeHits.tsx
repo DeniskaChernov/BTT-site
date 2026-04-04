@@ -10,7 +10,10 @@ export async function HomeHits() {
     .slice(0, 6);
 
   return (
-    <section className="relative border-y border-white/[0.06] py-16 md:py-24">
+    <section
+      id="hits"
+      className="relative scroll-mt-24 border-y border-white/[0.06] py-16 md:py-24"
+    >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-amber-950/10 to-transparent" />
       <div className="relative btt-container">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
