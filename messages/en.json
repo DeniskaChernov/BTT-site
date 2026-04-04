@@ -63,7 +63,11 @@
     "kicker": "Bententrade · 2026",
     "headline_accent": "Curate your picks",
     "headline_rest": "into simple collections.",
-    "lead": "Four featured SKUs — profiles and planters. Open a product card and checkout in a few clicks."
+    "lead": "Four catalog routes — rattan, planters, round profile, and new arrivals. Open a category or checkout in a few clicks.",
+    "card_rattan": "Rattan",
+    "card_planter": "Planters",
+    "card_twisted": "Twisted rattan",
+    "card_fourth": "New arrivals"
   },
   "blog": {
     "title": "Blog",

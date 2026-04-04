@@ -15,20 +15,29 @@ type FilterState = {
   shape: "all" | string;
   hardness: "all" | string;
   stock: "all" | "in_stock" | "on_order";
-}
+};
 
+type CatalogClientProps = {
+  /** Из URL `?tab=` (ссылки с главной) */
+  initialTab?: CategoryTab;
+  /** Из URL `?shape=` */
+  initialShape?: "all" | Product["shape"];
+};
 
-export function CatalogClient() {
+export function CatalogClient({
+  initialTab = "material",
+  initialShape = "all",
+}: CatalogClientProps) {
   const t = useTranslations("catalog");
-  const [f, setF] = useState<FilterState>({
-    tab: "material",
+  const [f, setF] = useState<FilterState>(() => ({
+    tab: initialTab,
     application: "all",
     thickness: "all",
     color: "all",
-    shape: "all",
+    shape: initialShape,
     hardness: "all",
     stock: "all",
-  });
+  }));
 
   const filtered = useMemo(() => {
     return products.filter((p) => {

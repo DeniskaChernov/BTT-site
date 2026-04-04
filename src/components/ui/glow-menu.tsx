@@ -4,9 +4,9 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 
-/** Локальная подсветка бренда — слабее и компактнее, без «ореола» за пределами кнопки */
+/** Активный пункт / бренд — мягкое янтарное свечение как на референсе */
 const ACTIVE_GLOW =
-  "radial-gradient(ellipse 95% 90% at 50% 50%, rgba(251,191,36,0.16) 0%, rgba(234,88,12,0.06) 55%, transparent 72%)";
+  "radial-gradient(ellipse 110% 100% at 50% 50%, rgba(251,191,36,0.22) 0%, rgba(234,88,12,0.12) 45%, rgba(67,20,7,0.06) 62%, transparent 72%)";
 
 function pathMatches(pathname: string, href: string) {
   if (href === "/") return pathname === "/" || pathname === "";
@@ -48,7 +48,7 @@ export function GlowNavBrand() {
         aria-hidden
       />
       <span className="relative flex items-center gap-2">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600 to-orange-700 text-[10px] font-bold text-white ring-1 ring-amber-400/25 sm:h-8 sm:w-8 sm:text-xs">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-amber-600 to-orange-700 text-[10px] font-bold text-white shadow-sm ring-1 ring-white/10 ring-offset-0 sm:h-8 sm:w-8 sm:text-xs">
           BT
         </span>
         <span
@@ -69,9 +69,9 @@ export function GlowNavPill({ children, className }: GlowNavPillProps) {
   return (
     <div
       className={cn(
-        "inline-flex w-max max-w-full min-w-0 items-center gap-0.5 overflow-x-auto rounded-full border border-white/[0.1] bg-[#0a0908]/80 px-1.5 py-1 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-xl supports-[backdrop-filter]:bg-[#0a0908]/65",
+        "inline-flex w-max max-w-full min-w-0 items-center gap-0.5 overflow-x-auto rounded-full border border-white/[0.12] bg-[#0a0908]/82 px-1.5 py-1 shadow-[0_0_0_1px_rgba(255,255,255,0.05)_inset,0_12px_48px_rgba(0,0,0,0.6),0_1px_0_0_rgba(255,255,255,0.04)_inset] backdrop-blur-xl supports-[backdrop-filter]:bg-[#0a0908]/68",
         "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
-        "sm:gap-1 sm:px-2 sm:py-1.5",
+        "sm:gap-1 sm:px-2.5 sm:py-1.5",
         className
       )}
     >

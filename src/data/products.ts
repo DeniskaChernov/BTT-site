@@ -626,14 +626,6 @@ export const products: Product[] = [
   },
 ];
 
-/** Четыре карточки на главном герое (как на референсе — товары, не разделы) */
-export const COMMERCE_HERO_SLUGS = [
-  "rattan-hal-round-natural-5",
-  "rattan-flat-black-6",
-  "planter-basket-m",
-  "rattan-oval-white-7",
-] as const;
-
 export function getProductBySlug(slug: string) {
   return products.find((p) => p.slug === slug);
 }

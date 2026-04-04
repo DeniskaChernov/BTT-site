@@ -43,10 +43,10 @@ export function LanguageSwitcher({ variant = "default" }: Props) {
           className={cn(
             "rounded-full font-semibold transition-all",
             isNavbar
-              ? "px-2 py-1.5 text-[10px] sm:px-2.5 sm:py-2 sm:text-xs"
+              ? "px-2.5 py-1.5 text-[10px] sm:px-3 sm:py-2 sm:text-xs"
               : "px-3 py-1.5 text-xs",
             current === loc
-              ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-sm"
+              ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-orange-900/30 ring-1 ring-white/15"
               : isNavbar
                 ? "text-stone-500 hover:text-stone-300"
                 : "text-stone-400 hover:text-stone-200"

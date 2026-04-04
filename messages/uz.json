@@ -63,7 +63,11 @@
     "kicker": "Bententrade · 2026",
     "headline_accent": "Buyurtmani yig‘ing",
     "headline_rest": "aniq to‘plamlardan.",
-    "lead": "To‘rtta hit — profil va kashpo. Mahsulot kartochkasini oching va bir necha klikda rasmiylashtiring."
+    "lead": "To‘rtta yo‘nalish — rattan, kashpo, dumaloq profil va yangiliklar. Bo‘limga o‘ting yoki bir necha klikda xarid qiling.",
+    "card_rattan": "Rattan",
+    "card_planter": "Kashpo",
+    "card_twisted": "Burma rattan",
+    "card_fourth": "Yangiliklar"
   },
   "blog": {
     "title": "Blog",

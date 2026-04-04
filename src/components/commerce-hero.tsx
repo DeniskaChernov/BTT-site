@@ -1,25 +1,51 @@
 "use client";
 
-import { COMMERCE_HERO_SLUGS, getProductBySlug } from "@/data/products";
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/types/product";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
-const heroProducts = COMMERCE_HERO_SLUGS.map((slug) => getProductBySlug(slug)).filter(
-  (p): p is NonNullable<ReturnType<typeof getProductBySlug>> => p != null
-);
-
-/** Фон только под текстом героя; снаружи — общий фон страницы (mesh / градиенты body) */
+/** Фон только под текстом героя; снаружи — общий фон страницы */
 const HERO_PANEL_IMAGE =
   "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=85";
+
+type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
+
+const HERO_CATEGORIES: {
+  href: string;
+  messageKey: CardKey;
+  image: string;
+}[] = [
+  {
+    href: "/catalog?tab=material",
+    messageKey: "card_rattan",
+    image:
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=85",
+  },
+  {
+    href: "/catalog?tab=planter",
+    messageKey: "card_planter",
+    image:
+      "https://images.unsplash.com/photo-1416879695882-3373aadc0dd4?w=800&q=85",
+  },
+  {
+    href: "/catalog?tab=material&shape=round",
+    messageKey: "card_twisted",
+    image:
+      "https://images.unsplash.com/photo-1595428774227-1215327c3b49?w=800&q=85",
+  },
+  {
+    href: "/catalog?tab=new",
+    messageKey: "card_fourth",
+    image:
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea3?w=800&q=85",
+  },
+];
 
 export function CommerceHero() {
   const t = useTranslations("commerceHero");
   const th = useTranslations("hero");
-  const locale = useLocale() as Locale;
 
   return (
     <section className="relative overflow-hidden">
@@ -35,7 +61,7 @@ export function CommerceHero() {
 
       <div className="relative btt-container py-12 md:py-16 lg:py-20">
         <motion.div
-          className="relative mx-auto min-h-[300px] max-w-5xl overflow-hidden rounded-[1.75rem] border border-white/[0.1] shadow-[0_32px_100px_rgba(0,0,0,0.55)] md:min-h-[380px]"
+          className="relative mx-auto min-h-[300px] max-w-5xl overflow-hidden rounded-[1.75rem] border border-white/[0.12] shadow-[0_32px_100px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.06)] ring-1 ring-white/[0.04] md:min-h-[380px]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -50,17 +76,17 @@ export function CommerceHero() {
               sizes="(max-width: 1280px) 100vw, 1024px"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/75"
+              className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/78"
               aria-hidden
             />
             <div
-              className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_0%,rgba(120,53,15,0.25),transparent_55%)]"
+              className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_0%,rgba(120,53,15,0.28),transparent_55%)]"
               aria-hidden
             />
           </div>
 
           <div className="relative z-10 flex flex-col items-center px-5 py-12 text-center md:px-12 md:py-16">
-            <p className="inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-black/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-amber-100/95 backdrop-blur-sm">
+            <p className="inline-flex items-center gap-2 rounded-full border border-amber-400/35 bg-black/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-amber-100/95 backdrop-blur-sm">
               {t("kicker")}
             </p>
             <h1 className="mt-6 max-w-4xl text-3xl font-bold leading-[1.12] tracking-tight text-stone-50 md:text-5xl lg:text-6xl">
@@ -68,16 +94,16 @@ export function CommerceHero() {
                 {t("headline_accent")}
               </span>
               <br />
-              <span className="text-white drop-shadow-sm">{t("headline_rest")}</span>
+              <span className="text-white drop-shadow-md">{t("headline_rest")}</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-stone-300/95 md:text-lg">
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-stone-200/95 md:text-lg">
               {t("lead")}
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
               <Link href="/catalog">
                 <motion.span
-                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-900/50 sm:w-auto"
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-600 via-orange-600 to-red-700 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-950/40 sm:w-auto"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -87,7 +113,7 @@ export function CommerceHero() {
               </Link>
               <Link href="/#quiz">
                 <motion.span
-                  className="btt-glass-cta inline-flex w-full items-center justify-center border-white/20 bg-white/10 text-stone-50 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-amber-400/35 bg-black/30 px-8 py-3.5 text-sm font-semibold text-stone-50 shadow-lg backdrop-blur-md transition hover:border-amber-400/55 hover:bg-black/40 sm:w-auto"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -99,13 +125,12 @@ export function CommerceHero() {
         </motion.div>
 
         <div className="mx-auto mt-14 grid max-w-7xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          {heroProducts.map((product, index) => {
-            const name = product.names[locale];
-            const img = `https://picsum.photos/seed/${product.imageSeed}/640/640`;
+          {HERO_CATEGORIES.map((cat, index) => {
+            const title = t(cat.messageKey);
 
             return (
               <motion.div
-                key={product.slug}
+                key={cat.messageKey}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -115,23 +140,23 @@ export function CommerceHero() {
                 }}
               >
                 <Link
-                  href={`/product/${product.slug}`}
-                  className="group relative block overflow-hidden rounded-3xl border border-white/[0.08] bg-zinc-900/60 p-4 shadow-[var(--btt-shadow-sm)] backdrop-blur-sm transition hover:border-white/15 sm:min-h-[280px] sm:p-6"
+                  href={cat.href}
+                  className="group relative block overflow-hidden rounded-3xl border border-white/[0.08] bg-[#141414]/90 p-4 shadow-[var(--btt-shadow-sm)] backdrop-blur-sm transition hover:border-white/18 sm:min-h-[280px] sm:p-6"
                 >
-                  <h2 className="relative z-10 line-clamp-3 text-center text-lg font-bold leading-snug text-stone-100 transition group-hover:text-white sm:text-xl md:text-2xl">
-                    {name}
+                  <h2 className="relative z-10 text-center text-xl font-bold leading-snug text-white transition group-hover:text-stone-50 sm:text-2xl md:text-[1.65rem]">
+                    {title}
                   </h2>
                   <div className="pointer-events-none relative mt-4 flex min-h-[160px] items-center justify-center sm:min-h-[180px]">
                     <Image
-                      src={img}
-                      alt={name}
+                      src={cat.image}
+                      alt=""
                       width={320}
                       height={240}
-                      className="h-auto max-h-[200px] w-full max-w-[200px] object-contain opacity-95 transition duration-500 group-hover:scale-105 group-hover:opacity-100"
+                      className="h-auto max-h-[200px] w-full max-w-[200px] rounded-lg object-cover opacity-95 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
                       sizes="(max-width: 640px) 90vw, 25vw"
                     />
                   </div>
-                  <div className="absolute bottom-3 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-lg border border-white/10 bg-zinc-950/90 text-stone-200 shadow-lg backdrop-blur-sm transition group-hover:border-amber-500/35 group-hover:bg-stone-900 group-hover:text-amber-200">
+                  <div className="absolute bottom-3 right-3 z-10 flex h-11 w-11 items-center justify-center rounded-md border border-white/12 bg-black/70 text-stone-100 shadow-lg backdrop-blur-sm transition group-hover:border-amber-500/40 group-hover:bg-zinc-900 group-hover:text-amber-200">
                     <ArrowUpRight className="h-5 w-5" aria-hidden />
                   </div>
                 </Link>

@@ -1,4 +1,5 @@
 import { CatalogClient } from "@/components/catalog/CatalogClient";
+import type { CategoryTab } from "@/types/product";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
@@ -6,8 +7,21 @@ export async function generateMetadata() {
   return { title: `${t("title")} | Bententrade` };
 }
 
-export default async function CatalogPage() {
+const TABS: CategoryTab[] = ["material", "planter", "new"];
+const SHAPES = ["round", "flat", "oval", "half_round"] as const;
+
+type PageProps = {
+  searchParams: Promise<{ tab?: string; shape?: string }>;
+};
+
+export default async function CatalogPage({ searchParams }: PageProps) {
   const t = await getTranslations("catalog");
+  const sp = await searchParams;
+
+  const tab = TABS.includes(sp.tab as CategoryTab) ? (sp.tab as CategoryTab) : "material";
+  const shape = SHAPES.includes(sp.shape as (typeof SHAPES)[number])
+    ? (sp.shape as (typeof SHAPES)[number])
+    : "all";
 
   return (
     <div className="btt-container py-12 md:py-16">
@@ -18,7 +32,7 @@ export default async function CatalogPage() {
         {t("title")}
       </h1>
       <p className="mt-4 max-w-2xl text-lg text-stone-400">{t("intro")}</p>
-      <CatalogClient />
+      <CatalogClient initialTab={tab} initialShape={shape} />
     </div>
   );
 }
