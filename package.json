@@ -19,7 +19,8 @@
     "next": "^15.2.8",
     "next-intl": "^4.9.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.5.0"
   },
   "overrides": {
     "@swc/helpers": "0.5.21"
