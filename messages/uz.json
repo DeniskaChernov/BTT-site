@@ -55,6 +55,12 @@
     "micro_guest": "Ro‘yxatsiz",
     "micro_stock": "Omborda / buyurtma — kartochkada aniq"
   },
+  "commerceHero": {
+    "kicker": "Bententrade · 2026",
+    "headline_accent": "Sun'iy rattan",
+    "headline_rest": "va uy hamda kocha uchun kashpo",
+    "lead": "Katalog, ulgurji va eksport — O‘zbekiston bo‘ylab yetkazib berish. Quyidagi yo‘lni tanlang."
+  },
   "segments": {
     "sub": "Kamroq savol — tezroq xarid.",
     "kicker": "Marshrut",

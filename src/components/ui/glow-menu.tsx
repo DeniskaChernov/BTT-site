@@ -4,12 +4,9 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 
-/**
- * Симметричное свечение: эллипс строго по центру блока (50% 50%), ширина ~110% —
- * равномерно покрывает и иконку, и текст без «съезда» влево.
- */
+/** Локальная подсветка бренда — слабее и компактнее, без «ореола» за пределами кнопки */
 const ACTIVE_GLOW =
-  "radial-gradient(ellipse 115% 100% at 50% 50%, rgba(251,191,36,0.26) 0%, rgba(234,88,12,0.12) 48%, rgba(67,20,7,0.05) 65%, transparent 76%)";
+  "radial-gradient(ellipse 95% 90% at 50% 50%, rgba(251,191,36,0.16) 0%, rgba(234,88,12,0.06) 55%, transparent 72%)";
 
 function pathMatches(pathname: string, href: string) {
   if (href === "/") return pathname === "/" || pathname === "";

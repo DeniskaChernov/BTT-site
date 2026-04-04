@@ -18,25 +18,13 @@ const backVariants: Variants = {
   hover: { rotateX: 0, opacity: 1 },
 };
 
+/** Только лёгкая смена прозрачности — scale 2 из оригинала размазывал свечение на соседние пункты */
 const glowVariants: Variants = {
-  initial: { opacity: 0, scale: 0.8 },
-  hover: {
-    opacity: 1,
-    scale: 2,
-    transition: {
-      opacity: { duration: 0.5, ease: easeOut },
-      scale: { duration: 0.5, type: "spring", stiffness: 300, damping: 25 },
-    },
-  },
-};
-
-const navGlowVariants: Variants = {
   initial: { opacity: 0 },
   hover: {
     opacity: 1,
     transition: {
-      duration: 0.5,
-      ease: easeOut,
+      opacity: { duration: 0.35, ease: easeOut },
     },
   },
 };
@@ -70,8 +58,7 @@ export interface MenuBarProps {
 }
 
 /**
- * Glow-меню как в 21st.dev: ambient-ореол при hover по блоку, 3D-flip по пункту,
- * мягкое свечение выбранного пункта (gradient).
+ * Пункты меню: 3D-flip по hover + аккуратное свечение только внутри ячейки (без глобального «мазка»).
  */
 export const MenuBar = React.forwardRef<HTMLDivElement, MenuBarProps>(
   ({ className, items, embedded = false }, ref) => {
@@ -81,23 +68,13 @@ export const MenuBar = React.forwardRef<HTMLDivElement, MenuBarProps>(
       <motion.nav
         ref={ref}
         className={cn(
-          "relative overflow-hidden",
+          "relative",
           embedded
             ? "min-w-0 flex-1 border-0 bg-transparent p-0 shadow-none backdrop-blur-none"
-            : "rounded-2xl border border-white/15 bg-gradient-to-b from-stone-950/85 to-stone-900/50 p-2 shadow-lg backdrop-blur-lg",
+            : "overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-b from-stone-950/85 to-stone-900/50 p-2 shadow-lg backdrop-blur-lg",
           className
         )}
-        initial="initial"
-        whileHover="hover"
       >
-        <motion.div
-          className="pointer-events-none absolute -inset-2 z-0 rounded-3xl"
-          style={{
-            background:
-              "radial-gradient(ellipse 90% 100% at 50% 45%, transparent 0%, rgba(251,191,36,0.18) 22%, rgba(139,92,246,0.12) 48%, rgba(248,113,113,0.1) 72%, transparent 100%)",
-          }}
-          variants={navGlowVariants}
-        />
         <ul
           className={cn(
             "relative z-10 flex items-center gap-1 sm:gap-2",
@@ -110,10 +87,14 @@ export const MenuBar = React.forwardRef<HTMLDivElement, MenuBarProps>(
             const isActive = pathMatches(pathname, item.href);
 
             return (
-              <motion.li key={item.href} className="relative shrink-0">
-                <Link href={item.href} className="block w-full min-w-0" aria-current={isActive ? "page" : undefined}>
+              <motion.li key={item.href} className="relative isolate shrink-0">
+                <Link
+                  href={item.href}
+                  className="block min-w-0 overflow-hidden rounded-xl"
+                  aria-current={isActive ? "page" : undefined}
+                >
                   <motion.div
-                    className="group relative block overflow-visible rounded-xl"
+                    className="group relative block overflow-hidden rounded-xl"
                     style={{ perspective: "600px" }}
                     whileHover="hover"
                     initial="initial"
@@ -124,8 +105,7 @@ export const MenuBar = React.forwardRef<HTMLDivElement, MenuBarProps>(
                       animate={isActive ? "hover" : "initial"}
                       style={{
                         background: item.gradient,
-                        opacity: isActive ? 1 : 0,
-                        borderRadius: "16px",
+                        borderRadius: "12px",
                       }}
                     />
                     <motion.div

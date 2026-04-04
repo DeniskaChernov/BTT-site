@@ -1,4 +1,4 @@
-import { HeroSection } from "@/components/home/HeroSection";
+import { CommerceHero } from "@/components/commerce-hero";
 import { HomeHits } from "@/components/home/HomeHits";
 import { SegmentSection } from "@/components/home/SegmentSection";
 import { SocialProofSection } from "@/components/home/SocialProofSection";
@@ -11,7 +11,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSection />
+      <CommerceHero />
       <TrustStrip />
       <SegmentSection />
       <HomeHits />
