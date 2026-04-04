@@ -12,6 +12,10 @@ const heroProducts = COMMERCE_HERO_SLUGS.map((slug) => getProductBySlug(slug)).f
   (p): p is NonNullable<ReturnType<typeof getProductBySlug>> => p != null
 );
 
+/** Фон только под текстом героя; снаружи — общий фон страницы (mesh / градиенты body) */
+const HERO_PANEL_IMAGE =
+  "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=85";
+
 export function CommerceHero() {
   const t = useTranslations("commerceHero");
   const th = useTranslations("hero");
@@ -31,45 +35,66 @@ export function CommerceHero() {
 
       <div className="relative btt-container py-12 md:py-16 lg:py-20">
         <motion.div
-          className="mx-auto max-w-4xl text-center"
+          className="relative mx-auto min-h-[300px] max-w-5xl overflow-hidden rounded-[1.75rem] border border-white/[0.1] shadow-[0_32px_100px_rgba(0,0,0,0.55)] md:min-h-[380px]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-amber-200/90">
-            {t("kicker")}
-          </p>
-          <h1 className="mt-6 text-3xl font-bold leading-[1.12] tracking-tight text-stone-50 md:text-5xl lg:text-6xl">
-            <span className="bg-gradient-to-r from-amber-400 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              {t("headline_accent")}
-            </span>
-            <br />
-            <span className="text-stone-50">{t("headline_rest")}</span>
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-stone-400 md:text-lg">
-            {t("lead")}
-          </p>
+          <div className="pointer-events-none absolute inset-0">
+            <Image
+              src={HERO_PANEL_IMAGE}
+              alt=""
+              fill
+              priority
+              className="object-cover object-center"
+              sizes="(max-width: 1280px) 100vw, 1024px"
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/75"
+              aria-hidden
+            />
+            <div
+              className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_0%,rgba(120,53,15,0.25),transparent_55%)]"
+              aria-hidden
+            />
+          </div>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-            <Link href="/catalog">
-              <motion.span
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-900/40 sm:w-auto"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {th("cta_buy")}
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </motion.span>
-            </Link>
-            <Link href="/#quiz">
-              <motion.span
-                className="btt-glass-cta inline-flex w-full items-center justify-center sm:w-auto"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {th("cta_pick")}
-              </motion.span>
-            </Link>
+          <div className="relative z-10 flex flex-col items-center px-5 py-12 text-center md:px-12 md:py-16">
+            <p className="inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-black/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-amber-100/95 backdrop-blur-sm">
+              {t("kicker")}
+            </p>
+            <h1 className="mt-6 max-w-4xl text-3xl font-bold leading-[1.12] tracking-tight text-stone-50 md:text-5xl lg:text-6xl">
+              <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-transparent">
+                {t("headline_accent")}
+              </span>
+              <br />
+              <span className="text-white drop-shadow-sm">{t("headline_rest")}</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-stone-300/95 md:text-lg">
+              {t("lead")}
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="/catalog">
+                <motion.span
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-900/50 sm:w-auto"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {th("cta_buy")}
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                </motion.span>
+              </Link>
+              <Link href="/#quiz">
+                <motion.span
+                  className="btt-glass-cta inline-flex w-full items-center justify-center border-white/20 bg-white/10 text-stone-50 sm:w-auto"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {th("cta_pick")}
+                </motion.span>
+              </Link>
+            </div>
           </div>
         </motion.div>
 
