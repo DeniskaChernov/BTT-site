@@ -4,9 +4,12 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 
-/** Единое мягкое свечение активного пункта (как на референсе — «подсветка снизу») */
+/**
+ * Симметричное свечение: эллипс строго по центру блока (50% 50%), ширина ~110% —
+ * равномерно покрывает и иконку, и текст без «съезда» влево.
+ */
 const ACTIVE_GLOW =
-  "radial-gradient(ellipse 120% 100% at 50% 50%, rgba(251,191,36,0.35) 0%, rgba(234,88,12,0.14) 45%, transparent 72%)";
+  "radial-gradient(ellipse 115% 100% at 50% 50%, rgba(251,191,36,0.26) 0%, rgba(234,88,12,0.12) 48%, rgba(67,20,7,0.05) 65%, transparent 76%)";
 
 export type GlowMenuItem = {
   href: string;
@@ -44,11 +47,11 @@ export function GlowNavBrand() {
   return (
     <Link
       href="/"
-      className="group relative flex shrink-0 items-center gap-1.5 rounded-xl px-1.5 py-1 sm:gap-2 sm:px-2.5 sm:py-2"
+      className="group relative flex shrink-0 items-center gap-1.5 overflow-hidden rounded-xl px-1.5 py-1 sm:gap-2 sm:px-2.5 sm:py-2"
       aria-current={active ? "page" : undefined}
     >
       <span
-        className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl transition-opacity duration-300"
         style={{
           background: ACTIVE_GLOW,
           opacity: active ? 1 : 0,
@@ -117,7 +120,7 @@ export function GlowNavItem({
     <Link
       href={href}
       className={cn(
-        "group relative shrink-0 rounded-xl outline-none transition-colors",
+        "group relative shrink-0 overflow-hidden rounded-xl outline-none transition-colors",
         className
       )}
       aria-current={active ? "page" : undefined}
@@ -166,11 +169,11 @@ export function GlowMenuLink({ item }: { item: GlowMenuItem }) {
   return (
     <Link
       href={item.href}
-      className="group relative shrink-0 rounded-xl outline-none"
+      className="group relative shrink-0 overflow-hidden rounded-xl outline-none"
       aria-current={active ? "page" : undefined}
     >
       <span
-        className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl transition-opacity duration-300"
         style={{
           background: ACTIVE_GLOW,
           opacity: active ? 1 : 0,
@@ -179,7 +182,7 @@ export function GlowMenuLink({ item }: { item: GlowMenuItem }) {
       />
       <span
         className={cn(
-          "relative flex items-center gap-2 whitespace-nowrap rounded-xl px-2.5 py-2 sm:px-3",
+          "relative flex items-center gap-2 whitespace-nowrap px-2.5 py-2 sm:px-3",
           active ? "text-stone-50" : "text-stone-500 group-hover:text-stone-300"
         )}
       >
