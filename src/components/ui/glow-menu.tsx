@@ -4,21 +4,22 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 
-/** Активный пункт / бренд — мягкое янтарное свечение как на референсе */
-const ACTIVE_GLOW =
-  "radial-gradient(ellipse 110% 100% at 50% 50%, rgba(251,191,36,0.22) 0%, rgba(234,88,12,0.12) 45%, rgba(67,20,7,0.06) 62%, transparent 72%)";
-
 function pathMatches(pathname: string, href: string) {
   if (href === "/") return pathname === "/" || pathname === "";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+/** Активная ячейка: мягкий вертикальный градиент + inset-обводка, без широкого radial «ореола» */
+const navActiveCell = cn(
+  "bg-gradient-to-b from-amber-500/[0.13] to-stone-950/50",
+  "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.07),inset_0_0_0_1px_rgba(251,191,36,0.26)]"
+);
 
 export interface GlowNavPillProps {
   children: React.ReactNode;
   className?: string;
 }
 
-/** Вертикальный разделитель внутри pill */
 export function GlowNavDivider() {
   return (
     <span
@@ -28,7 +29,6 @@ export function GlowNavDivider() {
   );
 }
 
-/** Логотип + название в том же стиле, что и пункты меню */
 export function GlowNavBrand() {
   const pathname = usePathname();
   const active = pathname === "/" || pathname === "";
@@ -40,11 +40,10 @@ export function GlowNavBrand() {
       aria-current={active ? "page" : undefined}
     >
       <span
-        className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl transition-opacity duration-300"
-        style={{
-          background: ACTIVE_GLOW,
-          opacity: active ? 1 : 0,
-        }}
+        className={cn(
+          "pointer-events-none absolute inset-0 overflow-hidden rounded-xl transition-opacity duration-300",
+          active ? navActiveCell : "bg-white/[0.06] opacity-0 transition-opacity group-hover:opacity-100"
+        )}
         aria-hidden
       />
       <span className="relative flex items-center gap-2">
@@ -64,7 +63,6 @@ export function GlowNavBrand() {
   );
 }
 
-/** Один общий «плавающий» контейнер навбара */
 export function GlowNavPill({ children, className }: GlowNavPillProps) {
   return (
     <div
@@ -84,16 +82,11 @@ export interface GlowNavItemProps {
   href: string;
   icon: LucideIcon;
   label: React.ReactNode;
-  /** Явная подсветка (если не передать — считается по pathname) */
   active?: boolean;
   className?: string;
-  /** Бейдж (например число в корзине) */
   badge?: number;
 }
 
-/**
- * Пункт навбара: outline-иконка, приглушённый текст; активный — белый текст, цветная иконка, radial glow.
- */
 export function GlowNavItem({
   href,
   icon: Icon,
@@ -115,19 +108,16 @@ export function GlowNavItem({
       aria-current={active ? "page" : undefined}
     >
       <span
-        className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300"
-        style={{
-          background: ACTIVE_GLOW,
-          opacity: active ? 1 : 0,
-        }}
+        className={cn(
+          "pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300",
+          active ? navActiveCell : "bg-white/[0.06] opacity-0 transition-opacity group-hover:opacity-100"
+        )}
         aria-hidden
       />
       <span
         className={cn(
           "relative flex items-center gap-2 whitespace-nowrap rounded-xl px-2.5 py-2 sm:px-3",
-          active
-            ? "text-stone-50"
-            : "text-stone-500 group-hover:text-stone-300"
+          active ? "text-stone-50" : "text-stone-500 group-hover:text-stone-300"
         )}
       >
         <Icon
@@ -148,4 +138,3 @@ export function GlowNavItem({
     </Link>
   );
 }
-
