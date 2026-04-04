@@ -1,11 +1,10 @@
 "use client";
 
 import { useCart } from "@/contexts/CartContext";
-import { formatMoney } from "@/lib/pricing";
+import { formatUzs } from "@/lib/pricing";
 import { trackEvent } from "@/lib/analytics";
 import { readUtmFromSearch } from "@/lib/analytics";
-import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -17,8 +16,6 @@ export function CheckoutForm() {
   const tc = useTranslations("cart");
   const c = useTranslations("common");
   const { lines, subtotalUz, clear } = useCart();
-  const { currency } = useCurrency();
-  const locale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
   const oneClick = searchParams.get("one_click") === "1";
@@ -213,7 +210,7 @@ export function CheckoutForm() {
           ))}
         </ul>
         <p className="mt-6 text-lg font-bold">
-          {formatMoney(subtotalUz, currency, locale)}
+          {formatUzs(subtotalUz)}
         </p>
         <p className="mt-1 text-xs text-btt-muted">{c("total_to_pay")}</p>
       </aside>

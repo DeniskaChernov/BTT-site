@@ -3,8 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import type { Locale, Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
-import { useCurrency } from "@/contexts/CurrencyContext";
-import { formatMoney, getPricePerKgForQty, UZS_PER_USD } from "@/lib/pricing";
+import { formatUzs, getPricePerKgForQty, UZS_PER_USD } from "@/lib/pricing";
 import { trackEvent } from "@/lib/analytics";
 import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
@@ -19,7 +18,6 @@ export function ProductDetail({ product, related }: Props) {
   const t = useTranslations("product");
   const c = useTranslations("common");
   const { add } = useCart();
-  const { currency } = useCurrency();
   const router = useRouter();
   const [qty, setQty] = useState(1.5);
   const [meters, setMeters] = useState(10);
@@ -138,7 +136,7 @@ export function ProductDetail({ product, related }: Props) {
               <div className="rounded-btt border border-btt-border bg-btt-surface p-3 text-center">
                 <p className="text-xs text-btt-muted">{t("ladder_12")}</p>
                 <p className="mt-1 font-bold">
-                  {formatMoney(product.priceUz.t12, currency, locale)}
+                  {formatUzs(product.priceUz.t12)}
                 </p>
               </div>
               <div className="relative rounded-btt border-2 border-btt-primary bg-white p-3 text-center shadow-btt-sm">
@@ -147,13 +145,13 @@ export function ProductDetail({ product, related }: Props) {
                 </span>
                 <p className="text-xs text-btt-muted">{t("ladder_5")}</p>
                 <p className="mt-1 font-bold">
-                  {formatMoney(product.priceUz.t5, currency, locale)}
+                  {formatUzs(product.priceUz.t5)}
                 </p>
               </div>
               <div className="rounded-btt border border-btt-border bg-btt-surface p-3 text-center">
                 <p className="text-xs text-btt-muted">{t("ladder_10")}</p>
                 <p className="mt-1 font-bold">
-                  {formatMoney(product.priceUz.t10, currency, locale)}
+                  {formatUzs(product.priceUz.t10)}
                 </p>
               </div>
             </div>
@@ -177,10 +175,10 @@ export function ProductDetail({ product, related }: Props) {
             <div>
               <p className="text-xs text-btt-muted">{c("per_kg")}</p>
               <p className="text-2xl font-bold text-btt-primary">
-                {formatMoney(ppk, currency, locale)}
+                {formatUzs(ppk)}
               </p>
               <p className="text-sm text-btt-muted">
-                {c("total_to_pay")}: {formatMoney(lineTotal, currency, locale)}
+                {c("total_to_pay")}: {formatUzs(lineTotal)}
               </p>
             </div>
           </div>
@@ -269,7 +267,7 @@ export function ProductDetail({ product, related }: Props) {
         <div className="btt-container flex items-center justify-between gap-3">
           <div>
             <p className="text-xs text-btt-muted">{c("per_kg")}</p>
-            <p className="text-lg font-bold">{formatMoney(ppk, currency, locale)}</p>
+            <p className="text-lg font-bold">{formatUzs(ppk)}</p>
           </div>
           <button
             type="button"

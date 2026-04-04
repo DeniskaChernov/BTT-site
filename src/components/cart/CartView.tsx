@@ -2,14 +2,11 @@
 
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
-import { useCurrency } from "@/contexts/CurrencyContext";
-import { formatMoney } from "@/lib/pricing";
-import { useLocale, useTranslations } from "next-intl";
+import { formatUzs } from "@/lib/pricing";
+import { useTranslations } from "next-intl";
 
 export function CartView() {
-  const { lines, subtotalUz, updateQty, remove } = useCart();
-  const { currency } = useCurrency();
-  const locale = useLocale();
+  const { lines, subtotalUz, lineTotalUz, updateQty, remove } = useCart();
   const t = useTranslations("cart");
   const n = useTranslations("nav");
 
@@ -35,7 +32,7 @@ export function CartView() {
           {lines.map((l) => (
             <li
               key={l.sku}
-              className="btt-card flex flex-wrap items-center justify-between gap-4 p-4"
+              className="btt-card grid grid-cols-1 gap-4 p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center"
             >
               <div>
                 <Link
@@ -46,8 +43,8 @@ export function CartView() {
                 </Link>
                 <p className="text-xs text-btt-muted">{l.sku}</p>
               </div>
-              <div className="flex items-center gap-2">
-                <label className="text-sm">
+              <div className="flex flex-wrap items-center gap-3">
+                <label className="text-sm text-btt-muted">
                   kg
                   <input
                     type="number"
@@ -57,24 +54,28 @@ export function CartView() {
                     onChange={(e) =>
                       updateQty(l.sku, Number(e.target.value))
                     }
-                    className="ml-2 w-20 rounded-btt border border-btt-border px-2 py-1"
+                    className="ml-2 w-20 rounded-btt border border-btt-border px-2 py-1 text-foreground"
                   />
                 </label>
                 <button
                   type="button"
                   onClick={() => remove(l.sku)}
-                  className="text-sm text-btt-muted underline"
+                  className="rounded-full px-2 text-lg text-btt-muted hover:bg-black/5"
+                  aria-label="Remove"
                 >
                   ×
                 </button>
               </div>
+              <p className="text-lg font-semibold tabular-nums text-btt-primary sm:text-right">
+                {formatUzs(lineTotalUz(l))}
+              </p>
             </li>
           ))}
         </ul>
         <aside className="btt-card h-fit p-6">
           <p className="text-sm font-medium">{t("subtotal")}</p>
           <p className="mt-2 text-2xl font-bold">
-            {formatMoney(subtotalUz, currency, locale)}
+            {formatUzs(subtotalUz)}
           </p>
           <Link
             href="/checkout"

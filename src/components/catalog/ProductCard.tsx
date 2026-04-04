@@ -4,8 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/types/product";
 import type { Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
-import { useCurrency } from "@/contexts/CurrencyContext";
-import { formatMoney, getPricePerKgForQty } from "@/lib/pricing";
+import { formatUzs, getPricePerKgForQty } from "@/lib/pricing";
 import { trackEvent } from "@/lib/analytics";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -21,7 +20,6 @@ export function ProductCard({ product }: Props) {
   const t = useTranslations("common");
   const c = useTranslations("catalog");
   const { add } = useCart();
-  const { currency } = useCurrency();
   const [toast, setToast] = useState(false);
 
   const name = product.names[locale];
@@ -71,7 +69,7 @@ export function ProductCard({ product }: Props) {
           </p>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="text-lg font-bold text-btt-primary">
-              {formatMoney(ppk, currency, locale)}
+              {formatUzs(ppk)}
             </span>
             <span className="text-xs text-btt-muted">{t("per_kg")}</span>
           </div>

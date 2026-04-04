@@ -7,26 +7,15 @@ export function getPricePerKgForQty(product: Product, qtyKg: number): number {
   return product.priceUz.t12;
 }
 
+/** Ориентир для экспорта / иностранных партнёров (в карточке товара) */
 export const UZS_PER_USD = 12_500;
 
-export function formatMoney(
-  amountUz: number,
-  currency: "UZS" | "USD",
-  locale: string
-): string {
-  if (currency === "USD") {
-    const usd = amountUz / UZS_PER_USD;
-    return new Intl.NumberFormat(locale === "uz" ? "uz-UZ" : locale === "en" ? "en-US" : "ru-RU", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }).format(usd);
-  }
+/** Все цены на сайте — в сумах (UZS) */
+export function formatUzs(amount: number): string {
   return new Intl.NumberFormat("uz-UZ", {
     style: "currency",
     currency: "UZS",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amountUz);
+  }).format(amount);
 }

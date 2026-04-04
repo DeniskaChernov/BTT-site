@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { CurrencyToggle } from "./CurrencyToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header() {
@@ -50,7 +49,6 @@ export function Header() {
           <div className="hidden sm:block">
             <LanguageSwitcher />
           </div>
-          <CurrencyToggle />
           <Link
             href="/account"
             className="hidden rounded-full px-3 py-2 text-sm text-btt-muted transition hover:text-foreground md:inline"
