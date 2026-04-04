@@ -37,7 +37,8 @@
     "city": "City",
     "address": "Address",
     "company": "Company",
-    "comment": "Comment"
+    "comment": "Comment",
+    "loading": "Loading…"
   },
   "hero": {
     "title": "Artificial rattan that stands sun and water",
@@ -182,7 +183,8 @@
     "form_title": "Wholesale request",
     "attach": "Attach file / photo",
     "cases": "HoReCa cases",
-    "faq": "Wholesale FAQ"
+    "faq": "Wholesale FAQ",
+    "ph_details": "Volume, color, deadline"
   },
   "export_page": {
     "title": "Export B2B",
@@ -191,20 +193,31 @@
     "currency": "Currency",
     "duties": "Duties (estimate)",
     "request_calc": "Request shipping & duties calc",
-    "quote_checkout": "Quote first — pay after approval"
+    "quote_checkout": "Quote first — pay after approval",
+    "ph_duties": "0–15% estimate"
   },
   "about": {
+    "kicker": "Production",
     "title": "Production",
     "quality": "Quality control",
     "batch": "Batch consistency",
-    "requisites": "Legal info"
+    "requisites": "Legal info",
+    "quality_body": "Batch checks, spectrophotometer on request for HoReCa and dealers. Production and warehouse under one roof — fewer color drift issues between shipments.",
+    "batch_body": "Every batch is labeled. For wholesale — one batch number per order where volume allows.",
+    "requisites_body": "Contract and invoice details are sent after a request to opt@bententrade.uz (example domain — replace with production)."
   },
   "contacts": {
     "title": "Contacts",
     "showroom": "Showroom",
     "channels": "Messengers & phone",
     "form_feedback": "Contact form",
-    "form_b2b": "B2B request"
+    "form_b2b": "B2B request",
+    "showroom_address": "Tashkent, Example St. 1 — visits by appointment.",
+    "channels_line": "+998 00 000 00 00 · Telegram · Instagram",
+    "ph_email": "Email / phone",
+    "ph_company": "Company",
+    "ph_inn": "Tax ID",
+    "ph_request": "Request"
   },
   "faq": {
     "title": "FAQ",
@@ -212,7 +225,12 @@
     "ship": "Shipping",
     "min_weight": "Minimum weight",
     "pick": "Picker",
-    "returns": "Returns"
+    "returns": "Returns",
+    "a_pay": "Uzcard, Humo, Payme, Click — sandbox until live keys. Invoice for legal entities — on request.",
+    "a_ship": "24–48h by agreement for standard items. XL planters — per production lead time.",
+    "a_min_weight": "Retail from 1 kg per SKU. Wholesale — per quote volume.",
+    "a_pick": "Home quiz or product page — no waiting for a manager.",
+    "a_returns": "Unopened roll — up to 7 days by agreement. Custom orders — separate terms."
   },
   "footer": {
     "rights": "© Bententrade.",

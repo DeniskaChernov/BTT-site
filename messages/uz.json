@@ -37,7 +37,8 @@
     "city": "Shahar",
     "address": "Manzil",
     "company": "Kompaniya",
-    "comment": "Izoh"
+    "comment": "Izoh",
+    "loading": "Yuklanmoqda…"
   },
   "hero": {
     "title": "Sun'iy rattan — quyosh va suvdan qo‘rqmaydi",
@@ -182,7 +183,8 @@
     "form_title": "Ulgurji arizasi",
     "attach": "Fayl / foto",
     "cases": "HoReCa keyslar",
-    "faq": "Ulgurji savollar"
+    "faq": "Ulgurji savollar",
+    "ph_details": "Hajm, rang, muddat"
   },
   "export_page": {
     "title": "Eksport B2B",
@@ -191,20 +193,31 @@
     "currency": "Valyuta",
     "duties": "Bojxona (taxmin)",
     "request_calc": "Yetkazish va bojxona hisobini so‘rash",
-    "quote_checkout": "Avval tijoriy taklif — keyin to‘lov"
+    "quote_checkout": "Avval tijoriy taklif — keyin to‘lov",
+    "ph_duties": "0–15% taxmin"
   },
   "about": {
+    "kicker": "Ishlab chiqarish",
     "title": "Ishlab chiqarish",
     "quality": "Sifat nazorati",
     "batch": "Partiya barqarorligi",
-    "requisites": "Rekvizitlar"
+    "requisites": "Rekvizitlar",
+    "quality_body": "Partiya nazorati, HoReCa va dilerlar uchun so‘rov bo‘yicha spektrofotometr. Ishlab chiqarish va ombor bir konturda — jo‘natmalar orasida rang farqi kam.",
+    "batch_body": "Har bir partiya belgilanadi. Opt uchun — hajmga qarab butun buyurtma uchun bitta partiya raqami.",
+    "requisites_body": "Shartnoma va hisob uchun rekvizitlar ariza dan keyin opt@bententrade.uz ga yuboriladi (demo domen — bo‘yiga almashtiring)."
   },
   "contacts": {
     "title": "Aloqa",
     "showroom": "Shourum",
     "channels": "Messenger va telefon",
     "form_feedback": "Aloqa",
-    "form_b2b": "B2B ariza"
+    "form_b2b": "B2B ariza",
+    "showroom_address": "Toshkent, Namuna ko‘chasi, 1 — yozilish bilan tashrif.",
+    "channels_line": "+998 00 000 00 00 · Telegram · Instagram",
+    "ph_email": "Email / telefon",
+    "ph_company": "Kompaniya",
+    "ph_inn": "STIR",
+    "ph_request": "So‘rov"
   },
   "faq": {
     "title": "FAQ",
@@ -212,7 +225,12 @@
     "ship": "Yetkazish",
     "min_weight": "Minimal og‘irlik",
     "pick": "Tanlash",
-    "returns": "Qaytarish"
+    "returns": "Qaytarish",
+    "a_pay": "Uzcard, Humo, Payme, Click — jonli kalitlar qo‘shilguncha sandbox. Yuridik shaxslar uchun hisob — so‘rov bo‘yicha.",
+    "a_ship": "Standart pozitsiyalar uchun kelishuv bo‘yicha 24–48 soat. XL kashpo — ishlab chiqarish muddatiga qarab.",
+    "a_min_weight": "Chakana — pozitsiya bo‘yicha 1 kg dan. Opt — KP hajmiga qarab.",
+    "a_pick": "Bosh sahifa kvizi yoki mahsulot kartochkasi — menejer kutishsiz.",
+    "a_returns": "Ochilmagan ruletka — kelishuv bo‘yicha 7 kun gacha. Individual buyurtmalar — alohida shartlar."
   },
   "footer": {
     "rights": "© Bententrade.",
