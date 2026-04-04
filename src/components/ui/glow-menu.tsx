@@ -80,7 +80,7 @@ export function GlowNavPill({ children, className }: GlowNavPillProps) {
   return (
     <div
       className={cn(
-        "flex w-full max-w-full items-center gap-0.5 overflow-x-auto rounded-full border border-white/[0.1] bg-[#0a0908]/85 px-1.5 py-1 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-xl",
+        "inline-flex w-max max-w-full min-w-0 items-center gap-0.5 overflow-x-auto rounded-full border border-white/[0.1] bg-[#0a0908]/80 px-1.5 py-1 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-xl supports-[backdrop-filter]:bg-[#0a0908]/65",
         "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         "sm:gap-1 sm:px-2 sm:py-1.5",
         className

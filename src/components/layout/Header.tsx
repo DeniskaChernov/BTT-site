@@ -71,7 +71,7 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-transparent bg-gradient-to-b from-[#070605]/90 to-transparent py-3 backdrop-blur-[2px] md:py-4">
+    <header className="sticky top-0 z-50 bg-transparent py-3 md:py-4">
       <div className="btt-container flex justify-center">
         <GlowNavPill className="min-h-[3.25rem] sm:min-h-[3.5rem]">
           <GlowNavBrand />
