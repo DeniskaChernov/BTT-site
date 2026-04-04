@@ -46,7 +46,7 @@ export function LanguageSwitcher({ variant = "default" }: Props) {
               ? "px-2.5 py-1.5 text-[10px] sm:px-3 sm:py-2 sm:text-xs"
               : "px-3 py-1.5 text-xs",
             current === loc
-              ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-orange-900/30 ring-1 ring-white/15"
+              ? "bg-gradient-to-b from-amber-500 to-orange-600 text-white shadow-sm ring-1 ring-amber-400/30"
               : isNavbar
                 ? "text-stone-500 hover:text-stone-300"
                 : "text-stone-400 hover:text-stone-200"
