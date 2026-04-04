@@ -3,19 +3,43 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Design tokens — Bententrade */
+  --btt-bg: #fafaf8;
+  --btt-surface: #ffffff;
+  --btt-foreground: #141414;
+  --btt-muted: #5c5c5c;
+  --btt-border: #e8e6e1;
+  --btt-primary: #0f3d2e;
+  --btt-primary-hover: #0a2e22;
+  --btt-accent: #c45c26;
+  --btt-accent-hover: #a34d20;
+  --btt-success: #1d6b4a;
+  --btt-radius: 14px;
+  --btt-radius-sm: 10px;
+  --btt-shadow: 0 12px 40px rgba(15, 61, 46, 0.08);
+  --btt-shadow-sm: 0 4px 18px rgba(20, 20, 20, 0.06);
+  --background: var(--btt-bg);
+  --foreground: var(--btt-foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-[var(--btt-bg)] text-[var(--btt-foreground)] antialiased;
+    font-feature-settings: "ss01" on, "cv02" on;
+  }
+  ::selection {
+    background: rgba(196, 92, 38, 0.2);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .btt-container {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .btt-card {
+    @apply rounded-[var(--btt-radius)] border border-[var(--btt-border)] bg-[var(--btt-surface)] shadow-[var(--btt-shadow-sm)];
+  }
 }
