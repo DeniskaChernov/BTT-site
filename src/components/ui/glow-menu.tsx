@@ -1,13 +1,9 @@
 "use client";
 
 import { Link, usePathname } from "@/i18n/navigation";
+import { pathMatches } from "@/lib/nav-active";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
-
-function pathMatches(pathname: string, href: string) {
-  if (href === "/") return pathname === "/" || pathname === "";
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
 
 const BRAND_HALO =
   "linear-gradient(180deg, rgba(251,191,36,0.08) 0%, transparent 45%, rgba(234,88,12,0.04) 100%)";
@@ -28,7 +24,7 @@ export function GlowNavDivider() {
 
 export function GlowNavBrand() {
   const pathname = usePathname();
-  const active = pathname === "/" || pathname === "";
+  const active = pathMatches(pathname, "/");
 
   return (
     <div className="relative shrink-0 rounded-xl p-[1px] shadow-[inset_0_0_0_1px_rgba(251,191,36,0.12)]">
@@ -66,7 +62,7 @@ export function GlowNavPill({ children, className }: GlowNavPillProps) {
   return (
     <div
       className={cn(
-        "inline-flex min-h-[3.25rem] max-w-full min-w-0 items-center gap-0 overflow-x-auto rounded-full border border-white/[0.1] bg-[#121212]/95 px-1.5 py-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:min-h-[3.5rem] sm:gap-0.5 sm:px-2",
+        "inline-flex min-h-[3.25rem] max-w-full min-w-0 items-center gap-0 overflow-x-auto overflow-y-visible rounded-full border border-white/[0.1] bg-[#121212]/95 px-1.5 py-1.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:min-h-[3.5rem] sm:gap-0.5 sm:px-2 sm:py-1.5",
         "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         className
       )}

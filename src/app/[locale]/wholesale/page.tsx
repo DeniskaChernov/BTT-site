@@ -31,9 +31,27 @@ export default async function WholesalePage() {
 
       <form className="btt-glass mt-8 grid gap-4 rounded-3xl p-6 md:p-8">
         <h2 className="text-lg font-semibold text-stone-50">{t("form_title")}</h2>
-        <input className={field} placeholder={tc("company")} />
-        <input className={field} placeholder={tc("phone")} />
-        <textarea className={`min-h-[120px] ${field}`} placeholder={t("ph_details")} />
+        <input
+          className={field}
+          placeholder={tc("company")}
+          name="wholesale_company"
+          autoComplete="organization"
+          aria-label={tc("company")}
+        />
+        <input
+          className={field}
+          placeholder={tc("phone")}
+          name="wholesale_phone"
+          type="tel"
+          autoComplete="tel"
+          aria-label={tc("phone")}
+        />
+        <textarea
+          className={`min-h-[120px] ${field}`}
+          placeholder={t("ph_details")}
+          name="wholesale_details"
+          aria-label={t("ph_details")}
+        />
         <label className="text-sm text-stone-400">
           {t("attach")}
           <input

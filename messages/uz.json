@@ -3,6 +3,11 @@
     "site": "Bententrade — sun'iy rattan va kashpo",
     "home_desc": "O‘zbekistonda rattan va kashpo: ko‘cha va uy, tez yetkazib berish, Uzcard, Humo, Payme, Click."
   },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "body": "Manzilni tekshiring yoki bosh sahifaga qayting.",
+    "cta": "Bosh sahifa"
+  },
   "nav": {
     "home": "Bosh sahifa",
     "shop": "Do‘kon",
@@ -96,7 +101,11 @@
     "cases": "Keyslar",
     "trust_payments": "To‘lov: Uzcard, Humo, Payme, Click",
     "trust_ship": "24–48 soat ichida jo‘natma",
-    "trust_batch": "Rang partiyasi barqaror"
+    "trust_batch": "Rang partiyasi barqaror",
+    "proof_1_quote": "«Partiya tekis, rang namunaga mos keldi. Qayta buyurtma berdik.»",
+    "proof_1_meta": "— ustaxona, Toshkent",
+    "proof_2_quote": "HoReCa: L kashpo terrasa uchun — 48 soatda jo‘natma, hujjatlar bilan.",
+    "proof_2_meta": "— B2B keys"
   },
   "catalog": {
     "all": "Hammasi",
@@ -145,6 +154,7 @@
     "kg_est": "Taxmin, kg",
     "videos": "Video",
     "gallery": "Foto",
+    "gallery_pick": "{number}-rasmni ko‘rsatish",
     "reviews": "Sharhlar",
     "delivery": "Yetkazib berish va qaytarish",
     "cross": "Birga olishadi",
@@ -188,10 +198,12 @@
     "summary": "Jami",
     "delivery_note": "Yetkazish to‘lovdan oldin — shaffof",
     "error_pay": "Xato — boshqa usul yoki hisob",
+    "error_phone": "Telefon raqamini kiriting",
     "one_click_title": "1 klik",
     "one_click_hint": "Telefon va manzil",
     "place_order": "To‘lash",
-    "success": "Buyurtma yaratildi — SMS havola"
+    "success": "Buyurtma yaratildi — SMS havola",
+    "sandbox_note": "Sandbox: Payme/Click yo‘naltirishlari prodakshenda joriy kalitlarga ulangan."
   },
   "wholesale": {
     "title": "Ulgurji",
@@ -278,7 +290,9 @@
     "time_week": "Hafta",
     "time_month": "Oy+",
     "quote_success": "Ariza yuborildi — menejer PDF va hisob yuboradi.",
-    "open_pdp": "Mahsulot kartochkasi"
+    "open_pdp": "Mahsulot kartochkasi",
+    "ph_phone": "+998…",
+    "ph_city_country": "Shahar / mamlakat"
   },
   "account": {
     "sub": "1-klik uchun mahalliy profil: telefon brauzerda saqlanadi.",

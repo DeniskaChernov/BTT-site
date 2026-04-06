@@ -75,6 +75,8 @@ export function ProductDetail({ product, related }: Props) {
               <button
                 key={src}
                 type="button"
+                aria-label={t("gallery_pick", { number: i + 1 })}
+                aria-current={activeImg === i ? true : undefined}
                 onClick={() => setActiveImg(i)}
                 className={`relative aspect-square overflow-hidden rounded-lg border-2 ${
                   activeImg === i ? "border-amber-500 ring-2 ring-amber-500/30" : "border-transparent opacity-70 hover:opacity-100"

@@ -27,20 +27,34 @@ type CartCtx = {
   clear: () => void;
   lineTotalUz: (line: CartLine) => number;
   subtotalUz: number;
-  count: number;
 };
 
 const CartContext = createContext<CartCtx | null>(null);
 
 const STORAGE = "btt-cart";
 
+function isCartLine(x: unknown): x is CartLine {
+  if (typeof x !== "object" || x === null) return false;
+  const o = x as Record<string, unknown>;
+  return (
+    typeof o.sku === "string" &&
+    o.sku.length > 0 &&
+    typeof o.slug === "string" &&
+    typeof o.name === "string" &&
+    typeof o.qtyKg === "number" &&
+    Number.isFinite(o.qtyKg) &&
+    o.qtyKg > 0
+  );
+}
+
 function loadLines(): CartLine[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(STORAGE);
     if (!raw) return [];
-    const parsed = JSON.parse(raw) as CartLine[];
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(isCartLine);
   } catch {
     return [];
   }
@@ -116,11 +130,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clear = useCallback(() => setLines([]), []);
 
-  const count = useMemo(
-    () => lines.reduce((s, l) => s + l.qtyKg, 0),
-    [lines]
-  );
-
   const value = useMemo(
     () => ({
       lines,
@@ -130,9 +139,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       clear,
       lineTotalUz,
       subtotalUz,
-      count,
     }),
-    [lines, add, updateQty, remove, clear, lineTotalUz, subtotalUz, count]
+    [lines, add, updateQty, remove, clear, lineTotalUz, subtotalUz]
   );
 
   return (

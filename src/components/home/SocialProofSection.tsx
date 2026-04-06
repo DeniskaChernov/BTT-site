@@ -9,15 +9,13 @@ export function SocialProofSection() {
 
   const blocks = [
     {
-      quote:
-        "«Партия ровная, цвет совпал с образцом. Заказали повтор без вопросов.»",
-      meta: "— мастерская, Ташкент",
+      quote: t("proof_1_quote"),
+      meta: t("proof_1_meta"),
       title: t("reviews"),
     },
     {
-      quote:
-        "HoReCa: кашпо L для террасы — отгрузка за 48 часов, документы приложены.",
-      meta: "— кейс B2B",
+      quote: t("proof_2_quote"),
+      meta: t("proof_2_meta"),
       title: t("cases"),
     },
   ];

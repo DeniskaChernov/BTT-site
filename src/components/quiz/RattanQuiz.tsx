@@ -14,6 +14,7 @@ type Segment = "novice" | "master" | "wholesale";
 export function RattanQuiz() {
   const t = useTranslations("quiz");
   const c = useTranslations("catalog");
+  const common = useTranslations("common");
   const locale = useLocale() as Locale;
   const { add } = useCart();
 
@@ -297,7 +298,11 @@ export function RattanQuiz() {
             <p className="text-sm font-medium">{t("result_quote")}</p>
             <input
               className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
-              placeholder="+998..."
+              placeholder={t("ph_phone")}
+              aria-label={common("phone")}
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
               value={contact.phone}
               onChange={(e) =>
                 setContact((x) => ({ ...x, phone: e.target.value }))
@@ -305,7 +310,9 @@ export function RattanQuiz() {
             />
             <input
               className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
-              placeholder="Город / страна"
+              placeholder={t("ph_city_country")}
+              aria-label={t("ph_city_country")}
+              autoComplete="address-level2"
               value={contact.city}
               onChange={(e) =>
                 setContact((x) => ({ ...x, city: e.target.value }))
@@ -313,7 +320,9 @@ export function RattanQuiz() {
             />
             <input
               className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
-              placeholder="Компания"
+              placeholder={common("company")}
+              aria-label={common("company")}
+              autoComplete="organization"
               value={contact.company}
               onChange={(e) =>
                 setContact((x) => ({ ...x, company: e.target.value }))
@@ -324,7 +333,7 @@ export function RattanQuiz() {
               onClick={submitQuote}
               className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white"
             >
-              Отправить
+              {common("submit")}
             </button>
           </motion.div>
         )}

@@ -32,7 +32,11 @@ export default async function CatalogPage({ searchParams }: PageProps) {
         {t("title")}
       </h1>
       <p className="mt-4 max-w-2xl text-lg text-stone-400">{t("intro")}</p>
-      <CatalogClient initialTab={tab} initialShape={shape} />
+      <CatalogClient
+        key={`${tab}-${shape}`}
+        initialTab={tab}
+        initialShape={shape}
+      />
     </div>
   );
 }

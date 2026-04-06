@@ -38,7 +38,12 @@ export function LanguageSwitcher({ variant = "default" }: Props) {
           type="button"
           onClick={() => {
             trackEvent("lang_switch", { locale: loc });
-            router.replace(pathname, { locale: loc });
+            const search =
+              typeof window !== "undefined" ? window.location.search : "";
+            const hash =
+              typeof window !== "undefined" ? window.location.hash : "";
+            const href = search ? `${pathname}${search}` : pathname;
+            router.replace(`${href}${hash}`, { locale: loc });
           }}
           className={cn(
             "rounded-full font-semibold transition-all",

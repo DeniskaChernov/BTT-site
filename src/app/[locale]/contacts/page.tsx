@@ -31,10 +31,19 @@ export default async function ContactsPage() {
 
         <form className="btt-glass grid gap-4 rounded-3xl p-6 md:p-8">
           <h2 className="text-lg font-semibold text-stone-50">{t("form_feedback")}</h2>
-          <input className={fieldClass} placeholder={t("ph_email")} type="text" />
+          <input
+            className={fieldClass}
+            placeholder={t("ph_email")}
+            type="text"
+            name="feedback_contact"
+            autoComplete="email"
+            aria-label={t("ph_email")}
+          />
           <textarea
             className={`min-h-[100px] ${fieldClass}`}
             placeholder={tc("comment")}
+            name="feedback_message"
+            aria-label={tc("comment")}
           />
           <button
             type="button"
@@ -47,10 +56,26 @@ export default async function ContactsPage() {
         <form className="btt-glass grid gap-4 rounded-3xl p-6 md:p-8 lg:col-span-2">
           <h2 className="text-lg font-semibold text-stone-50">{t("form_b2b")}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
-            <input className={fieldClass} placeholder={t("ph_company")} />
-            <input className={fieldClass} placeholder={t("ph_inn")} />
+            <input
+              className={fieldClass}
+              placeholder={t("ph_company")}
+              name="b2b_company"
+              autoComplete="organization"
+              aria-label={t("ph_company")}
+            />
+            <input
+              className={fieldClass}
+              placeholder={t("ph_inn")}
+              name="b2b_tax_id"
+              aria-label={t("ph_inn")}
+            />
           </div>
-          <textarea className={`min-h-[100px] ${fieldClass}`} placeholder={t("ph_request")} />
+          <textarea
+            className={`min-h-[100px] ${fieldClass}`}
+            placeholder={t("ph_request")}
+            name="b2b_request"
+            aria-label={t("ph_request")}
+          />
           <button
             type="button"
             className="w-fit rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-amber-500 hover:to-orange-500"

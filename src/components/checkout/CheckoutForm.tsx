@@ -37,7 +37,7 @@ export function CheckoutForm() {
     e.preventDefault();
     setErr(null);
     if (!phone.trim()) {
-      setErr("Phone required");
+      setErr(t("error_phone"));
       return;
     }
     trackEvent("start_checkout", {
@@ -72,9 +72,7 @@ export function CheckoutForm() {
       <div className="btt-container max-w-lg py-16">
         <div className="btt-glass-strong rounded-3xl p-8 text-center">
           <p className="text-lg font-semibold text-emerald-400">{t("success")}</p>
-          <p className="mt-2 text-sm text-stone-400">
-            Sandbox: редиректы Payme/Click здесь подключаются к боевым ключам.
-          </p>
+          <p className="mt-2 text-sm text-stone-400">{t("sandbox_note")}</p>
           <button
             type="button"
             onClick={() => router.push("/catalog")}
@@ -108,6 +106,7 @@ export function CheckoutForm() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
               className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
             />
           </label>
@@ -115,8 +114,11 @@ export function CheckoutForm() {
             {c("phone")}
             <input
               required
+              type="tel"
+              inputMode="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              autoComplete="tel"
               className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
             />
           </label>
@@ -126,6 +128,7 @@ export function CheckoutForm() {
           <input
             value={address}
             onChange={(e) => setAddress(e.target.value)}
+            autoComplete="street-address"
             className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
           />
         </label>
@@ -190,7 +193,11 @@ export function CheckoutForm() {
             ))}
           </div>
           <p className="mt-2 text-xs text-stone-500">{t("delivery_note")}</p>
-          {err && <p className="mt-2 text-sm text-red-600">{t("error_pay")}</p>}
+          {err ? (
+            <p className="mt-2 text-sm text-red-400" role="alert">
+              {err}
+            </p>
+          ) : null}
         </div>
 
         <button

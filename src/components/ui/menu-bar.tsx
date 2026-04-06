@@ -1,6 +1,8 @@
 "use client";
 
 import { Link, usePathname } from "@/i18n/navigation";
+import { useSyncedHash } from "@/hooks/use-synced-hash";
+import { itemIsActive } from "@/lib/nav-active";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import * as React from "react";
@@ -15,44 +17,6 @@ export interface MenuBarItem {
   href: string;
 }
 
-function pathMatches(pathname: string, href: string) {
-  if (href === "/") return pathname === "/" || pathname === "";
-  if (href === "/catalog") {
-    return (
-      pathname === "/catalog" ||
-      pathname.startsWith("/catalog/") ||
-      pathname.startsWith("/product/")
-    );
-  }
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-function useHash() {
-  const [hash, setHash] = React.useState("");
-  React.useEffect(() => {
-    const sync = () => setHash(typeof window !== "undefined" ? window.location.hash : "");
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
-  }, []);
-  return hash;
-}
-
-function itemIsActive(pathname: string, href: string, hash: string) {
-  if (href.includes("#")) {
-    const [pathPart, frag] = href.split("#");
-    const base = pathPart === "" || pathPart === "/" ? "/" : pathPart;
-    if (!pathMatches(pathname, base)) return false;
-    return hash === `#${frag}`;
-  }
-  if (href === "/") {
-    if (!pathMatches(pathname, "/")) return false;
-    if (hash === "#hits") return false;
-    return true;
-  }
-  return pathMatches(pathname, href);
-}
-
 export interface MenuBarProps {
   items: MenuBarItem[];
   className?: string;
@@ -62,7 +26,7 @@ export interface MenuBarProps {
 export const MenuBar = React.forwardRef<HTMLDivElement, MenuBarProps>(
   ({ className, items, embedded = false }, ref) => {
     const pathname = usePathname();
-    const hash = useHash();
+    const hash = useSyncedHash();
 
     return (
       <nav
