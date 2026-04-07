@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * Glow Menu (spoonyvu / 21st.dev) — кинетическое меню с ореолом и подсветкой активного пункта.
- * Адаптировано: next-intl Link, режим embedded для шапки.
+ * Glow Menu (spoonyvu / 21st.dev) — кинетическое меню (3D-flip, свечение scale:2).
+ * Шапка сайта использует `MenuBar` с `embedded` под референс; этот компонент — для демо/отдельных блоков.
  */
 
 import type { MenuBarProps } from "@/components/ui/menu-bar";
