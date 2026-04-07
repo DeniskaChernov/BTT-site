@@ -16,6 +16,26 @@ function resolveActiveNavId(pathname: string): string | undefined {
   return undefined;
 }
 
+/** Тот же визуальный слой, что у CommerceHero: сетка + «меш» поверх фона страницы */
+function NavHeroBackdrop() {
+  return (
+    <>
+      <div
+        className="btt-mesh btt-grid-bg pointer-events-none absolute inset-0 opacity-[0.85]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -left-32 top-0 h-48 w-48 rounded-full bg-amber-600/10 blur-[80px]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -right-24 bottom-0 h-40 w-40 rounded-full bg-orange-950/25 blur-[70px]"
+        aria-hidden
+      />
+    </>
+  );
+}
+
 export function GlowSiteNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
@@ -36,14 +56,23 @@ export function GlowSiteNav() {
   );
 
   return (
-    <div className="sticky top-0 z-50 border-b border-border/30 bg-background/60 backdrop-blur-md">
-      <div className="btt-container flex justify-center py-3">
-        <SlideTabs
-          className="max-w-full overflow-x-auto"
-          items={items}
-          activeId={activeId}
-        />
+    <header className="sticky top-0 z-50 border-b border-white/[0.08]">
+      <div className="relative overflow-hidden">
+        <NavHeroBackdrop />
+        <div className="relative z-10">
+          <div className="btt-container flex justify-center py-3.5">
+            <div
+              className="w-full max-w-full overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              role="navigation"
+              aria-label={t("kinetic_menu")}
+            >
+              <div className="flex min-w-min justify-center px-1">
+                <SlideTabs items={items} activeId={activeId} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </header>
   );
 }

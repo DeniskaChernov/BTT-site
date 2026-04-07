@@ -68,7 +68,7 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
     <ul
       onMouseLeave={() => syncToIndex(selectedIndex)}
       className={cn(
-        "relative mx-auto flex w-fit rounded-full border-2 border-border bg-background/80 p-1 shadow-sm backdrop-blur-sm dark:bg-neutral-900/80",
+        "relative mx-auto flex w-max min-w-0 max-w-full flex-nowrap items-stretch rounded-full border border-white/[0.12] bg-black/35 p-1 shadow-sm backdrop-blur-md",
         className,
       )}
     >
@@ -100,7 +100,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
     return (
       <li
         ref={ref}
-        className="relative z-10"
+        className="relative z-10 shrink-0"
         onMouseEnter={(e) => {
           const el = e.currentTarget;
           const { width } = el.getBoundingClientRect();
@@ -113,7 +113,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
       >
         <Link
           href={href}
-          className="block cursor-pointer px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground md:px-5 md:py-3 md:text-base"
+          className="block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-stone-400 transition-colors hover:text-stone-100 md:px-5 md:py-3 md:text-base"
         >
           {children}
         </Link>
@@ -134,7 +134,7 @@ function SlideCursor({ position }: { position: CursorPosition }) {
         opacity: position.opacity,
       }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-foreground/15 dark:bg-white/20"
+      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-white/15"
     />
   );
 }
