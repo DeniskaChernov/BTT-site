@@ -37,15 +37,15 @@ const backVariants = {
 
 const easeStandard = [0.4, 0, 0.2, 1] as const;
 
-const glowVariants = {
-  initial: { opacity: 0, scale: 0.8 },
-  hover: {
+/**
+ * Фон активной плашки: только opacity, без scale — иначе `scale: 2` из ТЗ
+ * размазывает градиент на соседние пункты и логотип.
+ */
+const pillBgVariants = {
+  hidden: { opacity: 0 },
+  visible: {
     opacity: 1,
-    scale: 2,
-    transition: {
-      opacity: { duration: 0.5, ease: easeStandard },
-      scale: { duration: 0.5, type: "spring" as const, stiffness: 300, damping: 25 },
-    },
+    transition: { duration: 0.2, ease: easeStandard },
   },
 };
 
@@ -54,7 +54,7 @@ const navGlowVariants = {
   hover: {
     opacity: 1,
     transition: {
-      duration: 0.5,
+      duration: 0.45,
       ease: easeStandard,
     },
   },
@@ -75,14 +75,15 @@ export const menuBarGradientPresets = {
   blog: "linear-gradient(135deg, #22d3ee 0%, #0d9488 100%)",
 } as const;
 
+/** Мягкий ореол только для отдельного блока меню (не внутри GlowNavPill) */
 function NavAmbientGlow({ isDark }: { isDark: boolean }) {
   const bg = isDark
-    ? "radial-gradient(ellipse 120% 100% at 50% 45%, transparent 0%, rgba(96,165,250,0.32) 28%, rgba(192,132,252,0.26) 52%, rgba(248,113,113,0.22) 78%, transparent 100%)"
-    : "radial-gradient(ellipse 120% 100% at 50% 45%, transparent 0%, rgba(96,165,250,0.2) 28%, rgba(192,132,252,0.18) 52%, rgba(248,113,113,0.16) 78%, transparent 100%)";
+    ? "radial-gradient(ellipse 90% 80% at 50% 50%, rgba(96,165,250,0.12) 0%, rgba(192,132,252,0.08) 45%, transparent 70%)"
+    : "radial-gradient(ellipse 90% 80% at 50% 50%, rgba(96,165,250,0.08) 0%, rgba(192,132,252,0.06) 45%, transparent 70%)";
 
   return (
     <motion.div
-      className="pointer-events-none absolute -inset-2 z-0 rounded-3xl"
+      className="pointer-events-none absolute inset-0 z-0 rounded-2xl"
       style={{ background: bg }}
       variants={navGlowVariants}
     />
@@ -106,44 +107,60 @@ export const MenuBar = React.forwardRef<HTMLElement, MenuBarProps>(
         className={cn(
           "relative",
           embedded
-            ? "overflow-visible border-0 bg-transparent p-0 shadow-none backdrop-blur-none"
+            ? "min-w-0 flex-1 overflow-hidden border-0 bg-transparent p-0 shadow-none backdrop-blur-none"
             : "overflow-hidden rounded-2xl border border-border/40 bg-gradient-to-b from-background/80 to-background/40 p-2 shadow-lg backdrop-blur-lg",
           className
         )}
         initial="initial"
-        whileHover="hover"
+        whileHover={embedded ? undefined : "hover"}
       >
-        <NavAmbientGlow isDark={isDarkTheme} />
-        <ul className="relative z-10 flex items-center gap-2" role="list">
+        {!embedded ? <NavAmbientGlow isDark={isDarkTheme} /> : null}
+        <ul
+          className={cn(
+            "relative z-10 flex min-w-0 items-center gap-1 sm:gap-2",
+            embedded && "overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          )}
+          role="list"
+        >
           {items.map((item) => {
             const Icon = item.icon;
             const isActive = item.label === activeItem;
 
             return (
-              <motion.li key={item.href + item.label} className="relative">
+              <motion.li
+                key={item.href + item.label}
+                className="relative shrink-0"
+              >
                 <Link
                   href={item.href}
-                  className="block w-full"
-                  onClick={() => onItemClick?.(item.label)}
+                  className="block w-full min-w-0"
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={(e) => {
+                    if (item.href === "#") e.preventDefault();
+                    onItemClick?.(item.label);
+                  }}
                 >
                   <motion.div
-                    className="group relative block overflow-visible rounded-xl"
+                    className="group relative isolate block overflow-hidden rounded-xl"
                     style={{ perspective: "600px" }}
                     whileHover="hover"
                     initial="initial"
                   >
                     <motion.div
-                      className="pointer-events-none absolute inset-0 z-0 rounded-2xl"
-                      variants={glowVariants}
-                      animate={isActive ? "hover" : "initial"}
+                      className="pointer-events-none absolute inset-0 z-0 rounded-xl"
+                      variants={pillBgVariants}
+                      initial="hidden"
+                      animate={isActive ? "visible" : "hidden"}
                       style={{
                         background: item.gradient,
-                        borderRadius: "16px",
+                        boxShadow: isActive
+                          ? "inset 0 1px 0 rgba(255,255,255,0.15)"
+                          : undefined,
                       }}
                     />
                     <motion.div
                       className={cn(
-                        "relative z-10 flex items-center gap-2 rounded-xl bg-transparent px-4 py-2 transition-colors",
+                        "relative z-10 flex items-center gap-2 rounded-xl bg-transparent px-3 py-2 transition-colors sm:px-4",
                         isActive
                           ? "text-foreground"
                           : "text-muted-foreground group-hover:text-foreground"
@@ -167,13 +184,13 @@ export const MenuBar = React.forwardRef<HTMLElement, MenuBarProps>(
                               )
                         )}
                       >
-                        <Icon className="h-5 w-5" aria-hidden />
+                        <Icon className="h-5 w-5 shrink-0" aria-hidden />
                       </span>
-                      <span>{item.label}</span>
+                      <span className="whitespace-nowrap">{item.label}</span>
                     </motion.div>
                     <motion.div
                       className={cn(
-                        "absolute inset-0 z-10 flex items-center gap-2 rounded-xl bg-transparent px-4 py-2 transition-colors",
+                        "absolute inset-0 z-10 flex items-center gap-2 rounded-xl bg-transparent px-3 py-2 transition-colors sm:px-4",
                         isActive
                           ? "text-foreground"
                           : "text-muted-foreground group-hover:text-foreground"
@@ -198,9 +215,9 @@ export const MenuBar = React.forwardRef<HTMLElement, MenuBarProps>(
                               )
                         )}
                       >
-                        <Icon className="h-5 w-5" aria-hidden />
+                        <Icon className="h-5 w-5 shrink-0" aria-hidden />
                       </span>
-                      <span>{item.label}</span>
+                      <span className="whitespace-nowrap">{item.label}</span>
                     </motion.div>
                   </motion.div>
                 </Link>

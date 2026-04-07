@@ -3,6 +3,8 @@
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
+import { bttFieldStepperInputClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 export function CartView() {
@@ -16,7 +18,7 @@ export function CartView() {
         <p className="text-lg text-stone-400">{t("empty")}</p>
         <Link
           href="/catalog"
-          className="mt-8 inline-flex rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3 text-sm font-semibold text-white shadow-lg"
+          className={cn(bttPrimaryButtonClass, "mt-8 inline-flex px-8")}
         >
           {n("catalog")}
         </Link>
@@ -45,23 +47,45 @@ export function CartView() {
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <label className="text-sm text-stone-400">
-                  kg
-                  <input
-                    type="number"
-                    min={0.5}
-                    step={0.5}
-                    value={l.qtyKg}
-                    onChange={(e) =>
-                      updateQty(l.sku, Number(e.target.value))
-                    }
-                    className="ml-2 w-20 rounded-xl border border-white/15 bg-white/[0.05] px-2 py-1.5 text-stone-100"
-                  />
+                  {t("qty_kg")}
+                  <div className="ml-2 inline-flex items-center overflow-hidden rounded-xl border border-white/15 bg-white/[0.05]">
+                    <button
+                      type="button"
+                      onClick={() => updateQty(l.sku, l.qtyKg - 0.5)}
+                      aria-label={t("decrease_qty")}
+                      className="px-2 py-1.5 text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      min={0.5}
+                      step={0.5}
+                      value={l.qtyKg}
+                      onChange={(e) => {
+                        const raw = e.target.value;
+                        if (raw === "") return;
+                        const v = Number(raw);
+                        if (!Number.isFinite(v)) return;
+                        updateQty(l.sku, v);
+                      }}
+                      className={bttFieldStepperInputClass}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => updateQty(l.sku, l.qtyKg + 0.5)}
+                      aria-label={t("increase_qty")}
+                      className="px-2 py-1.5 text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
+                    >
+                      +
+                    </button>
+                  </div>
                 </label>
                 <button
                   type="button"
                   onClick={() => remove(l.sku)}
                   className="rounded-full px-2 text-lg text-stone-500 hover:bg-white/[0.06]"
-                  aria-label="Remove"
+                  aria-label={t("remove_line")}
                 >
                   ×
                 </button>
@@ -79,7 +103,10 @@ export function CartView() {
           </p>
           <Link
             href="/checkout"
-            className="mt-8 flex w-full justify-center rounded-full bg-gradient-to-r from-amber-600 to-orange-600 py-3.5 text-sm font-semibold text-white shadow-lg"
+            className={cn(
+              bttPrimaryButtonClass,
+              "mt-8 flex w-full justify-center py-3.5"
+            )}
           >
             {t("to_checkout")}
           </Link>

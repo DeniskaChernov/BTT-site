@@ -179,7 +179,11 @@
     "empty": "Bo‘sh — katalogga o‘ting",
     "to_checkout": "Buyurtmaga",
     "line_total": "Summa",
-    "subtotal": "Oraliq"
+    "subtotal": "Oraliq",
+    "qty_kg": "kg",
+    "remove_line": "Pozitsiyani o‘chirish",
+    "decrease_qty": "Miqdorni kamaytirish",
+    "increase_qty": "Miqdorni oshirish"
   },
   "checkout": {
     "title": "Rasmiylashtirish",
@@ -199,8 +203,10 @@
     "delivery_note": "Yetkazish to‘lovdan oldin — shaffof",
     "error_pay": "Xato — boshqa usul yoki hisob",
     "error_phone": "Telefon raqamini kiriting",
+    "error_address": "Kuryer yetkazib berishi uchun manzilni kiriting",
     "one_click_title": "1 klik",
     "one_click_hint": "Telefon va manzil",
+    "pickup_no_address": "Olib ketishda manzil shart emas",
     "place_order": "To‘lash",
     "success": "Buyurtma yaratildi — SMS havola",
     "sandbox_note": "Sandbox: Payme/Click yo‘naltirishlari prodakshenda joriy kalitlarga ulangan."
@@ -292,7 +298,8 @@
     "quote_success": "Ariza yuborildi — menejer PDF va hisob yuboradi.",
     "open_pdp": "Mahsulot kartochkasi",
     "ph_phone": "+998…",
-    "ph_city_country": "Shahar / mamlakat"
+    "ph_city_country": "Shahar / mamlakat",
+    "quote_phone_required": "KП yuborish uchun telefonni kiriting"
   },
   "account": {
     "sub": "1-klik uchun mahalliy profil: telefon brauzerda saqlanadi.",

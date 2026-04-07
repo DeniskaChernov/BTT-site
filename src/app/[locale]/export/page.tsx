@@ -1,9 +1,10 @@
+import {
+  bttFieldClass,
+  bttPrimaryButtonClass,
+  bttSelectFieldClass,
+} from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
-
-const field =
-  "rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-sm text-stone-100 placeholder:text-stone-500 outline-none transition focus:border-amber-500/40 focus:ring-2 focus:ring-amber-500/20";
-
-const selectField = `${field} bg-stone-950/40`;
 
 export async function generateMetadata() {
   const t = await getTranslations("export_page");
@@ -25,22 +26,26 @@ export default async function ExportPage() {
       <form className="btt-glass mt-10 grid gap-5 rounded-3xl p-6 md:p-8">
         <label className="grid gap-1.5 text-sm text-stone-300">
           {t("country")}
-          <input className={field} type="text" />
+          <input className={bttFieldClass} type="text" />
         </label>
         <label className="grid gap-1.5 text-sm text-stone-300">
           {t("currency")}
-          <select className={selectField}>
+          <select className={bttSelectFieldClass}>
             <option>USD</option>
             <option>UZS</option>
           </select>
         </label>
         <label className="grid gap-1.5 text-sm text-stone-300">
           {t("duties")}
-          <input className={field} placeholder={t("ph_duties")} type="text" />
+          <input
+            className={bttFieldClass}
+            placeholder={t("ph_duties")}
+            type="text"
+          />
         </label>
         <button
           type="button"
-          className="w-fit rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-amber-500 hover:to-orange-500"
+          className={cn(bttPrimaryButtonClass, "w-fit")}
         >
           {t("request_calc")}
         </button>

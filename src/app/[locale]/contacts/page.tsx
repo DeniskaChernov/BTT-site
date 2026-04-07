@@ -1,7 +1,6 @@
+import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
-
-const fieldClass =
-  "rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-sm text-stone-100 placeholder:text-stone-500 outline-none transition focus:border-amber-500/40 focus:ring-2 focus:ring-amber-500/20";
 
 export async function generateMetadata() {
   const t = await getTranslations("contacts");
@@ -32,7 +31,7 @@ export default async function ContactsPage() {
         <form className="btt-glass grid gap-4 rounded-3xl p-6 md:p-8">
           <h2 className="text-lg font-semibold text-stone-50">{t("form_feedback")}</h2>
           <input
-            className={fieldClass}
+            className={bttFieldClass}
             placeholder={t("ph_email")}
             type="text"
             name="feedback_contact"
@@ -40,14 +39,14 @@ export default async function ContactsPage() {
             aria-label={t("ph_email")}
           />
           <textarea
-            className={`min-h-[100px] ${fieldClass}`}
+            className={`min-h-[100px] ${bttFieldClass}`}
             placeholder={tc("comment")}
             name="feedback_message"
             aria-label={tc("comment")}
           />
           <button
             type="button"
-            className="w-fit rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-amber-500 hover:to-orange-500"
+            className={cn(bttPrimaryButtonClass, "w-fit")}
           >
             {tc("submit")}
           </button>
@@ -57,28 +56,28 @@ export default async function ContactsPage() {
           <h2 className="text-lg font-semibold text-stone-50">{t("form_b2b")}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <input
-              className={fieldClass}
+              className={bttFieldClass}
               placeholder={t("ph_company")}
               name="b2b_company"
               autoComplete="organization"
               aria-label={t("ph_company")}
             />
             <input
-              className={fieldClass}
+              className={bttFieldClass}
               placeholder={t("ph_inn")}
               name="b2b_tax_id"
               aria-label={t("ph_inn")}
             />
           </div>
           <textarea
-            className={`min-h-[100px] ${fieldClass}`}
+            className={`min-h-[100px] ${bttFieldClass}`}
             placeholder={t("ph_request")}
             name="b2b_request"
             aria-label={t("ph_request")}
           />
           <button
             type="button"
-            className="w-fit rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-amber-500 hover:to-orange-500"
+            className={cn(bttPrimaryButtonClass, "w-fit")}
           >
             {tc("submit")}
           </button>

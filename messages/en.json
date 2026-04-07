@@ -179,7 +179,11 @@
     "empty": "Empty — browse catalog",
     "to_checkout": "Checkout",
     "line_total": "Line total",
-    "subtotal": "Subtotal"
+    "subtotal": "Subtotal",
+    "qty_kg": "kg",
+    "remove_line": "Remove item",
+    "decrease_qty": "Decrease quantity",
+    "increase_qty": "Increase quantity"
   },
   "checkout": {
     "title": "Checkout",
@@ -199,8 +203,10 @@
     "delivery_note": "Delivery calculated before pay — no surprises",
     "error_pay": "Payment error — try another method or invoice",
     "error_phone": "Phone number is required",
+    "error_address": "Address is required for courier delivery",
     "one_click_title": "1-click",
     "one_click_hint": "Phone + address minimum",
+    "pickup_no_address": "Address is not required for pickup",
     "place_order": "Pay",
     "success": "Order created — pay link sent by SMS",
     "sandbox_note": "Sandbox: Payme/Click redirects are wired to live keys in production."
@@ -292,7 +298,8 @@
     "quote_success": "Request sent — manager will share PDF quote & invoice.",
     "open_pdp": "Product page",
     "ph_phone": "+998…",
-    "ph_city_country": "City / country"
+    "ph_city_country": "City / country",
+    "quote_phone_required": "Enter your phone so we can send the quote"
   },
   "account": {
     "sub": "Local profile for 1-click: phone stored in your browser.",

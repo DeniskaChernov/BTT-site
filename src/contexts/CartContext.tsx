@@ -32,6 +32,8 @@ type CartCtx = {
 const CartContext = createContext<CartCtx | null>(null);
 
 const STORAGE = "btt-cart";
+const MIN_QTY_KG = 0.5;
+const QTY_STEP_KG = 0.5;
 
 function isCartLine(x: unknown): x is CartLine {
   if (typeof x !== "object" || x === null) return false;
@@ -47,6 +49,17 @@ function isCartLine(x: unknown): x is CartLine {
   );
 }
 
+function lineStillValid(line: CartLine): boolean {
+  return getProductBySlug(line.slug) !== undefined;
+}
+
+function normalizeQtyKg(qtyKg: number): number | null {
+  if (!Number.isFinite(qtyKg)) return null;
+  const normalized = Math.round(qtyKg / QTY_STEP_KG) * QTY_STEP_KG;
+  if (normalized < MIN_QTY_KG) return null;
+  return normalized;
+}
+
 function loadLines(): CartLine[] {
   if (typeof window === "undefined") return [];
   try {
@@ -54,7 +67,7 @@ function loadLines(): CartLine[] {
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(isCartLine);
+    return parsed.filter(isCartLine).filter(lineStillValid);
   } catch {
     return [];
   }
@@ -92,11 +105,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const add = useCallback(
     (product: Product, localeName: string, qtyKg: number) => {
+      const normalizedQty = normalizeQtyKg(qtyKg);
+      if (normalizedQty === null) return;
       setLines((prev) => {
         const i = prev.findIndex((x) => x.sku === product.sku);
         if (i >= 0) {
           const next = [...prev];
-          const q = next[i].qtyKg + qtyKg;
+          const q = next[i].qtyKg + normalizedQty;
           next[i] = { ...next[i], qtyKg: q };
           return next;
         }
@@ -106,7 +121,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             sku: product.sku,
             slug: product.slug,
             name: localeName,
-            qtyKg,
+            qtyKg: normalizedQty,
           },
         ];
       });
@@ -115,12 +130,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const updateQty = useCallback((sku: string, qtyKg: number) => {
-    if (qtyKg <= 0) {
+    const normalizedQty = normalizeQtyKg(qtyKg);
+    if (normalizedQty === null) {
       setLines((prev) => prev.filter((l) => l.sku !== sku));
       return;
     }
     setLines((prev) =>
-      prev.map((l) => (l.sku === sku ? { ...l, qtyKg } : l))
+      prev.map((l) => (l.sku === sku ? { ...l, qtyKg: normalizedQty } : l))
     );
   }, []);
 

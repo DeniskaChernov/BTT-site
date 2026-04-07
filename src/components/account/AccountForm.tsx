@@ -1,31 +1,28 @@
 "use client";
 
 import { trackEvent } from "@/lib/analytics";
+import { readLocalProfile, writeLocalProfile } from "@/lib/local-profile";
+import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-const KEY = "btt-profile-phone";
-
 export function AccountForm() {
   const t = useTranslations("account");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
   useEffect(() => {
-    try {
-      const s = localStorage.getItem(KEY);
-      if (s) setPhone(s);
-    } catch {
-      /* ignore */
-    }
+    const p = readLocalProfile();
+    setEmail(p.email);
+    setPhone(p.phone);
   }, []);
 
   const save = () => {
-    try {
-      localStorage.setItem(KEY, phone);
-      trackEvent("profile_save", { phone });
-    } catch {
-      /* ignore */
-    }
+    writeLocalProfile({ email, phone });
+    trackEvent("profile_save", {
+      hasEmail: !!email.trim(),
+      hasPhone: !!phone.trim(),
+    });
   };
 
   return (
@@ -42,23 +39,31 @@ export function AccountForm() {
         <label className="grid gap-1 text-sm text-stone-300">
           {t("login")} / {t("register")}
           <input
-            className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
+            className={bttFieldClass}
             placeholder="email@..."
             type="email"
+            name="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <label className="grid gap-1 text-sm text-stone-300">
           {t("save")}
           <input
-            className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
+            className={bttFieldClass}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+998..."
+            type="tel"
+            name="phone"
+            autoComplete="tel"
+            inputMode="tel"
           />
         </label>
         <button
           type="submit"
-          className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg"
+          className={bttPrimaryButtonClass}
         >
           {t("save")}
         </button>

@@ -5,6 +5,8 @@ import { products } from "@/data/products";
 import type { Locale } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { trackEvent } from "@/lib/analytics";
+import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
@@ -32,6 +34,7 @@ export function RattanQuiz() {
     "idle"
   );
   const [contact, setContact] = useState({ phone: "", city: "", company: "" });
+  const [quoteError, setQuoteError] = useState<string | null>(null);
 
   const totalSteps = 5;
 
@@ -83,6 +86,11 @@ export function RattanQuiz() {
   };
 
   const submitQuote = () => {
+    if (!contact.phone.trim()) {
+      setQuoteError(t("quote_phone_required"));
+      return;
+    }
+    setQuoteError(null);
     trackEvent("quote_submit", {
       segment,
       productKind,
@@ -115,7 +123,7 @@ export function RattanQuiz() {
           <button
             type="button"
             onClick={start}
-            className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-btt-sm"
+            className={cn(bttPrimaryButtonClass, "shadow-btt-sm")}
           >
             {t("open")}
           </button>
@@ -296,20 +304,27 @@ export function RattanQuiz() {
             className="mt-8 grid gap-4"
           >
             <p className="text-sm font-medium">{t("result_quote")}</p>
+            {quoteError ? (
+              <p className="text-sm text-red-400" role="alert">
+                {quoteError}
+              </p>
+            ) : null}
             <input
-              className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
+              className={cn(bttFieldClass, "w-full")}
               placeholder={t("ph_phone")}
               aria-label={common("phone")}
+              aria-invalid={quoteError ? true : undefined}
               type="tel"
               inputMode="tel"
               autoComplete="tel"
               value={contact.phone}
-              onChange={(e) =>
-                setContact((x) => ({ ...x, phone: e.target.value }))
-              }
+              onChange={(e) => {
+                setQuoteError(null);
+                setContact((x) => ({ ...x, phone: e.target.value }));
+              }}
             />
             <input
-              className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
+              className={cn(bttFieldClass, "w-full")}
               placeholder={t("ph_city_country")}
               aria-label={t("ph_city_country")}
               autoComplete="address-level2"
@@ -319,7 +334,7 @@ export function RattanQuiz() {
               }
             />
             <input
-              className="w-full rounded-btt border border-white/15 px-4 py-3 text-sm"
+              className={cn(bttFieldClass, "w-full")}
               placeholder={common("company")}
               aria-label={common("company")}
               autoComplete="organization"
@@ -331,7 +346,7 @@ export function RattanQuiz() {
             <button
               type="button"
               onClick={submitQuote}
-              className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white"
+              className={bttPrimaryButtonClass}
             >
               {common("submit")}
             </button>
@@ -357,7 +372,7 @@ export function RattanQuiz() {
                     <button
                       type="button"
                       onClick={() => add(p, p.names[locale], pickQtyKg())}
-                      className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-3 py-1.5 text-xs font-semibold text-white"
+                      className={cn(bttPrimaryButtonClass, "px-3 py-1.5 text-xs")}
                     >
                       {t("add_combo")}
                     </button>
@@ -373,7 +388,7 @@ export function RattanQuiz() {
             </div>
             <Link
               href="/checkout"
-              className="inline-flex w-fit rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg"
+              className={cn(bttPrimaryButtonClass, "inline-flex w-fit")}
             >
               {t("one_click")}
             </Link>

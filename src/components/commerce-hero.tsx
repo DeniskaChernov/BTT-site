@@ -1,6 +1,8 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
@@ -88,7 +90,10 @@ export function CommerceHero() {
               <div className="mt-10 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
                 <Link href="/catalog" className="sm:inline-flex sm:justify-center">
                   <motion.span
-                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-black/30 sm:w-auto"
+                    className={cn(
+                      bttPrimaryButtonClass,
+                      "group inline-flex w-full items-center justify-center gap-2 px-8 py-3.5 shadow-black/30 sm:w-auto"
+                    )}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >

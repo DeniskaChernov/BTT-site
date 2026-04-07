@@ -1,7 +1,6 @@
+import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
-
-const field =
-  "rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-sm text-stone-100 placeholder:text-stone-500 outline-none transition focus:border-amber-500/40 focus:ring-2 focus:ring-amber-500/20";
 
 export async function generateMetadata() {
   const t = await getTranslations("wholesale");
@@ -32,14 +31,14 @@ export default async function WholesalePage() {
       <form className="btt-glass mt-8 grid gap-4 rounded-3xl p-6 md:p-8">
         <h2 className="text-lg font-semibold text-stone-50">{t("form_title")}</h2>
         <input
-          className={field}
+          className={bttFieldClass}
           placeholder={tc("company")}
           name="wholesale_company"
           autoComplete="organization"
           aria-label={tc("company")}
         />
         <input
-          className={field}
+          className={bttFieldClass}
           placeholder={tc("phone")}
           name="wholesale_phone"
           type="tel"
@@ -47,7 +46,7 @@ export default async function WholesalePage() {
           aria-label={tc("phone")}
         />
         <textarea
-          className={`min-h-[120px] ${field}`}
+          className={`min-h-[120px] ${bttFieldClass}`}
           placeholder={t("ph_details")}
           name="wholesale_details"
           aria-label={t("ph_details")}
@@ -61,7 +60,7 @@ export default async function WholesalePage() {
         </label>
         <button
           type="button"
-          className="w-fit rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-amber-500 hover:to-orange-500"
+          className={cn(bttPrimaryButtonClass, "w-fit")}
         >
           {tc("submit")}
         </button>

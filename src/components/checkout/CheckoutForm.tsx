@@ -2,12 +2,19 @@
 
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
-import { trackEvent } from "@/lib/analytics";
-import { readUtmFromSearch } from "@/lib/analytics";
+import { readUtmFromSearch, trackEvent } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { readLocalProfile } from "@/lib/local-profile";
+import {
+  bttFieldClass,
+  bttPillButtonActiveClass,
+  bttPillButtonInactiveClass,
+  bttPrimaryButtonClass,
+} from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Pay = "uzcard" | "humo" | "payme" | "click" | "invoice" | "cod";
 
@@ -28,8 +35,17 @@ export function CheckoutForm() {
   const [done, setDone] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
+  useEffect(() => {
+    const { phone: savedPhone, email } = readLocalProfile();
+    setPhone((p) => p || savedPhone);
+    if (email?.includes("@")) {
+      const local = email.split("@")[0]?.trim();
+      if (local) setName((n) => n || local);
+    }
+  }, []);
+
   const utm = useMemo(
-    () => readUtmFromSearch(`?${searchParams.toString()}`),
+    () => readUtmFromSearch(searchParams.toString()),
     [searchParams]
   );
 
@@ -38,6 +54,10 @@ export function CheckoutForm() {
     setErr(null);
     if (!phone.trim()) {
       setErr(t("error_phone"));
+      return;
+    }
+    if (ship === "courier" && !address.trim()) {
+      setErr(t("error_address"));
       return;
     }
     trackEvent("start_checkout", {
@@ -76,7 +96,7 @@ export function CheckoutForm() {
           <button
             type="button"
             onClick={() => router.push("/catalog")}
-            className="mt-6 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg"
+            className={cn(bttPrimaryButtonClass, "mt-6")}
           >
             {c("learn_more")}
           </button>
@@ -107,7 +127,7 @@ export function CheckoutForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
-              className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
+              className={bttFieldClass}
             />
           </label>
           <label className="grid gap-1 text-sm text-stone-300">
@@ -119,7 +139,7 @@ export function CheckoutForm() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               autoComplete="tel"
-              className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
+              className={bttFieldClass}
             />
           </label>
         </div>
@@ -129,7 +149,9 @@ export function CheckoutForm() {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             autoComplete="street-address"
-            className="rounded-xl border border-white/15 bg-white/[0.05] px-3 py-2.5 text-stone-100"
+            disabled={ship === "pickup"}
+            placeholder={ship === "pickup" ? t("pickup_no_address") : undefined}
+            className={bttFieldClass}
           />
         </label>
 
@@ -139,22 +161,22 @@ export function CheckoutForm() {
             <button
               type="button"
               onClick={() => setShip("courier")}
-              className={`rounded-full px-4 py-2 text-sm transition ${
+              className={
                 ship === "courier"
-                  ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md"
-                  : "border border-white/15 text-stone-300 hover:bg-white/[0.05]"
-              }`}
+                  ? bttPillButtonActiveClass
+                  : bttPillButtonInactiveClass
+              }
             >
               {t("ship_courier")}
             </button>
             <button
               type="button"
               onClick={() => setShip("pickup")}
-              className={`rounded-full px-4 py-2 text-sm transition ${
+              className={
                 ship === "pickup"
-                  ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md"
-                  : "border border-white/15 text-stone-300 hover:bg-white/[0.05]"
-              }`}
+                  ? bttPillButtonActiveClass
+                  : bttPillButtonInactiveClass
+              }
             >
               {t("ship_pickup")}
             </button>
@@ -176,7 +198,7 @@ export function CheckoutForm() {
             ).map(([key, id]) => (
               <label
                 key={id}
-                className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-sm text-stone-300 ${
+                className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-sm text-stone-300 transition focus-within:ring-2 focus-within:ring-amber-500/30 ${
                   pay === id
                     ? "border-amber-500/50 bg-amber-500/10"
                     : "border-white/10 hover:border-white/20"
@@ -202,7 +224,7 @@ export function CheckoutForm() {
 
         <button
           type="submit"
-          className="rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg"
+          className={cn(bttPrimaryButtonClass, "px-8 py-3.5")}
         >
           {t("place_order")}
         </button>
@@ -214,7 +236,9 @@ export function CheckoutForm() {
           {lines.map((l) => (
             <li key={l.sku} className="flex justify-between gap-2">
               <span className="line-clamp-2 text-stone-200">{l.name}</span>
-              <span className="shrink-0 text-stone-500">{l.qtyKg} kg</span>
+              <span className="shrink-0 text-stone-500">
+                {l.qtyKg} {tc("qty_kg")}
+              </span>
             </li>
           ))}
         </ul>

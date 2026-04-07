@@ -4,6 +4,8 @@ import { Link } from "@/i18n/navigation";
 import type { Locale, Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs, getPricePerKgForQty, UZS_PER_USD } from "@/lib/pricing";
+import { bttFieldCompactClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
 import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
@@ -22,6 +24,16 @@ export function ProductDetail({ product, related }: Props) {
   const [qty, setQty] = useState(1.5);
   const [meters, setMeters] = useState(10);
   const [activeImg, setActiveImg] = useState(0);
+
+  const normalizeQty = (value: number) => {
+    if (!Number.isFinite(value)) return 0.5;
+    return Math.max(0.5, Math.round(value * 2) / 2);
+  };
+
+  const normalizeMeters = (value: number) => {
+    if (!Number.isFinite(value)) return 1;
+    return Math.max(1, value);
+  };
 
   useEffect(() => {
     trackEvent("view_pdp", {
@@ -170,8 +182,11 @@ export function ProductDetail({ product, related }: Props) {
                 min={0.5}
                 step={0.5}
                 value={qty}
-                onChange={(e) => setQty(Number(e.target.value))}
-                className="w-32 rounded-2xl border border-white/15 bg-white/[0.05] px-3 py-2 text-stone-100"
+                onChange={(e) => {
+                  if (e.target.value === "") return;
+                  setQty(normalizeQty(Number(e.target.value)));
+                }}
+                className={bttFieldCompactClass}
               />
             </label>
             <div>
@@ -189,7 +204,7 @@ export function ProductDetail({ product, related }: Props) {
             <motion.button
               type="button"
               onClick={onAdd}
-              className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg"
+              className={bttPrimaryButtonClass}
               whileTap={{ scale: 0.98 }}
             >
               {c("add_cart")}
@@ -219,8 +234,11 @@ export function ProductDetail({ product, related }: Props) {
                   type="number"
                   min={1}
                   value={meters}
-                  onChange={(e) => setMeters(Number(e.target.value))}
-                  className="w-32 rounded-2xl border border-white/15 bg-white/[0.05] px-3 py-2 text-stone-100"
+                  onChange={(e) => {
+                    if (e.target.value === "") return;
+                    setMeters(normalizeMeters(Number(e.target.value)));
+                  }}
+                  className={bttFieldCompactClass}
                 />
               </label>
               <div>
@@ -274,7 +292,7 @@ export function ProductDetail({ product, related }: Props) {
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-lg"
+            className={cn(bttPrimaryButtonClass, "px-5")}
           >
             {c("add_cart")}
           </button>

@@ -8,7 +8,8 @@ declare global {
 
 /** UTM по умолчанию для кампаний из Instagram (можно переопределить query) */
 export function readUtmFromSearch(search: string): Record<string, string> {
-  const p = new URLSearchParams(search);
+  const q = search.startsWith("?") ? search.slice(1) : search;
+  const p = new URLSearchParams(q);
   const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
   const out: Record<string, string> = {};
   keys.forEach((k) => {

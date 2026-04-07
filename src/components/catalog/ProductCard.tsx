@@ -6,10 +6,12 @@ import type { Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs, getPricePerKgForQty } from "@/lib/pricing";
 import { trackEvent } from "@/lib/analytics";
+import { bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   product: Product;
@@ -21,6 +23,7 @@ export function ProductCard({ product }: Props) {
   const c = useTranslations("catalog");
   const { add } = useCart();
   const [toast, setToast] = useState(false);
+  const toastTimerRef = useRef<number | null>(null);
 
   const name = product.names[locale];
   const ppk = getPricePerKgForQty(product, 1.5);
@@ -36,8 +39,15 @@ export function ProductCard({ product }: Props) {
       currency: "UZS",
     });
     setToast(true);
-    setTimeout(() => setToast(false), 1800);
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = window.setTimeout(() => setToast(false), 1800);
   };
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    };
+  }, []);
 
   return (
     <motion.article
@@ -83,7 +93,7 @@ export function ProductCard({ product }: Props) {
         <button
           type="button"
           onClick={onAdd}
-          className="w-full rounded-full bg-gradient-to-r from-amber-600 to-orange-600 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-amber-500 hover:to-orange-500 hover:shadow-amber-900/30"
+          className={cn(bttPrimaryButtonClass, "w-full")}
         >
           {t("add_cart")}
         </button>

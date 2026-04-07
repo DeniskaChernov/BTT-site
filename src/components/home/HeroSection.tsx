@@ -1,6 +1,8 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowRight, Droplets, Sun, Trees } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -49,7 +51,10 @@ export function HeroSection() {
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link href="/catalog">
                   <motion.span
-                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-900/40 sm:w-auto"
+                    className={cn(
+                      bttPrimaryButtonClass,
+                      "group inline-flex w-full items-center justify-center gap-2 px-8 py-3.5 shadow-orange-900/40 sm:w-auto"
+                    )}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
