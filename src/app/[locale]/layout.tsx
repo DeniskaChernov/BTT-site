@@ -1,5 +1,6 @@
 import { Providers } from "@/components/Providers";
 import { Footer } from "@/components/layout/Footer";
+import { GlowSiteNav } from "@/components/layout/GlowSiteNav";
 import { ScrollToHash } from "@/components/layout/ScrollToHash";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
@@ -64,6 +65,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <ScrollToHash />
+            <GlowSiteNav />
             <main className="min-h-[75vh]">{children}</main>
             <Footer />
           </Providers>

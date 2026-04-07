@@ -57,6 +57,9 @@ export default {
           accent: "var(--btt-accent)",
         },
       },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      },
       boxShadow: {
         btt: "var(--btt-shadow)",
         "btt-sm": "var(--btt-shadow-sm)",
