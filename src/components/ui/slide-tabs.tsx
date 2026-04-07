@@ -1,0 +1,140 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
+import { motion } from "framer-motion";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+export type SlideTabItem = {
+  id: string;
+  href: string;
+  label: string;
+};
+
+type SlideTabsProps = {
+  items: SlideTabItem[];
+  activeId: string | undefined;
+  className?: string;
+};
+
+type CursorPosition = { left: number; width: number; opacity: number };
+
+export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
+  const selectedIndex = useMemo(() => {
+    const i = items.findIndex((item) => item.id === activeId);
+    return i >= 0 ? i : 0;
+  }, [items, activeId]);
+
+  const [position, setPosition] = useState<CursorPosition>({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  const tabsRef = useRef<(HTMLLIElement | null)[]>([]);
+
+  const syncToIndex = useCallback(
+    (index: number) => {
+      const el = tabsRef.current[index];
+      if (!el) return;
+      const { width } = el.getBoundingClientRect();
+      setPosition({
+        left: el.offsetLeft,
+        width,
+        opacity: 1,
+      });
+    },
+    [],
+  );
+
+  useEffect(() => {
+    syncToIndex(selectedIndex);
+  }, [selectedIndex, items, syncToIndex]);
+
+  useEffect(() => {
+    const onResize = () => syncToIndex(selectedIndex);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [selectedIndex, syncToIndex]);
+
+  return (
+    <ul
+      onMouseLeave={() => syncToIndex(selectedIndex)}
+      className={cn(
+        "relative mx-auto flex w-fit rounded-full border-2 border-border bg-background/80 p-1 shadow-sm backdrop-blur-sm dark:bg-neutral-900/80",
+        className,
+      )}
+    >
+      {items.map((item, i) => (
+        <SlideTab
+          key={item.id}
+          ref={(el) => {
+            tabsRef.current[i] = el;
+          }}
+          href={item.href}
+          setPosition={setPosition}
+        >
+          {item.label}
+        </SlideTab>
+      ))}
+      <SlideCursor position={position} />
+    </ul>
+  );
+}
+
+type SlideTabProps = {
+  children: React.ReactNode;
+  href: string;
+  setPosition: React.Dispatch<React.SetStateAction<CursorPosition>>;
+};
+
+const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
+  ({ children, href, setPosition }, ref) => {
+    return (
+      <li
+        ref={ref}
+        className="relative z-10"
+        onMouseEnter={(e) => {
+          const el = e.currentTarget;
+          const { width } = el.getBoundingClientRect();
+          setPosition({
+            left: el.offsetLeft,
+            width,
+            opacity: 1,
+          });
+        }}
+      >
+        <Link
+          href={href}
+          className="block cursor-pointer px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground md:px-5 md:py-3 md:text-base"
+        >
+          {children}
+        </Link>
+      </li>
+    );
+  },
+);
+
+SlideTab.displayName = "SlideTab";
+
+function SlideCursor({ position }: { position: CursorPosition }) {
+  return (
+    <motion.li
+      aria-hidden
+      animate={{
+        left: position.left,
+        width: position.width,
+        opacity: position.opacity,
+      }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-foreground/15 dark:bg-white/20"
+    />
+  );
+}
