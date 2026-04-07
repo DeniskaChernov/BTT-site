@@ -7,10 +7,10 @@ import {
   GlowNavPill,
 } from "@/components/ui/glow-menu";
 import {
-  kineticNavGlowPresets,
-  MenuBarKinetic,
-  type MenuBarKineticItem,
-} from "@/components/ui/menu-bar-kinetic";
+  MenuBar,
+  menuBarGradientPresets,
+  type MenuBarItem,
+} from "@/components/ui/menu-bar";
 import { useCart } from "@/contexts/CartContext";
 import { resolveActiveNavLabel } from "@/lib/nav-active";
 import { Home, Layers, Newspaper, ShoppingBag, ShoppingCart, User } from "lucide-react";
@@ -27,38 +27,34 @@ export function Header() {
   const { lines } = useCart();
   const count = lines.length;
 
-  const menuItems: MenuBarKineticItem[] = useMemo(
+  const menuItems: MenuBarItem[] = useMemo(
     () => [
       {
         href: "/",
         label: t("home"),
         icon: Home,
-        surface: "from-sky-400 to-blue-600",
-        glow: kineticNavGlowPresets.skyBlue,
+        gradient: menuBarGradientPresets.home,
         iconColor: "text-sky-400",
       },
       {
         href: "/catalog",
         label: t("shop"),
         icon: ShoppingBag,
-        surface: "from-violet-400 to-purple-600",
-        glow: kineticNavGlowPresets.violet,
+        gradient: menuBarGradientPresets.shop,
         iconColor: "text-violet-400",
       },
       {
         href: "/#hits",
         label: t("collections"),
         icon: Layers,
-        surface: "from-orange-400 to-rose-600",
-        glow: kineticNavGlowPresets.orange,
+        gradient: menuBarGradientPresets.collections,
         iconColor: "text-orange-400",
       },
       {
         href: "/blog",
         label: t("blog"),
         icon: Newspaper,
-        surface: "from-cyan-400 to-teal-600",
-        glow: kineticNavGlowPresets.cyan,
+        gradient: menuBarGradientPresets.blog,
         iconColor: "text-cyan-400",
       },
     ],
@@ -74,7 +70,7 @@ export function Header() {
         <GlowNavPill className="min-h-[3.25rem] sm:min-h-[3.5rem]">
           <GlowNavBrand />
           <GlowNavDivider />
-          <MenuBarKinetic
+          <MenuBar
             items={menuItems}
             activeItem={activeItem}
             embedded

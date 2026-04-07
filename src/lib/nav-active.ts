@@ -1,4 +1,4 @@
-/** Общая логика активного пункта навбара (MenuBar / MenuBarKinetic / Header). */
+/** Общая логика активного пункта навбара (MenuBar / Header). */
 
 export function pathMatches(pathname: string, href: string) {
   if (href === "/") return pathname === "/" || pathname === "";
