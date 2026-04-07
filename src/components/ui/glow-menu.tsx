@@ -1,154 +1,216 @@
 "use client";
 
-import { Link, usePathname } from "@/i18n/navigation";
-import { pathMatches } from "@/lib/nav-active";
+/**
+ * Glow Menu (spoonyvu / 21st.dev) — кинетическое меню с ореолом и подсветкой активного пункта.
+ * Адаптировано: next-intl Link, режим embedded для шапки.
+ */
+
+import type { MenuBarProps } from "@/components/ui/menu-bar";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
+import { useTheme } from "next-themes";
+import * as React from "react";
 
-const BRAND_HALO =
-  "linear-gradient(180deg, rgba(251,191,36,0.08) 0%, transparent 45%, rgba(234,88,12,0.04) 100%)";
+const itemVariants = {
+  initial: { rotateX: 0, opacity: 1 },
+  hover: { rotateX: -90, opacity: 0 },
+};
 
-export interface GlowNavPillProps {
-  children: React.ReactNode;
-  className?: string;
-}
+const backVariants = {
+  initial: { rotateX: 90, opacity: 0 },
+  hover: { rotateX: 0, opacity: 1 },
+};
 
-export function GlowNavDivider() {
-  return (
-    <span
-      className="mx-0.5 w-px shrink-0 self-stretch bg-gradient-to-b from-transparent via-white/[0.14] to-transparent sm:mx-1"
-      aria-hidden
-    />
-  );
-}
+const glowVariants = {
+  initial: { opacity: 0, scale: 0.8 },
+  hover: {
+    opacity: 1,
+    scale: 2,
+    transition: {
+      opacity: { duration: 0.5, ease: [0.4, 0, 0.2, 1] as const },
+      scale: { duration: 0.5, type: "spring" as const, stiffness: 300, damping: 25 },
+    },
+  },
+};
 
-export function GlowNavBrand() {
-  const pathname = usePathname();
-  const active = pathMatches(pathname, "/");
+const navGlowVariants = {
+  initial: { opacity: 0 },
+  hover: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1] as const,
+    },
+  },
+};
 
-  return (
-    <div className="relative shrink-0 rounded-xl p-[1px] shadow-[inset_0_0_0_1px_rgba(251,191,36,0.12)]">
-      <div
-        className="pointer-events-none absolute inset-0 rounded-[11px] opacity-90"
-        style={{ background: BRAND_HALO }}
-        aria-hidden
-      />
-      <Link
-        href="/"
+const sharedTransition = {
+  type: "spring" as const,
+  stiffness: 100,
+  damping: 20,
+  duration: 0.5,
+};
+
+export const SpoonyGlowMenu = React.forwardRef<HTMLDivElement, MenuBarProps>(
+  (
+    { className, items, activeItem, embedded = false, onItemClick, ...props },
+    ref
+  ) => {
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+      setMounted(true);
+    }, []);
+
+    const isDarkTheme = !mounted || resolvedTheme !== "light";
+
+    return (
+      <motion.nav
+        ref={ref}
         className={cn(
-          "group relative flex shrink-0 items-center gap-2 rounded-[11px] px-2 py-1.5 outline-none sm:gap-2 sm:px-2.5 sm:py-2",
-          "transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]",
-          active ? "bg-black/20" : "bg-transparent hover:bg-white/[0.04]"
+          "relative",
+          embedded
+            ? "min-w-0 flex-1 overflow-hidden border-0 bg-transparent p-0 shadow-none backdrop-blur-none"
+            : "overflow-hidden rounded-2xl border border-border/40 bg-gradient-to-b from-background/80 to-background/40 p-2 shadow-lg backdrop-blur-lg",
+          className
         )}
-        aria-current={active ? "page" : undefined}
+        initial="initial"
+        whileHover={embedded ? undefined : "hover"}
+        {...props}
       >
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500 to-orange-700 text-[10px] font-bold text-white shadow-md shadow-orange-900/30 ring-1 ring-white/20 sm:h-8 sm:w-8 sm:text-xs">
-          BT
-        </span>
-        <span
-          className={cn(
-            "max-w-[5.5rem] truncate text-xs font-semibold tracking-tight sm:max-w-[10rem] sm:text-sm",
-            active ? "text-white" : "text-stone-500 group-hover:text-stone-200"
-          )}
-        >
-          Bententrade
-        </span>
-      </Link>
-    </div>
-  );
-}
-
-export function GlowNavPill({ children, className }: GlowNavPillProps) {
-  return (
-    <div
-      className={cn(
-        "inline-flex min-h-[3.25rem] max-w-full min-w-0 items-center gap-0 overflow-x-auto overflow-y-visible rounded-full border border-white/[0.09] bg-[#141414]/98 px-1.5 py-1.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.07),0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:min-h-[3.5rem] sm:gap-0.5 sm:px-2 sm:py-1.5",
-        "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-export interface GlowNavItemProps {
-  href: string;
-  icon: LucideIcon;
-  label: React.ReactNode;
-  active?: boolean;
-  className?: string;
-  badge?: number;
-  /** «Корзина» — лёгкий янтарный акцент иконки, как в референсе */
-  iconTone?: "neutral" | "cart";
-}
-
-export function GlowNavItem({
-  href,
-  icon: Icon,
-  label,
-  active: activeProp,
-  className,
-  badge,
-  iconTone = "neutral",
-}: GlowNavItemProps) {
-  const pathname = usePathname();
-  const active = activeProp ?? pathMatches(pathname, href);
-
-  const iconInactive =
-    iconTone === "cart"
-      ? "text-amber-500/85 group-hover:text-amber-400"
-      : "text-stone-500 group-hover:text-stone-300";
-
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "group relative flex min-h-[2.75rem] shrink-0 items-center overflow-hidden rounded-xl px-2.5 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141414] sm:min-h-[3rem] sm:px-3",
-        className
-      )}
-      aria-current={active ? "page" : undefined}
-    >
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300",
-          active ? "opacity-100" : "bg-white/[0.05] opacity-0 group-hover:opacity-100"
-        )}
-        style={
-          active
-            ? {
-                backgroundImage:
-                  "linear-gradient(180deg, transparent 0%, rgba(251,191,36,0.06) 20%, rgba(251,191,36,0.18) 50%, rgba(234,88,12,0.1) 75%, transparent 100%)",
-                boxShadow:
-                  "inset 0 1px 0 0 rgba(255,255,255,0.05), inset 0 -1px 0 0 rgba(0,0,0,0.15)",
-              }
-            : undefined
-        }
-        aria-hidden
-      />
-      <span className="relative flex items-center gap-2 whitespace-nowrap">
-        <Icon
-          className={cn(
-            "h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]",
-            "stroke-[1.5] transition-colors",
-            active ? "text-white" : iconInactive
-          )}
-          aria-hidden
-        />
-        <span
-          className={cn(
-            "text-xs font-medium tracking-tight sm:text-sm",
-            active ? "text-white" : "text-stone-500 group-hover:text-stone-300"
-          )}
-        >
-          {label}
-        </span>
-        {badge !== undefined && badge > 0 ? (
-          <span className="ml-0.5 inline-flex min-w-[1rem] justify-center rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-1 text-[10px] font-semibold text-white sm:text-xs">
-            {badge}
-          </span>
+        {!embedded ? (
+          <motion.div
+            className="pointer-events-none absolute -inset-2 z-0 rounded-3xl"
+            style={{
+              background: isDarkTheme
+                ? "radial-gradient(ellipse 90% 80% at 50% 50%, rgba(96,165,250,0.12) 0%, rgba(192,132,252,0.08) 45%, transparent 70%)"
+                : "radial-gradient(ellipse 90% 80% at 50% 50%, rgba(96,165,250,0.08) 0%, rgba(192,132,252,0.06) 45%, transparent 70%)",
+            }}
+            variants={navGlowVariants}
+          />
         ) : null}
-      </span>
-    </Link>
-  );
-}
+        <ul
+          className={cn(
+            "relative z-10 flex min-w-0 items-center gap-2",
+            embedded &&
+              "overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          )}
+          role="list"
+        >
+          {items.map((item) => {
+            const Icon = item.icon as LucideIcon;
+            const isActive = item.label === activeItem;
+
+            return (
+              <motion.li
+                key={item.href + item.label}
+                className="relative shrink-0"
+              >
+                <Link
+                  href={item.href}
+                  className="block w-full min-w-0 outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141414] rounded-xl"
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={(e) => {
+                    if (item.href === "#") e.preventDefault();
+                    onItemClick?.(item.label);
+                  }}
+                >
+                  <motion.div
+                    className="group relative isolate block overflow-visible rounded-xl"
+                    style={{ perspective: "600px" }}
+                    whileHover="hover"
+                    initial="initial"
+                  >
+                    <motion.div
+                      className="pointer-events-none absolute inset-0 z-0 rounded-xl"
+                      variants={glowVariants}
+                      animate={isActive ? "hover" : "initial"}
+                      style={{
+                        background: item.gradient,
+                        opacity: isActive ? 1 : 0,
+                        borderRadius: "16px",
+                      }}
+                    />
+                    <motion.div
+                      className={cn(
+                        "relative z-10 flex items-center gap-2 rounded-xl bg-transparent px-4 py-2 transition-colors",
+                        isActive
+                          ? "text-foreground"
+                          : "text-muted-foreground group-hover:text-foreground"
+                      )}
+                      variants={itemVariants}
+                      transition={sharedTransition}
+                      style={{
+                        transformStyle: "preserve-3d",
+                        transformOrigin: "center bottom",
+                      }}
+                    >
+                      <span
+                        className={cn(
+                          "transition-colors duration-300",
+                          isActive
+                            ? item.iconColor
+                            : cn(
+                                "opacity-50",
+                                item.iconColor,
+                                "group-hover:opacity-100"
+                              )
+                        )}
+                      >
+                        <Icon className="h-5 w-5 shrink-0" aria-hidden />
+                      </span>
+                      <span className="whitespace-nowrap text-xs font-medium tracking-tight sm:text-sm">
+                        {item.label}
+                      </span>
+                    </motion.div>
+                    <motion.div
+                      className={cn(
+                        "absolute inset-0 z-10 flex items-center gap-2 rounded-xl bg-transparent px-4 py-2 transition-colors",
+                        isActive
+                          ? "text-foreground"
+                          : "text-muted-foreground group-hover:text-foreground"
+                      )}
+                      variants={backVariants}
+                      transition={sharedTransition}
+                      style={{
+                        transformStyle: "preserve-3d",
+                        transformOrigin: "center top",
+                        rotateX: 90,
+                      }}
+                    >
+                      <span
+                        className={cn(
+                          "transition-colors duration-300",
+                          isActive
+                            ? item.iconColor
+                            : cn(
+                                "opacity-50",
+                                item.iconColor,
+                                "group-hover:opacity-100"
+                              )
+                        )}
+                      >
+                        <Icon className="h-5 w-5 shrink-0" aria-hidden />
+                      </span>
+                      <span className="whitespace-nowrap text-xs font-medium tracking-tight sm:text-sm">
+                        {item.label}
+                      </span>
+                    </motion.div>
+                  </motion.div>
+                </Link>
+              </motion.li>
+            );
+          })}
+        </ul>
+      </motion.nav>
+    );
+  }
+);
+
+SpoonyGlowMenu.displayName = "SpoonyGlowMenu";
+
+/** Алиас для импорта, как в реестре 21st.dev */
+export { SpoonyGlowMenu as GlowMenu };

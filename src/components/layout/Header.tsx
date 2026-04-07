@@ -5,9 +5,9 @@ import {
   GlowNavDivider,
   GlowNavItem,
   GlowNavPill,
-} from "@/components/ui/glow-menu";
+} from "@/components/ui/glow-nav-shell";
+import { SpoonyGlowMenu } from "@/components/ui/glow-menu";
 import {
-  MenuBar,
   menuBarGradientPresets,
   type MenuBarItem,
 } from "@/components/ui/menu-bar";
@@ -76,7 +76,7 @@ export function Header() {
         <GlowNavPill className="min-h-[3.25rem] sm:min-h-[3.5rem]">
           <GlowNavBrand />
           <GlowNavDivider />
-          <MenuBar
+          <SpoonyGlowMenu
             items={menuItems}
             activeItem={activeItem}
             embedded
