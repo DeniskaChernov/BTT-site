@@ -36,13 +36,13 @@ export function GlowNavBrand() {
       <Link
         href="/"
         className={cn(
-          "group relative flex shrink-0 items-center gap-2 rounded-[11px] px-2 py-1.5 sm:gap-2 sm:px-2.5 sm:py-2",
-          "transition-colors",
+          "group relative flex shrink-0 items-center gap-2 rounded-[11px] px-2 py-1.5 outline-none sm:gap-2 sm:px-2.5 sm:py-2",
+          "transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]",
           active ? "bg-black/20" : "bg-transparent hover:bg-white/[0.04]"
         )}
         aria-current={active ? "page" : undefined}
       >
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-amber-600 to-orange-700 text-[10px] font-bold text-white shadow-sm ring-1 ring-white/15 sm:h-8 sm:w-8 sm:text-xs">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500 to-orange-700 text-[10px] font-bold text-white shadow-md shadow-orange-900/30 ring-1 ring-white/20 sm:h-8 sm:w-8 sm:text-xs">
           BT
         </span>
         <span
@@ -62,7 +62,7 @@ export function GlowNavPill({ children, className }: GlowNavPillProps) {
   return (
     <div
       className={cn(
-        "inline-flex min-h-[3.25rem] max-w-full min-w-0 items-center gap-0 overflow-x-auto overflow-y-visible rounded-full border border-white/[0.1] bg-[#121212]/95 px-1.5 py-1.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:min-h-[3.5rem] sm:gap-0.5 sm:px-2 sm:py-1.5",
+        "inline-flex min-h-[3.25rem] max-w-full min-w-0 items-center gap-0 overflow-x-auto overflow-y-visible rounded-full border border-white/[0.09] bg-[#141414]/98 px-1.5 py-1.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.07),0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:min-h-[3.5rem] sm:gap-0.5 sm:px-2 sm:py-1.5",
         "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         className
       )}
@@ -79,6 +79,8 @@ export interface GlowNavItemProps {
   active?: boolean;
   className?: string;
   badge?: number;
+  /** «Корзина» — лёгкий янтарный акцент иконки, как в референсе */
+  iconTone?: "neutral" | "cart";
 }
 
 export function GlowNavItem({
@@ -88,15 +90,21 @@ export function GlowNavItem({
   active: activeProp,
   className,
   badge,
+  iconTone = "neutral",
 }: GlowNavItemProps) {
   const pathname = usePathname();
   const active = activeProp ?? pathMatches(pathname, href);
+
+  const iconInactive =
+    iconTone === "cart"
+      ? "text-amber-500/85 group-hover:text-amber-400"
+      : "text-stone-500 group-hover:text-stone-300";
 
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex min-h-[2.75rem] shrink-0 items-center overflow-hidden rounded-xl px-2.5 py-2 outline-none transition-colors sm:min-h-[3rem] sm:px-3",
+        "group relative flex min-h-[2.75rem] shrink-0 items-center overflow-hidden rounded-xl px-2.5 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141414] sm:min-h-[3rem] sm:px-3",
         className
       )}
       aria-current={active ? "page" : undefined}
@@ -123,7 +131,7 @@ export function GlowNavItem({
           className={cn(
             "h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]",
             "stroke-[1.5] transition-colors",
-            active ? "text-white" : "text-amber-700/45 group-hover:text-amber-600/70"
+            active ? "text-white" : iconInactive
           )}
           aria-hidden
         />

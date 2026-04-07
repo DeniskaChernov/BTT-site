@@ -1,6 +1,7 @@
 import { Providers } from "@/components/Providers";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { ScrollToHash } from "@/components/layout/ScrollToHash";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -64,6 +65,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <Header />
+            <ScrollToHash />
             <main className="min-h-[75vh]">{children}</main>
             <Footer />
           </Providers>

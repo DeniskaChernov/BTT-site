@@ -65,7 +65,13 @@ export function Header() {
     resolveActiveNavLabel(menuItems, pathname, hash) ?? t("home");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.05] bg-[#070605]/85 py-3 backdrop-blur-xl md:py-4">
+    <header className="relative sticky top-0 z-50 border-b border-white/[0.06] bg-[#070605]/92 py-3 backdrop-blur-xl md:py-4">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35] [mask-image:linear-gradient(to_bottom,black,transparent)]"
+        aria-hidden
+      >
+        <div className="btt-grid-bg h-full w-full" />
+      </div>
       <div className="btt-container flex justify-center">
         <GlowNavPill className="min-h-[3.25rem] sm:min-h-[3.5rem]">
           <GlowNavBrand />
@@ -87,6 +93,7 @@ export function Header() {
             icon={ShoppingCart}
             label={t("cart")}
             badge={count}
+            iconTone="cart"
           />
         </GlowNavPill>
       </div>

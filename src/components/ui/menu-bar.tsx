@@ -126,6 +126,58 @@ export const MenuBar = React.forwardRef<HTMLElement, MenuBarProps>(
             const Icon = item.icon;
             const isActive = item.label === activeItem;
 
+            if (embedded) {
+              return (
+                <li key={item.href + item.label} className="relative shrink-0">
+                  <Link
+                    href={item.href}
+                    className="group block min-w-0 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={(e) => {
+                      if (item.href === "#") e.preventDefault();
+                      onItemClick?.(item.label);
+                    }}
+                  >
+                    <span
+                      className={cn(
+                        "relative flex items-center gap-2 rounded-xl px-3 py-2 transition-colors sm:px-3.5",
+                        isActive
+                          ? "text-white"
+                          : "text-stone-500 hover:bg-white/[0.06] hover:text-stone-200"
+                      )}
+                      style={
+                        isActive
+                          ? {
+                              backgroundImage: item.gradient,
+                              boxShadow:
+                                "inset 0 1px 0 rgba(255,255,255,0.14), 0 0 18px rgba(255,255,255,0.06)",
+                            }
+                          : undefined
+                      }
+                    >
+                      <span
+                        className={cn(
+                          "transition-colors duration-200",
+                          isActive
+                            ? item.iconColor
+                            : cn(
+                                "opacity-70",
+                                item.iconColor,
+                                "group-hover:opacity-100"
+                              )
+                        )}
+                      >
+                        <Icon className="h-[18px] w-[18px] shrink-0 sm:h-5 sm:w-5" aria-hidden />
+                      </span>
+                      <span className="whitespace-nowrap text-xs font-medium tracking-tight sm:text-sm">
+                        {item.label}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              );
+            }
+
             return (
               <motion.li
                 key={item.href + item.label}

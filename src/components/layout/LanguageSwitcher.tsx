@@ -26,7 +26,7 @@ export function LanguageSwitcher({ variant = "default" }: Props) {
       className={cn(
         "inline-flex shrink-0 items-center rounded-full p-0.5",
         isNavbar
-          ? "gap-0 border-0 bg-white/[0.04]"
+          ? "gap-0.5 border-0 bg-white/[0.05]"
           : "border border-white/15 bg-white/[0.05] backdrop-blur-md"
       )}
       role="group"
@@ -46,15 +46,16 @@ export function LanguageSwitcher({ variant = "default" }: Props) {
             router.replace(`${href}${hash}`, { locale: loc });
           }}
           className={cn(
-            "rounded-full font-semibold transition-all",
+            "rounded-full font-semibold transition-all outline-none",
             isNavbar
-              ? "px-2.5 py-1.5 text-[10px] sm:px-3 sm:py-2 sm:text-xs"
+              ? "min-w-[2rem] px-2.5 py-1.5 text-[10px] sm:min-w-[2.25rem] sm:px-3 sm:py-2 sm:text-xs"
               : "px-3 py-1.5 text-xs",
             current === loc
-              ? "bg-gradient-to-b from-amber-500 to-orange-600 text-white shadow-sm ring-1 ring-amber-400/30"
+              ? "bg-gradient-to-b from-amber-500 to-orange-600 text-white shadow-sm ring-1 ring-amber-400/35"
               : isNavbar
-                ? "text-stone-500 hover:text-stone-300"
-                : "text-stone-400 hover:text-stone-200"
+                ? "text-stone-500 hover:bg-white/[0.06] hover:text-stone-200"
+                : "text-stone-400 hover:text-stone-200",
+            "focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141414]"
           )}
         >
           {labels[loc]}
