@@ -68,7 +68,7 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
     <ul
       onMouseLeave={() => syncToIndex(selectedIndex)}
       className={cn(
-        "relative mx-auto flex w-max min-w-0 max-w-full flex-nowrap items-stretch rounded-full border border-white/[0.12] bg-black/35 p-1 shadow-sm backdrop-blur-md",
+        "relative mx-auto flex w-max min-w-0 max-w-full flex-nowrap items-stretch rounded-full border border-white/[0.1] bg-white/[0.05] p-1 backdrop-blur-2xl [box-shadow:var(--btt-shadow-sm),inset_0_1px_0_0_rgba(255,255,255,0.08)]",
         className,
       )}
     >
@@ -134,7 +134,7 @@ function SlideCursor({ position }: { position: CursorPosition }) {
         opacity: position.opacity,
       }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-white/15"
+      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)]"
     />
   );
 }
