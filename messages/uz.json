@@ -21,6 +21,8 @@
     "faq": "FAQ",
     "cart": "Savatcha",
     "account": "Profil",
+    "articles": "Maqolalar",
+    "locale_switch": "Sayt tili",
     "kinetic_menu": "Menyu",
     "kinetic_close": "Yopish"
   },
@@ -78,6 +80,19 @@
     "title": "Blog",
     "lead": "Rattan, parvarish va partiyalar haqida maqolalar — tez orada. Hozircha katalogga qarang yoki aloqaga yozing."
   },
+  "articles": {
+    "title": "Maqolalar",
+    "lead": "Rattan, parvarish, to‘lov va yetkazib berish bo‘yicha qo‘llanmalar — O‘zbekiston uchun.",
+    "intro": "Kelajakdagi materiallar uchun joy: materiallar sharhi, ustaxona uchun ro‘yxatlar va ulgurji eslatmalar.",
+    "cta_all": "Barcha maqolalar",
+    "badge_soon": "Tez orada",
+    "card_1_title": "Mebel uchun rattan qalinligini tanlash",
+    "card_1_desc": "Profillar va yuk — qoralama tayyorlanmoqda.",
+    "card_2_title": "Kochada kashpo: UV va drenaj",
+    "card_2_desc": "O‘zbekiston iqlimida nimalarga e’tibor berish kerak.",
+    "card_3_title": "Ulgurji va HoReCa: muddatlar va hujjatlar",
+    "card_3_desc": "So‘rovdan jo‘natmagacha — yangi maqolalar rejalashtirilgan."
+  },
   "segments": {
     "sub": "Kamroq savol — tezroq xarid.",
     "kicker": "Marshrut",
@@ -105,7 +120,11 @@
     "proof_1_quote": "«Partiya tekis, rang namunaga mos keldi. Qayta buyurtma berdik.»",
     "proof_1_meta": "— ustaxona, Toshkent",
     "proof_2_quote": "HoReCa: L kashpo terrasa uchun — 48 soatda jo‘natma, hujjatlar bilan.",
-    "proof_2_meta": "— B2B keys"
+    "proof_2_meta": "— B2B keys",
+    "articles_kicker": "Materiallar",
+    "articles_title": "Maqolalar va qo‘llanmalar",
+    "articles_lead": "Materiallar, parvarish va xaridlar bo‘yicha sharhlar — bo‘lim rivojlanmoqda, yangilanishlarni kuzating.",
+    "articles_cta": "Maqolalarga o‘tish"
   },
   "catalog": {
     "all": "Hammasi",

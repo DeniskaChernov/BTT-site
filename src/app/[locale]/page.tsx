@@ -1,8 +1,8 @@
 import { CommerceHero } from "@/components/commerce-hero";
+import { ArticlesTeaser } from "@/components/home/ArticlesTeaser";
 import { HomeHits } from "@/components/home/HomeHits";
 import { SegmentSection } from "@/components/home/SegmentSection";
 import { SocialProofSection } from "@/components/home/SocialProofSection";
-import { TrustStrip } from "@/components/home/TrustStrip";
 import { RattanQuiz } from "@/components/quiz/RattanQuiz";
 import { getTranslations } from "next-intl/server";
 
@@ -12,7 +12,7 @@ export default async function HomePage() {
   return (
     <>
       <CommerceHero />
-      <TrustStrip />
+      <ArticlesTeaser />
       <SegmentSection />
       <HomeHits />
       <section className="relative py-16 md:py-24">

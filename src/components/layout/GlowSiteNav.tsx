@@ -1,5 +1,7 @@
 "use client";
 
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { NavAccountLink } from "@/components/layout/NavAccountLink";
 import { SlideTabs, type SlideTabItem } from "@/components/ui/slide-tabs";
 import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -11,6 +13,8 @@ function resolveActiveNavId(pathname: string): string | undefined {
   if (normalized.startsWith("/catalog") || normalized.startsWith("/product"))
     return "catalog";
   if (normalized.startsWith("/about")) return "about";
+  if (normalized.startsWith("/articles") || normalized.startsWith("/blog"))
+    return "articles";
   if (normalized.startsWith("/contacts")) return "contacts";
   if (normalized.startsWith("/cart")) return "cart";
   return undefined;
@@ -29,6 +33,7 @@ export function GlowSiteNav() {
       { id: "home", label: t("home"), href: "/" },
       { id: "catalog", label: t("catalog"), href: "/catalog" },
       { id: "about", label: t("about"), href: "/about" },
+      { id: "articles", label: t("articles"), href: "/articles" },
       { id: "contacts", label: t("contacts"), href: "/contacts" },
       { id: "cart", label: t("cart"), href: "/cart" },
     ],
@@ -37,14 +42,25 @@ export function GlowSiteNav() {
 
   return (
     <header className="sticky top-0 z-50 bg-transparent">
-      <div className="btt-container flex justify-center py-3.5">
-        <div
-          className="w-full max-w-full overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          role="navigation"
-          aria-label={t("kinetic_menu")}
-        >
-          <div className="flex min-w-min justify-center px-1">
-            <SlideTabs items={items} activeId={activeId} />
+      <div className="btt-container py-3.5">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-4">
+          <div className="flex items-center justify-between gap-3 md:justify-start">
+            <LanguageSwitcher />
+            <NavAccountLink className="md:hidden" />
+          </div>
+
+          <div
+            className="min-w-0 overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            role="navigation"
+            aria-label={t("kinetic_menu")}
+          >
+            <div className="flex min-w-min justify-center px-0 sm:px-1">
+              <SlideTabs items={items} activeId={activeId} />
+            </div>
+          </div>
+
+          <div className="hidden justify-end md:flex">
+            <NavAccountLink />
           </div>
         </div>
       </div>

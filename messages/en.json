@@ -21,6 +21,8 @@
     "faq": "FAQ",
     "cart": "Cart",
     "account": "Account",
+    "articles": "Articles",
+    "locale_switch": "Site language",
     "kinetic_menu": "Menu",
     "kinetic_close": "Close"
   },
@@ -78,6 +80,19 @@
     "title": "Blog",
     "lead": "Articles on rattan, care, and batches — coming soon. Browse the catalog or reach us via contacts for now."
   },
+  "articles": {
+    "title": "Articles",
+    "lead": "Guides on rattan, care, payments, and delivery in Uzbekistan.",
+    "intro": "Placeholders for upcoming posts: material notes, workshop checklists, and wholesale tips.",
+    "cta_all": "Browse articles",
+    "badge_soon": "Soon",
+    "card_1_title": "Choosing rattan thickness for furniture",
+    "card_1_desc": "Profiles and load — draft in progress.",
+    "card_2_title": "Outdoor planters: UV and drainage",
+    "card_2_desc": "What to check in Uzbekistan’s climate.",
+    "card_3_title": "Wholesale & HoReCa: timelines and paperwork",
+    "card_3_desc": "From request to shipment — more articles planned."
+  },
   "segments": {
     "sub": "Fewer questions — faster checkout.",
     "kicker": "Your path",
@@ -105,7 +120,11 @@
     "proof_1_quote": "“Batch was even, color matched the sample. We reordered without hesitation.”",
     "proof_1_meta": "— workshop, Tashkent",
     "proof_2_quote": "HoReCa: L planters for the terrace — shipped in 48h, paperwork included.",
-    "proof_2_meta": "— B2B case"
+    "proof_2_meta": "— B2B case",
+    "articles_kicker": "Guides",
+    "articles_title": "Articles & guides",
+    "articles_lead": "Material notes, care, and sourcing — we’re growing this section; check back for updates.",
+    "articles_cta": "Go to articles"
   },
   "catalog": {
     "all": "All",

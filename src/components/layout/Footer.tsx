@@ -45,6 +45,12 @@ export async function Footer() {
           >
             {n("faq")}
           </Link>
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/articles"
+          >
+            {n("articles")}
+          </Link>
         </div>
         <div className="grid gap-3 text-sm text-stone-500">
           <span>{t("privacy")}</span>
