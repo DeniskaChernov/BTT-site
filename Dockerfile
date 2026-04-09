@@ -1,5 +1,6 @@
 # Обход Nixpacks/mise (ошибка copy /mise/installs → context canceled на Railway)
 FROM node:20-bookworm-slim AS base
+RUN apt-get update -y && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 # postinstall и build вызывают prisma generate — без URL валидатор падает (реальная БД не нужна).

@@ -10,6 +10,7 @@
     "build": "prisma generate && next build",
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate deploy",
+    "db:resolve-init": "prisma migrate resolve --applied 20260408120000_init_orders",
     "db:push": "prisma db push",
     "start": "prisma migrate deploy && next start",
     "lint": "next lint"
