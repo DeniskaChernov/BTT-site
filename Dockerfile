@@ -8,6 +8,8 @@ ENV DATABASE_URL="postgresql://build:build@127.0.0.1:5432/build?schema=public"
 
 FROM base AS deps
 COPY package.json package-lock.json ./
+# Иначе postinstall (prisma generate) не видит schema.prisma и падает
+COPY prisma ./prisma
 RUN npm ci
 
 FROM base AS builder
