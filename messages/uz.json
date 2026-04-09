@@ -196,14 +196,20 @@
   },
   "cart": {
     "title": "Savatcha",
-    "empty": "Bo‘sh — katalogga o‘ting",
+    "empty": "Savatcha bo‘sh",
+    "empty_lead": "Katalogdan mahsulot qo‘shing — kg narxi va yetkazish to‘lovgacha shaffof.",
+    "empty_catalog": "Katalogga",
+    "empty_home": "Bosh sahifa",
+    "lines_count": "Pozitsiyalar: {count}",
     "to_checkout": "Buyurtmaga",
     "line_total": "Summa",
     "subtotal": "Oraliq",
     "qty_kg": "kg",
     "remove_line": "Pozitsiyani o‘chirish",
     "decrease_qty": "Miqdorni kamaytirish",
-    "increase_qty": "Miqdorni oshirish"
+    "increase_qty": "Miqdorni oshirish",
+    "clear": "Savatchani tozalash",
+    "clear_confirm": "Barcha pozitsiyalar o‘chirilsinmi?"
   },
   "checkout": {
     "title": "Rasmiylashtirish",
@@ -329,7 +335,14 @@
     "title": "Profil",
     "login": "Kirish",
     "register": "Ro‘yxat",
+    "email_label": "Email",
     "save": "1-klik uchun saqlash",
-    "phone_saved": "Telefon mahalliy saqlandi"
+    "save_done": "Saqlandi — buyurtma maydonlari avto to‘ldiriladi.",
+    "phone_saved": "Telefon mahalliy saqlandi",
+    "shortcuts": "Keyingi qadamlar",
+    "snapshot_title": "Savatcha",
+    "snapshot_empty": "Hozircha bo‘sh",
+    "snapshot_open": "Savatchani ochish",
+    "orders_note": "Buyurtmalar tarixi — shaxsiy kabinet ishga tushgach."
   }
 }

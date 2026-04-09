@@ -196,14 +196,20 @@
   },
   "cart": {
     "title": "Cart",
-    "empty": "Empty — browse catalog",
+    "empty": "Your cart is empty",
+    "empty_lead": "Add items from the catalog — per-kg pricing and delivery before payment stay clear.",
+    "empty_catalog": "Browse catalog",
+    "empty_home": "Home",
+    "lines_count": "Items: {count}",
     "to_checkout": "Checkout",
     "line_total": "Line total",
     "subtotal": "Subtotal",
     "qty_kg": "kg",
     "remove_line": "Remove item",
     "decrease_qty": "Decrease quantity",
-    "increase_qty": "Increase quantity"
+    "increase_qty": "Increase quantity",
+    "clear": "Clear cart",
+    "clear_confirm": "Remove all items from the cart?"
   },
   "checkout": {
     "title": "Checkout",
@@ -329,7 +335,14 @@
     "title": "Account",
     "login": "Sign in",
     "register": "Sign up",
+    "email_label": "Email",
     "save": "Save for 1-click",
-    "phone_saved": "Phone saved locally for fast checkout"
+    "save_done": "Saved — checkout fields will autofill.",
+    "phone_saved": "Phone saved locally for fast checkout",
+    "shortcuts": "Next steps",
+    "snapshot_title": "Cart",
+    "snapshot_empty": "Empty",
+    "snapshot_open": "Open cart",
+    "orders_note": "Order history will appear when customer accounts go live."
   }
 }
