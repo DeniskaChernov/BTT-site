@@ -1,5 +1,7 @@
 import { MAX_ORDER_JSON_BYTES } from "@/lib/api-limits";
+import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
 import { prisma } from "@/lib/db";
+import { log } from "@/lib/logger";
 import { MAX_PHONE_CHARS, validateCreateOrderBody } from "@/lib/orders-api";
 import { normalizePhone } from "@/lib/phone";
 import {
@@ -7,16 +9,26 @@ import {
   allowPostOrder,
   clientKeyFromRequest,
 } from "@/lib/rate-limit";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
+function isDbConnectionError(e: unknown): boolean {
+  if (e instanceof Prisma.PrismaClientInitializationError) return true;
+  if (e instanceof Prisma.PrismaClientKnownRequestError) {
+    return ["P1001", "P1002", "P1008", "P1010", "P1011", "P1017"].includes(e.code);
+  }
+  return false;
+}
+
 export async function POST(request: Request) {
   if (!process.env.DATABASE_URL) {
-    return NextResponse.json(
-      { error: "DATABASE_URL is not configured" },
-      { status: 503 },
+    return apiJsonError(
+      503,
+      ApiErrorCode.DATABASE_NOT_CONFIGURED,
+      "DATABASE_URL is not configured",
     );
   }
 
@@ -24,32 +36,36 @@ export async function POST(request: Request) {
   if (contentLength !== null) {
     const n = Number(contentLength);
     if (Number.isFinite(n) && n > MAX_ORDER_JSON_BYTES) {
-      return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+      return apiJsonError(
+        413,
+        ApiErrorCode.PAYLOAD_TOO_LARGE,
+        "Payload too large",
+      );
     }
   }
 
   const key = clientKeyFromRequest(request);
   if (!allowPostOrder(key)) {
-    return NextResponse.json(
-      { error: "Too many requests" },
-      { status: 429, headers: { "Retry-After": "60" } },
-    );
+    return apiJsonError(429, ApiErrorCode.RATE_LIMIT, "Too many requests", {
+      "Retry-After": "60",
+    });
   }
 
   let raw: unknown;
   try {
     raw = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return apiJsonError(400, ApiErrorCode.INVALID_JSON, "Invalid JSON");
   }
 
   const validated = validateCreateOrderBody(raw);
   if (typeof validated === "string") {
     const is422 =
       validated === "Invalid pay method" || validated === "Invalid shipping";
-    return NextResponse.json(
-      { error: validated },
-      { status: is422 ? 422 : 400 },
+    return apiJsonError(
+      is422 ? 422 : 400,
+      ApiErrorCode.VALIDATION,
+      validated,
     );
   }
 
@@ -65,7 +81,7 @@ export async function POST(request: Request) {
 
   const phoneNorm = normalizePhone(phone);
   if (!phoneNorm || phoneNorm.length > MAX_PHONE_CHARS) {
-    return NextResponse.json({ error: "Invalid phone" }, { status: 400 });
+    return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
   }
 
   try {
@@ -95,8 +111,22 @@ export async function POST(request: Request) {
       createdAt: order.createdAt.toISOString(),
     });
   } catch (e) {
-    console.error("[api/orders POST]", e);
-    return NextResponse.json({ error: "Failed to save order" }, { status: 500 });
+    log.error("api/orders POST", e);
+    if (isDbConnectionError(e)) {
+      return apiJsonError(
+        503,
+        ApiErrorCode.DATABASE_UNAVAILABLE,
+        "Database temporarily unavailable",
+      );
+    }
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
+      return apiJsonError(409, ApiErrorCode.VALIDATION, "Duplicate order reference");
+    }
+    return apiJsonError(
+      500,
+      ApiErrorCode.ORDER_SAVE_FAILED,
+      "Failed to save order",
+    );
   }
 }
 
@@ -108,18 +138,18 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const phone = searchParams.get("phone");
   if (!phone?.trim()) {
-    return NextResponse.json({ error: "phone is required" }, { status: 400 });
+    return apiJsonError(400, ApiErrorCode.VALIDATION, "phone is required");
   }
 
   const phoneNorm = normalizePhone(phone);
   if (!phoneNorm || phoneNorm.length > MAX_PHONE_CHARS) {
-    return NextResponse.json({ error: "Invalid phone" }, { status: 400 });
+    return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
   }
 
   const key = clientKeyFromRequest(request);
   if (!allowGetOrders(key)) {
     return NextResponse.json(
-      { error: "Too many requests", orders: [] },
+      { ok: false as const, error: "Too many requests", code: ApiErrorCode.RATE_LIMIT, orders: [] },
       { status: 429, headers: { "Retry-After": "60" } },
     );
   }
@@ -152,7 +182,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ orders });
   } catch (e) {
-    console.error("[api/orders GET]", e);
+    log.error("api/orders GET", e, {
+      connection: isDbConnectionError(e),
+    });
     return NextResponse.json({ orders: [] });
   }
 }
