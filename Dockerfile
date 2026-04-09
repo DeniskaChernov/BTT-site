@@ -2,6 +2,9 @@
 FROM node:20-bookworm-slim AS base
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+# postinstall и build вызывают prisma generate — без URL валидатор падает (реальная БД не нужна).
+# В рантайме Railway подставляет свой DATABASE_URL поверх этого значения.
+ENV DATABASE_URL="postgresql://build:build@127.0.0.1:5432/build?schema=public"
 
 FROM base AS deps
 COPY package.json package-lock.json ./
