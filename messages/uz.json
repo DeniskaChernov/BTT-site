@@ -260,6 +260,7 @@
     "pickup_no_address": "Olib ketishda manzil shart emas",
     "place_order": "To‘lash",
     "success": "Buyurtma yaratildi — SMS havola",
+    "success_local_only": "Server buyurtmani saqlamadi — nusxa faqat shu brauzerda. Keyinroq qayta urinib ko‘ring yoki aloqaga yozing.",
     "sandbox_note": "Sandbox: Payme/Click yo‘naltirishlari prodakshenda joriy kalitlarga ulangan.",
     "cta_catalog": "Katalogga",
     "view_orders": "Profilda buyurtmalar tarixi"

@@ -36,6 +36,8 @@ export function CheckoutForm() {
   const [ship, setShip] = useState<"courier" | "pickup">("courier");
   const [pay, setPay] = useState<Pay>("payme");
   const [done, setDone] = useState(false);
+  /** false — заказ ушёл только в localStorage (сеть или сервер без БД) */
+  const [savedToServer, setSavedToServer] = useState(true);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
@@ -94,6 +96,7 @@ export function CheckoutForm() {
       address: ship === "courier" ? address.trim() : "",
     };
 
+    let serverOk = true;
     try {
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -110,14 +113,18 @@ export function CheckoutForm() {
         } else {
           appendOrder(orderBody);
         }
+        serverOk = true;
       } else {
         appendOrder(orderBody);
+        serverOk = false;
       }
     } catch {
       appendOrder(orderBody);
+      serverOk = false;
     }
 
     clear();
+    setSavedToServer(serverOk);
     setDone(true);
   };
 
@@ -134,6 +141,11 @@ export function CheckoutForm() {
       <div className="btt-container max-w-lg py-16">
         <div className="btt-glass-strong rounded-3xl p-8 text-center">
           <p className="text-lg font-semibold text-emerald-400">{t("success")}</p>
+          {!savedToServer && (
+            <p className="mt-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+              {t("success_local_only")}
+            </p>
+          )}
           <p className="mt-2 text-sm text-stone-400">{t("sandbox_note")}</p>
           <button
             type="button"
