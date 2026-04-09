@@ -236,7 +236,8 @@
     "place_order": "To‘lash",
     "success": "Buyurtma yaratildi — SMS havola",
     "sandbox_note": "Sandbox: Payme/Click yo‘naltirishlari prodakshenda joriy kalitlarga ulangan.",
-    "cta_catalog": "Katalogga"
+    "cta_catalog": "Katalogga",
+    "view_orders": "Profilda buyurtmalar tarixi"
   },
   "wholesale": {
     "title": "Ulgurji",
@@ -343,6 +344,12 @@
     "snapshot_title": "Savatcha",
     "snapshot_empty": "Hozircha bo‘sh",
     "snapshot_open": "Savatchani ochish",
-    "orders_note": "Buyurtmalar tarixi — shaxsiy kabinet ishga tushgach."
+    "orders_title": "Buyurtmalar tarixi",
+    "orders_empty": "Hozircha yo‘q — muvaffaqiyatli buyurtmadan keyin shu yerda ko‘rinadi.",
+    "orders_local_hint": "Ro‘yxat faqat shu brauzerda saqlanadi. Boshqa qurilmada yoki tozalagandan keyin bo‘sh bo‘ladi.",
+    "order_lines_count": "Pozitsiyalar: {count}",
+    "order_ship": "Yetkazish",
+    "order_pay": "To‘lov",
+    "order_contact": "Aloqa va manzil"
   }
 }

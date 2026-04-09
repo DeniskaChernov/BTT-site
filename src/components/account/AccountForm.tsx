@@ -1,5 +1,6 @@
 "use client";
 
+import { OrderHistory } from "@/components/account/OrderHistory";
 import { trackEvent } from "@/lib/analytics";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
@@ -163,10 +164,11 @@ export function AccountForm() {
                 {tc("to_checkout")}
               </Link>
             </nav>
-            <p className="mt-4 text-xs leading-relaxed text-stone-500">{t("orders_note")}</p>
           </div>
         </aside>
       </div>
+
+      <OrderHistory />
     </div>
   );
 }

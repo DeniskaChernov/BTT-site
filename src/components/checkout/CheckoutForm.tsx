@@ -5,6 +5,7 @@ import { formatUzs } from "@/lib/pricing";
 import { readUtmFromSearch, trackEvent } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { appendOrder } from "@/lib/order-history";
 import { readLocalProfile } from "@/lib/local-profile";
 import {
   bttFieldClass,
@@ -13,6 +14,7 @@ import {
   bttPrimaryButtonClass,
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -22,7 +24,7 @@ export function CheckoutForm() {
   const t = useTranslations("checkout");
   const tc = useTranslations("cart");
   const c = useTranslations("common");
-  const { lines, subtotalUz, clear } = useCart();
+  const { lines, subtotalUz, lineTotalUz, clear } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
   const oneClick = searchParams.get("one_click") === "1";
@@ -75,6 +77,22 @@ export function CheckoutForm() {
     };
     trackEvent("purchase", payload);
 
+    appendOrder({
+      totalUz: subtotalUz,
+      lines: lines.map((l) => ({
+        sku: l.sku,
+        slug: l.slug,
+        name: l.name,
+        qtyKg: l.qtyKg,
+        lineTotalUz: lineTotalUz(l),
+      })),
+      pay,
+      ship,
+      customerName: name.trim(),
+      phone: phone.trim(),
+      address: ship === "courier" ? address.trim() : "",
+    });
+
     clear();
     setDone(true);
   };
@@ -100,6 +118,14 @@ export function CheckoutForm() {
           >
             {t("cta_catalog")}
           </button>
+          <p className="mt-6">
+            <Link
+              href="/account"
+              className="text-sm font-medium text-amber-400/95 underline-offset-4 hover:text-amber-300 hover:underline"
+            >
+              {t("view_orders")}
+            </Link>
+          </p>
         </div>
       </div>
     );

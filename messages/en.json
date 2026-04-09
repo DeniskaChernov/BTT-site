@@ -236,7 +236,8 @@
     "place_order": "Pay",
     "success": "Order created — pay link sent by SMS",
     "sandbox_note": "Sandbox: Payme/Click redirects are wired to live keys in production.",
-    "cta_catalog": "Back to catalog"
+    "cta_catalog": "Back to catalog",
+    "view_orders": "View order history in profile"
   },
   "wholesale": {
     "title": "Wholesale",
@@ -343,6 +344,12 @@
     "snapshot_title": "Cart",
     "snapshot_empty": "Empty",
     "snapshot_open": "Open cart",
-    "orders_note": "Order history will appear when customer accounts go live."
+    "orders_title": "Order history",
+    "orders_empty": "No orders yet — they appear here after you complete checkout.",
+    "orders_local_hint": "Stored in this browser only. Other devices or cleared data = empty history.",
+    "order_lines_count": "Items: {count}",
+    "order_ship": "Shipping",
+    "order_pay": "Payment",
+    "order_contact": "Contact & address"
   }
 }
