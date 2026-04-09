@@ -26,13 +26,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/messages ./messages
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-# Standalone file tracing копирует неполный @swc/helpers (без esm/) — в рантайме падает резолв
-COPY --from=builder /app/node_modules/@swc/helpers ./node_modules/@swc/helpers
+# Полный node_modules из builder: у Prisma CLI транзитивные deps (@prisma/config → effect, c12, …),
+# частичное копирование prisma/@prisma давало MODULE_NOT_FOUND «effect» при migrate deploy.
+COPY --from=builder /app/node_modules ./node_modules
 
-# Prisma CLI + движки для migrate deploy при старте (npm start в образе не вызывается)
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 # Image Optimization пишет в .next/cache — без chown nextjs получает EACCES на Railway
 RUN mkdir -p .next/cache && chown -R nextjs:nodejs /app
