@@ -26,22 +26,44 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+const META_KEYWORDS: Record<string, string[]> = {
+  ru: [
+    "ротанг",
+    "искусственный ротанг",
+    "кашпо",
+    "Узбекистан",
+    "Bententrade",
+    "UV",
+    "улица",
+  ],
+  en: [
+    "artificial rattan",
+    "planters",
+    "PE wicker",
+    "Uzbekistan",
+    "Bententrade",
+    "outdoor",
+    "UV-resistant",
+  ],
+  uz: [
+    "sun'iy rattan",
+    "kashpo",
+    "O'zbekiston",
+    "Bententrade",
+    "tashqi",
+    "UV",
+  ],
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
+  const keywords =
+    META_KEYWORDS[locale] ?? META_KEYWORDS.ru;
   return {
     title: t("site"),
     description: t("home_desc"),
-    keywords: [
-      "ротанг",
-      "искусственный ротанг",
-      "rattan",
-      "кашпо",
-      "Узбекистан",
-      "Bententrade",
-      "UV",
-      "улица",
-    ],
+    keywords,
     openGraph: {
       title: t("site"),
       description: t("home_desc"),

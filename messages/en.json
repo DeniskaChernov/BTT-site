@@ -8,6 +8,11 @@
     "body": "Check the URL or return to the home page.",
     "cta": "Back to home"
   },
+  "errors": {
+    "title": "Couldn’t load this section",
+    "body": "Something went wrong. Try again or come back later.",
+    "retry": "Try again"
+  },
   "nav": {
     "home": "Home",
     "shop": "Shop",

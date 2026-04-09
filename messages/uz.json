@@ -8,6 +8,11 @@
     "body": "Manzilni tekshiring yoki bosh sahifaga qayting.",
     "cta": "Bosh sahifa"
   },
+  "errors": {
+    "title": "Bo‘limni yuklab bo‘lmadi",
+    "body": "Xatolik yuz berdi. Qayta urinib ko‘ring yoki keyinroq kiring.",
+    "retry": "Qayta urinish"
+  },
   "nav": {
     "home": "Bosh sahifa",
     "shop": "Do‘kon",

@@ -77,7 +77,7 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
 
   if (typeof phone !== "string" || !phone.trim()) return "Invalid payload";
 
-  if (address !== undefined && typeof address !== "string") return "Invalid payload";
+  if (address != null && typeof address !== "string") return "Invalid payload";
   const addrStr = typeof address === "string" ? address.trim() : "";
   if (!trimLen(addrStr, MAX_ADDRESS_CHARS)) return "Invalid payload";
 

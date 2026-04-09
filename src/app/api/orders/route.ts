@@ -4,6 +4,7 @@ import { normalizePhone } from "@/lib/phone";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 export async function POST(request: Request) {
   if (!process.env.DATABASE_URL) {

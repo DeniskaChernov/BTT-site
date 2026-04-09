@@ -13,7 +13,8 @@
     "db:resolve-init": "prisma migrate resolve --applied 20260408120000_init_orders",
     "db:push": "prisma db push",
     "start": "prisma migrate deploy && next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
