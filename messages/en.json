@@ -381,6 +381,7 @@
     "orders_loading": "Loading…",
     "orders_empty": "No orders for this number yet — they show up here after checkout.",
     "orders_local_hint": "Orders live in PostgreSQL (Railway). If the server was unreachable at checkout, a copy is kept in this browser and merged here.",
+    "orders_rate_limited": "The server is temporarily rate-limiting requests — only orders saved in this browser are shown. Try refreshing in a minute.",
     "order_lines_count": "Items: {count}",
     "order_ship": "Shipping",
     "order_pay": "Payment",

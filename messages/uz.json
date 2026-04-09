@@ -381,6 +381,7 @@
     "orders_loading": "Yuklanmoqda…",
     "orders_empty": "Bu raqam bo‘yicha hozircha yo‘q — rasmiylashtirgach shu yerda paydo bo‘ladi.",
     "orders_local_hint": "Buyurtmalar PostgreSQL (Railway) da. Server ishlamasa, nusxa brauzerda saqlanadi va ro‘yxat bilan birlashtiriladi.",
+    "orders_rate_limited": "Server vaqtincha so‘rovlarni cheklamoqda — faqat shu brauzerda saqlangan buyurtmalar ko‘rinadi. Daqiqa o‘tgach sahifani yangilang.",
     "order_lines_count": "Pozitsiyalar: {count}",
     "order_ship": "Yetkazish",
     "order_pay": "To‘lov",

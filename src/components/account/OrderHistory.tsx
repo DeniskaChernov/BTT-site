@@ -34,6 +34,8 @@ export function OrderHistory({ profilePhone }: Props) {
   const [remoteOrders, setRemoteOrders] = useState<StoredOrder[] | undefined>(
     undefined,
   );
+  /** 429 — сервер ограничил частоту; показываем только локальные заказы */
+  const [remoteRateLimited, setRemoteRateLimited] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
   const loadLocal = useCallback(() => {
@@ -65,8 +67,14 @@ export function OrderHistory({ profilePhone }: Props) {
     }
     let cancelled = false;
     setRemoteOrders(undefined);
+    setRemoteRateLimited(false);
     fetch(`/api/orders?phone=${encodeURIComponent(phoneNorm)}`)
       .then(async (res) => {
+        if (res.status === 429) {
+          if (!cancelled) setRemoteRateLimited(true);
+          return [];
+        }
+        if (!cancelled) setRemoteRateLimited(false);
         if (!res.ok) return [];
         try {
           const d = (await res.json()) as { orders?: StoredOrder[] };
@@ -79,7 +87,10 @@ export function OrderHistory({ profilePhone }: Props) {
         if (!cancelled) setRemoteOrders(list);
       })
       .catch(() => {
-        if (!cancelled) setRemoteOrders([]);
+        if (!cancelled) {
+          setRemoteOrders([]);
+          setRemoteRateLimited(false);
+        }
       });
     return () => {
       cancelled = true;
@@ -135,7 +146,11 @@ export function OrderHistory({ profilePhone }: Props) {
     return (
       <section className="mt-12 border-t border-white/[0.08] pt-12">
         <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
-        <p className="mt-3 text-sm text-stone-500">{t("orders_empty")}</p>
+        {remoteRateLimited ? (
+          <p className="mt-3 text-sm text-amber-400/95">{t("orders_rate_limited")}</p>
+        ) : (
+          <p className="mt-3 text-sm text-stone-500">{t("orders_empty")}</p>
+        )}
         <p className="mt-2 text-xs text-stone-600">{t("orders_local_hint")}</p>
       </section>
     );
@@ -144,6 +159,9 @@ export function OrderHistory({ profilePhone }: Props) {
   return (
     <section className="mt-12 border-t border-white/[0.08] pt-12">
       <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
+      {remoteRateLimited ? (
+        <p className="mt-2 text-xs text-amber-500/90">{t("orders_rate_limited")}</p>
+      ) : null}
       <p className="mt-1 text-xs text-stone-600">{t("orders_local_hint")}</p>
       <ul className="mt-6 space-y-4">
         {orders.map((order) => {
