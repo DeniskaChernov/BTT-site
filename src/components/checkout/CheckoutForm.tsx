@@ -39,6 +39,7 @@ export function CheckoutForm() {
   /** false — заказ ушёл только в localStorage (сеть или сервер без БД) */
   const [savedToServer, setSavedToServer] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const { phone: savedPhone, email } = readLocalProfile();
@@ -57,6 +58,8 @@ export function CheckoutForm() {
   const onPay = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
+    if (submitting) return;
+    if (lines.length === 0) return;
     if (!phone.trim()) {
       setErr(t("error_phone"));
       return;
@@ -65,67 +68,72 @@ export function CheckoutForm() {
       setErr(t("error_address"));
       return;
     }
-    trackEvent("start_checkout", {
-      lines: lines.map((l) => l.sku),
-      pay,
-      ship,
-    });
-
-    const payload = {
-      event: "purchase",
-      value: subtotalUz,
-      currency: "UZS",
-      sku: lines.map((l) => l.sku),
-      utm,
-    };
-    trackEvent("purchase", payload);
-
-    const orderBody = {
-      totalUz: subtotalUz,
-      lines: lines.map((l) => ({
-        sku: l.sku,
-        slug: l.slug,
-        name: l.name,
-        qtyKg: l.qtyKg,
-        lineTotalUz: lineTotalUz(l),
-      })),
-      pay,
-      ship,
-      customerName: name.trim(),
-      phone: normalizePhone(phone),
-      address: ship === "courier" ? address.trim() : "",
-    };
-
-    let serverOk = true;
+    setSubmitting(true);
     try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderBody),
+      trackEvent("start_checkout", {
+        lines: lines.map((l) => l.sku),
+        pay,
+        ship,
       });
-      if (res.ok) {
-        const saved = (await res.json().catch(() => null)) as {
-          id?: string;
-          createdAt?: string;
-        } | null;
-        if (saved?.id && saved?.createdAt) {
-          appendOrder(orderBody, { id: saved.id, createdAt: saved.createdAt });
+
+      const payload = {
+        event: "purchase",
+        value: subtotalUz,
+        currency: "UZS",
+        sku: lines.map((l) => l.sku),
+        utm,
+      };
+      trackEvent("purchase", payload);
+
+      const orderBody = {
+        totalUz: subtotalUz,
+        lines: lines.map((l) => ({
+          sku: l.sku,
+          slug: l.slug,
+          name: l.name,
+          qtyKg: l.qtyKg,
+          lineTotalUz: lineTotalUz(l),
+        })),
+        pay,
+        ship,
+        customerName: name.trim(),
+        phone: normalizePhone(phone),
+        address: ship === "courier" ? address.trim() : "",
+      };
+
+      let serverOk = true;
+      try {
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderBody),
+        });
+        if (res.ok) {
+          const saved = (await res.json().catch(() => null)) as {
+            id?: string;
+            createdAt?: string;
+          } | null;
+          if (saved?.id && saved?.createdAt) {
+            appendOrder(orderBody, { id: saved.id, createdAt: saved.createdAt });
+          } else {
+            appendOrder(orderBody);
+          }
+          serverOk = true;
         } else {
           appendOrder(orderBody);
+          serverOk = false;
         }
-        serverOk = true;
-      } else {
+      } catch {
         appendOrder(orderBody);
         serverOk = false;
       }
-    } catch {
-      appendOrder(orderBody);
-      serverOk = false;
-    }
 
-    clear();
-    setSavedToServer(serverOk);
-    setDone(true);
+      clear();
+      setSavedToServer(serverOk);
+      setDone(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (lines.length === 0 && !done) {
@@ -286,9 +294,15 @@ export function CheckoutForm() {
 
         <button
           type="submit"
-          className={cn(bttPrimaryButtonClass, "px-8 py-3.5")}
+          disabled={submitting}
+          aria-busy={submitting}
+          className={cn(
+            bttPrimaryButtonClass,
+            "px-8 py-3.5",
+            submitting && "pointer-events-none opacity-70",
+          )}
         >
-          {t("place_order")}
+          {submitting ? c("loading") : t("place_order")}
         </button>
       </form>
 

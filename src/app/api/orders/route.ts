@@ -1,6 +1,11 @@
 import { prisma } from "@/lib/db";
 import { MAX_PHONE_CHARS, validateCreateOrderBody } from "@/lib/orders-api";
 import { normalizePhone } from "@/lib/phone";
+import {
+  allowGetOrders,
+  allowPostOrder,
+  clientKeyFromRequest,
+} from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -11,6 +16,14 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: "DATABASE_URL is not configured" },
       { status: 503 },
+    );
+  }
+
+  const key = clientKeyFromRequest(request);
+  if (!allowPostOrder(key)) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      { status: 429, headers: { "Retry-After": "60" } },
     );
   }
 
@@ -81,6 +94,14 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   if (!process.env.DATABASE_URL) {
     return NextResponse.json({ orders: [] });
+  }
+
+  const key = clientKeyFromRequest(request);
+  if (!allowGetOrders(key)) {
+    return NextResponse.json(
+      { error: "Too many requests", orders: [] },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
   }
 
   const { searchParams } = new URL(request.url);
