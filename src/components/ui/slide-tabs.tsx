@@ -27,9 +27,10 @@ type SlideTabsProps = {
 type CursorPosition = { left: number; width: number; opacity: number };
 
 export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
+  /** −1: ни один пункт не выбран (страницы вне меню — account, checkout, opt…) */
   const selectedIndex = useMemo(() => {
     const i = items.findIndex((item) => item.id === activeId);
-    return i >= 0 ? i : 0;
+    return i >= 0 ? i : -1;
   }, [items, activeId]);
 
   const [position, setPosition] = useState<CursorPosition>({
@@ -42,6 +43,10 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
 
   const syncToIndex = useCallback(
     (index: number) => {
+      if (index < 0) {
+        setPosition({ left: 0, width: 0, opacity: 0 });
+        return;
+      }
       const el = tabsRef.current[index];
       if (!el) return;
       const { width } = el.getBoundingClientRect();
@@ -66,7 +71,9 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
 
   return (
     <ul
-      onMouseLeave={() => syncToIndex(selectedIndex)}
+      onMouseLeave={() => {
+        syncToIndex(selectedIndex);
+      }}
       className={cn(
         "relative mx-auto flex w-max min-w-0 max-w-full flex-nowrap items-stretch overflow-hidden rounded-full border border-white/[0.12] bg-white/[0.06] p-1 shadow-none backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)]",
         className,
@@ -79,6 +86,7 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
             tabsRef.current[i] = el;
           }}
           href={item.href}
+          isActive={item.id === activeId}
           setPosition={setPosition}
         >
           {item.label}
@@ -92,11 +100,12 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
 type SlideTabProps = {
   children: React.ReactNode;
   href: string;
+  isActive: boolean;
   setPosition: React.Dispatch<React.SetStateAction<CursorPosition>>;
 };
 
 const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
-  ({ children, href, setPosition }, ref) => {
+  ({ children, href, isActive, setPosition }, ref) => {
     return (
       <li
         ref={ref}
@@ -113,6 +122,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
       >
         <Link
           href={href}
+          aria-current={isActive ? "page" : undefined}
           className="block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-stone-400 transition-colors hover:text-stone-100 md:px-5 md:py-3 md:text-base"
         >
           {children}

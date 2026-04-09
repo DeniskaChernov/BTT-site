@@ -51,7 +51,8 @@
     "address": "Manzil",
     "company": "Kompaniya",
     "comment": "Izoh",
-    "loading": "Yuklanmoqda…"
+    "loading": "Yuklanmoqda…",
+    "skip_main": "Kontentga o‘tish"
   },
   "hero": {
     "title": "Sun'iy rattan — quyosh va suvdan qo‘rqmaydi",
@@ -228,7 +229,8 @@
     "pickup_no_address": "Olib ketishda manzil shart emas",
     "place_order": "To‘lash",
     "success": "Buyurtma yaratildi — SMS havola",
-    "sandbox_note": "Sandbox: Payme/Click yo‘naltirishlari prodakshenda joriy kalitlarga ulangan."
+    "sandbox_note": "Sandbox: Payme/Click yo‘naltirishlari prodakshenda joriy kalitlarga ulangan.",
+    "cta_catalog": "Katalogga"
   },
   "wholesale": {
     "title": "Ulgurji",
@@ -292,7 +294,9 @@
   "footer": {
     "rights": "© Bententrade.",
     "privacy": "Maxfiylik",
-    "offer": "Oferta"
+    "offer": "Oferta",
+    "col_shop": "Xaridorlar",
+    "col_company": "Kompaniya"
   },
   "quiz": {
     "open": "Tanlashni ochish",

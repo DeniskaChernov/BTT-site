@@ -83,6 +83,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== STORAGE) return;
+      setLines(loadLines());
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  useEffect(() => {
     if (!ready) return;
     try {
       localStorage.setItem(STORAGE, JSON.stringify(lines));
@@ -111,8 +120,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const i = prev.findIndex((x) => x.sku === product.sku);
         if (i >= 0) {
           const next = [...prev];
-          const q = next[i].qtyKg + normalizedQty;
-          next[i] = { ...next[i], qtyKg: q };
+          const merged = next[i].qtyKg + normalizedQty;
+          const qtyRounded = normalizeQtyKg(merged) ?? merged;
+          next[i] = { ...next[i], qtyKg: qtyRounded };
           return next;
         }
         return [

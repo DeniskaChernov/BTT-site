@@ -98,7 +98,7 @@ export function CheckoutForm() {
             onClick={() => router.push("/catalog")}
             className={cn(bttPrimaryButtonClass, "mt-6")}
           >
-            {c("learn_more")}
+            {t("cta_catalog")}
           </button>
         </div>
       </div>

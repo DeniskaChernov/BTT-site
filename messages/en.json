@@ -51,7 +51,8 @@
     "address": "Address",
     "company": "Company",
     "comment": "Comment",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "skip_main": "Skip to content"
   },
   "hero": {
     "title": "Artificial rattan that stands sun and water",
@@ -228,7 +229,8 @@
     "pickup_no_address": "Address is not required for pickup",
     "place_order": "Pay",
     "success": "Order created — pay link sent by SMS",
-    "sandbox_note": "Sandbox: Payme/Click redirects are wired to live keys in production."
+    "sandbox_note": "Sandbox: Payme/Click redirects are wired to live keys in production.",
+    "cta_catalog": "Back to catalog"
   },
   "wholesale": {
     "title": "Wholesale",
@@ -292,7 +294,9 @@
   "footer": {
     "rights": "© Bententrade.",
     "privacy": "Privacy",
-    "offer": "Terms"
+    "offer": "Terms",
+    "col_shop": "Shop",
+    "col_company": "Company"
   },
   "quiz": {
     "open": "Open picker",

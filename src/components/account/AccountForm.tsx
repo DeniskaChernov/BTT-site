@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export function AccountForm() {
   const t = useTranslations("account");
+  const c = useTranslations("common");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -49,7 +50,7 @@ export function AccountForm() {
           />
         </label>
         <label className="grid gap-1 text-sm text-stone-300">
-          {t("save")}
+          {c("phone")}
           <input
             className={bttFieldClass}
             value={phone}

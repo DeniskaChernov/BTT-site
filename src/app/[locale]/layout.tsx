@@ -58,15 +58,24 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
   setRequestLocale(locale);
   const messages = await getMessages();
+  const tCommon = await getTranslations({ locale, namespace: "common" });
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${montserrat.variable} min-h-screen font-sans`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:border focus:border-amber-500/40 focus:bg-stone-950 focus:px-4 focus:py-2 focus:text-sm focus:text-stone-100"
+            >
+              {tCommon("skip_main")}
+            </a>
             <ScrollToHash />
             <GlowSiteNav />
-            <main className="min-h-[75vh]">{children}</main>
+            <main id="main-content" className="min-h-[75vh]">
+              {children}
+            </main>
             <Footer />
           </Providers>
         </NextIntlClientProvider>
