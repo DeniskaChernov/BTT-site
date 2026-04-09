@@ -24,6 +24,9 @@ COPY --from=builder /app/.next/static ./.next/static
 # Standalone file tracing копирует неполный @swc/helpers (без esm/) — в рантайме падает резолв
 COPY --from=builder /app/node_modules/@swc/helpers ./node_modules/@swc/helpers
 
+# Image Optimization пишет в .next/cache — без chown nextjs получает EACCES на Railway
+RUN mkdir -p .next/cache && chown -R nextjs:nodejs /app
+
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
