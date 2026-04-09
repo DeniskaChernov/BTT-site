@@ -6,6 +6,7 @@ import { readUtmFromSearch, trackEvent } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { appendOrder } from "@/lib/order-history";
+import { normalizePhone } from "@/lib/phone";
 import { readLocalProfile } from "@/lib/local-profile";
 import {
   bttFieldClass,
@@ -51,7 +52,7 @@ export function CheckoutForm() {
     [searchParams]
   );
 
-  const onPay = (e: React.FormEvent) => {
+  const onPay = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
     if (!phone.trim()) {
@@ -77,7 +78,7 @@ export function CheckoutForm() {
     };
     trackEvent("purchase", payload);
 
-    appendOrder({
+    const orderBody = {
       totalUz: subtotalUz,
       lines: lines.map((l) => ({
         sku: l.sku,
@@ -89,9 +90,32 @@ export function CheckoutForm() {
       pay,
       ship,
       customerName: name.trim(),
-      phone: phone.trim(),
+      phone: normalizePhone(phone),
       address: ship === "courier" ? address.trim() : "",
-    });
+    };
+
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderBody),
+      });
+      if (res.ok) {
+        const saved = (await res.json().catch(() => null)) as {
+          id?: string;
+          createdAt?: string;
+        } | null;
+        if (saved?.id && saved?.createdAt) {
+          appendOrder(orderBody, { id: saved.id, createdAt: saved.createdAt });
+        } else {
+          appendOrder(orderBody);
+        }
+      } else {
+        appendOrder(orderBody);
+      }
+    } catch {
+      appendOrder(orderBody);
+    }
 
     clear();
     setDone(true);

@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 export async function Footer() {
   const t = await getTranslations("footer");
   const n = await getTranslations("nav");
+  const cart = await getTranslations("cart");
 
   return (
     <footer className="relative mt-24 border-t border-white/[0.08] bg-gradient-to-b from-transparent to-black/40">
@@ -33,9 +34,27 @@ export async function Footer() {
           </Link>
           <Link
             className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/catalog/brochure"
+          >
+            {t("pdf_catalog")}
+          </Link>
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
             href="/cart"
           >
             {n("cart")}
+          </Link>
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/checkout"
+          >
+            {cart("to_checkout")}
+          </Link>
+          <Link
+            className="w-fit text-stone-400 transition hover:text-amber-400"
+            href="/account"
+          >
+            {n("account")}
           </Link>
           <Link
             className="w-fit text-stone-400 transition hover:text-amber-400"

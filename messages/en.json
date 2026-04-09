@@ -125,7 +125,13 @@
     "articles_kicker": "Guides",
     "articles_title": "Articles & guides",
     "articles_lead": "Material notes, care, and sourcing — we’re growing this section; check back for updates.",
-    "articles_cta": "Go to articles"
+    "articles_cta": "Go to articles",
+    "strip_aria": "PE rattan benefits",
+    "strip_kicker": "Bententrade material",
+    "strip_pe": "PE polyethylene — same family as outdoor wicker furniture: flexible and tough",
+    "strip_uv": "UV stabilization — color stays true in normal outdoor use",
+    "strip_outdoor": "Suitable for outdoors, winter gardens, and humid interiors",
+    "strip_care": "Care: wipe dust with a damp cloth; avoid harsh solvents"
   },
   "catalog": {
     "all": "All",
@@ -163,7 +169,21 @@
     "w12": "1–2 kg",
     "w5": "5 kg",
     "w10": "10+ kg",
-    "empty": "No matches — reset filters or use the picker"
+    "empty": "No matches — reset filters or use the picker",
+    "brochure_kicker": "PDF catalog",
+    "brochure_lead": "Full catalog as PDF: browse on this page or download in one click.",
+    "brochure_cta": "Open PDF catalog"
+  },
+  "catalogBrochure": {
+    "meta_title": "PDF catalog",
+    "title": "Product catalog",
+    "breadcrumb": "PDF catalog",
+    "lead": "Browse every page below or save the file to your device.",
+    "hint_inline": "On phones, downloading and opening in the system viewer often works best.",
+    "download": "Download PDF",
+    "open_tab": "Open in new tab",
+    "viewer_title": "Bententrade catalog PDF",
+    "footer_note": "File: bententrade-catalog.pdf · for printing, use fit-to-page width."
   },
   "product": {
     "specs": "Specifications",
@@ -192,7 +212,12 @@
     "video_outdoor": "Outdoor test",
     "review_sample": "“Color matched the last batch — ordered another 10 kg.”",
     "delivery_text": "Delivery in Tashkent & regions. Return of unopened rolls within 7 days — by agreement.",
-    "usd_note": "Guide: 1 USD ≈ {rate} UZS (export — separate price list)."
+    "usd_note": "Guide: 1 USD ≈ {rate} UZS (export — separate price list).",
+    "material_title": "Material & care",
+    "material_intro": "Synthetic rattan based on polyethylene (PE) — the usual choice for outdoor furniture and decor.",
+    "material_b1": "No painting needed; long UV exposure may create a natural patina, like most PE goods.",
+    "material_b2": "Does not absorb water; wipe dry after rain if you like.",
+    "material_b3": "Keep away from open flame; avoid acetone/solvents — they can damage the polymer."
   },
   "cart": {
     "title": "Cart",
@@ -303,7 +328,8 @@
     "privacy": "Privacy",
     "offer": "Terms",
     "col_shop": "Shop",
-    "col_company": "Company"
+    "col_company": "Company",
+    "pdf_catalog": "PDF catalog"
   },
   "quiz": {
     "open": "Open picker",
@@ -345,8 +371,10 @@
     "snapshot_empty": "Empty",
     "snapshot_open": "Open cart",
     "orders_title": "Order history",
-    "orders_empty": "No orders yet — they appear here after you complete checkout.",
-    "orders_local_hint": "Stored in this browser only. Other devices or cleared data = empty history.",
+    "orders_need_phone": "Add and save your phone above — we load server orders for that number.",
+    "orders_loading": "Loading…",
+    "orders_empty": "No orders for this number yet — they show up here after checkout.",
+    "orders_local_hint": "Orders live in PostgreSQL (Railway). If the server was unreachable at checkout, a copy is kept in this browser and merged here.",
     "order_lines_count": "Items: {count}",
     "order_ship": "Shipping",
     "order_pay": "Payment",

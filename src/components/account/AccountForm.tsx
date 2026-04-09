@@ -5,6 +5,7 @@ import { trackEvent } from "@/lib/analytics";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
 import { readLocalProfile, writeLocalProfile } from "@/lib/local-profile";
+import { normalizePhone } from "@/lib/phone";
 import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
@@ -35,10 +36,14 @@ export function AccountForm() {
   }, [savedFlash]);
 
   const save = () => {
-    writeLocalProfile({ email, phone });
+    const emailTrim = email.trim();
+    const phoneNorm = normalizePhone(phone);
+    writeLocalProfile({ email: emailTrim, phone: phoneNorm });
+    setEmail(emailTrim);
+    setPhone(phoneNorm);
     trackEvent("profile_save", {
-      hasEmail: !!email.trim(),
-      hasPhone: !!phone.trim(),
+      hasEmail: !!emailTrim,
+      hasPhone: !!phoneNorm,
     });
     setSavedFlash(true);
   };
@@ -168,7 +173,7 @@ export function AccountForm() {
         </aside>
       </div>
 
-      <OrderHistory />
+      <OrderHistory profilePhone={phone} />
     </div>
   );
 }

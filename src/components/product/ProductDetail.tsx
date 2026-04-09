@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
 import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
@@ -143,6 +144,26 @@ export function ProductDetail({ product, related }: Props) {
               </li>
             ))}
           </ul>
+
+          <details className="group mt-8 rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent open:border-amber-500/30 open:shadow-[0_0_0_1px_rgba(245,158,11,0.12)]">
+            <summary className="cursor-pointer list-none px-5 py-4 text-sm font-semibold text-stone-100 outline-none transition marker:content-none [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center justify-between gap-3">
+                {t("material_title")}
+                <ChevronDown
+                  className="h-4 w-4 shrink-0 text-amber-500/75 motion-safe:transition-transform group-open:rotate-180"
+                  aria-hidden
+                />
+              </span>
+            </summary>
+            <div className="border-t border-white/[0.06] px-5 pb-5 pt-0">
+              <p className="pt-4 text-sm leading-relaxed text-stone-400">{t("material_intro")}</p>
+              <ul className="mt-4 list-disc space-y-2 pl-4 text-sm text-stone-400 marker:text-amber-500/60">
+                <li>{t("material_b1")}</li>
+                <li>{t("material_b2")}</li>
+                <li>{t("material_b3")}</li>
+              </ul>
+            </div>
+          </details>
 
           <div className="btt-glass mt-8 rounded-3xl p-5">
             <p className="text-sm font-semibold text-stone-200">{t("ladder_title")}</p>

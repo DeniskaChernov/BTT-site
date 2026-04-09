@@ -6,7 +6,7 @@ import { ORDERS_STORAGE_KEY, readOrders } from "@/lib/order-history";
 import { Link } from "@/i18n/navigation";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 function formatWhen(iso: string, locale: string): string {
   const d = Date.parse(iso);
@@ -19,35 +19,74 @@ function formatWhen(iso: string, locale: string): string {
   }).format(new Date(d));
 }
 
-export function OrderHistory() {
+type Props = {
+  profilePhone: string;
+};
+
+export function OrderHistory({ profilePhone }: Props) {
   const t = useTranslations("account");
   const tc = useTranslations("cart");
   const tch = useTranslations("checkout");
   const locale = useLocale();
 
-  const [orders, setOrders] = useState<StoredOrder[]>([]);
+  const [localOrders, setLocalOrders] = useState<StoredOrder[]>([]);
+  const [remoteOrders, setRemoteOrders] = useState<StoredOrder[] | undefined>(
+    undefined,
+  );
   const [openId, setOpenId] = useState<string | null>(null);
 
-  const refresh = useCallback(() => {
-    setOrders(readOrders());
+  const loadLocal = useCallback(() => {
+    setLocalOrders(readOrders());
   }, []);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    loadLocal();
+  }, [loadLocal]);
 
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (e.key === ORDERS_STORAGE_KEY || e.key === null) refresh();
+      if (e.key === ORDERS_STORAGE_KEY || e.key === null) loadLocal();
     };
-    const onCustom = () => refresh();
+    const onCustom = () => loadLocal();
     window.addEventListener("storage", onStorage);
     window.addEventListener("btt-orders-changed", onCustom);
     return () => {
       window.removeEventListener("storage", onStorage);
       window.removeEventListener("btt-orders-changed", onCustom);
     };
-  }, [refresh]);
+  }, [loadLocal]);
+
+  useEffect(() => {
+    const phone = profilePhone.trim();
+    if (!phone) {
+      setRemoteOrders([]);
+      return;
+    }
+    let cancelled = false;
+    setRemoteOrders(undefined);
+    fetch(`/api/orders?phone=${encodeURIComponent(phone)}`)
+      .then((res) => res.json())
+      .then((d: { orders?: StoredOrder[] }) => {
+        if (!cancelled) setRemoteOrders(Array.isArray(d.orders) ? d.orders : []);
+      })
+      .catch(() => {
+        if (!cancelled) setRemoteOrders([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [profilePhone]);
+
+  const orders = useMemo(() => {
+    const remote = remoteOrders ?? [];
+    const merged = new Map<string, StoredOrder>();
+    for (const o of [...localOrders, ...remote]) {
+      if (!merged.has(o.id)) merged.set(o.id, o);
+    }
+    return [...merged.values()].sort(
+      (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt),
+    );
+  }, [localOrders, remoteOrders]);
 
   const payKey = (pay: string) => {
     const map = {
@@ -61,6 +100,26 @@ export function OrderHistory() {
     const k = map[pay as keyof typeof map];
     return k ? tch(k) : pay;
   };
+
+  const loading = remoteOrders === undefined && profilePhone.trim().length > 0;
+
+  if (!profilePhone.trim()) {
+    return (
+      <section className="mt-12 border-t border-white/[0.08] pt-12">
+        <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
+        <p className="mt-3 text-sm text-stone-500">{t("orders_need_phone")}</p>
+      </section>
+    );
+  }
+
+  if (loading) {
+    return (
+      <section className="mt-12 border-t border-white/[0.08] pt-12">
+        <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
+        <p className="mt-4 text-sm text-stone-500">{t("orders_loading")}</p>
+      </section>
+    );
+  }
 
   if (orders.length === 0) {
     return (
@@ -121,9 +180,7 @@ export function OrderHistory() {
                       <dt className="text-xs uppercase tracking-wide text-stone-600">
                         {t("order_pay")}
                       </dt>
-                      <dd className="text-stone-300">
-                        {payKey(order.pay)}
-                      </dd>
+                      <dd className="text-stone-300">{payKey(order.pay)}</dd>
                     </div>
                     <div className="sm:col-span-2">
                       <dt className="text-xs uppercase tracking-wide text-stone-600">

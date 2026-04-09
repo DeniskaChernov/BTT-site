@@ -20,8 +20,24 @@ export function SocialProofSection() {
     },
   ];
 
+  const chips = [
+    { key: "pay", label: t("trust_payments") },
+    { key: "ship", label: t("trust_ship") },
+    { key: "batch", label: t("trust_batch") },
+  ];
+
   return (
     <section className="btt-container pb-20 pt-4 md:pb-28">
+      <div className="mb-8 flex flex-wrap justify-center gap-2 md:mb-10 md:gap-3">
+        {chips.map(({ key, label }) => (
+          <span
+            key={key}
+            className="rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-medium text-stone-400 backdrop-blur-sm md:text-sm"
+          >
+            {label}
+          </span>
+        ))}
+      </div>
       <div className="grid gap-6 md:grid-cols-2">
         {blocks.map((b, i) => (
           <motion.div

@@ -1,4 +1,4 @@
-/** История заказов в браузере (до появления API / ЛК на сервере) */
+/** История заказов в браузере; при успешном POST /api/orders подставляются id и createdAt с сервера */
 
 export const ORDERS_STORAGE_KEY = "btt-orders";
 const MAX_ORDERS = 80;
@@ -75,14 +75,19 @@ export function readOrders(): StoredOrder[] {
 
 export type AppendOrderInput = Omit<StoredOrder, "id" | "createdAt">;
 
-export function appendOrder(data: AppendOrderInput): StoredOrder {
+/** Если передан `server`, id/время берутся из ответа API (совпадают с PostgreSQL). */
+export function appendOrder(
+  data: AppendOrderInput,
+  server?: { id: string; createdAt: string },
+): StoredOrder {
   const order: StoredOrder = {
     ...data,
     id:
-      typeof crypto !== "undefined" && "randomUUID" in crypto
+      server?.id ??
+      (typeof crypto !== "undefined" && "randomUUID" in crypto
         ? crypto.randomUUID()
-        : `ord-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
-    createdAt: new Date().toISOString(),
+        : `ord-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`),
+    createdAt: server?.createdAt ?? new Date().toISOString(),
   };
 
   if (typeof window === "undefined") return order;

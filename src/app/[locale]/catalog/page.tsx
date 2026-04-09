@@ -1,5 +1,9 @@
 import { CatalogClient } from "@/components/catalog/CatalogClient";
+import { Link } from "@/i18n/navigation";
+import { bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import type { CategoryTab } from "@/types/product";
+import { FileDown } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
@@ -32,6 +36,26 @@ export default async function CatalogPage({ searchParams }: PageProps) {
         {t("title")}
       </h1>
       <p className="mt-4 max-w-2xl text-lg text-stone-400">{t("intro")}</p>
+
+      <div className="mt-8 flex flex-col gap-4 rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-950/30 to-stone-950/60 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/90">
+            {t("brochure_kicker")}
+          </p>
+          <p className="mt-2 max-w-xl text-sm text-stone-300">{t("brochure_lead")}</p>
+        </div>
+        <Link
+          href="/catalog/brochure"
+          className={cn(
+            bttPrimaryButtonClass,
+            "inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3 text-sm",
+          )}
+        >
+          <FileDown className="h-4 w-4" aria-hidden />
+          {t("brochure_cta")}
+        </Link>
+      </div>
+
       <CatalogClient
         key={`${tab}-${shape}`}
         initialTab={tab}

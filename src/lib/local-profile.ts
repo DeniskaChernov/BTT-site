@@ -1,5 +1,7 @@
 /** Локальный профиль (браузер), общий для account / checkout */
 
+import { normalizePhone } from "./phone";
+
 export const PROFILE_STORAGE_KEY = "btt-profile";
 export const LEGACY_PROFILE_PHONE_KEY = "btt-profile-phone";
 
@@ -39,7 +41,7 @@ export function writeLocalProfile(profile: LocalProfile): void {
       PROFILE_STORAGE_KEY,
       JSON.stringify({
         email: profile.email.trim(),
-        phone: profile.phone.trim(),
+        phone: normalizePhone(profile.phone),
       })
     );
     localStorage.removeItem(LEGACY_PROFILE_PHONE_KEY);

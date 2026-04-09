@@ -125,7 +125,13 @@
     "articles_kicker": "Materiallar",
     "articles_title": "Maqolalar va qo‘llanmalar",
     "articles_lead": "Materiallar, parvarish va xaridlar bo‘yicha sharhlar — bo‘lim rivojlanmoqda, yangilanishlarni kuzating.",
-    "articles_cta": "Maqolalarga o‘tish"
+    "articles_cta": "Maqolalarga o‘tish",
+    "strip_aria": "PE-rattan afzalliklari",
+    "strip_kicker": "Bententrade materiali",
+    "strip_pe": "PE (polietilen) — terasa mebeli kabi: egiluvchan va mustahkam",
+    "strip_uv": "UV barqarorligi — rang oddiy foydalanishda uzoq saqlanadi",
+    "strip_outdoor": "Kocha, qish bog‘lari va nam xonalar uchun mos",
+    "strip_care": "Parvarish: chang — nam mato; agressiv eritmalarisiz"
   },
   "catalog": {
     "all": "Hammasi",
@@ -163,7 +169,21 @@
     "w12": "1–2 kg",
     "w5": "5 kg",
     "w10": "10+ kg",
-    "empty": "Filtr bo‘yicha yo‘q — tozalang yoki tanlashni oching"
+    "empty": "Filtr bo‘yicha yo‘q — tozalang yoki tanlashni oching",
+    "brochure_kicker": "PDF-katalog",
+    "brochure_lead": "To‘liq katalog PDF: sahifada ko‘rish yoki bir marta bosib yuklab olish.",
+    "brochure_cta": "PDF-katalogni ochish"
+  },
+  "catalogBrochure": {
+    "meta_title": "PDF katalog",
+    "title": "Mahsulot katalogi",
+    "breadcrumb": "PDF-katalog",
+    "lead": "Barcha sahifalarni pastda ko‘ring yoki faylni qurilmangizga saqlang.",
+    "hint_inline": "Telefonda faylni yuklab, tizim ko‘ruvchisida ochish qulayroq bo‘lishi mumkin.",
+    "download": "PDF yuklab olish",
+    "open_tab": "Yangi varaqda ochish",
+    "viewer_title": "Bententrade katalogi, PDF",
+    "footer_note": "Fayl: bententrade-catalog.pdf · chop etishda sahifa kengligiga moslang."
   },
   "product": {
     "specs": "Xususiyatlar",
@@ -192,7 +212,12 @@
     "video_outdoor": "Kocha testi",
     "review_sample": "«Rang oldingi partiyaga tushdi — yana 10 kg buyurtma qildik.»",
     "delivery_text": "Toshkent va viloyatlar. Ochilmagan rulet 7 kun ichida qaytarish — kelishuv bilan.",
-    "usd_note": "Taxmin: 1 USD ≈ {rate} UZS (eksport — alohida narx)."
+    "usd_note": "Taxmin: 1 USD ≈ {rate} UZS (eksport — alohida narx).",
+    "material_title": "Material va parvarish",
+    "material_intro": "Sun’iy rattan polietilen (PE) asosida — kocha mebeli va dekor uchun standart.",
+    "material_b1": "Bo‘yash shart emas; uzoq UV ta’sirida tabiiy patina bo‘lishi mumkin — ko‘p PE mahsulotlarda shunday.",
+    "material_b2": "Suvni singdirmaydi; yomg‘irdan keyin quritib suring.",
+    "material_b3": "Ochiq olov yaqinida saqlamang; atseton/erituvchilardan saqlaning — polimer shikastlanishi mumkin."
   },
   "cart": {
     "title": "Savatcha",
@@ -303,7 +328,8 @@
     "privacy": "Maxfiylik",
     "offer": "Oferta",
     "col_shop": "Xaridorlar",
-    "col_company": "Kompaniya"
+    "col_company": "Kompaniya",
+    "pdf_catalog": "PDF-katalog"
   },
   "quiz": {
     "open": "Tanlashni ochish",
@@ -345,8 +371,10 @@
     "snapshot_empty": "Hozircha bo‘sh",
     "snapshot_open": "Savatchani ochish",
     "orders_title": "Buyurtmalar tarixi",
-    "orders_empty": "Hozircha yo‘q — muvaffaqiyatli buyurtmadan keyin shu yerda ko‘rinadi.",
-    "orders_local_hint": "Ro‘yxat faqat shu brauzerda saqlanadi. Boshqa qurilmada yoki tozalagandan keyin bo‘sh bo‘ladi.",
+    "orders_need_phone": "Yuqoridagi telefonni kiriting va saqlang — serverdagi buyurtmalar shu raqam bo‘yicha yuklanadi.",
+    "orders_loading": "Yuklanmoqda…",
+    "orders_empty": "Bu raqam bo‘yicha hozircha yo‘q — rasmiylashtirgach shu yerda paydo bo‘ladi.",
+    "orders_local_hint": "Buyurtmalar PostgreSQL (Railway) da. Server ishlamasa, nusxa brauzerda saqlanadi va ro‘yxat bilan birlashtiriladi.",
     "order_lines_count": "Pozitsiyalar: {count}",
     "order_ship": "Yetkazish",
     "order_pay": "To‘lov",

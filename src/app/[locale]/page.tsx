@@ -1,4 +1,5 @@
 import { CommerceHero } from "@/components/commerce-hero";
+import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
 import { ArticlesTeaser } from "@/components/home/ArticlesTeaser";
 import { HomeHits } from "@/components/home/HomeHits";
 import { SegmentSection } from "@/components/home/SegmentSection";
@@ -12,6 +13,7 @@ export default async function HomePage() {
   return (
     <>
       <CommerceHero />
+      <MaterialTrustStrip />
       <ArticlesTeaser />
       <SegmentSection />
       <HomeHits />
