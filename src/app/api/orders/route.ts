@@ -1,26 +1,9 @@
 import { prisma } from "@/lib/db";
+import { MAX_PHONE_CHARS, validateCreateOrderBody } from "@/lib/orders-api";
 import { normalizePhone } from "@/lib/phone";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
-
-type OrderLineInput = {
-  sku: string;
-  slug: string;
-  name: string;
-  qtyKg: number;
-  lineTotalUz: number;
-};
-
-type CreateBody = {
-  totalUz: number;
-  lines: OrderLineInput[];
-  pay: string;
-  ship: string;
-  customerName: string;
-  phone: string;
-  address?: string;
-};
 
 export async function POST(request: Request) {
   if (!process.env.DATABASE_URL) {
@@ -30,11 +13,21 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: CreateBody;
+  let raw: unknown;
   try {
-    body = (await request.json()) as CreateBody;
+    raw = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const validated = validateCreateOrderBody(raw);
+  if (typeof validated === "string") {
+    const is422 =
+      validated === "Invalid pay method" || validated === "Invalid shipping";
+    return NextResponse.json(
+      { error: validated },
+      { status: is422 ? 422 : 400 },
+    );
   }
 
   const {
@@ -45,38 +38,12 @@ export async function POST(request: Request) {
     customerName,
     phone,
     address = "",
-  } = body;
-
-  if (
-    typeof totalUz !== "number" ||
-    !Number.isFinite(totalUz) ||
-    totalUz < 0 ||
-    !Array.isArray(lines) ||
-    lines.length === 0 ||
-    typeof pay !== "string" ||
-    typeof ship !== "string" ||
-    typeof customerName !== "string" ||
-    typeof phone !== "string" ||
-    !phone.trim()
-  ) {
-    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-  }
-
-  for (const line of lines) {
-    if (
-      typeof line.sku !== "string" ||
-      typeof line.slug !== "string" ||
-      typeof line.name !== "string" ||
-      typeof line.qtyKg !== "number" ||
-      !Number.isFinite(line.qtyKg) ||
-      typeof line.lineTotalUz !== "number" ||
-      !Number.isFinite(line.lineTotalUz)
-    ) {
-      return NextResponse.json({ error: "Invalid line" }, { status: 400 });
-    }
-  }
+  } = validated;
 
   const phoneNorm = normalizePhone(phone);
+  if (!phoneNorm || phoneNorm.length > MAX_PHONE_CHARS) {
+    return NextResponse.json({ error: "Invalid phone" }, { status: 400 });
+  }
 
   try {
     const order = await prisma.order.create({
@@ -84,7 +51,7 @@ export async function POST(request: Request) {
         totalUz: Math.round(totalUz),
         pay,
         ship,
-        customerName: customerName.trim(),
+        customerName,
         phone: phoneNorm,
         address: address.trim() || null,
         lines: {
@@ -122,6 +89,9 @@ export async function GET(request: Request) {
   }
 
   const phoneNorm = normalizePhone(phone);
+  if (!phoneNorm || phoneNorm.length > MAX_PHONE_CHARS) {
+    return NextResponse.json({ error: "Invalid phone" }, { status: 400 });
+  }
 
   try {
     const rows = await prisma.order.findMany({
@@ -152,6 +122,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ orders });
   } catch (e) {
     console.error("[api/orders GET]", e);
-    return NextResponse.json({ error: "Failed to load orders" }, { status: 500 });
+    return NextResponse.json({ orders: [] });
   }
 }

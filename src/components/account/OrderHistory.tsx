@@ -3,6 +3,7 @@
 import { formatUzs } from "@/lib/pricing";
 import type { StoredOrder } from "@/lib/order-history";
 import { ORDERS_STORAGE_KEY, readOrders } from "@/lib/order-history";
+import { normalizePhone } from "@/lib/phone";
 import { Link } from "@/i18n/navigation";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -57,17 +58,25 @@ export function OrderHistory({ profilePhone }: Props) {
   }, [loadLocal]);
 
   useEffect(() => {
-    const phone = profilePhone.trim();
-    if (!phone) {
+    const phoneNorm = normalizePhone(profilePhone);
+    if (!phoneNorm) {
       setRemoteOrders([]);
       return;
     }
     let cancelled = false;
     setRemoteOrders(undefined);
-    fetch(`/api/orders?phone=${encodeURIComponent(phone)}`)
-      .then((res) => res.json())
-      .then((d: { orders?: StoredOrder[] }) => {
-        if (!cancelled) setRemoteOrders(Array.isArray(d.orders) ? d.orders : []);
+    fetch(`/api/orders?phone=${encodeURIComponent(phoneNorm)}`)
+      .then(async (res) => {
+        if (!res.ok) return [];
+        try {
+          const d = (await res.json()) as { orders?: StoredOrder[] };
+          return Array.isArray(d.orders) ? d.orders : [];
+        } catch {
+          return [];
+        }
+      })
+      .then((list) => {
+        if (!cancelled) setRemoteOrders(list);
       })
       .catch(() => {
         if (!cancelled) setRemoteOrders([]);
@@ -101,9 +110,10 @@ export function OrderHistory({ profilePhone }: Props) {
     return k ? tch(k) : pay;
   };
 
-  const loading = remoteOrders === undefined && profilePhone.trim().length > 0;
+  const phoneForHistory = normalizePhone(profilePhone);
+  const loading = remoteOrders === undefined && phoneForHistory.length > 0;
 
-  if (!profilePhone.trim()) {
+  if (!phoneForHistory) {
     return (
       <section className="mt-12 border-t border-white/[0.08] pt-12">
         <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
