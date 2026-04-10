@@ -123,7 +123,12 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
         <Link
           href={href}
           aria-current={isActive ? "page" : undefined}
-          className="block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-stone-400 transition-colors hover:text-stone-100 md:px-5 md:py-3 md:text-base"
+          className={cn(
+            "block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide transition-colors md:px-5 md:py-3 md:text-base",
+            isActive
+              ? "text-stone-50"
+              : "text-stone-400 hover:text-stone-100",
+          )}
         >
           {children}
         </Link>
@@ -144,7 +149,7 @@ function SlideCursor({ position }: { position: CursorPosition }) {
         opacity: position.opacity,
       }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-white/[0.14]"
+      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-gradient-to-b from-amber-500/25 via-white/[0.12] to-orange-950/30 shadow-[0_0_24px_rgba(245,158,11,0.12)] ring-1 ring-white/10"
     />
   );
 }

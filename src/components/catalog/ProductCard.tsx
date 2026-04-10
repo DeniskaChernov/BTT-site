@@ -8,7 +8,8 @@ import { formatUzs, getPricePerKgForQty } from "@/lib/pricing";
 import { trackEvent } from "@/lib/analytics";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Check, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -20,6 +21,8 @@ type Props = {
 export function ProductCard({ product }: Props) {
   const locale = useLocale() as Locale;
   const t = useTranslations("common");
+  const col = useTranslations("collective");
+  const tc = useTranslations("cart");
   const c = useTranslations("catalog");
   const { add } = useCart();
   const [toast, setToast] = useState(false);
@@ -52,21 +55,32 @@ export function ProductCard({ product }: Props) {
   return (
     <motion.article
       layout
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition duration-300 hover:border-amber-500/25 hover:shadow-[0_20px_60px_-15px_rgba(245,158,11,0.15)]"
-      whileHover={{ y: -4 }}
+      className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition duration-300 hover:border-amber-500/30 hover:shadow-[0_24px_64px_-12px_rgba(245,158,11,0.18)]"
+      whileHover={{ y: -5 }}
     >
-      <Link href={`/product/${product.slug}`} className="block">
+      <Link href={`/product/${product.slug}`} className="block outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]">
         <div className="relative aspect-square overflow-hidden bg-stone-950">
           <Image
             src={img}
             alt={name}
             fill
             sizes="(max-width:768px) 100vw, 33vw"
-            className="object-cover transition duration-700 group-hover:scale-105"
+            className="object-cover transition duration-700 ease-out group-hover:scale-[1.06]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 transition group-hover:opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition duration-300 group-hover:opacity-90" />
+          <div className="absolute bottom-4 left-4 right-4 flex translate-y-3 items-center justify-between opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 text-xs font-semibold text-stone-100 shadow-lg backdrop-blur-md">
+              {t("learn_more")}
+              <ArrowRight className="h-3.5 w-3.5 text-amber-400" aria-hidden />
+            </span>
+          </div>
+          {product.collective && (
+            <span className="absolute right-3 top-3 rounded-full border border-amber-400/50 bg-amber-950/90 px-2.5 py-1 text-xs font-semibold text-amber-200 shadow-lg backdrop-blur-sm">
+              {col("card_badge")}
+            </span>
+          )}
           {product.lowStock && (
-            <span className="absolute left-3 top-3 rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-2.5 py-1 text-xs font-semibold text-white shadow-lg">
+            <span className="absolute left-3 top-3 rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-2.5 py-1 text-xs font-semibold text-white shadow-lg ring-1 ring-white/20">
               {t("low_stock")}
             </span>
           )}
@@ -93,19 +107,28 @@ export function ProductCard({ product }: Props) {
         <button
           type="button"
           onClick={onAdd}
-          className={cn(bttPrimaryButtonClass, "w-full")}
+          className={cn(
+            bttPrimaryButtonClass,
+            "btt-focus flex w-full items-center justify-center gap-2 active:scale-[0.98]",
+          )}
         >
+          <ShoppingBag className="h-4 w-4 opacity-90" aria-hidden />
           {t("add_cart")}
         </button>
-        {toast && (
-          <motion.p
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-2 text-center text-xs font-medium text-emerald-400"
-          >
-            ✓ {t("add_cart")}
-          </motion.p>
-        )}
+        <AnimatePresence>
+          {toast && (
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.2 }}
+              className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400"
+            >
+              <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
+              {tc("added_flash")}
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
     </motion.article>
   );

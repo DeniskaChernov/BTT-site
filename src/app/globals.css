@@ -126,6 +126,17 @@
     background-size: 200% 100%;
     animation: btt-shimmer 4s ease-in-out infinite;
   }
+
+  /* Интерактив: фокус и «живые» карточки */
+  .btt-interactive-lift {
+    @apply transition-[transform,box-shadow,border-color] duration-300 ease-out;
+  }
+  .btt-interactive-lift:hover {
+    @apply -translate-y-0.5 shadow-lg shadow-amber-950/20;
+  }
+  .btt-focus {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--btt-bg)];
+  }
 }
 
 @keyframes btt-shimmer {

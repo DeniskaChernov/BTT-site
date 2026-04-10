@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint, types, tests
+        run: npm run verify
+
+      - name: Build
+        run: npm run build
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/ci?schema=public

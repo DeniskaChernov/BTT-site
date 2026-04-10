@@ -1,10 +1,11 @@
+import { CollectiveHomeTeaser } from "@/components/collective/CollectiveHomeTeaser";
 import { CommerceHero } from "@/components/commerce-hero";
 import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
 import { ArticlesTeaser } from "@/components/home/ArticlesTeaser";
 import { HomeHits } from "@/components/home/HomeHits";
 import { SegmentSection } from "@/components/home/SegmentSection";
 import { SocialProofSection } from "@/components/home/SocialProofSection";
-import { RattanQuiz } from "@/components/quiz/RattanQuiz";
+import { RattanQuizLazy } from "@/components/quiz/RattanQuizLazy";
 import { getTranslations } from "next-intl/server";
 
 export default async function HomePage() {
@@ -13,6 +14,7 @@ export default async function HomePage() {
   return (
     <>
       <CommerceHero />
+      <CollectiveHomeTeaser />
       <MaterialTrustStrip />
       <ArticlesTeaser />
       <SegmentSection />
@@ -30,7 +32,7 @@ export default async function HomePage() {
             <p className="mt-3 text-stone-400">{t("quiz_sub")}</p>
           </div>
           <div className="mx-auto mt-12 max-w-4xl">
-            <RattanQuiz />
+            <RattanQuizLazy />
           </div>
         </div>
       </section>

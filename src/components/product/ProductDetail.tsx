@@ -6,10 +6,11 @@ import { useCart } from "@/contexts/CartContext";
 import { formatUzs, getPricePerKgForQty, UZS_PER_USD } from "@/lib/pricing";
 import { bttFieldCompactClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
+import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
 import { trackEvent } from "@/lib/analytics";
 import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Play, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
@@ -91,9 +92,12 @@ export function ProductDetail({ product, related }: Props) {
                 aria-label={t("gallery_pick", { number: i + 1 })}
                 aria-current={activeImg === i ? true : undefined}
                 onClick={() => setActiveImg(i)}
-                className={`relative aspect-square overflow-hidden rounded-lg border-2 ${
-                  activeImg === i ? "border-amber-500 ring-2 ring-amber-500/30" : "border-transparent opacity-70 hover:opacity-100"
-                }`}
+                className={cn(
+                  "relative aspect-square overflow-hidden rounded-lg border-2 transition duration-200",
+                  activeImg === i
+                    ? "border-amber-400 opacity-100 shadow-lg shadow-amber-900/30 ring-2 ring-amber-500/35"
+                    : "border-transparent opacity-70 hover:opacity-100 hover:ring-1 hover:ring-white/20",
+                )}
               >
                 <Image src={src} alt="" fill className="object-cover" sizes="80px" />
               </button>
@@ -112,9 +116,16 @@ export function ProductDetail({ product, related }: Props) {
               ).map((k) => (
                 <div
                   key={k}
-                  className="flex aspect-video items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.03] text-sm text-stone-500 backdrop-blur-sm"
+                  className="group relative flex aspect-video cursor-default items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/15 bg-white/[0.03] text-sm text-stone-500 backdrop-blur-sm transition duration-300 hover:border-amber-500/35 hover:bg-white/[0.06]"
                 >
-                  {t(k)} — demo
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition group-hover:bg-black/25">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-amber-200 opacity-0 shadow-lg ring-1 ring-white/20 transition group-hover:opacity-100">
+                      <Play className="ml-0.5 h-5 w-5 fill-current" aria-hidden />
+                    </span>
+                  </span>
+                  <span className="relative z-[1] px-3 text-center">
+                    {t(k)} — demo
+                  </span>
                 </div>
               ))}
             </div>
@@ -145,8 +156,8 @@ export function ProductDetail({ product, related }: Props) {
             ))}
           </ul>
 
-          <details className="group mt-8 rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent open:border-amber-500/30 open:shadow-[0_0_0_1px_rgba(245,158,11,0.12)]">
-            <summary className="cursor-pointer list-none px-5 py-4 text-sm font-semibold text-stone-100 outline-none transition marker:content-none [&::-webkit-details-marker]:hidden">
+          <details className="group mt-8 rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent open:border-amber-500/35 open:shadow-[0_0_24px_rgba(245,158,11,0.08)]">
+            <summary className="btt-focus cursor-pointer list-none rounded-2xl px-5 py-4 text-sm font-semibold text-stone-100 outline-none transition marker:content-none [&::-webkit-details-marker]:hidden">
               <span className="flex items-center justify-between gap-3">
                 {t("material_title")}
                 <ChevronDown
@@ -168,13 +179,13 @@ export function ProductDetail({ product, related }: Props) {
           <div className="btt-glass mt-8 rounded-3xl p-5">
             <p className="text-sm font-semibold text-stone-200">{t("ladder_title")}</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-3">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-center">
+              <div className="btt-interactive-lift rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-center">
                 <p className="text-xs text-stone-500">{t("ladder_12")}</p>
                 <p className="mt-1 font-bold tabular-nums text-stone-100">
                   {formatUzs(product.priceUz.t12)}
                 </p>
               </div>
-              <div className="relative rounded-2xl border-2 border-amber-500/60 bg-gradient-to-b from-amber-950/40 to-stone-950/80 p-3 text-center shadow-lg shadow-amber-900/20">
+              <div className="relative rounded-2xl border-2 border-amber-500/60 bg-gradient-to-b from-amber-950/40 to-stone-950/80 p-3 text-center shadow-lg shadow-amber-900/20 ring-1 ring-amber-400/20">
                 <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-2 py-0.5 text-[10px] font-bold uppercase text-white shadow-md">
                   {t("ladder_anchor_badge")}
                 </span>
@@ -183,7 +194,7 @@ export function ProductDetail({ product, related }: Props) {
                   {formatUzs(product.priceUz.t5)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-center">
+              <div className="btt-interactive-lift rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-center">
                 <p className="text-xs text-stone-500">{t("ladder_10")}</p>
                 <p className="mt-1 font-bold tabular-nums text-stone-100">
                   {formatUzs(product.priceUz.t10)}
@@ -194,6 +205,14 @@ export function ProductDetail({ product, related }: Props) {
               {t("usd_note", { rate: UZS_PER_USD.toLocaleString() })}
             </p>
           </div>
+
+          {product.collective ? (
+            <CollectivePdpPanel
+              product={product}
+              collective={product.collective}
+              locale={locale}
+            />
+          ) : null}
 
           <div className="mt-6 flex flex-wrap items-end gap-4">
             <label className="grid gap-1 text-sm">
@@ -225,21 +244,28 @@ export function ProductDetail({ product, related }: Props) {
             <motion.button
               type="button"
               onClick={onAdd}
-              className={bttPrimaryButtonClass}
+              className={cn(
+                bttPrimaryButtonClass,
+                "btt-focus inline-flex items-center justify-center gap-2",
+              )}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
+              <ShoppingBag className="h-4 w-4" aria-hidden />
               {c("add_cart")}
             </motion.button>
-            <button
+            <motion.button
               type="button"
               onClick={oneClick}
-              className="btt-glass-cta rounded-full px-6 py-3 text-sm font-semibold"
+              className="btt-glass-cta inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {c("one_click")}
-            </button>
+            </motion.button>
             <Link
               href="/#quiz"
-              className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/40"
+              className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/45 hover:bg-white/[0.04] active:scale-[0.98]"
             >
               {c("pick_2m")}
             </Link>
@@ -288,23 +314,26 @@ export function ProductDetail({ product, related }: Props) {
             <Link
               key={p.sku}
               href={`/product/${p.slug}`}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-amber-500/30 hover:shadow-xl"
+              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-500/35 hover:shadow-xl hover:shadow-amber-950/20"
             >
-              <div className="relative aspect-square">
+              <div className="relative aspect-square overflow-hidden">
                 <Image
                   src={`https://picsum.photos/seed/${p.imageSeed}/400/400`}
                   alt={p.names[locale]}
                   fill
                   className="object-cover transition duration-500 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition group-hover:opacity-100" />
               </div>
-              <div className="p-3 text-sm font-medium text-stone-200">{p.names[locale]}</div>
+              <div className="p-3 text-sm font-medium text-stone-200 transition group-hover:text-amber-100/95">
+                {p.names[locale]}
+              </div>
             </Link>
           ))}
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/85 p-4 backdrop-blur-xl lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden">
         <div className="btt-container flex items-center justify-between gap-3">
           <div>
             <p className="text-xs text-stone-500">{c("per_kg")}</p>
@@ -313,8 +342,12 @@ export function ProductDetail({ product, related }: Props) {
           <button
             type="button"
             onClick={onAdd}
-            className={cn(bttPrimaryButtonClass, "px-5")}
+            className={cn(
+              bttPrimaryButtonClass,
+              "btt-focus inline-flex items-center gap-2 px-5 active:scale-[0.98]",
+            )}
           >
+            <ShoppingBag className="h-4 w-4" aria-hidden />
             {c("add_cart")}
           </button>
         </div>

@@ -12,9 +12,17 @@
     "db:migrate": "prisma migrate deploy",
     "db:resolve-init": "prisma migrate resolve --applied 20260408120000_init_orders",
     "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
     "start": "prisma migrate deploy && next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "verify": "npm run lint && npm run typecheck && npm run test",
+    "validate": "npm run verify && npm run build"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
@@ -39,15 +47,17 @@
     "@swc/helpers": "0.5.21"
   },
   "devDependencies": {
-    "prisma": "^6.19.0",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9",
     "eslint-config-next": "15.2.8",
     "postcss": "^8",
+    "prisma": "^6.19.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

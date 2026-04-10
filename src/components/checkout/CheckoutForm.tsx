@@ -6,7 +6,7 @@ import { readUtmFromSearch, trackEvent } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { appendOrder } from "@/lib/order-history";
-import { normalizePhone } from "@/lib/phone";
+import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import { readLocalProfile } from "@/lib/local-profile";
 import {
   bttFieldClass,
@@ -60,8 +60,16 @@ export function CheckoutForm() {
     setErr(null);
     if (submitting) return;
     if (lines.length === 0) return;
+    if (!name.trim()) {
+      setErr(t("error_name"));
+      return;
+    }
     if (!phone.trim()) {
       setErr(t("error_phone"));
+      return;
+    }
+    if (!isMeaningfulPhone(normalizePhone(phone))) {
+      setErr(t("error_phone_format"));
       return;
     }
     if (ship === "courier" && !address.trim()) {
@@ -119,6 +127,12 @@ export function CheckoutForm() {
             appendOrder(orderBody);
           }
           serverOk = true;
+        } else if (res.status === 429) {
+          setErr(t("error_rate_limit"));
+          return;
+        } else if (res.status >= 400 && res.status < 500) {
+          setErr(t("error_validation"));
+          return;
         } else {
           appendOrder(orderBody);
           serverOk = false;
@@ -158,7 +172,7 @@ export function CheckoutForm() {
           <button
             type="button"
             onClick={() => router.push("/catalog")}
-            className={cn(bttPrimaryButtonClass, "mt-6")}
+            className={cn(bttPrimaryButtonClass, "btt-focus mt-6 active:scale-[0.99]")}
           >
             {t("cta_catalog")}
           </button>
@@ -187,6 +201,11 @@ export function CheckoutForm() {
               {t("one_click_title")}: {t("one_click_hint")}
             </p>
           )}
+          {err ? (
+            <p className="mt-4 rounded-2xl border border-red-500/35 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert">
+              {err}
+            </p>
+          ) : null}
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
@@ -195,7 +214,10 @@ export function CheckoutForm() {
             <input
               required
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setErr(null);
+                setName(e.target.value);
+              }}
               autoComplete="name"
               className={bttFieldClass}
             />
@@ -207,7 +229,10 @@ export function CheckoutForm() {
               type="tel"
               inputMode="tel"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setErr(null);
+                setPhone(e.target.value);
+              }}
               autoComplete="tel"
               className={bttFieldClass}
             />
@@ -217,7 +242,10 @@ export function CheckoutForm() {
           {c("address")}
           <input
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => {
+              setErr(null);
+              setAddress(e.target.value);
+            }}
             autoComplete="street-address"
             disabled={ship === "pickup"}
             placeholder={ship === "pickup" ? t("pickup_no_address") : undefined}
@@ -230,7 +258,10 @@ export function CheckoutForm() {
           <div className="mt-2 flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => setShip("courier")}
+              onClick={() => {
+                setErr(null);
+                setShip("courier");
+              }}
               className={
                 ship === "courier"
                   ? bttPillButtonActiveClass
@@ -241,7 +272,10 @@ export function CheckoutForm() {
             </button>
             <button
               type="button"
-              onClick={() => setShip("pickup")}
+              onClick={() => {
+                setErr(null);
+                setShip("pickup");
+              }}
               className={
                 ship === "pickup"
                   ? bttPillButtonActiveClass
@@ -285,11 +319,6 @@ export function CheckoutForm() {
             ))}
           </div>
           <p className="mt-2 text-xs text-stone-500">{t("delivery_note")}</p>
-          {err ? (
-            <p className="mt-2 text-sm text-red-400" role="alert">
-              {err}
-            </p>
-          ) : null}
         </div>
 
         <button
@@ -298,7 +327,7 @@ export function CheckoutForm() {
           aria-busy={submitting}
           className={cn(
             bttPrimaryButtonClass,
-            "px-8 py-3.5",
+            "btt-focus px-8 py-3.5 active:scale-[0.99]",
             submitting && "pointer-events-none opacity-70",
           )}
         >

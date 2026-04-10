@@ -4,6 +4,25 @@ export type ApplicationFilter = "outdoor" | "indoor" | "both";
 export type StockFilter = "in_stock" | "on_order";
 export type CategoryTab = "material" | "planter" | "new";
 
+/** Тир цены за кг из лестницы объёма (см. priceUz) */
+export type PriceLadderTier = "t12" | "t5" | "t10";
+
+/** Активная витринная кампания коллективного заказа (данные синхронизируйте с ботом / API) */
+export type CollectiveCampaign = {
+  /** Параметр deep link: https://t.me/bot?start=<botStartParam> */
+  botStartParam: string;
+  targetKg: number;
+  currentKg: number;
+  /** ISO 8601 — дедлайн набора партии */
+  deadlineAt: string;
+  /** Подсказка о предоплате, % */
+  depositPct?: number;
+  /** «Обычная» цена на витрине (для сравнения) */
+  retailPriceTier?: PriceLadderTier;
+  /** Цена при участии в коллективе */
+  collectivePriceTier?: PriceLadderTier;
+};
+
 export type Product = {
   id: string;
   slug: string;
@@ -23,4 +42,5 @@ export type Product = {
   imageSeed: string;
   /** low stock hint for scarcity (optional, real business should sync) */
   lowStock?: boolean;
+  collective?: CollectiveCampaign;
 };

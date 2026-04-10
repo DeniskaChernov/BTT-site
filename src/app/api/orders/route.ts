@@ -1,9 +1,14 @@
 import { MAX_ORDER_JSON_BYTES } from "@/lib/api-limits";
 import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
+import { notifyCrmOrderCreated } from "@/lib/crm-webhook";
 import { prisma } from "@/lib/db";
 import { log } from "@/lib/logger";
-import { MAX_PHONE_CHARS, validateCreateOrderBody } from "@/lib/orders-api";
-import { normalizePhone } from "@/lib/phone";
+import { requestIdFrom } from "@/lib/request-id";
+import {
+  validateCreateOrderBody,
+  validateOrderAgainstCatalog,
+} from "@/lib/orders-api";
+import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import {
   allowGetOrders,
   allowPostOrder,
@@ -24,6 +29,8 @@ function isDbConnectionError(e: unknown): boolean {
 }
 
 export async function POST(request: Request) {
+  const requestId = requestIdFrom(request);
+
   if (!process.env.DATABASE_URL) {
     return apiJsonError(
       503,
@@ -69,6 +76,11 @@ export async function POST(request: Request) {
     );
   }
 
+  const catalogOk = validateOrderAgainstCatalog(validated);
+  if (catalogOk !== true) {
+    return apiJsonError(400, ApiErrorCode.VALIDATION, catalogOk);
+  }
+
   const {
     totalUz,
     lines,
@@ -80,7 +92,7 @@ export async function POST(request: Request) {
   } = validated;
 
   const phoneNorm = normalizePhone(phone);
-  if (!phoneNorm || phoneNorm.length > MAX_PHONE_CHARS) {
+  if (!isMeaningfulPhone(phoneNorm)) {
     return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
   }
 
@@ -106,12 +118,14 @@ export async function POST(request: Request) {
       include: { lines: true },
     });
 
+    notifyCrmOrderCreated(order, requestId);
+
     return NextResponse.json({
       id: order.id,
       createdAt: order.createdAt.toISOString(),
     });
   } catch (e) {
-    log.error("api/orders POST", e);
+    log.error("api/orders POST", e, requestId ? { requestId } : undefined);
     if (isDbConnectionError(e)) {
       return apiJsonError(
         503,
@@ -131,6 +145,8 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  const requestId = requestIdFrom(request);
+
   if (!process.env.DATABASE_URL) {
     return NextResponse.json({ orders: [] });
   }
@@ -142,7 +158,7 @@ export async function GET(request: Request) {
   }
 
   const phoneNorm = normalizePhone(phone);
-  if (!phoneNorm || phoneNorm.length > MAX_PHONE_CHARS) {
+  if (!isMeaningfulPhone(phoneNorm)) {
     return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
   }
 
@@ -184,6 +200,7 @@ export async function GET(request: Request) {
   } catch (e) {
     log.error("api/orders GET", e, {
       connection: isDbConnectionError(e),
+      ...(requestId ? { requestId } : {}),
     });
     return NextResponse.json({ orders: [] });
   }

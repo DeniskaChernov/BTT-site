@@ -6,6 +6,7 @@ import { formatUzs } from "@/lib/pricing";
 import { bttFieldStepperInputClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { Home, ShoppingBag } from "lucide-react";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 export function CartView() {
@@ -21,8 +22,13 @@ export function CartView() {
   if (lines.length === 0) {
     return (
       <div className="btt-container py-16 text-center md:py-24">
-        <div className="mx-auto flex max-w-md flex-col items-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-stone-400">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto flex max-w-md flex-col items-center"
+        >
+          <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-stone-400 shadow-inner shadow-black/30">
             <ShoppingBag className="h-8 w-8" aria-hidden />
           </span>
           <p className="mt-6 text-xl font-semibold text-stone-100">{t("empty")}</p>
@@ -44,7 +50,7 @@ export function CartView() {
               {t("empty_home")}
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -58,9 +64,12 @@ export function CartView() {
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
         <ul className="space-y-4">
           {lines.map((l) => (
-            <li
+            <motion.li
               key={l.sku}
-              className="btt-glass grid grid-cols-1 gap-4 p-5 sm:grid-cols-[1fr_auto_auto] sm:items-center"
+              layout
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="btt-glass btt-interactive-lift grid grid-cols-1 gap-4 border-white/[0.06] p-5 sm:grid-cols-[1fr_auto_auto] sm:items-center"
             >
               <div>
                 <Link
@@ -119,10 +128,10 @@ export function CartView() {
               <p className="text-lg font-semibold tabular-nums text-amber-400 sm:text-right">
                 {formatUzs(lineTotalUz(l))}
               </p>
-            </li>
+            </motion.li>
           ))}
         </ul>
-        <aside className="btt-glass-strong h-fit rounded-3xl p-6">
+        <aside className="btt-glass-strong h-fit rounded-3xl p-6 ring-1 ring-amber-500/10">
           <p className="text-sm font-medium text-stone-400">{t("subtotal")}</p>
           <p className="mt-2 text-3xl font-bold tabular-nums text-stone-50">
             {formatUzs(subtotalUz)}
@@ -131,7 +140,7 @@ export function CartView() {
             href="/checkout"
             className={cn(
               bttPrimaryButtonClass,
-              "mt-8 flex w-full justify-center py-3.5",
+              "btt-focus mt-8 flex w-full justify-center py-3.5 transition active:scale-[0.99]",
             )}
           >
             {t("to_checkout")}

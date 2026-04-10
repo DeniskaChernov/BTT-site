@@ -6,9 +6,17 @@ import type { CategoryTab } from "@/types/product";
 import { FileDown } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata() {
-  const t = await getTranslations("catalog");
-  return { title: `${t("title")} | Bententrade` };
+type MetadataProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: MetadataProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "catalog" });
+  return {
+    title: `${t("title")} | Bententrade`,
+    description: t("intro"),
+  };
 }
 
 const TABS: CategoryTab[] = ["material", "planter", "new"];

@@ -5,7 +5,12 @@ import { products } from "@/data/products";
 import type { Locale } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { trackEvent } from "@/lib/analytics";
-import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import {
+  bttFieldClass,
+  bttPrimaryButtonClass,
+  bttQuizChipClass,
+  bttQuizOptionClass,
+} from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
@@ -123,7 +128,7 @@ export function RattanQuiz() {
           <button
             type="button"
             onClick={start}
-            className={cn(bttPrimaryButtonClass, "shadow-btt-sm")}
+            className={cn(bttPrimaryButtonClass, "btt-focus shadow-btt-sm active:scale-[0.99]")}
           >
             {t("open")}
           </button>
@@ -154,7 +159,7 @@ export function RattanQuiz() {
                   setSegment(val);
                   setStep(2);
                 }}
-                className="rounded-btt border border-white/15 bg-stone-950/50 px-4 py-4 text-left text-sm font-semibold hover:border-amber-500/50"
+                className={cn(bttQuizOptionClass, "px-4 py-4")}
               >
                 {t(key as "novice")}
               </button>
@@ -177,7 +182,7 @@ export function RattanQuiz() {
                 setProductKind("material");
                 setStep(3);
               }}
-              className="rounded-btt border border-white/15 px-4 py-4 text-left hover:border-amber-500/50"
+              className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
               {t("kind_material")}
             </button>
@@ -187,7 +192,7 @@ export function RattanQuiz() {
                 setProductKind("planter");
                 setStep(3);
               }}
-              className="rounded-btt border border-white/15 px-4 py-4 text-left hover:border-amber-500/50"
+              className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
               {t("kind_planter")}
             </button>
@@ -217,7 +222,7 @@ export function RattanQuiz() {
                   setPlace(val);
                   setStep(4);
                 }}
-                className="rounded-btt border border-white/15 px-4 py-3 text-sm font-semibold hover:border-amber-500/50"
+                className={cn(bttQuizOptionClass, "px-4 py-3 text-sm")}
               >
                 {c(key)}
               </button>
@@ -248,7 +253,7 @@ export function RattanQuiz() {
                   setVol(val);
                   setStep(5);
                 }}
-                className="rounded-btt border border-white/15 px-4 py-3 text-sm font-semibold hover:border-amber-500/50"
+                className={cn(bttQuizOptionClass, "px-4 py-3 text-sm")}
               >
                 {c(key)}
               </button>
@@ -259,7 +264,7 @@ export function RattanQuiz() {
                 setVol("unknown");
                 setStep(5);
               }}
-              className="rounded-btt border border-white/15 px-4 py-3 text-sm font-semibold hover:border-amber-500/50 md:col-span-2"
+              className={cn(bttQuizOptionClass, "px-4 py-3 text-sm md:col-span-2")}
             >
               {t("opt_unknown")}
             </button>
@@ -287,7 +292,7 @@ export function RattanQuiz() {
                   key={id}
                   type="button"
                   onClick={() => onTime(t(key))}
-                  className="rounded-full border border-white/15 px-4 py-2 text-sm hover:border-amber-500/50"
+                  className={bttQuizChipClass}
                 >
                   {t(key)}
                 </button>
@@ -346,7 +351,7 @@ export function RattanQuiz() {
             <button
               type="button"
               onClick={submitQuote}
-              className={bttPrimaryButtonClass}
+              className={cn(bttPrimaryButtonClass, "btt-focus active:scale-[0.99]")}
             >
               {common("submit")}
             </button>
@@ -365,20 +370,23 @@ export function RattanQuiz() {
               {recommended.map((p) => (
                 <div
                   key={p.sku}
-                  className="rounded-btt border border-white/15 p-4"
+                  className="btt-interactive-lift rounded-btt border border-white/15 bg-white/[0.02] p-4 transition hover:border-amber-500/25"
                 >
                   <p className="font-medium">{p.names[locale]}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => add(p, p.names[locale], pickQtyKg())}
-                      className={cn(bttPrimaryButtonClass, "px-3 py-1.5 text-xs")}
+                      className={cn(
+                        bttPrimaryButtonClass,
+                        "btt-focus px-3 py-1.5 text-xs active:scale-[0.98]",
+                      )}
                     >
                       {t("add_combo")}
                     </button>
                     <Link
                       href={`/product/${p.slug}`}
-                      className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold"
+                      className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-amber-500/40 hover:bg-white/[0.05]"
                     >
                       {t("open_pdp")}
                     </Link>
@@ -388,7 +396,7 @@ export function RattanQuiz() {
             </div>
             <Link
               href="/checkout"
-              className={cn(bttPrimaryButtonClass, "inline-flex w-fit")}
+              className={cn(bttPrimaryButtonClass, "btt-focus inline-flex w-fit active:scale-[0.99]")}
             >
               {t("one_click")}
             </Link>

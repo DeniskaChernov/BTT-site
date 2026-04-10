@@ -24,3 +24,17 @@ export const bttPillButtonActiveClass =
 /** Внутренний input в степпере количества (корзина) */
 export const bttFieldStepperInputClass =
   "w-16 border-x border-white/10 bg-transparent px-2 py-1.5 text-center text-sm text-stone-100 outline-none transition focus:border-amber-500/40 focus:ring-2 focus:ring-inset focus:ring-amber-500/20";
+
+/** Крупные опции квиза (карточки выбора) */
+export const bttQuizOptionClass = cn(
+  "rounded-btt border border-white/15 bg-stone-950/50 text-left text-sm font-semibold transition duration-200",
+  "hover:border-amber-500/45 hover:bg-white/[0.04] active:scale-[0.99]",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]",
+);
+
+/** Пилюля времени / мелких шагов квиза */
+export const bttQuizChipClass = cn(
+  "rounded-full border border-white/15 px-4 py-2 text-sm transition duration-200",
+  "hover:border-amber-500/45 hover:bg-white/[0.04] active:scale-[0.98]",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40",
+);

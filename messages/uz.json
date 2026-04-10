@@ -82,6 +82,33 @@
     "card_twisted": "Burma rattan",
     "card_fourth": "Yangiliklar"
   },
+  "collective": {
+    "home_kicker": "Kollektiv buyurtma",
+    "home_title": "Umumiy partiyada arzonroq — Telegram orqali",
+    "home_lead": "Sayt — vitrina: narxlar, jarayon, muddat. Ishtirok va to‘lov — botda; e’lonlar va «joy qoldi» — kanalda.",
+    "cta_bot": "Ishtirok etish",
+    "cta_bot_fallback": "Ishtirok uchun aloqa",
+    "cta_channel": "Kanal",
+    "pdp_kicker": "Kollektiv",
+    "pdp_title": "Partiyaga qo‘shilish",
+    "pdp_sub": "Kollektiv narxi va chakana taqqoslash. Ulushingizni botda tasdiqlaysiz.",
+    "badge_active": "Yig‘im ochiq",
+    "retail_label": "Oddiy narx (orientir)",
+    "collective_label": "Kollektiv narxi",
+    "progress_label": "Partiyada yig‘ilgan",
+    "progress_aria": "{pct} foiz yig‘ilgan",
+    "progress_stats": "{current} / {target} kg · {pct}%",
+    "remaining_kg": "Maqsadgacha taxminan {kg} kg qoldi",
+    "deadline_remaining": "Yig‘im yopilishiga: {days} k {hours} soat {minutes} daq",
+    "deadline_ended": "Saytdagi muddat o‘tdi — bot yoki kanalda aniqlang.",
+    "deposit_hint": "Ko‘pincha ~{pct}% oldindan to‘lov — to‘liq shartlar botda.",
+    "join_bot": "Telegramda ochish",
+    "bot_env_hint": "NEXT_PUBLIC_TELEGRAM_BOT_USERNAME ni sozlang — bu yerda to‘g‘ri havola chiqadi.",
+    "pdp_disclaimer": "Saytdagi foiz va sanalar ma’lumot xarakterida; yakuniy shartlar botda.",
+    "card_badge": "Kollektiv",
+    "footer_bot": "Buyurtma boti",
+    "footer_channel": "Kanal"
+  },
   "blog": {
     "title": "Blog",
     "lead": "Rattan, parvarish va partiyalar haqida maqolalar — tez orada. Hozircha katalogga qarang yoki aloqaga yozing."
@@ -171,6 +198,7 @@
     "color_grey": "Kulrang",
     "stock_in": "Omborda",
     "stock_order": "Buyurtma",
+    "results_count": "{count} ta pozitsiya",
     "w12": "1–2 kg",
     "w5": "5 kg",
     "w10": "10+ kg",
@@ -239,7 +267,8 @@
     "decrease_qty": "Miqdorni kamaytirish",
     "increase_qty": "Miqdorni oshirish",
     "clear": "Savatchani tozalash",
-    "clear_confirm": "Barcha pozitsiyalar o‘chirilsinmi?"
+    "clear_confirm": "Barcha pozitsiyalar o‘chirilsinmi?",
+    "added_flash": "Savatchaga qo‘shildi"
   },
   "checkout": {
     "title": "Rasmiylashtirish",
@@ -259,7 +288,11 @@
     "delivery_note": "Yetkazish to‘lovdan oldin — shaffof",
     "error_pay": "Xato — boshqa usul yoki hisob",
     "error_phone": "Telefon raqamini kiriting",
+    "error_phone_format": "To‘g‘ri raqam kiriting — kamida 7 raqam",
+    "error_name": "Ismingizni kiriting",
     "error_address": "Kuryer yetkazib berishi uchun manzilni kiriting",
+    "error_rate_limit": "Juda ko‘p so‘rov — bir daqiqa kutib, qayta urinib ko‘ring",
+    "error_validation": "Buyurtma berilmadi — ma’lumotlarni tekshiring va qayta urinib ko‘ring",
     "one_click_title": "1 klik",
     "one_click_hint": "Telefon va manzil",
     "pickup_no_address": "Olib ketishda manzil shart emas",

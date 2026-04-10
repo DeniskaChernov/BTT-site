@@ -7,8 +7,13 @@ import { getTranslations } from "next-intl/server";
 const PDF_HREF = "/downloads/bententrade-catalog.pdf";
 const DOWNLOAD_NAME = "Bententrade-catalog.pdf";
 
-export async function generateMetadata() {
-  const t = await getTranslations("catalogBrochure");
+type MetadataProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: MetadataProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "catalogBrochure" });
   return {
     title: `${t("meta_title")} | Bententrade`,
     description: t("lead"),

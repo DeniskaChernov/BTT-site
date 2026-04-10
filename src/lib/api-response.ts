@@ -10,6 +10,7 @@ export const ApiErrorCode = {
   INVALID_JSON: "INVALID_JSON",
   ORDER_SAVE_FAILED: "ORDER_SAVE_FAILED",
   QUERY_FAILED: "QUERY_FAILED",
+  NOT_FOUND: "NOT_FOUND",
 } as const;
 
 export type ApiErrorPayload = {

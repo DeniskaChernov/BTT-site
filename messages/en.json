@@ -82,6 +82,33 @@
     "card_twisted": "Twisted rattan",
     "card_fourth": "New arrivals"
   },
+  "collective": {
+    "home_kicker": "Group buy",
+    "home_title": "Buy cheaper on a shared batch — join via Telegram",
+    "home_lead": "The site is the showcase: prices, progress, deadlines. Participation and payment happen in the bot; announcements and spots left live in the channel.",
+    "cta_bot": "Join",
+    "cta_bot_fallback": "Contact us to join",
+    "cta_channel": "Channel",
+    "pdp_kicker": "Group buy",
+    "pdp_title": "Join the batch",
+    "pdp_sub": "Collective price vs retail reference below. Confirm your share in the bot.",
+    "badge_active": "Open",
+    "retail_label": "Retail reference",
+    "collective_label": "Group-buy price",
+    "progress_label": "Batch progress",
+    "progress_aria": "{pct} percent collected",
+    "progress_stats": "{current} of {target} kg · {pct}%",
+    "remaining_kg": "About {kg} kg left to close the batch",
+    "deadline_remaining": "Closes in: {days}d {hours}h {minutes}m",
+    "deadline_ended": "This deadline has passed on the site — check the bot or channel for updates.",
+    "deposit_hint": "Often starts with ~{pct}% prepay — full terms in the bot.",
+    "join_bot": "Open in Telegram",
+    "bot_env_hint": "Set NEXT_PUBLIC_TELEGRAM_BOT_USERNAME to show a direct bot link here.",
+    "pdp_disclaimer": "Progress and dates on the site are informational; final terms are confirmed in the bot.",
+    "card_badge": "Group buy",
+    "footer_bot": "Order bot",
+    "footer_channel": "Channel"
+  },
   "blog": {
     "title": "Blog",
     "lead": "Articles on rattan, care, and batches — coming soon. Browse the catalog or reach us via contacts for now."
@@ -171,6 +198,7 @@
     "color_grey": "Grey",
     "stock_in": "In stock",
     "stock_order": "On order",
+    "results_count": "Showing {count} items",
     "w12": "1–2 kg",
     "w5": "5 kg",
     "w10": "10+ kg",
@@ -239,7 +267,8 @@
     "decrease_qty": "Decrease quantity",
     "increase_qty": "Increase quantity",
     "clear": "Clear cart",
-    "clear_confirm": "Remove all items from the cart?"
+    "clear_confirm": "Remove all items from the cart?",
+    "added_flash": "Added to cart"
   },
   "checkout": {
     "title": "Checkout",
@@ -259,7 +288,11 @@
     "delivery_note": "Delivery calculated before pay — no surprises",
     "error_pay": "Payment error — try another method or invoice",
     "error_phone": "Phone number is required",
+    "error_phone_format": "Enter a valid number — at least 7 digits",
+    "error_name": "Please enter your name",
     "error_address": "Address is required for courier delivery",
+    "error_rate_limit": "Too many requests — wait a minute and try again",
+    "error_validation": "Could not place the order — check your details and try again",
     "one_click_title": "1-click",
     "one_click_hint": "Phone + address minimum",
     "pickup_no_address": "Address is not required for pickup",

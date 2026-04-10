@@ -7,7 +7,9 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const existing = request.headers.get("x-request-id");
   const id = existing?.trim() || crypto.randomUUID();
-  const res = NextResponse.next();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-request-id", id);
+  const res = NextResponse.next({ request: { headers: requestHeaders } });
   res.headers.set("x-request-id", id);
   return res;
 }

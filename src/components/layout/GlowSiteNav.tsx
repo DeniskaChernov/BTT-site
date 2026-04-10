@@ -4,8 +4,9 @@ import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { NavAccountLink } from "@/components/layout/NavAccountLink";
 import { SlideTabs, type SlideTabItem } from "@/components/ui/slide-tabs";
 import { usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function resolveActiveNavId(pathname: string): string | undefined {
   const normalized = (pathname.replace(/\/$/, "") || "/") as string;
@@ -23,6 +24,15 @@ function resolveActiveNavId(pathname: string): string | undefined {
 export function GlowSiteNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const activeId = useMemo(
     () => resolveActiveNavId(pathname),
     [pathname],
@@ -41,7 +51,21 @@ export function GlowSiteNav() {
   );
 
   return (
-    <header className="sticky top-0 z-50 bg-transparent">
+    <header
+      className={cn(
+        "relative sticky top-0 z-50 transition-[background,backdrop-filter,box-shadow,border-color] duration-300",
+        scrolled
+          ? "border-b border-white/[0.07] bg-stone-950/80 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl backdrop-saturate-150"
+          : "bg-transparent",
+      )}
+    >
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/35 to-transparent transition-opacity duration-300",
+          scrolled ? "opacity-100" : "opacity-0",
+        )}
+        aria-hidden
+      />
       <div className="btt-container py-3.5">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-4">
           <div className="flex items-center justify-between gap-3 md:justify-start">

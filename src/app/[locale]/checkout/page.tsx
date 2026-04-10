@@ -2,8 +2,22 @@ import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
-export default async function CheckoutPage() {
-  const t = await getTranslations("common");
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "checkout" });
+  return {
+    title: `${t("title")} | Bententrade`,
+    description: t("delivery_note"),
+  };
+}
+
+export default async function CheckoutPage({ params }: Props) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "common" });
 
   return (
     <Suspense

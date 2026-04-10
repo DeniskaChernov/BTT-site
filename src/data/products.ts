@@ -54,6 +54,15 @@ export const products: Product[] = [
     priceUz: { t12: 185_000, t5: 168_000, t10: 152_000 },
     imageSeed: "btt-hr5nat",
     lowStock: true,
+    collective: {
+      botStartParam: "product_rtn_hr_5_nat",
+      targetKg: 100,
+      currentKg: 65,
+      deadlineAt: "2026-04-25T18:00:00+05:00",
+      depositPct: 25,
+      retailPriceTier: "t12",
+      collectivePriceTier: "t10",
+    },
   },
   {
     id: "2",
@@ -101,6 +110,15 @@ export const products: Product[] = [
     stock: "in_stock",
     priceUz: { t12: 192_000, t5: 175_000, t10: 158_000 },
     imageSeed: "btt-fl6blk",
+    collective: {
+      botStartParam: "product_rtn_fl_6_blk",
+      targetKg: 80,
+      currentKg: 72,
+      deadlineAt: "2026-04-18T12:00:00+05:00",
+      depositPct: 30,
+      retailPriceTier: "t12",
+      collectivePriceTier: "t10",
+    },
   },
   {
     id: "3",

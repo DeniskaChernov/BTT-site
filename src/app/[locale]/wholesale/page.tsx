@@ -2,9 +2,17 @@ import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata() {
-  const t = await getTranslations("wholesale");
-  return { title: `${t("title")} | Bententrade` };
+type MetadataProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: MetadataProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "wholesale" });
+  return {
+    title: `${t("title")} | Bententrade`,
+    description: t("lead"),
+  };
 }
 
 export default async function WholesalePage() {

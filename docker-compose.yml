@@ -1,0 +1,22 @@
+# Локальная PostgreSQL для разработки (миграции: npm run db:migrate)
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: btt-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: btt
+      POSTGRES_PASSWORD: btt_dev
+      POSTGRES_DB: bententrade
+    volumes:
+      - btt_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U btt -d bententrade"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  btt_pgdata:

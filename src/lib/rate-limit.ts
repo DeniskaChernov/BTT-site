@@ -9,6 +9,7 @@ type Bucket = { at: number[] };
 
 const postOrders = new Map<string, Bucket>();
 const getOrders = new Map<string, Bucket>();
+const adminList = new Map<string, Bucket>();
 
 function prune(bucket: number[], now: number): number[] {
   return bucket.filter((t) => now - t < WINDOW_MS);
@@ -48,4 +49,9 @@ export function allowPostOrder(key: string, max = 25): boolean {
 /** GET /api/orders: мягче, но защита от перебора номеров */
 export function allowGetOrders(key: string, max = 120): boolean {
   return hit(getOrders, key, max, Date.now());
+}
+
+/** GET /api/admin/orders: строже — только с валидным Bearer */
+export function allowAdminList(key: string, max = 40): boolean {
+  return hit(adminList, key, max, Date.now());
 }

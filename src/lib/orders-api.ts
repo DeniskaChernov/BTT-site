@@ -1,5 +1,8 @@
 /** Лимиты и проверки для POST /api/orders (защита от мусора и злоупотреблений) */
 
+import { getProductBySlug } from "@/data/products";
+import { getPricePerKgForQty } from "@/lib/pricing";
+
 export const MAX_ORDER_LINES = 60;
 export const MAX_TOTAL_UZ = 500_000_000;
 export const MAX_QTY_KG = 5_000;
@@ -20,6 +23,22 @@ const ALLOWED_PAY = new Set([
   "cod",
 ]);
 const ALLOWED_SHIP = new Set(["courier", "pickup"]);
+
+/** Как в корзине: шаг 0,5 кг, минимум 0,5 */
+const QTY_STEP_KG = 0.5;
+const MIN_QTY_KG = 0.5;
+
+/** Допуск по сумам между клиентом и пересчётом по каталогу (округление) */
+const LINE_TOTAL_UZ_EPS = 2;
+const ORDER_TOTAL_UZ_EPS = 2;
+
+function isValidQtyKg(qtyKg: number): boolean {
+  if (!Number.isFinite(qtyKg) || qtyKg < MIN_QTY_KG || qtyKg > MAX_QTY_KG) {
+    return false;
+  }
+  const steps = Math.round(qtyKg / QTY_STEP_KG);
+  return Math.abs(qtyKg - steps * QTY_STEP_KG) < 1e-6;
+}
 
 export type OrderLineInput = {
   sku: string;
@@ -96,7 +115,7 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
     ) {
       return "Invalid line";
     }
-    if (l.qtyKg <= 0 || l.qtyKg > MAX_QTY_KG) return "Invalid line";
+    if (!isValidQtyKg(l.qtyKg)) return "Invalid line";
     if (l.lineTotalUz < 0 || l.lineTotalUz > MAX_LINE_TOTAL_UZ) return "Invalid line";
     if (
       !trimLen(l.sku, MAX_SKU_CHARS) ||
@@ -123,4 +142,28 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
     phone,
     address: addrStr,
   };
+}
+
+/**
+ * Серверный пересчёт цен по каталогу — защита от подмены сумм в JSON.
+ * Должно совпадать с логикой `CartContext` / `getPricePerKgForQty`.
+ */
+export function validateOrderAgainstCatalog(data: CreateOrderBody): true | string {
+  let sumLineTotals = 0;
+  for (const line of data.lines) {
+    const p = getProductBySlug(line.slug);
+    if (!p) return "Invalid product";
+    if (p.sku !== line.sku) return "SKU mismatch";
+    const expected = Math.round(
+      getPricePerKgForQty(p, line.qtyKg) * line.qtyKg,
+    );
+    if (Math.abs(expected - line.lineTotalUz) > LINE_TOTAL_UZ_EPS) {
+      return "Line total mismatch";
+    }
+    sumLineTotals += line.lineTotalUz;
+  }
+  if (Math.abs(sumLineTotals - data.totalUz) > ORDER_TOTAL_UZ_EPS) {
+    return "Order total mismatch";
+  }
+  return true;
 }

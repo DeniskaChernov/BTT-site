@@ -4,6 +4,7 @@ import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import clsx from "clsx";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
@@ -65,19 +66,19 @@ export function CatalogClient({
     key: keyof FilterState,
     value: string,
     label: string,
-    active: boolean
+    active: boolean,
   ) => (
     <button
       key={`${String(key)}-${value}`}
       type="button"
-      onClick={() =>
-        setF((s) => ({ ...s, [key]: value } as FilterState))
-      }
+      onClick={() => setF((s) => ({ ...s, [key]: value } as FilterState))}
       className={clsx(
-        "rounded-full border px-3 py-1.5 text-xs font-medium transition",
+        "rounded-full border px-3 py-1.5 text-xs font-medium transition duration-200 will-change-transform",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]",
         active
-          ? "border-amber-500/50 bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md"
-          : "border-white/10 bg-white/[0.04] text-stone-300 hover:border-amber-500/30"
+          ? "border-amber-400/60 bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-950/40 ring-1 ring-amber-400/30"
+          : "border-white/10 bg-white/[0.04] text-stone-300 hover:border-amber-500/35 hover:bg-white/[0.07] active:scale-95",
+        active && "scale-[1.02]",
       )}
     >
       {label}
@@ -86,7 +87,7 @@ export function CatalogClient({
 
   return (
     <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]">
-      <aside className="btt-glass space-y-6 rounded-3xl p-5 lg:sticky lg:top-28 lg:self-start">
+      <aside className="btt-glass space-y-6 rounded-3xl p-5 shadow-inner shadow-black/20 lg:sticky lg:top-28 lg:self-start">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-amber-500/80">
             {t("filters")}
@@ -188,15 +189,45 @@ export function CatalogClient({
         </button>
       </aside>
 
-      <div>
+      <div className="min-w-0">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] pb-4">
+          <p className="text-sm text-stone-400">
+            {t("results_count", { count: filtered.length })}
+          </p>
+        </div>
         {filtered.length === 0 ? (
-          <p className="text-sm text-stone-500">{t("empty")}</p>
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-sm text-stone-500"
+          >
+            {t("empty")}
+          </motion.p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: {},
+              show: {
+                transition: { staggerChildren: 0.05 },
+              },
+            }}
+            className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3"
+          >
             {filtered.map((p: Product) => (
-              <ProductCard key={p.sku} product={p} />
+              <motion.div
+                key={p.sku}
+                variants={{
+                  hidden: { opacity: 0, y: 12 },
+                  show: { opacity: 1, y: 0 },
+                }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <ProductCard product={p} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

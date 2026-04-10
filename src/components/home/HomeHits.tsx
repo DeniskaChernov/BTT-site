@@ -1,4 +1,4 @@
-import { ProductCard } from "@/components/catalog/ProductCard";
+import { StaggerHits } from "@/components/home/StaggerHits";
 import { products } from "@/data/products";
 import { getTranslations } from "next-intl/server";
 
@@ -31,11 +31,7 @@ export async function HomeHits() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {hits.map((p) => (
-            <ProductCard key={p.sku} product={p} />
-          ))}
-        </div>
+        <StaggerHits products={hits} />
       </div>
     </section>
   );

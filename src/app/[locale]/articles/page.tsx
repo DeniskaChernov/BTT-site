@@ -1,7 +1,12 @@
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata() {
-  const t = await getTranslations("articles");
+type MetadataProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: MetadataProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "articles" });
   return {
     title: `${t("title")} | Bententrade`,
     description: t("lead"),

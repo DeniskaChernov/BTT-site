@@ -3,7 +3,7 @@
 import { formatUzs } from "@/lib/pricing";
 import type { StoredOrder } from "@/lib/order-history";
 import { ORDERS_STORAGE_KEY, readOrders } from "@/lib/order-history";
-import { normalizePhone } from "@/lib/phone";
+import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import { Link } from "@/i18n/navigation";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -61,7 +61,7 @@ export function OrderHistory({ profilePhone }: Props) {
 
   useEffect(() => {
     const phoneNorm = normalizePhone(profilePhone);
-    if (!phoneNorm) {
+    if (!phoneNorm || !isMeaningfulPhone(phoneNorm)) {
       setRemoteOrders([]);
       return;
     }
@@ -103,9 +103,13 @@ export function OrderHistory({ profilePhone }: Props) {
     for (const o of [...localOrders, ...remote]) {
       if (!merged.has(o.id)) merged.set(o.id, o);
     }
-    return [...merged.values()].sort(
-      (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt),
-    );
+    return [...merged.values()].sort((a, b) => {
+      const tb = Date.parse(b.createdAt);
+      const ta = Date.parse(a.createdAt);
+      const nb = Number.isFinite(tb) ? tb : 0;
+      const na = Number.isFinite(ta) ? ta : 0;
+      return nb - na;
+    });
   }, [localOrders, remoteOrders]);
 
   const payKey = (pay: string) => {
@@ -122,9 +126,12 @@ export function OrderHistory({ profilePhone }: Props) {
   };
 
   const phoneForHistory = normalizePhone(profilePhone);
-  const loading = remoteOrders === undefined && phoneForHistory.length > 0;
+  const loading =
+    remoteOrders === undefined &&
+    phoneForHistory.length > 0 &&
+    isMeaningfulPhone(phoneForHistory);
 
-  if (!phoneForHistory) {
+  if (!phoneForHistory || !isMeaningfulPhone(phoneForHistory)) {
     return (
       <section className="mt-12 border-t border-white/[0.08] pt-12">
         <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
