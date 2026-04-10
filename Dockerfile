@@ -11,11 +11,14 @@ FROM base AS deps
 COPY package.json package-lock.json ./
 # Иначе postinstall (prisma generate) не видит schema.prisma и падает
 COPY prisma ./prisma
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Next «Collecting build traces» + SWC жрут память; на маленьких билдерах Railway без этого бывает OOM
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build
 
 FROM base AS runner
