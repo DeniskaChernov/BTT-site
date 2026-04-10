@@ -11,7 +11,8 @@ FROM base AS deps
 COPY package.json package-lock.json ./
 # Иначе postinstall (prisma generate) не видит schema.prisma и падает
 COPY prisma ./prisma
-RUN --mount=type=cache,target=/root/.npm \
+# Railway: cache mount обязан включать id=…
+RUN --mount=type=cache,id=npm,target=/root/.npm \
     npm ci
 
 FROM base AS builder
