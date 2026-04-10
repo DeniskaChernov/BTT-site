@@ -11,9 +11,9 @@ FROM base AS deps
 COPY package.json package-lock.json ./
 # Иначе postinstall (prisma generate) не видит schema.prisma и падает
 COPY prisma ./prisma
-# Railway: cache mount обязан включать id=…
-RUN --mount=type=cache,id=npm,target=/root/.npm \
-    npm ci
+# Без BuildKit cache: на Railway id должен быть вида s/<service-id>-… (привязка к сервису),
+# переменные в id не подставляются — проще стабильный npm ci.
+RUN npm ci
 
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
