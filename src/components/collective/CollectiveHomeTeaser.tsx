@@ -9,13 +9,11 @@ export async function CollectiveHomeTeaser() {
   const channelUrl = telegramChannelUrl();
 
   return (
-    <section
-      className="relative border-y border-amber-500/20 bg-gradient-to-r from-amber-950/35 via-stone-950/80 to-orange-950/30"
-      aria-labelledby="collective-home-heading"
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(245,158,11,0.12),transparent_55%)]" />
-      <div className="btt-container relative py-10 md:py-12">
-        <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+    <section className="relative py-10 md:py-14" aria-labelledby="collective-home-heading">
+      <div className="btt-container">
+        <div className="relative overflow-hidden rounded-[1.75rem] border border-amber-500/25 bg-gradient-to-br from-amber-950/50 via-stone-950/90 to-orange-950/40 p-6 shadow-[0_20px_60px_-24px_rgba(245,158,11,0.35)] md:p-8">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-amber-500/15 blur-3xl" aria-hidden />
+          <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
           <div className="flex max-w-2xl gap-4">
             <span className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-amber-500/35 bg-amber-500/10 text-amber-300 shadow-lg shadow-amber-900/20">
               <Users className="h-6 w-6" aria-hidden />
@@ -64,6 +62,7 @@ export async function CollectiveHomeTeaser() {
                 {t("cta_channel")}
               </a>
             ) : null}
+          </div>
           </div>
         </div>
       </div>

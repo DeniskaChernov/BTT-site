@@ -1,3 +1,5 @@
+import { FaqList } from "@/components/faq/FaqList";
+import { PageHero } from "@/components/layout/PageHero";
 import { getTranslations } from "next-intl/server";
 
 type MetadataProps = {
@@ -9,7 +11,7 @@ export async function generateMetadata({ params }: MetadataProps) {
   const t = await getTranslations({ locale, namespace: "faq" });
   return {
     title: `${t("title")} | Bententrade`,
-    description: t("a_pay"),
+    description: t("meta_description"),
   };
 }
 
@@ -25,19 +27,13 @@ export default async function FaqPage() {
   ];
 
   return (
-    <div className="btt-container max-w-3xl py-14 md:py-20">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/90">FAQ</p>
-      <h1 className="mt-3 text-4xl font-bold tracking-tight text-stone-50 md:text-5xl">
-        {t("title")}
-      </h1>
-      <ul className="mt-10 space-y-4">
-        {items.map((item) => (
-          <li key={item.q} className="btt-glass rounded-3xl p-6 md:p-8">
-            <h2 className="text-lg font-semibold text-stone-50">{item.q}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-stone-400">{item.a}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="btt-container py-14 md:py-20">
+      <div className="mx-auto max-w-3xl">
+        <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")} />
+        <div className="mt-10 md:mt-12">
+          <FaqList items={items} />
+        </div>
+      </div>
     </div>
   );
 }

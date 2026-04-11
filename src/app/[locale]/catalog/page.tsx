@@ -1,4 +1,5 @@
 import { CatalogClient } from "@/components/catalog/CatalogClient";
+import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/navigation";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
@@ -37,13 +38,7 @@ export default async function CatalogPage({ searchParams }: PageProps) {
 
   return (
     <div className="btt-container py-12 md:py-16">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
-        Bententrade
-      </p>
-      <h1 className="mt-3 text-4xl font-bold tracking-tight text-stone-50 md:text-5xl">
-        {t("title")}
-      </h1>
-      <p className="mt-4 max-w-2xl text-lg text-stone-400">{t("intro")}</p>
+      <PageHero kicker={t("page_kicker")} title={t("title")} lead={t("intro")} />
 
       <div className="mt-8 flex flex-col gap-4 rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-950/30 to-stone-950/60 p-6 md:flex-row md:items-center md:justify-between md:p-8">
         <div>

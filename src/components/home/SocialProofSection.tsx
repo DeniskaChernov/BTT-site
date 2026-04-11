@@ -27,7 +27,18 @@ export function SocialProofSection() {
   ];
 
   return (
-    <section className="btt-container pb-20 pt-4 md:pb-28">
+    <section className="btt-container pb-20 pt-6 md:pb-28 md:pt-8">
+      <div className="mx-auto mb-8 max-w-2xl text-center md:mb-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+          {t("proof_section_kicker")}
+        </p>
+        <h2 className="mt-3 text-2xl font-bold tracking-tight text-stone-50 md:text-3xl">
+          {t("proof_section_title")}
+        </h2>
+        <p className="mt-3 text-pretty text-sm leading-relaxed text-stone-400 md:text-base">
+          {t("proof_section_lead")}
+        </p>
+      </div>
       <div className="mb-8 flex flex-wrap justify-center gap-2 md:mb-10 md:gap-3">
         {chips.map(({ key, label }) => (
           <span

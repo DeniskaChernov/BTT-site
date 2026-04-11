@@ -6,10 +6,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 import { useTranslations } from "next-intl";
-
-/** Стабильные превью через picsum (как в каталоге) — не ломаются в проде из‑за Unsplash */
-const HERO_PANEL_IMG = "https://picsum.photos/seed/btt-hero-panel/1600/900";
 
 type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
 
@@ -55,7 +53,7 @@ export function CommerceHero() {
           >
             <div className="pointer-events-none absolute inset-0">
               <Image
-                src={HERO_PANEL_IMG}
+                src={SITE_MEDIA.heroPanel}
                 alt=""
                 fill
                 priority
@@ -119,7 +117,7 @@ export function CommerceHero() {
         <div className="grid grid-cols-1 gap-5 pb-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:pb-16">
           {HERO_CATEGORIES.map((cat, index) => {
             const title = t(cat.messageKey);
-            const src = `https://picsum.photos/seed/${cat.imageSeed}/640/640`;
+            const src = SITE_MEDIA.categoryCard(cat.imageSeed);
 
             return (
               <motion.div

@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/types/product";
 import type { Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
+import { productMainImage } from "@/lib/product-media";
 import { formatUzs, getPricePerKgForQty } from "@/lib/pricing";
 import { trackEvent } from "@/lib/analytics";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
@@ -30,7 +31,7 @@ export function ProductCard({ product }: Props) {
 
   const name = product.names[locale];
   const ppk = getPricePerKgForQty(product, 1.5);
-  const img = `https://picsum.photos/seed/${product.imageSeed}/640/640`;
+  const img = productMainImage(product);
 
   const onAdd = (e: React.MouseEvent) => {
     e.preventDefault();

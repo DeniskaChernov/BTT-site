@@ -12,30 +12,40 @@ export function MaterialTrustStrip() {
 
   return (
     <section
-      className="relative border-y border-white/[0.06] bg-gradient-to-b from-black/20 to-transparent"
-      aria-label={t("strip_aria")}
+      className="relative py-12 md:py-16"
+      aria-labelledby="home-material-strip-title"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
-      <div className="btt-container py-8 md:py-10">
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/75">
-          {t("strip_kicker")}
-        </p>
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="btt-container">
+        <div className="rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] md:p-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+              {t("strip_kicker")}
+            </p>
+            <h2
+              id="home-material-strip-title"
+              className="mt-3 text-xl font-bold tracking-tight text-stone-50 md:text-2xl"
+            >
+              {t("strip_title")}
+            </h2>
+            <p className="mt-2 text-sm text-stone-500 md:text-base">{t("strip_sub")}</p>
+          </div>
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {keys.map((key, i) => {
             const Icon = ICONS[i]!;
             return (
               <li
                 key={key}
-                className="flex gap-3 rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4 backdrop-blur-sm transition hover:border-amber-500/25"
+                className="flex gap-3 rounded-2xl border border-white/[0.06] bg-black/20 p-4 transition hover:border-amber-500/30 hover:bg-black/30"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600/25 to-orange-900/30 text-amber-400/95">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300">
                   <Icon className="h-5 w-5" aria-hidden />
                 </span>
                 <span className="text-sm leading-snug text-stone-300">{t(key)}</span>
               </li>
             );
           })}
-        </ul>
+          </ul>
+        </div>
       </div>
     </section>
   );

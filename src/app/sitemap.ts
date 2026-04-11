@@ -1,3 +1,4 @@
+import { getPublishedSlugs } from "@/data/articles";
 import { products } from "@/data/products";
 import type { MetadataRoute } from "next";
 
@@ -38,6 +39,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: 0.8,
+      });
+    }
+    for (const slug of getPublishedSlugs()) {
+      entries.push({
+        url: `${base}/${locale}/articles/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.65,
       });
     }
   }

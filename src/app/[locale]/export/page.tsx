@@ -1,3 +1,5 @@
+import { PageHero } from "@/components/layout/PageHero";
+import { Link } from "@/i18n/navigation";
 import {
   bttFieldClass,
   bttPrimaryButtonClass,
@@ -23,41 +25,67 @@ export default async function ExportPage() {
   const t = await getTranslations("export_page");
 
   return (
-    <div className="btt-container max-w-3xl py-14 md:py-20">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/90">B2B</p>
-      <h1 className="mt-3 text-4xl font-bold tracking-tight text-stone-50 md:text-5xl">
-        {t("title")}
-      </h1>
-      <p className="mt-4 text-stone-400">{t("lead")}</p>
-      <p className="mt-4 text-sm font-medium text-amber-400/90">{t("quote_checkout")}</p>
+    <div className="btt-container py-14 md:py-20">
+      <div className="mx-auto max-w-3xl">
+        <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")}>
+          <p className="max-w-2xl text-sm font-medium text-amber-400/95 md:text-base">
+            {t("quote_checkout")}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/contacts"
+              className="inline-flex items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15"
+            >
+              {t("cta_contacts")}
+            </Link>
+            <Link
+              href="/wholesale"
+              className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-stone-200 transition hover:border-white/25"
+            >
+              {t("cta_wholesale")}
+            </Link>
+          </div>
+        </PageHero>
 
-      <form className="btt-glass mt-10 grid gap-5 rounded-3xl p-6 md:p-8">
-        <label className="grid gap-1.5 text-sm text-stone-300">
-          {t("country")}
-          <input className={bttFieldClass} type="text" />
-        </label>
-        <label className="grid gap-1.5 text-sm text-stone-300">
-          {t("currency")}
-          <select className={bttSelectFieldClass}>
-            <option>USD</option>
-            <option>UZS</option>
-          </select>
-        </label>
-        <label className="grid gap-1.5 text-sm text-stone-300">
-          {t("duties")}
-          <input
-            className={bttFieldClass}
-            placeholder={t("ph_duties")}
-            type="text"
-          />
-        </label>
-        <button
-          type="button"
-          className={cn(bttPrimaryButtonClass, "w-fit")}
-        >
-          {t("request_calc")}
-        </button>
-      </form>
+        <div className="btt-glass mt-10 rounded-2xl border border-white/[0.07] p-6 md:mt-12 md:rounded-3xl md:p-8">
+          <h2 className="text-lg font-semibold text-stone-50 md:text-xl">{t("checklist_title")}</h2>
+          <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-relaxed text-stone-400 md:pl-6 md:text-base">
+            <li>{t("checklist_1")}</li>
+            <li>{t("checklist_2")}</li>
+            <li>{t("checklist_3")}</li>
+            <li>{t("checklist_4")}</li>
+          </ol>
+        </div>
+
+        <form className="btt-glass mt-8 grid gap-5 rounded-2xl p-6 md:rounded-3xl md:p-8">
+          <label className="grid gap-1.5 text-sm text-stone-300">
+            {t("country")}
+            <input className={bttFieldClass} type="text" />
+          </label>
+          <label className="grid gap-1.5 text-sm text-stone-300">
+            {t("currency")}
+            <select className={bttSelectFieldClass}>
+              <option>USD</option>
+              <option>UZS</option>
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-sm text-stone-300">
+            {t("duties")}
+            <input
+              className={bttFieldClass}
+              placeholder={t("ph_duties")}
+              type="text"
+            />
+          </label>
+          <button
+            type="button"
+            className={cn(bttPrimaryButtonClass, "w-fit")}
+          >
+            {t("request_calc")}
+          </button>
+          <p className="text-sm text-stone-500">{t("form_note")}</p>
+        </form>
+      </div>
     </div>
   );
 }

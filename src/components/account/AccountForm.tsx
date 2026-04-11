@@ -66,7 +66,7 @@ export function AccountForm() {
               {t("email_label")}
               <input
                 className={bttFieldClass}
-                placeholder="email@..."
+                placeholder={t("ph_email")}
                 type="email"
                 name="email"
                 autoComplete="email"
@@ -80,7 +80,7 @@ export function AccountForm() {
                 className={bttFieldClass}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="+998..."
+                placeholder={t("ph_phone")}
                 type="tel"
                 name="phone"
                 autoComplete="tel"

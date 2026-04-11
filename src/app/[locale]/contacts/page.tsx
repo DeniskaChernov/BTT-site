@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/layout/PageHero";
 import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
@@ -11,7 +12,7 @@ export async function generateMetadata({ params }: MetadataProps) {
   const t = await getTranslations({ locale, namespace: "contacts" });
   return {
     title: `${t("title")} | Bententrade`,
-    description: `${t("showroom_address")} ${t("channels_line")}`,
+    description: t("meta_description"),
   };
 }
 
@@ -21,22 +22,17 @@ export default async function ContactsPage() {
 
   return (
     <div className="btt-container max-w-4xl py-14 md:py-20">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/90">
-        Bententrade
-      </p>
-      <h1 className="mt-3 text-4xl font-bold tracking-tight text-stone-50 md:text-5xl">
-        {t("title")}
-      </h1>
+      <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")} />
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-2">
-        <div className="btt-glass rounded-3xl p-6 md:p-8">
+      <div className="mt-10 grid gap-6 lg:grid-cols-2 lg:gap-8">
+        <div className="btt-glass rounded-2xl p-6 md:rounded-3xl md:p-8">
           <h2 className="text-lg font-semibold text-stone-50">{t("showroom")}</h2>
           <p className="mt-2 text-sm text-stone-400">{t("showroom_address")}</p>
           <h2 className="mt-8 text-lg font-semibold text-stone-50">{t("channels")}</h2>
           <p className="mt-2 text-sm text-stone-400">{t("channels_line")}</p>
         </div>
 
-        <form className="btt-glass grid gap-4 rounded-3xl p-6 md:p-8">
+        <form className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8">
           <h2 className="text-lg font-semibold text-stone-50">{t("form_feedback")}</h2>
           <input
             className={bttFieldClass}
@@ -60,7 +56,7 @@ export default async function ContactsPage() {
           </button>
         </form>
 
-        <form className="btt-glass grid gap-4 rounded-3xl p-6 md:p-8 lg:col-span-2">
+        <form className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8 lg:col-span-2">
           <h2 className="text-lg font-semibold text-stone-50">{t("form_b2b")}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <input

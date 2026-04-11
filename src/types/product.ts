@@ -40,6 +40,11 @@ export type Product = {
   /** UZS per kg */
   priceUz: { t12: number; t5: number; t10: number };
   imageSeed: string;
+  /**
+   * Доп. кадры галереи PDP: пути относительно /media/catalog/ или абсолютные от /.
+   * Если не задано — используется один файл `{imageSeed}.png`.
+   */
+  gallery?: string[];
   /** low stock hint for scarcity (optional, real business should sync) */
   lowStock?: boolean;
   collective?: CollectiveCampaign;

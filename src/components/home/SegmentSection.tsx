@@ -13,7 +13,7 @@ export function SegmentSection() {
     {
       title: t("novice"),
       desc: t("novice_desc"),
-      href: "/catalog",
+      href: "/catalog?tab=new",
       icon: Sparkles,
       span: "md:col-span-2 lg:col-span-2",
       accent: "from-amber-500/20 to-transparent",
@@ -21,7 +21,7 @@ export function SegmentSection() {
     {
       title: t("master"),
       desc: t("master_desc"),
-      href: "/catalog",
+      href: "/catalog?tab=material",
       icon: Wrench,
       span: "md:col-span-1 lg:col-span-1",
       accent: "from-orange-600/15 to-transparent",
@@ -43,7 +43,7 @@ export function SegmentSection() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mx-auto max-w-2xl text-center lg:mx-0 lg:max-w-xl lg:text-left"
+          className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-2xl lg:text-left"
         >
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
             {t("kicker")}
@@ -51,10 +51,12 @@ export function SegmentSection() {
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">
             {t("title")}
           </h2>
-          <p className="mt-3 text-base text-stone-400">{t("sub")}</p>
+          <p className="mt-3 text-pretty text-base leading-relaxed text-stone-400 md:text-lg">
+            {t("sub")}
+          </p>
         </motion.div>
 
-        <div className="mt-12 grid auto-rows-fr gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid auto-rows-fr gap-4 md:mt-12 md:grid-cols-2 lg:grid-cols-4">
           {cards.map((c, i) => (
             <motion.div
               key={c.title}

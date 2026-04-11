@@ -1,0 +1,2 @@
+Фото каталога и блока героя скопированы из сборки Bententrade (исходные PNG из Figma).
+Повторная заливка: node scripts/import-bententrade-media.mjs

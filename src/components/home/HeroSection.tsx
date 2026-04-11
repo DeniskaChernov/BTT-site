@@ -5,6 +5,7 @@ import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowRight, Droplets, Sun, Trees } from "lucide-react";
+import { SITE_MEDIA } from "@/lib/site-media";
 import { useTranslations } from "next-intl";
 
 export function HeroSection() {
@@ -87,8 +88,7 @@ export function HeroSection() {
                 <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
-                    backgroundImage:
-                      "url(https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1400&q=85)",
+                    backgroundImage: `url(${SITE_MEDIA.heroPanel})`,
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-amber-950/30" />

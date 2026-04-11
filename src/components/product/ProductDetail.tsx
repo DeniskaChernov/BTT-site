@@ -8,9 +8,10 @@ import { bttFieldCompactClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
 import { trackEvent } from "@/lib/analytics";
+import { productGalleryImages, productMainImage } from "@/lib/product-media";
 import { useRouter } from "@/i18n/navigation";
 import { motion } from "framer-motion";
-import { ChevronDown, Play, ShoppingBag } from "lucide-react";
+import { ChevronDown, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
@@ -46,14 +47,15 @@ export function ProductDetail({ product, related }: Props) {
     });
   }, [product.sku, product.slug, product.priceUz.t12]);
 
+  const images = useMemo(() => productGalleryImages(product), [product]);
+
+  useEffect(() => {
+    setActiveImg((i) => Math.min(i, Math.max(0, images.length - 1)));
+  }, [images.length]);
+
   const ppk = useMemo(() => getPricePerKgForQty(product, qty), [product, qty]);
   const lineTotal = Math.round(ppk * qty);
   const kgEst = useMemo(() => Math.max(0.1, meters * 0.12), [meters]);
-
-  const images = [0, 1, 2, 3, 4, 5].map(
-    (i) =>
-      `https://picsum.photos/seed/${product.imageSeed}${i}/1200/1200`
-  );
 
   const onAdd = () => {
     add(product, product.names[locale], qty);
@@ -84,50 +86,37 @@ export function ProductDetail({ product, related }: Props) {
               sizes="(max-width:1024px) 100vw, 50vw"
             />
           </div>
-          <div className="mt-3 grid grid-cols-6 gap-2">
-            {images.map((src, i) => (
-              <button
-                key={src}
-                type="button"
-                aria-label={t("gallery_pick", { number: i + 1 })}
-                aria-current={activeImg === i ? true : undefined}
-                onClick={() => setActiveImg(i)}
-                className={cn(
-                  "relative aspect-square overflow-hidden rounded-lg border-2 transition duration-200",
-                  activeImg === i
-                    ? "border-amber-400 opacity-100 shadow-lg shadow-amber-900/30 ring-2 ring-amber-500/35"
-                    : "border-transparent opacity-70 hover:opacity-100 hover:ring-1 hover:ring-white/20",
-                )}
-              >
-                <Image src={src} alt="" fill className="object-cover" sizes="80px" />
-              </button>
-            ))}
-          </div>
+          {images.length > 1 ? (
+            <div
+              className="mt-3 grid gap-2"
+              style={{
+                gridTemplateColumns: `repeat(${Math.min(images.length, 6)}, minmax(0, 1fr))`,
+              }}
+            >
+              {images.map((src, i) => (
+                <button
+                  key={`${src}-${i}`}
+                  type="button"
+                  aria-label={t("gallery_pick", { number: i + 1 })}
+                  aria-current={activeImg === i ? true : undefined}
+                  onClick={() => setActiveImg(i)}
+                  className={cn(
+                    "relative aspect-square overflow-hidden rounded-lg border-2 transition duration-200",
+                    activeImg === i
+                      ? "border-amber-400 opacity-100 shadow-lg shadow-amber-900/30 ring-2 ring-amber-500/35"
+                      : "border-transparent opacity-70 hover:opacity-100 hover:ring-1 hover:ring-white/20",
+                  )}
+                >
+                  <Image src={src} alt="" fill className="object-cover" sizes="80px" />
+                </button>
+              ))}
+            </div>
+          ) : null}
           <div className="mt-8">
             <h2 className="text-lg font-semibold text-stone-100">{t("videos")}</h2>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {(
-                [
-                  "video_in_hands",
-                  "video_choose",
-                  "video_process",
-                  "video_outdoor",
-                ] as const
-              ).map((k) => (
-                <div
-                  key={k}
-                  className="group relative flex aspect-video cursor-default items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/15 bg-white/[0.03] text-sm text-stone-500 backdrop-blur-sm transition duration-300 hover:border-amber-500/35 hover:bg-white/[0.06]"
-                >
-                  <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition group-hover:bg-black/25">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-amber-200 opacity-0 shadow-lg ring-1 ring-white/20 transition group-hover:opacity-100">
-                      <Play className="ml-0.5 h-5 w-5 fill-current" aria-hidden />
-                    </span>
-                  </span>
-                  <span className="relative z-[1] px-3 text-center">
-                    {t(k)} — demo
-                  </span>
-                </div>
-              ))}
+            <div className="mt-3 rounded-2xl border border-dashed border-white/12 bg-white/[0.03] px-5 py-8 text-center backdrop-blur-sm">
+              <p className="text-sm font-medium text-stone-300">{t("videos_soon_title")}</p>
+              <p className="mx-auto mt-2 max-w-md text-sm text-stone-500">{t("videos_soon_body")}</p>
             </div>
           </div>
         </div>
@@ -318,7 +307,7 @@ export function ProductDetail({ product, related }: Props) {
             >
               <div className="relative aspect-square overflow-hidden">
                 <Image
-                  src={`https://picsum.photos/seed/${p.imageSeed}/400/400`}
+                  src={productMainImage(p)}
                   alt={p.names[locale]}
                   fill
                   className="object-cover transition duration-500 group-hover:scale-105"
