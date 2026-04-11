@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "catalog" });
   return {
-    title: `${t("title")} | Bententrade`,
+    title: t("title"),
     description: t("intro"),
   };
 }

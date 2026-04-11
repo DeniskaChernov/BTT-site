@@ -15,8 +15,12 @@ function resolveActiveNavId(pathname: string): string | undefined {
   if (normalized.startsWith("/about")) return "about";
   if (normalized.startsWith("/articles") || normalized.startsWith("/blog"))
     return "articles";
+  if (normalized.startsWith("/wholesale") || normalized.startsWith("/export"))
+    return "catalog";
+  if (normalized.startsWith("/faq")) return "contacts";
   if (normalized.startsWith("/contacts")) return "contacts";
-  if (normalized.startsWith("/cart")) return "cart";
+  if (normalized.startsWith("/checkout") || normalized.startsWith("/cart"))
+    return "cart";
   return undefined;
 }
 

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props) {
   if (!p) return {};
   const name = p.names[locale as Locale];
   return {
-    title: `${name} | Bententrade`,
+    title: name,
     description: p.short[locale as Locale],
     openGraph: { title: name, description: p.short[locale as Locale] },
   };

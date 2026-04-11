@@ -122,6 +122,12 @@ export async function Footer() {
           >
             {n("export")}
           </Link>
+          <Link
+            className="group inline-flex w-fit items-center gap-1 text-stone-400 transition duration-200 hover:translate-x-0.5 hover:text-amber-400"
+            href="/faq"
+          >
+            {n("faq")}
+          </Link>
         </div>
 
         <div className="grid gap-3 text-sm text-stone-500">

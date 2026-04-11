@@ -24,6 +24,7 @@ export function SocialProofSection() {
     { key: "pay", label: t("trust_payments") },
     { key: "ship", label: t("trust_ship") },
     { key: "batch", label: t("trust_batch") },
+    { key: "clients", label: t("trust_clients") },
   ];
 
   return (

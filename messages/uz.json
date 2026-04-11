@@ -1,7 +1,7 @@
 {
   "meta": {
-    "site": "Bententrade — sun'iy rattan va kashpo",
-    "home_desc": "O‘zbekistonda rattan va kashpo: ko‘cha va uy, tez yetkazib berish, Uzcard, Humo, Payme, Click."
+    "site": "Bententrade — rattan va kashpo, ishlab chiqarish Toshkent",
+    "home_desc": "Sun'iy rattan ipi va qo‘lda to‘qilgan kashpo — ishlab chiqaruvchi Toshkentda. 18 rang, ip 36 000 so‘m/kg dan (ulgurji 5 kg dan), O‘zbekiston bo‘ylab yetkazib berish. Uzcard, Humo, Payme, Click."
   },
   "notFound": {
     "title": "Sahifa topilmadi",
@@ -153,7 +153,7 @@
     "outro": "Bententrade katalogida har bir pozitsiyada qalinlik, profil shakli, rang guruhi va mavjudlik ko‘rsatilgan. Kreslo yoki stol uchun profil to‘plamini tanlash kerakmi? Aloqada prolet, yuk va eskizni yuboring — ustaxona buyurtmalari tajribasidan maslahat beramiz."
   },
   "segments": {
-    "sub": "Senariy tanlang — tegishli katalog bo‘limi va yetkazib berish bo‘yicha yo‘l-yo‘riq.",
+    "sub": "Ishlab chiqarish Toshkentda, jo‘natma Respublikada. Sinov partiyasidan HoReCa gacha senariy tanlang.",
     "kicker": "Boshlash",
     "title": "Uch xil xarid",
     "novice": "Birinchi partiya",
@@ -177,6 +177,7 @@
     "trust_payments": "To‘lov: Uzcard, Humo, Payme, Click",
     "trust_ship": "24–48 soat ichida jo‘natma",
     "trust_batch": "Rang partiyasi barqaror",
+    "trust_clients": "O‘zbekiston bo‘ylab 500+ mijoz",
     "proof_section_kicker": "Amaliyot",
     "proof_section_title": "Biz bilan qanday ishlaydi",
     "proof_section_lead": "To‘lov va logistika O‘zbekiston uchun. Pastda — haqiqiy buyurtmalardan qisqa iqtiboslar.",
@@ -394,19 +395,21 @@
     "requisites": "Rekvizitlar",
     "quality_body": "Partiya nazorati, HoReCa va dilerlar uchun so‘rov bo‘yicha spektrofotometr. Ishlab chiqarish va ombor bir konturda — jo‘natmalar orasida rang farqi kam.",
     "batch_body": "Har bir partiya belgilanadi. Opt uchun — hajmga qarab butun buyurtma uchun bitta partiya raqami.",
-    "requisites_body": "Shartnoma va hisob uchun rekvizitlar ariza dan keyin opt@bententrade.uz ga yuboriladi (demo domen — bo‘yiga almashtiring)."
+    "requisites_body": "Shartnoma va hisob uchun rekvizitlar opt@bententrade.uz ga yoki telefon / Telegram orqali menejer bilan kelishiladi."
   },
   "contacts": {
     "kicker": "Bententrade",
     "title": "Aloqa",
-    "lead": "Shourum yozilish bilan, messengerlar va B2B uchun formalar.",
-    "meta_description": "Bententrade aloqa: Toshkentdagi shourum, telefon, messengerlar, ariza va B2B.",
+    "lead": "Telefon va Telegram — bententrade.uz dagi kabi. Ishlab chiqarish Toshkentda, O‘zbekiston bo‘ylab yetkazib berish. Ariza va B2B formalar.",
+    "meta_description": "Bententrade: Toshkent, +998 77 104 44 22, Telegram @BenTenTrade, Dush–Shan ish vaqti.",
     "showroom": "Shourum",
     "channels": "Messenger va telefon",
     "form_feedback": "Aloqa",
     "form_b2b": "B2B ariza",
-    "showroom_address": "Toshkent, Namuna ko‘chasi, 1 — yozilish bilan tashrif.",
-    "channels_line": "+998 00 000 00 00 · Telegram · Instagram",
+    "showroom_address": "Toshkent, O‘zbekiston · yozilish bilan tashrif · Dush–Shan 9:00–19:00",
+    "phone_display": "+998 77 104 44 22",
+    "telegram_display": "Telegram @BenTenTrade",
+    "channels_hint": "WhatsApp — shu raqam. Javob ish vaqtida Dush–Shan.",
     "ph_email": "Email / telefon",
     "ph_company": "Kompaniya",
     "ph_inn": "STIR",
@@ -424,7 +427,7 @@
     "returns": "Qaytarish",
     "a_pay": "Uzcard, Humo, Payme, Click — jonli kalitlar qo‘shilguncha sandbox. Yuridik shaxslar uchun hisob — so‘rov bo‘yicha.",
     "a_ship": "Standart pozitsiyalar uchun kelishuv bo‘yicha 24–48 soat. XL kashpo — ishlab chiqarish muddatiga qarab.",
-    "a_min_weight": "Chakana — pozitsiya bo‘yicha 1 kg dan. Opt — KP hajmiga qarab.",
+    "a_min_weight": "Rattan ipi uchun klassik ulgurji minimum — 5 kg (bententrade.uz dagi kabi); katta hajmlarga chegirmalar. Katalogda har bir kartochkada og‘irlik va narx.",
     "a_pick": "Bosh sahifa kvizi yoki mahsulot kartochkasi — menejer kutishsiz.",
     "a_returns": "Ochilmagan ruletka — kelishuv bo‘yicha 7 kun gacha. Individual buyurtmalar — alohida shartlar."
   },

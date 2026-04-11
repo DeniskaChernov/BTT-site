@@ -15,7 +15,6 @@ export function SegmentSection() {
       desc: t("novice_desc"),
       href: "/catalog?tab=new",
       icon: Sparkles,
-      span: "md:col-span-2 lg:col-span-2",
       accent: "from-amber-500/20 to-transparent",
     },
     {
@@ -23,7 +22,6 @@ export function SegmentSection() {
       desc: t("master_desc"),
       href: "/catalog?tab=material",
       icon: Wrench,
-      span: "md:col-span-1 lg:col-span-1",
       accent: "from-orange-600/15 to-transparent",
     },
     {
@@ -31,7 +29,6 @@ export function SegmentSection() {
       desc: t("wholesale_desc"),
       href: "/wholesale",
       icon: Warehouse,
-      span: "md:col-span-1 lg:col-span-1",
       accent: "from-stone-600/30 to-transparent",
     },
   ];
@@ -56,7 +53,7 @@ export function SegmentSection() {
           </p>
         </motion.div>
 
-        <div className="mt-10 grid auto-rows-fr gap-4 md:mt-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 auto-rows-fr gap-4 md:mt-12 md:grid-cols-3">
           {cards.map((c, i) => (
             <motion.div
               key={c.title}
@@ -64,7 +61,7 @@ export function SegmentSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.45 }}
-              className={c.span}
+              className="min-w-0"
             >
               <TiltCard className="h-full">
                 <Link

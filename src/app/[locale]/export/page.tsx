@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "export_page" });
   return {
-    title: `${t("title")} | Bententrade`,
+    title: t("title"),
     description: t("lead"),
   };
 }

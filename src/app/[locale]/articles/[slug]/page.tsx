@@ -19,14 +19,14 @@ export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
   const article = getArticleBySlug(slug);
   if (!article || article.status !== "published") {
-    return { title: "Bententrade" };
+    return { title: { absolute: "Bententrade" } };
   }
   const t = await getTranslations({
     locale,
     namespace: article.messageNamespace,
   });
   return {
-    title: `${t("title")} | Bententrade`,
+    title: t("title"),
     description: t("meta_description"),
   };
 }
