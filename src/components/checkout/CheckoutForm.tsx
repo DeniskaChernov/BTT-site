@@ -16,15 +16,17 @@ import {
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
+import { appendTelegramPrefillText, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-type Pay = "uzcard" | "humo" | "payme" | "click" | "invoice" | "cod";
+type Pay = "telegram" | "uzcard" | "humo" | "payme" | "click" | "invoice" | "cod";
 
 export function CheckoutForm() {
   const t = useTranslations("checkout");
   const tc = useTranslations("cart");
   const c = useTranslations("common");
+  const nav = useTranslations("nav");
   const { lines, subtotalUz, lineTotalUz, clear } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -34,8 +36,9 @@ export function CheckoutForm() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [ship, setShip] = useState<"courier" | "pickup">("courier");
-  const [pay, setPay] = useState<Pay>("payme");
+  const [pay, setPay] = useState<Pay>("telegram");
   const [done, setDone] = useState(false);
+  const [createdOrderId, setCreatedOrderId] = useState<string | null>(null);
   /** false — заказ ушёл только в localStorage (сеть или сервер без БД) */
   const [savedToServer, setSavedToServer] = useState(true);
   const [err, setErr] = useState<string | null>(null);
@@ -54,6 +57,8 @@ export function CheckoutForm() {
     () => readUtmFromSearch(searchParams.toString()),
     [searchParams]
   );
+
+  const telegramPayUrl = useMemo(() => telegramPaymentChatUrl(), []);
 
   const onPay = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +82,7 @@ export function CheckoutForm() {
       return;
     }
     setSubmitting(true);
+    setCreatedOrderId(null);
     try {
       trackEvent("start_checkout", {
         lines: lines.map((l) => l.sku),
@@ -121,6 +127,9 @@ export function CheckoutForm() {
             id?: string;
             createdAt?: string;
           } | null;
+          if (saved?.id) {
+            setCreatedOrderId(saved.id);
+          }
           if (saved?.id && saved?.createdAt) {
             appendOrder(orderBody, { id: saved.id, createdAt: saved.createdAt });
           } else {
@@ -163,16 +172,54 @@ export function CheckoutForm() {
       <div className="btt-container max-w-lg py-16">
         <div className="btt-glass-strong rounded-3xl p-8 text-center">
           <p className="text-lg font-semibold text-emerald-400">{t("success")}</p>
+          {createdOrderId ? (
+            <p className="mt-3 text-sm font-medium text-stone-300">
+              {t("success_order_ref", { id: createdOrderId })}
+            </p>
+          ) : null}
           {!savedToServer && (
             <p className="mt-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
               {t("success_local_only")}
             </p>
           )}
-          <p className="mt-2 text-sm text-stone-400">{t("sandbox_note")}</p>
+          {pay === "telegram" ? (
+            <p className="mt-4 text-sm leading-relaxed text-stone-400">{t("success_telegram_lead")}</p>
+          ) : null}
+          {pay === "telegram" && telegramPayUrl ? (
+            <a
+              href={
+                createdOrderId
+                  ? appendTelegramPrefillText(
+                      telegramPayUrl,
+                      t("telegram_chat_prefill", { id: createdOrderId }),
+                    )
+                  : telegramPayUrl
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                bttPrimaryButtonClass,
+                "btt-focus mt-6 inline-flex items-center justify-center active:scale-[0.99]",
+              )}
+            >
+              {t("open_telegram")}
+            </a>
+          ) : pay === "telegram" && !telegramPayUrl ? (
+            <p className="mt-4 text-sm text-stone-500">
+              {t("telegram_config_hint")}{" "}
+              <Link href="/contacts" className="font-medium text-amber-400 underline-offset-4 hover:underline">
+                {nav("contacts")}
+              </Link>
+            </p>
+          ) : null}
+          <p className="mt-4 text-xs text-stone-500">{t("payment_interim_note")}</p>
           <button
             type="button"
             onClick={() => router.push("/catalog")}
-            className={cn(bttPrimaryButtonClass, "btt-focus mt-6 active:scale-[0.99]")}
+            className={cn(
+              bttPrimaryButtonClass,
+              "btt-focus mt-6 inline-flex items-center justify-center border border-white/15 bg-white/[0.06] active:scale-[0.99]",
+            )}
           >
             {t("cta_catalog")}
           </button>
@@ -289,15 +336,12 @@ export function CheckoutForm() {
 
         <div>
           <p className="text-sm font-medium text-stone-200">{t("pay_method")}</p>
+          <p className="mt-1 text-xs text-stone-500">{t("pay_methods_note")}</p>
           <div className="mt-2 grid gap-2 sm:grid-cols-2">
             {(
               [
-                ["pay_uzcard", "uzcard"],
-                ["pay_humo", "humo"],
-                ["pay_payme", "payme"],
-                ["pay_click", "click"],
+                ["pay_telegram", "telegram"],
                 ["pay_invoice", "invoice"],
-                ["pay_cod", "cod"],
               ] as const
             ).map(([key, id]) => (
               <label

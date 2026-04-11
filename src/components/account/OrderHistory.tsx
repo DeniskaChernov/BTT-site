@@ -114,6 +114,7 @@ export function OrderHistory({ profilePhone }: Props) {
 
   const payKey = (pay: string) => {
     const map = {
+      telegram: "pay_telegram",
       uzcard: "pay_uzcard",
       humo: "pay_humo",
       payme: "pay_payme",

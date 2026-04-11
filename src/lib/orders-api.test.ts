@@ -62,6 +62,13 @@ describe("validateCreateOrderBody", () => {
     const b2 = validBody({ ship: "drone" as "courier" });
     expect(validateCreateOrderBody(b2)).toBe("Invalid shipping");
   });
+
+  it("accepts telegram as pay method", () => {
+    const r = validateCreateOrderBody(validBody({ pay: "telegram" }));
+    expect(r).not.toBe("Invalid payload");
+    if (typeof r === "string") throw new Error(r);
+    expect(r.pay).toBe("telegram");
+  });
 });
 
 describe("validateOrderAgainstCatalog", () => {

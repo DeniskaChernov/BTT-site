@@ -15,6 +15,7 @@ export const MAX_SLUG_CHARS = 160;
 export const MAX_LINE_NAME_CHARS = 240;
 
 const ALLOWED_PAY = new Set([
+  "telegram",
   "uzcard",
   "humo",
   "payme",
