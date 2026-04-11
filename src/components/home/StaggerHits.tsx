@@ -20,6 +20,7 @@ export function StaggerHits({ products }: Props) {
       {products.map((p) => (
         <motion.div
           key={p.sku}
+          className="h-full min-h-0"
           variants={{
             hidden: { opacity: 0, y: 16 },
             show: { opacity: 1, y: 0 },

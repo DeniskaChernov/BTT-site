@@ -218,6 +218,7 @@ export function CatalogClient({
             {filtered.map((p: Product) => (
               <motion.div
                 key={p.sku}
+                className="h-full min-h-0"
                 variants={{
                   hidden: { opacity: 0, y: 12 },
                   show: { opacity: 1, y: 0 },

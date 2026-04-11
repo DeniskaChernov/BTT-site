@@ -56,11 +56,14 @@ export function ProductCard({ product }: Props) {
   return (
     <motion.article
       layout
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition duration-300 hover:border-amber-500/30 hover:shadow-[0_24px_64px_-12px_rgba(245,158,11,0.18)]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition duration-300 hover:border-amber-500/30 hover:shadow-[0_24px_64px_-12px_rgba(245,158,11,0.18)]"
       whileHover={{ y: -5 }}
     >
-      <Link href={`/product/${product.slug}`} className="block outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]">
-        <div className="relative aspect-square overflow-hidden bg-stone-950">
+      <Link
+        href={`/product/${product.slug}`}
+        className="flex min-h-0 flex-1 flex-col outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]"
+      >
+        <div className="relative aspect-square shrink-0 overflow-hidden bg-stone-950">
           <Image
             src={img}
             alt={name}
@@ -86,25 +89,27 @@ export function ProductCard({ product }: Props) {
             </span>
           )}
         </div>
-        <div className="flex flex-1 flex-col p-5">
-          <h3 className="line-clamp-2 text-base font-semibold leading-snug text-stone-100">
+        <div className="flex min-h-0 flex-1 flex-col p-5">
+          <h3 className="line-clamp-2 min-h-[2.75rem] text-base font-semibold leading-snug text-stone-100">
             {name}
           </h3>
-          <p className="mt-2 line-clamp-2 text-sm text-stone-500">
+          <p className="mt-2 line-clamp-2 min-h-[2.625rem] text-sm leading-relaxed text-stone-500">
             {product.short[locale]}
           </p>
-          <div className="mt-4 flex items-baseline gap-2">
-            <span className="text-xl font-bold tabular-nums text-amber-400">
-              {formatUzs(ppk)}
-            </span>
-            <span className="text-xs text-stone-500">{t("per_kg")}</span>
+          <div className="mt-auto pt-4">
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl font-bold tabular-nums text-amber-400">
+                {formatUzs(ppk)}
+              </span>
+              <span className="text-xs text-stone-500">{t("per_kg")}</span>
+            </div>
+            <p className="mt-1 text-xs text-stone-600">
+              {product.stock === "in_stock" ? c("stock_in") : c("stock_order")}
+            </p>
           </div>
-          <p className="mt-1 text-xs text-stone-600">
-            {product.stock === "in_stock" ? c("stock_in") : c("stock_order")}
-          </p>
         </div>
       </Link>
-      <div className="px-5 pb-5">
+      <div className="mt-auto px-5 pb-5">
         <button
           type="button"
           onClick={onAdd}
