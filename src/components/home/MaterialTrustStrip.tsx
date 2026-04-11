@@ -8,7 +8,7 @@ const ICONS = [Sun, Shield, Leaf, Droplets] as const;
 export function MaterialTrustStrip() {
   const t = useTranslations("home");
 
-  const keys = ["strip_pe", "strip_uv", "strip_outdoor", "strip_care"] as const;
+  const keys = ["strip_material", "strip_uv", "strip_outdoor", "strip_care"] as const;
 
   return (
     <section
@@ -35,7 +35,7 @@ export function MaterialTrustStrip() {
             return (
               <li
                 key={key}
-                className="flex gap-3 rounded-2xl border border-white/[0.06] bg-black/20 p-4 transition hover:border-amber-500/30 hover:bg-black/30"
+                className="flex h-full min-h-0 gap-3 rounded-2xl border border-white/[0.06] bg-black/20 p-4 transition hover:border-amber-500/30 hover:bg-black/30"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300">
                   <Icon className="h-5 w-5" aria-hidden />

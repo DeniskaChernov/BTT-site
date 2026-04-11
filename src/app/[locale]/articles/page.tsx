@@ -44,7 +44,7 @@ export default async function ArticlesPage() {
         {ARTICLES.map((a) => (
           <li
             key={a.slug}
-            className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-md transition hover:border-amber-500/20 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.06)]"
+            className="flex h-full min-h-0 flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-md transition hover:border-amber-500/20 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.06)]"
           >
             {a.status === "soon" ? (
               <span className="w-fit rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-200/95">
@@ -55,18 +55,20 @@ export default async function ArticlesPage() {
                 {t("badge_live")}
               </span>
             )}
-            <h2 className="mt-4 text-lg font-semibold text-stone-100">{t(a.cardTitleKey)}</h2>
+            <h2 className="mt-4 line-clamp-2 min-h-[3.25rem] text-lg font-semibold leading-snug text-stone-100">
+              {t(a.cardTitleKey)}
+            </h2>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-stone-500">{t(a.cardDescKey)}</p>
             {a.status === "published" ? (
               <Link
                 href={`/articles/${a.slug}`}
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-amber-400 transition hover:gap-2 hover:text-amber-300"
+                className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-amber-400 transition hover:gap-2 hover:text-amber-300"
               >
                 {t("read_article")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             ) : (
-              <span className="mt-6 text-sm text-stone-600">{t("soon_hint")}</span>
+              <span className="mt-auto pt-6 text-sm text-stone-600">{t("soon_hint")}</span>
             )}
           </li>
         ))}

@@ -395,10 +395,12 @@ export function RattanQuiz() {
               {recommended.map((p) => (
                 <div
                   key={p.sku}
-                  className="btt-interactive-lift rounded-btt border border-white/15 bg-white/[0.02] p-4 transition hover:border-amber-500/25"
+                  className="btt-interactive-lift flex h-full min-h-0 flex-col rounded-btt border border-white/15 bg-white/[0.02] p-4 transition hover:border-amber-500/25"
                 >
-                  <p className="font-medium">{p.names[locale]}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <p className="line-clamp-2 min-h-[2.5rem] font-medium leading-snug">
+                    {p.names[locale]}
+                  </p>
+                  <div className="mt-auto flex flex-wrap gap-2 pt-3">
                     <button
                       type="button"
                       onClick={() => add(p, p.names[locale], pickQtyKg())}

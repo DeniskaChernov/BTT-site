@@ -300,24 +300,28 @@ export function ProductDetail({ product, related }: Props) {
         <h2 className="text-xl font-bold text-stone-100">{t("cross")}</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {related.map((p) => (
-            <Link
-              key={p.sku}
-              href={`/product/${p.slug}`}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-500/35 hover:shadow-xl hover:shadow-amber-950/20"
-            >
-              <div className="relative aspect-square overflow-hidden">
-                <Image
-                  src={productMainImage(p)}
-                  alt={p.names[locale]}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition group-hover:opacity-100" />
-              </div>
-              <div className="p-3 text-sm font-medium text-stone-200 transition group-hover:text-amber-100/95">
-                {p.names[locale]}
-              </div>
-            </Link>
+            <div key={p.sku} className="h-full min-h-0">
+              <Link
+                href={`/product/${p.slug}`}
+                className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-500/35 hover:shadow-xl hover:shadow-amber-950/20"
+              >
+                <div className="relative aspect-square shrink-0 overflow-hidden">
+                  <Image
+                    src={productMainImage(p)}
+                    alt={p.names[locale]}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                    sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 20vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition group-hover:opacity-100" />
+                </div>
+                <div className="flex min-h-0 flex-1 flex-col p-3">
+                  <p className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-stone-200 transition group-hover:text-amber-100/95">
+                    {p.names[locale]}
+                  </p>
+                </div>
+              </Link>
+            </div>
           ))}
         </div>
       </div>
