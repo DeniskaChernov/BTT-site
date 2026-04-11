@@ -18,9 +18,9 @@ export const products: Product[] = [
       en: "Half-round rattan 5 mm, natural",
     },
     short: {
-      ru: "Уличный и домашний. Стабильная партия.",
-      uz: "Kocha va uy. Barqaror partiya.",
-      en: "Indoor & outdoor. Consistent batch.",
+      ru: "Полукруглый искусственный ротанг для мебели и кашпо: улица и интерьер, стабильная партия цвета.",
+      uz: "Mebel va kashpo uchun yarim dumaloq sun'iy rattan: kocha va uy, barqaror rang partiyasi.",
+      en: "Half-round artificial rattan for furniture and planters — indoor/outdoor, stable color batch.",
     },
     bullets: b(
       [
@@ -75,9 +75,9 @@ export const products: Product[] = [
       en: "Flat rattan 6 mm, black",
     },
     short: {
-      ru: "Для мебели и декора. Глубокий чёрный.",
-      uz: "Mebel va dekor. Chuqur qora.",
-      en: "Furniture & decor. Deep black.",
+      ru: "Плоский профиль для уличной мебели и декора. Глубокий чёрный, с UV-стабилизацией.",
+      uz: "Kocha mebeli va dekor uchun tekis profil. Chuqur qora, UV barqaror.",
+      en: "Flat profile for outdoor furniture and decor — deep black, UV stabilized.",
     },
     bullets: b(
       [
@@ -131,9 +131,9 @@ export const products: Product[] = [
       en: "Round rattan 4 mm, coffee",
     },
     short: {
-      ru: "Гибкий, для мелкой плетения.",
-      uz: "Egiluvchan, mayda to‘qish uchun.",
-      en: "Flexible for fine weaving.",
+      ru: "Круглый профиль для мелкой сетки и декора в помещении — мягкий, ровный тон.",
+      uz: "Uy ichidagi mayda to‘r va dekor uchun dumaloq profil — yumshoq, tekis ton.",
+      en: "Round profile for fine indoor weave and decor — soft, even tone.",
     },
     bullets: b(
       ["Дом", "4 мм", "Мягкий", "Отправка 24–48 ч", "Ровный тон"],
@@ -160,9 +160,9 @@ export const products: Product[] = [
       en: "Oval rattan 7 mm, white",
     },
     short: {
-      ru: "Крупный профиль для фасадов.",
-      uz: "Fasadlar uchun katta profil.",
-      en: "Large profile for facades.",
+      ru: "Овальный крупный профиль для фасадов и улицы — UV, ровная поверхность.",
+      uz: "Fasad va kocha uchun katta oval profil — UV, tekis yuz.",
+      en: "Large oval profile for facades and outdoors — UV, smooth face.",
     },
     bullets: b(
       ["Улица", "7 мм", "UV", "Отправка 24–48 ч", "Ровная поверхность"],
@@ -189,9 +189,9 @@ export const products: Product[] = [
       en: "Half-round 5 mm, graphite grey",
     },
     short: {
-      ru: "Новинка сезона. Нейтральный тон.",
-      uz: "Mavsum yangiligi. Neytral ton.",
-      en: "New season tone. Neutral.",
+      ru: "Полукруглый 5 мм, нейтральный серый — новинка палитры; улица и дом.",
+      uz: "Yarim dumaloq 5 mm, neytral kulrang — yangi palitra; kocha va uy.",
+      en: "Half-round 5 mm graphite grey — new palette; indoor & outdoor.",
     },
     bullets: b(
       ["Улица и дом", "5 мм", "Новинка", "Отправка 24–48 ч", "Партия стабильна"],
@@ -218,9 +218,9 @@ export const products: Product[] = [
       en: "Planter basket M, natural weave",
     },
     short: {
-      ru: "Готово к установке. Дренаж включён.",
-      uz: "O‘rnatishga tayyor. Drenaj bor.",
-      en: "Ready to install. Drainage included.",
+      ru: "Плетёное кашпо-корзина с ручкой: улица, дренаж, устойчивое дно — ручная работа.",
+      uz: "Qo‘lda to‘qilgan kashpo-savat, drenaj va barqaror tub — kocha uchun.",
+      en: "Hand-woven basket planter with handle — outdoor, drainage, stable base.",
     },
     bullets: b(
       ["Улица", "M размер", "Дренаж", "Отправка 24–48 ч", "Лёгкий вес"],
@@ -247,9 +247,9 @@ export const products: Product[] = [
       en: "Linear planter L, black",
     },
     short: {
-      ru: "Для террас и HoReCa.",
-      uz: "Terasalar va HoReCa uchun.",
-      en: "For terraces & HoReCa.",
+      ru: "Линейное кашпо L для террас и HoReCa — объёмные посадки, устойчивое дно.",
+      uz: "Terasa va HoReCa uchun chiziqli L kashpo — katta o‘simliklar, mustahkam tub.",
+      en: "Linear L planter for terraces and HoReCa — large plants, stable base.",
     },
     bullets: b(
       ["Улица", "L", "HoReCa", "Отправка 24–48 ч", "Устойчивое дно"],
@@ -276,9 +276,9 @@ export const products: Product[] = [
       en: "Flat rattan 8 mm, natural",
     },
     short: {
-      ru: "Толстый профиль для крупной мебели.",
-      uz: "Katta mebel uchun qalin profil.",
-      en: "Thick profile for large furniture.",
+      ru: "Плоский 8 мм для крупной мебели и объёмного плетения — жёсткий профиль, улица и дом.",
+      uz: "Katta mebel va keng to‘qish uchun tekis 8 mm — qattiq profil, kocha va uy.",
+      en: "Flat 8 mm for large furniture and wide weave — rigid profile, indoor/outdoor.",
     },
     bullets: b(
       ["Улица и дом", "8 мм", "Жёсткий", "Отправка 24–48 ч", "Партия стабильна"],
@@ -305,9 +305,9 @@ export const products: Product[] = [
       en: "Round rattan 3 mm, black",
     },
     short: {
-      ru: "Тонкий — для декора и мелких форм.",
-      uz: "Ingichka — dekor va mayda forma uchun.",
-      en: "Fine — decor & small forms.",
+      ru: "Тонкий круглый 3 мм для декора и мелких форм в помещении.",
+      uz: "Uy ichidagi dekor va mayda forma uchun ingichka dumaloq 3 mm.",
+      en: "Fine 3 mm round for indoor decor and small forms.",
     },
     bullets: b(
       ["Дом", "3 мм", "Гибкий", "Отправка 24–48 ч", "Ровный цвет"],
@@ -334,9 +334,9 @@ export const products: Product[] = [
       en: "Half-round 6 mm, white",
     },
     short: {
-      ru: "Для светлых интерьеров и террас.",
-      uz: "Yorug‘ interyer va terasalar uchun.",
-      en: "Bright interiors & terraces.",
+      ru: "Полукруглый 6 мм белый: светлые интерьеры и террасы, с UV-стабилизацией.",
+      uz: "Yorug‘ interyer va terasalar uchun yarim dumaloq 6 mm oq — UV barqaror.",
+      en: "Half-round 6 mm white for bright interiors and terraces — UV stabilized.",
     },
     bullets: b(
       ["Улица и дом", "6 мм", "UV", "Отправка 24–48 ч", "Чистый белый"],
@@ -363,9 +363,9 @@ export const products: Product[] = [
       en: "Bowl planter S, coffee",
     },
     short: {
-      ru: "Компактно для балконов.",
-      uz: "Balkonlar uchun ixcham.",
-      en: "Compact for balconies.",
+      ru: "Кашпо-чаша S для балконов и подоконников — компактный объём, улица.",
+      uz: "Balkon va deraza oldi uchun kashpo-tovoq S — ixcham, kocha.",
+      en: "Bowl planter S for balconies and windowsills — compact, outdoor.",
     },
     bullets: b(
       ["Улица", "S", "Лёгкий", "Отправка 24–48 ч", "Устойчивое"],
@@ -392,9 +392,9 @@ export const products: Product[] = [
       en: "Oval rattan 6 mm, natural",
     },
     short: {
-      ru: "Универсальный профиль.",
-      uz: "Universal profil.",
-      en: "All‑round profile.",
+      ru: "Овальный 6 мм натуральный — универсальный профиль для улицы и крупных поверхностей.",
+      uz: "Kocha va katta yuzalar uchun oval 6 mm tabiiy — universal profil.",
+      en: "Oval 6 mm natural — versatile profile for outdoor and large surfaces.",
     },
     bullets: b(
       ["Улица", "6 мм", "Партия стабильна", "Отправка 24–48 ч", "Ровная текстура"],
@@ -421,9 +421,9 @@ export const products: Product[] = [
       en: "Flat 5 mm, grey",
     },
     short: {
-      ru: "Новая палитра. Под мебельные тренды.",
-      uz: "Yangi palitra. Mebel trendlari uchun.",
-      en: "New palette. Furniture trends.",
+      ru: "Плоский 5 мм серый — новая палитра под современную мебель и фасады.",
+      uz: "Zamonaviy mebel va fasadlar uchun tekis 5 mm kulrang — yangi palitra.",
+      en: "Flat 5 mm grey — new palette for modern furniture and facades.",
     },
     bullets: b(
       ["Улица и дом", "5 мм", "Новинка", "Отправка 24–48 ч", "Серый тон"],
@@ -450,9 +450,9 @@ export const products: Product[] = [
       en: "Round 4 mm, white",
     },
     short: {
-      ru: "Для светлых проектов.",
-      uz: "Yorug‘ loyihalar uchun.",
-      en: "For light projects.",
+      ru: "Круглый 4 мм белый для светлых интерьерных проектов и мелкой плетени.",
+      uz: "Yorug‘ interyer loyihalari va mayda to‘qish uchun dumaloq 4 mm oq.",
+      en: "Round 4 mm white for light indoor projects and fine weave.",
     },
     bullets: b(
       ["Дом", "4 мм", "Мягкий", "Отправка 24–48 ч", "Ровный"],
@@ -479,9 +479,9 @@ export const products: Product[] = [
       en: "Tower planter XL, black",
     },
     short: {
-      ru: "Акцент для входных групп.",
-      uz: "Kirish guruhlari uchun aksent.",
-      en: "Statement for entrances.",
+      ru: "Кашпо-башня XL — акцент для входных групп и HoReCa; крупный объём, под заказ.",
+      uz: "Kirish zonasi va HoReCa uchun XL minora kashpo — katta hajm, buyurtma.",
+      en: "XL tower planter for entrances and HoReCa — large volume, on order.",
     },
     bullets: b(
       ["Улица", "XL", "HoReCa", "Отправка по согласованию", "Устойчивое"],
@@ -508,9 +508,9 @@ export const products: Product[] = [
       en: "Half-round 7 mm, coffee",
     },
     short: {
-      ru: "Крупный полукруглый для кресел.",
-      uz: "Kreslolar uchun katta yarim dumaloq.",
-      en: "Large half-round for armchairs.",
+      ru: "Полукруглый 7 мм «кофе» для объёмной уличной мебели и кресел.",
+      uz: "Kocha mebeli va kreslolar uchun yarim dumaloq 7 mm qahva.",
+      en: "Half-round 7 mm coffee for bulky outdoor furniture and armchairs.",
     },
     bullets: b(
       ["Улица", "7 мм", "Жёсткий", "Отправка 24–48 ч", "Тёплый тон"],
@@ -537,9 +537,9 @@ export const products: Product[] = [
       en: "Flat 5 mm, white",
     },
     short: {
-      ru: "Светлые фасады и мебель.",
-      uz: "Yorug‘ fasad va mebel.",
-      en: "Light facades & furniture.",
+      ru: "Плоский 5 мм белый для светлых фасадов и мебели — UV, чистый тон.",
+      uz: "Yorug‘ fasad va mebel uchun tekis 5 mm oq — UV, toza ton.",
+      en: "Flat 5 mm white for light facades and furniture — UV, clean tone.",
     },
     bullets: b(
       ["Улица и дом", "5 мм", "UV", "Отправка 24–48 ч", "Чистый"],
@@ -566,9 +566,9 @@ export const products: Product[] = [
       en: "Round 6 mm, natural",
     },
     short: {
-      ru: "Баланс гибкости и формы.",
-      uz: "Egilish va forma muvozanati.",
-      en: "Balance of flex and form.",
+      ru: "Круглый 6 мм натуральный — баланс гибкости для мебели, кашпо и декора.",
+      uz: "Mebel, kashpo va dekor uchun dumaloq 6 mm tabiiy — egilish muvozanati.",
+      en: "Round 6 mm natural — balanced flex for furniture, planters, and decor.",
     },
     bullets: b(
       ["Улица и дом", "6 мм", "Средняя жёсткость", "Отправка 24–48 ч", "Партия стабильна"],
@@ -595,9 +595,9 @@ export const products: Product[] = [
       en: "Planter tray set",
     },
     short: {
-      ru: "Новинка: комплект для сада.",
-      uz: "Yangi: bog‘ uchun komplekt.",
-      en: "New: garden kit.",
+      ru: "Набор поддонов под кашпо — удобный комплект для сада и террасы.",
+      uz: "Kashpo uchun poddon to‘plami — bog‘ va terasa uchun qulay komplekt.",
+      en: "Tray set for planters — handy kit for garden and terrace.",
     },
     bullets: b(
       ["Улица", "Набор", "Новинка", "Отправка 24–48 ч", "Удобный сервис"],
@@ -624,9 +624,9 @@ export const products: Product[] = [
       en: "Oval 5 mm, black",
     },
     short: {
-      ru: "Строгий профиль для уличной мебели.",
-      uz: "Kocha mebeli uchun qat’iy profil.",
-      en: "Strict profile for outdoor furniture.",
+      ru: "Овальный 5 мм чёрный — строгий профиль для уличной мебели, матовый UV.",
+      uz: "Kocha mebeli uchun qat’iy oval 5 mm qora — mat UV.",
+      en: "Oval 5 mm black — strict profile for outdoor furniture, matte UV.",
     },
     bullets: b(
       ["Улица", "5 мм", "UV", "Отправка 24–48 ч", "Матовый"],

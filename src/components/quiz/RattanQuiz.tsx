@@ -107,14 +107,39 @@ export function RattanQuiz() {
     setEndMode("done");
   };
 
+  const idle = step === 0;
+
   return (
-    <div id="quiz" className="btt-glass-strong scroll-mt-24 p-6 md:p-10">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="text-xl font-semibold text-stone-50 md:text-2xl">
+    <div
+      id="quiz"
+      className={cn(
+        "btt-glass-strong scroll-mt-24 p-6 md:p-10",
+        idle && "mx-auto w-full max-w-xl text-center",
+      )}
+    >
+      <div
+        className={cn(
+          "flex flex-wrap items-center gap-3",
+          idle ? "justify-center" : "justify-between",
+        )}
+      >
+        <div className={cn(idle && "w-full")}>
+          <h2
+            className={cn(
+              "text-xl font-semibold text-stone-50 md:text-2xl",
+              idle && "text-center",
+            )}
+          >
             {t("start")}
           </h2>
-          <p className="mt-1 text-sm text-stone-400">{t("hint")}</p>
+          <p
+            className={cn(
+              "mt-1 text-sm text-stone-400",
+              idle && "mx-auto max-w-md text-center",
+            )}
+          >
+            {t("hint")}
+          </p>
         </div>
         {step > 0 && step <= 5 && (
           <p className="text-xs font-medium text-stone-500">
@@ -123,8 +148,8 @@ export function RattanQuiz() {
         )}
       </div>
 
-      {step === 0 && (
-        <div className="mt-8 flex flex-wrap gap-3">
+      {idle && (
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button
             type="button"
             onClick={start}

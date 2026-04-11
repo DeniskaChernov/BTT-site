@@ -32,7 +32,7 @@ export default async function HomePage() {
               </h2>
               <p className="mt-3 text-pretty text-stone-400 md:text-lg">{t("quiz_sub")}</p>
             </div>
-            <div className="mx-auto mt-10 max-w-4xl md:mt-12">
+            <div className="mx-auto mt-10 flex w-full max-w-2xl justify-center md:mt-12">
               <RattanQuizLazy />
             </div>
           </div>

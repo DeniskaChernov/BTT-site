@@ -45,7 +45,7 @@ const META_KEYWORDS: Record<string, string[]> = {
   en: [
     "artificial rattan",
     "planters",
-    "PE wicker",
+    "synthetic wicker",
     "Uzbekistan",
     "Bententrade",
     "outdoor",

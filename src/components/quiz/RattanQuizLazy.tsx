@@ -15,7 +15,7 @@ function QuizSkeleton() {
   const t = useTranslations("home");
   return (
     <div
-      className="btt-glass-strong min-h-[220px] animate-pulse rounded-3xl border border-white/10 bg-gradient-to-br from-stone-900/80 to-stone-950/90 p-8 shadow-inner shadow-black/30"
+      className="btt-glass-strong mx-auto min-h-[220px] w-full max-w-xl animate-pulse rounded-3xl border border-white/10 bg-gradient-to-br from-stone-900/80 to-stone-950/90 p-8 text-center shadow-inner shadow-black/30"
       role="status"
       aria-busy="true"
       aria-label={t("quiz_title")}
