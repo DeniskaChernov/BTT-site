@@ -4,5 +4,6 @@
  */
 
 export async function register(): Promise<void> {
-  /* Здесь можно подключить APM / OpenTelemetry при необходимости */
+  /* APM / OpenTelemetry — при необходимости. */
+  /* Исходящие события в CRM: см. `src/lib/crm/` (сейчас webhook; позже — очередь/отдельный сервис). */
 }

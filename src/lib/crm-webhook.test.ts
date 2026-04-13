@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { signCrmWebhookBody } from "./crm-webhook";
+import { signCrmWebhookBody } from "@/lib/crm/signing";
 
 describe("signCrmWebhookBody", () => {
   it("returns stable hex for same input", () => {

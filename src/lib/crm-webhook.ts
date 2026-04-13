@@ -1,82 +1,51 @@
-import { createHmac } from "node:crypto";
+/**
+ * Совместимость: уведомления CRM для заказов и лидов.
+ * Реализация контракта и транспорта — в `src/lib/crm/` (позже можно подменить webhook на очередь).
+ */
+
+import { randomUUID } from "node:crypto";
 import type { Order, OrderLine } from "@prisma/client";
 import { orderToJson } from "@/lib/admin-order-json";
-import { log } from "@/lib/logger";
+import {
+  CRM_EVENT,
+  CRM_PAYLOAD_SCHEMA_VERSION,
+  CRM_SOURCE_APP,
+} from "@/lib/crm/contract";
+import { crmSiteUrl, sendCrmOutboundPayload } from "@/lib/crm/outbound";
+import type {
+  CrmLeadSubmittedPayload,
+  CrmOrderCreatedPayload,
+} from "@/lib/crm/payloads";
 
-export type CrmOrderCreatedPayload = {
-  event: "order.created";
-  site: string;
-  createdAt: string;
-  order: ReturnType<typeof orderToJson>;
-};
-
-export type CrmLeadSubmittedPayload = {
-  event: "lead.submitted";
-  site: string;
-  submittedAt: string;
-  kind: string;
-  locale: string;
-  fields: Record<string, string>;
-  quiz?: Record<string, string>;
-  /** id строки в PostgreSQL, если лид сохранён в БД */
-  leadId?: string;
-};
-
-/** HMAC-SHA256 hex от тела JSON для проверки в CRM. */
-export function signCrmWebhookBody(body: string, secret: string): string {
-  return createHmac("sha256", secret).update(body, "utf8").digest("hex");
-}
+export type { CrmLeadSubmittedPayload, CrmOrderCreatedPayload } from "@/lib/crm/payloads";
+export { signCrmWebhookBody } from "@/lib/crm/signing";
 
 /**
  * Уведомление CRM о новом заказе (не блокирует ответ клиенту).
- * Нужны `CRM_WEBHOOK_URL` и `CRM_WEBHOOK_SECRET` (одинаковая длина с прод-секретом не требуется).
+ * Нужны `CRM_WEBHOOK_URL` и `CRM_WEBHOOK_SECRET` (минимум 16 символов).
  */
 export function notifyCrmOrderCreated(
   order: Order & { lines: OrderLine[] },
   requestId?: string,
 ): void {
-  const url = process.env.CRM_WEBHOOK_URL?.trim();
-  const secret = process.env.CRM_WEBHOOK_SECRET?.trim();
-  if (!url || !secret || secret.length < 16) return;
-
-  const site =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
-
+  const payloadId = randomUUID();
   const payload: CrmOrderCreatedPayload = {
-    event: "order.created",
-    site,
+    schemaVersion: CRM_PAYLOAD_SCHEMA_VERSION,
+    payloadId,
+    source: CRM_SOURCE_APP,
+    site: crmSiteUrl(),
+    event: CRM_EVENT.ORDER_CREATED,
     createdAt: order.createdAt.toISOString(),
     order: orderToJson(order),
   };
-
-  const body = JSON.stringify(payload);
-  const signature = signCrmWebhookBody(body, secret);
-
-  void fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "X-BTT-Signature": `sha256=${signature}`,
-      "X-BTT-Event": "order.created",
-      ...(requestId ? { "X-Request-Id": requestId } : {}),
-    },
-    body,
-  })
-    .then((res) => {
-      if (!res.ok) {
-        log.warn("crm/webhook", `CRM webhook HTTP ${res.status}`, {
-          ...(requestId ? { requestId } : {}),
-        });
-      }
-    })
-    .catch((e) => {
-      log.error("crm/webhook", e, { ...(requestId ? { requestId } : {}) });
-    });
+  sendCrmOutboundPayload(CRM_EVENT.ORDER_CREATED, { ...payload }, {
+    requestId,
+    idempotencyKey: `order-${order.id}`,
+  });
 }
 
 /**
- * Лид с сайта (контакты, опт, экспорт, квиз). Те же `CRM_WEBHOOK_URL` / `CRM_WEBHOOK_SECRET`, событие `lead.submitted`.
+ * Лид с сайта (контакты, опт, экспорт, квиз). Событие `lead.submitted`.
  */
 export function notifyCrmLeadSubmitted(
   lead: {
@@ -88,17 +57,13 @@ export function notifyCrmLeadSubmitted(
   },
   requestId?: string,
 ): void {
-  const url = process.env.CRM_WEBHOOK_URL?.trim();
-  const secret = process.env.CRM_WEBHOOK_SECRET?.trim();
-  if (!url || !secret || secret.length < 16) return;
-
-  const site =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
-
+  const payloadId = randomUUID();
   const payload: CrmLeadSubmittedPayload = {
-    event: "lead.submitted",
-    site,
+    schemaVersion: CRM_PAYLOAD_SCHEMA_VERSION,
+    payloadId,
+    source: CRM_SOURCE_APP,
+    site: crmSiteUrl(),
+    event: CRM_EVENT.LEAD_SUBMITTED,
     submittedAt: new Date().toISOString(),
     kind: lead.kind,
     locale: lead.locale,
@@ -108,28 +73,8 @@ export function notifyCrmLeadSubmitted(
       ? { quiz: lead.quiz }
       : {}),
   };
-
-  const body = JSON.stringify(payload);
-  const signature = signCrmWebhookBody(body, secret);
-
-  void fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "X-BTT-Signature": `sha256=${signature}`,
-      "X-BTT-Event": "lead.submitted",
-      ...(requestId ? { "X-Request-Id": requestId } : {}),
-    },
-    body,
-  })
-    .then((res) => {
-      if (!res.ok) {
-        log.warn("crm/webhook", `CRM lead webhook HTTP ${res.status}`, {
-          ...(requestId ? { requestId } : {}),
-        });
-      }
-    })
-    .catch((e) => {
-      log.error("crm/webhook", e, { ...(requestId ? { requestId } : {}) });
-    });
+  sendCrmOutboundPayload(CRM_EVENT.LEAD_SUBMITTED, { ...payload }, {
+    requestId,
+    idempotencyKey: lead.leadId ? `lead-${lead.leadId}` : payloadId,
+  });
 }

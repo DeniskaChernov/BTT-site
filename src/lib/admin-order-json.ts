@@ -3,6 +3,8 @@ import type { Order, OrderLine } from "@prisma/client";
 /** Единый формат заказа для CRM / admin API. */
 export function orderToJson(o: Order & { lines: OrderLine[] }) {
   return {
+    /** Источник данных для внешней CRM (мульти-сайт, миграции). */
+    source: "btt-site" as const,
     id: o.id,
     createdAt: o.createdAt.toISOString(),
     totalUz: o.totalUz,
