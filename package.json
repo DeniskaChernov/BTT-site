@@ -16,7 +16,7 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "start": "prisma migrate deploy && next start",
-    "lint": "next lint",
+    "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
