@@ -35,7 +35,8 @@
     "articles": "Maqolalar",
     "locale_switch": "Sayt tili",
     "kinetic_menu": "Menyu",
-    "kinetic_close": "Yopish"
+    "kinetic_close": "Yopish",
+    "cart_sr": "Savatcha: buyurtmada {count} ta pozitsiya"
   },
   "common": {
     "from": "dan",
@@ -245,7 +246,17 @@
     "empty": "Filtr bo‘yicha yo‘q — tozalang yoki tanlashni oching",
     "brochure_kicker": "PDF-katalog",
     "brochure_lead": "To‘liq katalog PDF: sahifada ko‘rish yoki bir marta bosib yuklab olish.",
-    "brochure_cta": "PDF-katalogni ochish"
+    "brochure_cta": "PDF-katalogni ochish",
+    "search_placeholder": "Nomi, SKU yoki tavsif bo‘yicha qidirish",
+    "sort_label": "Saralash",
+    "sort_popular": "Avval moslari",
+    "sort_price_asc": "Avval arzonlari",
+    "sort_price_desc": "Avval qimmatlari",
+    "sort_name_asc": "Nomi bo‘yicha (A-Z)",
+    "active_filters": "Faol filtrlar:",
+    "filters_done": "Tayyor",
+    "filters_close": "Yopish",
+    "loading_grid": "Katalog yangilanmoqda"
   },
   "catalogBrochure": {
     "meta_title": "PDF katalog",

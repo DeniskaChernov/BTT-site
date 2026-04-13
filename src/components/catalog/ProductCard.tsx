@@ -27,20 +27,22 @@ export function ProductCard({ product }: Props) {
   const c = useTranslations("catalog");
   const { add } = useCart();
   const [toast, setToast] = useState(false);
+  const [quickQty, setQuickQty] = useState<1.5 | 5 | 10>(1.5);
   const toastTimerRef = useRef<number | null>(null);
 
   const name = product.names[locale];
-  const ppk = getPricePerKgForQty(product, 1.5);
+  const ppk = getPricePerKgForQty(product, quickQty);
   const img = productMainImage(product);
 
   const onAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    add(product, name, 1.5);
+    add(product, name, quickQty);
     trackEvent("add_to_cart", {
       sku: product.sku,
-      value: Math.round(ppk * 1.5),
+      value: Math.round(ppk * quickQty),
       currency: "UZS",
+      qtyKg: quickQty,
     });
     setToast(true);
     if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
@@ -103,6 +105,9 @@ export function ProductCard({ product }: Props) {
               </span>
               <span className="text-xs text-stone-500">{t("per_kg")}</span>
             </div>
+            <p className="mt-1 text-xs text-stone-500">
+              {`≈ ${formatUzs(Math.round(ppk * quickQty))} / ${quickQty} kg`}
+            </p>
             <p className="mt-1 text-xs text-stone-600">
               {product.stock === "in_stock" ? c("stock_in") : c("stock_order")}
             </p>
@@ -110,6 +115,29 @@ export function ProductCard({ product }: Props) {
         </div>
       </Link>
       <div className="mt-auto px-5 pb-5">
+        <div className="mb-3 flex gap-2">
+          {(
+            [
+              [1.5, c("w12")],
+              [5, c("w5")],
+              [10, c("w10")],
+            ] as const
+          ).map(([kg, label]) => (
+            <button
+              key={kg}
+              type="button"
+              onClick={() => setQuickQty(kg)}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs font-medium transition",
+                quickQty === kg
+                  ? "border-amber-400/70 bg-amber-500/15 text-amber-200"
+                  : "border-white/15 text-stone-400 hover:border-amber-500/45 hover:text-stone-200",
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         <button
           type="button"
           onClick={onAdd}
@@ -124,10 +152,14 @@ export function ProductCard({ product }: Props) {
         <AnimatePresence>
           {toast && (
             <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 10, scale: 0.92 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { type: "spring", stiffness: 480, damping: 26 },
+              }}
+              exit={{ opacity: 0, y: -6, scale: 0.96, transition: { duration: 0.18 } }}
               className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400"
             >
               <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />

@@ -35,7 +35,8 @@
     "articles": "Статьи",
     "locale_switch": "Язык сайта",
     "kinetic_menu": "Меню",
-    "kinetic_close": "Закрыть"
+    "kinetic_close": "Закрыть",
+    "cart_sr": "Корзина: {count} поз. в заказе"
   },
   "common": {
     "from": "от",
@@ -245,7 +246,17 @@
     "empty": "Нет позиций по фильтрам — сбросьте или напишите в подборе",
     "brochure_kicker": "PDF-каталог",
     "brochure_lead": "Полный каталог в PDF: просмотр на странице и скачивание одним кликом.",
-    "brochure_cta": "Открыть каталог PDF"
+    "brochure_cta": "Открыть каталог PDF",
+    "search_placeholder": "Поиск по названию, артикулу или описанию",
+    "sort_label": "Сортировка",
+    "sort_popular": "Сначала популярные",
+    "sort_price_asc": "Сначала дешевле",
+    "sort_price_desc": "Сначала дороже",
+    "sort_name_asc": "По названию (А-Я)",
+    "active_filters": "Активные фильтры:",
+    "filters_done": "Готово",
+    "filters_close": "Закрыть",
+    "loading_grid": "Обновление каталога"
   },
   "catalogBrochure": {
     "meta_title": "Каталог PDF",

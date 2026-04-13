@@ -35,7 +35,8 @@
     "articles": "Articles",
     "locale_switch": "Site language",
     "kinetic_menu": "Menu",
-    "kinetic_close": "Close"
+    "kinetic_close": "Close",
+    "cart_sr": "Cart: {count} line(s) in your order"
   },
   "common": {
     "from": "from",
@@ -245,7 +246,17 @@
     "empty": "No matches — reset filters or use the picker",
     "brochure_kicker": "PDF catalog",
     "brochure_lead": "Full catalog as PDF: browse on this page or download in one click.",
-    "brochure_cta": "Open PDF catalog"
+    "brochure_cta": "Open PDF catalog",
+    "search_placeholder": "Search by name, SKU, or description",
+    "sort_label": "Sort",
+    "sort_popular": "Most relevant first",
+    "sort_price_asc": "Price: low to high",
+    "sort_price_desc": "Price: high to low",
+    "sort_name_asc": "Name (A-Z)",
+    "active_filters": "Active filters:",
+    "filters_done": "Done",
+    "filters_close": "Close",
+    "loading_grid": "Updating catalog"
   },
   "catalogBrochure": {
     "meta_title": "PDF catalog",

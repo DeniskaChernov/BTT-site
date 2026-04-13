@@ -3,6 +3,7 @@
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { NavAccountLink } from "@/components/layout/NavAccountLink";
 import { SlideTabs, type SlideTabItem } from "@/components/ui/slide-tabs";
+import { useCart } from "@/contexts/CartContext";
 import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -27,6 +28,8 @@ function resolveActiveNavId(pathname: string): string | undefined {
 export function GlowSiteNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
+  const { lines } = useCart();
+  const cartCount = lines.length;
 
   const activeId = useMemo(
     () => resolveActiveNavId(pathname),
@@ -40,13 +43,20 @@ export function GlowSiteNav() {
       { id: "about", label: t("about"), href: "/about" },
       { id: "articles", label: t("articles"), href: "/articles" },
       { id: "contacts", label: t("contacts"), href: "/contacts" },
-      { id: "cart", label: t("cart"), href: "/cart" },
+      {
+        id: "cart",
+        label: t("cart"),
+        href: "/cart",
+        badge: cartCount > 0 ? cartCount : undefined,
+        linkAriaLabel:
+          cartCount > 0 ? t("cart_sr", { count: cartCount }) : undefined,
+      },
     ],
-    [t],
+    [t, cartCount],
   );
 
   return (
-    <header className="relative sticky top-0 z-50 bg-transparent">
+    <header className="relative sticky top-0 z-50 border-b border-white/[0.06] bg-stone-950/40 backdrop-blur-md supports-[backdrop-filter]:bg-stone-950/25">
       <div className="btt-container py-3.5">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-4">
           <div className="flex items-center justify-between gap-3 md:justify-start">
