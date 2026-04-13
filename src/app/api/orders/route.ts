@@ -3,6 +3,7 @@ import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
 import { notifyCrmOrderCreated } from "@/lib/crm-webhook";
 import { prisma } from "@/lib/db";
 import { log } from "@/lib/logger";
+import { isDbConnectionError } from "@/lib/prisma-errors";
 import { requestIdFrom } from "@/lib/request-id";
 import {
   validateCreateOrderBody,
@@ -19,14 +20,6 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
-
-function isDbConnectionError(e: unknown): boolean {
-  if (e instanceof Prisma.PrismaClientInitializationError) return true;
-  if (e instanceof Prisma.PrismaClientKnownRequestError) {
-    return ["P1001", "P1002", "P1008", "P1010", "P1011", "P1017"].includes(e.code);
-  }
-  return false;
-}
 
 export async function POST(request: Request) {
   const requestId = requestIdFrom(request);

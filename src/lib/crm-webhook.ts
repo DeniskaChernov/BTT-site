@@ -18,6 +18,8 @@ export type CrmLeadSubmittedPayload = {
   locale: string;
   fields: Record<string, string>;
   quiz?: Record<string, string>;
+  /** id строки в PostgreSQL, если лид сохранён в БД */
+  leadId?: string;
 };
 
 /** HMAC-SHA256 hex от тела JSON для проверки в CRM. */
@@ -82,6 +84,7 @@ export function notifyCrmLeadSubmitted(
     locale: string;
     fields: Record<string, string>;
     quiz?: Record<string, string>;
+    leadId?: string;
   },
   requestId?: string,
 ): void {
@@ -100,6 +103,7 @@ export function notifyCrmLeadSubmitted(
     kind: lead.kind,
     locale: lead.locale,
     fields: lead.fields,
+    ...(lead.leadId ? { leadId: lead.leadId } : {}),
     ...(lead.quiz && Object.keys(lead.quiz).length > 0
       ? { quiz: lead.quiz }
       : {}),

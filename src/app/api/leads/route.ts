@@ -1,7 +1,10 @@
 import { MAX_LEAD_JSON_BYTES } from "@/lib/api-limits";
 import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
 import { notifyCrmLeadSubmitted } from "@/lib/crm-webhook";
+import { prisma } from "@/lib/db";
 import { validateLeadBody } from "@/lib/leads-api";
+import { log } from "@/lib/logger";
+import { isDbConnectionError } from "@/lib/prisma-errors";
 import { requestIdFrom } from "@/lib/request-id";
 import { allowPostLead, clientKeyFromRequest } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
@@ -51,15 +54,48 @@ export async function POST(request: Request) {
     );
   }
 
+  let leadId: string | undefined;
+  if (process.env.DATABASE_URL) {
+    try {
+      const row = await prisma.lead.create({
+        data: {
+          kind: validated.kind,
+          locale: validated.locale,
+          fields: validated.fields,
+          quiz: validated.quiz ?? undefined,
+        },
+      });
+      leadId = row.id;
+    } catch (e) {
+      log.error("api/leads POST", e, requestId ? { requestId } : undefined);
+      if (isDbConnectionError(e)) {
+        return apiJsonError(
+          503,
+          ApiErrorCode.DATABASE_UNAVAILABLE,
+          "Database temporarily unavailable",
+        );
+      }
+      return apiJsonError(
+        500,
+        ApiErrorCode.LEAD_SAVE_FAILED,
+        "Failed to save lead",
+      );
+    }
+  }
+
   notifyCrmLeadSubmitted(
     {
       kind: validated.kind,
       locale: validated.locale,
       fields: validated.fields,
       quiz: validated.quiz,
+      leadId,
     },
     requestId,
   );
 
-  return NextResponse.json({ ok: true as const });
+  return NextResponse.json({
+    ok: true as const,
+    ...(leadId ? { id: leadId } : {}),
+  });
 }

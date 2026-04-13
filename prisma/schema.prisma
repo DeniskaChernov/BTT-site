@@ -35,3 +35,16 @@ model OrderLine {
   @@index([orderId])
   @@map("order_lines")
 }
+
+model Lead {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  kind      String
+  locale    String
+  fields    Json
+  quiz      Json?
+
+  @@index([kind])
+  @@index([createdAt])
+  @@map("leads")
+}
