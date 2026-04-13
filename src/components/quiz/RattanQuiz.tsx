@@ -40,6 +40,7 @@ export function RattanQuiz() {
   );
   const [contact, setContact] = useState({ phone: "", city: "", company: "" });
   const [quoteError, setQuoteError] = useState<string | null>(null);
+  const [quoteSending, setQuoteSending] = useState(false);
 
   const totalSteps = 5;
 
@@ -90,21 +91,53 @@ export function RattanQuiz() {
     }
   };
 
-  const submitQuote = () => {
+  const submitQuote = async () => {
     if (!contact.phone.trim()) {
       setQuoteError(t("quote_phone_required"));
       return;
     }
     setQuoteError(null);
-    trackEvent("quote_submit", {
-      segment,
-      productKind,
-      place,
-      vol,
-      when,
-      ...contact,
-    });
-    setEndMode("done");
+    setQuoteSending(true);
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kind: "quiz_quote",
+          locale,
+          fields: {
+            phone: contact.phone.trim(),
+            city: contact.city.trim(),
+            company: contact.company.trim(),
+          },
+          quiz: {
+            segment: segment ?? "",
+            productKind: productKind ?? "",
+            place: place ?? "",
+            vol: vol ?? "",
+            when: when ?? "",
+          },
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean };
+      if (!res.ok || !data.ok) {
+        setQuoteError(t("quote_send_error"));
+        return;
+      }
+      trackEvent("quote_submit", {
+        segment,
+        productKind,
+        place,
+        vol,
+        when,
+        ...contact,
+      });
+      setEndMode("done");
+    } catch {
+      setQuoteError(t("quote_send_error"));
+    } finally {
+      setQuoteSending(false);
+    }
   };
 
   const idle = step === 0;
@@ -375,10 +408,11 @@ export function RattanQuiz() {
             />
             <button
               type="button"
-              onClick={submitQuote}
+              onClick={() => void submitQuote()}
+              disabled={quoteSending}
               className={cn(bttPrimaryButtonClass, "btt-focus active:scale-[0.99]")}
             >
-              {common("submit")}
+              {quoteSending ? common("loading") : common("submit")}
             </button>
           </motion.div>
         )}

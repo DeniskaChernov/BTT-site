@@ -1,3 +1,4 @@
+import { LeadForm } from "@/components/forms/LeadForm";
 import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/navigation";
 import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
@@ -73,7 +74,10 @@ export default async function WholesalePage() {
           </ol>
         </div>
 
-        <form className="btt-glass mt-8 grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8">
+        <LeadForm
+          kind="wholesale"
+          className="btt-glass mt-8 grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8"
+        >
           <h2 className="text-lg font-semibold text-stone-50">{t("form_title")}</h2>
           <p className="text-sm text-stone-500">{t("form_note")}</p>
           <input
@@ -88,13 +92,17 @@ export default async function WholesalePage() {
             placeholder={tc("phone")}
             name="wholesale_phone"
             type="tel"
+            required
             autoComplete="tel"
+            inputMode="tel"
             aria-label={tc("phone")}
           />
           <textarea
             className={`min-h-[120px] ${bttFieldClass}`}
             placeholder={t("ph_details")}
             name="wholesale_details"
+            required
+            minLength={8}
             aria-label={t("ph_details")}
           />
           <label className="text-sm text-stone-400">
@@ -104,13 +112,10 @@ export default async function WholesalePage() {
               className="mt-2 block w-full text-sm text-stone-400 file:mr-4 file:rounded-lg file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-sm file:text-stone-200"
             />
           </label>
-          <button
-            type="button"
-            className={cn(bttPrimaryButtonClass, "w-fit")}
-          >
+          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
             {tc("submit")}
           </button>
-        </form>
+        </LeadForm>
 
         <p className="mt-8 text-sm text-stone-500">{t("cases")}</p>
       </div>

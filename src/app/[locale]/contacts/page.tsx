@@ -1,3 +1,4 @@
+import { LeadForm } from "@/components/forms/LeadForm";
 import { PageHero } from "@/components/layout/PageHero";
 import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
@@ -48,7 +49,10 @@ export default async function ContactsPage() {
           <p className="mt-3 text-xs text-stone-500">{t("channels_hint")}</p>
         </div>
 
-        <form className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8">
+        <LeadForm
+          kind="contacts_feedback"
+          className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8"
+        >
           <h2 className="text-lg font-semibold text-stone-50">{t("form_feedback")}</h2>
           <input
             className={bttFieldClass}
@@ -62,17 +66,19 @@ export default async function ContactsPage() {
             className={`min-h-[100px] ${bttFieldClass}`}
             placeholder={tc("comment")}
             name="feedback_message"
+            required
+            minLength={3}
             aria-label={tc("comment")}
           />
-          <button
-            type="button"
-            className={cn(bttPrimaryButtonClass, "w-fit")}
-          >
+          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
             {tc("submit")}
           </button>
-        </form>
+        </LeadForm>
 
-        <form className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8 lg:col-span-2">
+        <LeadForm
+          kind="contacts_b2b"
+          className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8 lg:col-span-2"
+        >
           <h2 className="text-lg font-semibold text-stone-50">{t("form_b2b")}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <input
@@ -93,15 +99,14 @@ export default async function ContactsPage() {
             className={`min-h-[100px] ${bttFieldClass}`}
             placeholder={t("ph_request")}
             name="b2b_request"
+            required
+            minLength={8}
             aria-label={t("ph_request")}
           />
-          <button
-            type="button"
-            className={cn(bttPrimaryButtonClass, "w-fit")}
-          >
+          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
             {tc("submit")}
           </button>
-        </form>
+        </LeadForm>
       </div>
     </div>
   );

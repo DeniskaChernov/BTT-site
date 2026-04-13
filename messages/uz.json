@@ -13,6 +13,12 @@
     "body": "Xatolik yuz berdi. Qayta urinib ko‘ring yoki keyinroq kiring.",
     "retry": "Qayta urinish"
   },
+  "leads": {
+    "sending": "Yuborilmoqda…",
+    "sent": "Qabul qilindi. Ko'rsatilgan aloqa orqali bog'lanamiz.",
+    "error": "Yuborib bo'lmadi. Qayta urining yoki Telegram orqali yozing.",
+    "rate_limited": "Juda ko'p yuborish — bir daqiqa kuting."
+  },
   "nav": {
     "home": "Bosh sahifa",
     "shop": "Do‘kon",
@@ -363,7 +369,7 @@
     "step2": "Partiya va namunalarni kelishamiz; imkon qadar — butun buyurtma uchun bitta partiya raqami.",
     "step3": "Hisob, kelishilgan to‘lov, Toshkentdan jo‘natma va ilova hujjatlar.",
     "form_title": "Ulgurji arizasi",
-    "form_note": "Saytda demo forma — prodakshenda pochta, Telegram yoki CRM ga ulang.",
+    "form_note": "Ariza serverga yuboriladi; CRM webhook (.env.example) sozlangan bo‘lsa, sizning tizimingizga ham tushadi.",
     "attach": "Fayl / foto",
     "cases": "HoReCa, gullar va mebel nuqtalari bo‘yicha referanslar — menejer orqali.",
     "faq": "Ulgurji savollar",
@@ -471,7 +477,8 @@
     "open_pdp": "Mahsulot kartochkasi",
     "ph_phone": "+998…",
     "ph_city_country": "Shahar / mamlakat",
-    "quote_phone_required": "KП yuborish uchun telefonni kiriting"
+    "quote_phone_required": "KП yuborish uchun telefonni kiriting",
+    "quote_send_error": "Yuborib bo'lmadi. Qayta urining yoki aloqa sahifasidan yozing."
   },
   "account": {
     "sub": "1-klik uchun mahalliy profil: telefon brauzerda saqlanadi.",

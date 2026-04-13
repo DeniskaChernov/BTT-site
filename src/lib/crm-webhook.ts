@@ -10,6 +10,16 @@ export type CrmOrderCreatedPayload = {
   order: ReturnType<typeof orderToJson>;
 };
 
+export type CrmLeadSubmittedPayload = {
+  event: "lead.submitted";
+  site: string;
+  submittedAt: string;
+  kind: string;
+  locale: string;
+  fields: Record<string, string>;
+  quiz?: Record<string, string>;
+};
+
 /** HMAC-SHA256 hex от тела JSON для проверки в CRM. */
 export function signCrmWebhookBody(body: string, secret: string): string {
   return createHmac("sha256", secret).update(body, "utf8").digest("hex");
@@ -54,6 +64,63 @@ export function notifyCrmOrderCreated(
     .then((res) => {
       if (!res.ok) {
         log.warn("crm/webhook", `CRM webhook HTTP ${res.status}`, {
+          ...(requestId ? { requestId } : {}),
+        });
+      }
+    })
+    .catch((e) => {
+      log.error("crm/webhook", e, { ...(requestId ? { requestId } : {}) });
+    });
+}
+
+/**
+ * Лид с сайта (контакты, опт, экспорт, квиз). Те же `CRM_WEBHOOK_URL` / `CRM_WEBHOOK_SECRET`, событие `lead.submitted`.
+ */
+export function notifyCrmLeadSubmitted(
+  lead: {
+    kind: string;
+    locale: string;
+    fields: Record<string, string>;
+    quiz?: Record<string, string>;
+  },
+  requestId?: string,
+): void {
+  const url = process.env.CRM_WEBHOOK_URL?.trim();
+  const secret = process.env.CRM_WEBHOOK_SECRET?.trim();
+  if (!url || !secret || secret.length < 16) return;
+
+  const site =
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
+
+  const payload: CrmLeadSubmittedPayload = {
+    event: "lead.submitted",
+    site,
+    submittedAt: new Date().toISOString(),
+    kind: lead.kind,
+    locale: lead.locale,
+    fields: lead.fields,
+    ...(lead.quiz && Object.keys(lead.quiz).length > 0
+      ? { quiz: lead.quiz }
+      : {}),
+  };
+
+  const body = JSON.stringify(payload);
+  const signature = signCrmWebhookBody(body, secret);
+
+  void fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "X-BTT-Signature": `sha256=${signature}`,
+      "X-BTT-Event": "lead.submitted",
+      ...(requestId ? { "X-Request-Id": requestId } : {}),
+    },
+    body,
+  })
+    .then((res) => {
+      if (!res.ok) {
+        log.warn("crm/webhook", `CRM lead webhook HTTP ${res.status}`, {
           ...(requestId ? { requestId } : {}),
         });
       }

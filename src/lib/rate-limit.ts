@@ -8,6 +8,7 @@ const WINDOW_MS = 60_000;
 type Bucket = { at: number[] };
 
 const postOrders = new Map<string, Bucket>();
+const postLeads = new Map<string, Bucket>();
 const getOrders = new Map<string, Bucket>();
 const adminList = new Map<string, Bucket>();
 
@@ -44,6 +45,11 @@ export function clientKeyFromRequest(request: Request): string {
 /** POST /api/orders: не более max за минуту с одного ключа */
 export function allowPostOrder(key: string, max = 25): boolean {
   return hit(postOrders, key, max, Date.now());
+}
+
+/** POST /api/leads: защита от спама */
+export function allowPostLead(key: string, max = 18): boolean {
+  return hit(postLeads, key, max, Date.now());
 }
 
 /** GET /api/orders: мягче, но защита от перебора номеров */

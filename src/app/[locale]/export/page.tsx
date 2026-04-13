@@ -1,3 +1,4 @@
+import { LeadForm } from "@/components/forms/LeadForm";
 import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/navigation";
 import {
@@ -57,16 +58,32 @@ export default async function ExportPage() {
           </ol>
         </div>
 
-        <form className="btt-glass mt-8 grid gap-5 rounded-2xl p-6 md:rounded-3xl md:p-8">
+        <LeadForm
+          kind="export_quote"
+          className="btt-glass mt-8 grid gap-5 rounded-2xl p-6 md:rounded-3xl md:p-8"
+        >
           <label className="grid gap-1.5 text-sm text-stone-300">
             {t("country")}
-            <input className={bttFieldClass} type="text" />
+            <input
+              className={bttFieldClass}
+              type="text"
+              name="export_country"
+              required
+              minLength={2}
+              autoComplete="country-name"
+              aria-label={t("country")}
+            />
           </label>
           <label className="grid gap-1.5 text-sm text-stone-300">
             {t("currency")}
-            <select className={bttSelectFieldClass}>
-              <option>USD</option>
-              <option>UZS</option>
+            <select
+              className={bttSelectFieldClass}
+              name="export_currency"
+              defaultValue="USD"
+              aria-label={t("currency")}
+            >
+              <option value="USD">USD</option>
+              <option value="UZS">UZS</option>
             </select>
           </label>
           <label className="grid gap-1.5 text-sm text-stone-300">
@@ -75,16 +92,15 @@ export default async function ExportPage() {
               className={bttFieldClass}
               placeholder={t("ph_duties")}
               type="text"
+              name="export_duties"
+              aria-label={t("duties")}
             />
           </label>
-          <button
-            type="button"
-            className={cn(bttPrimaryButtonClass, "w-fit")}
-          >
+          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
             {t("request_calc")}
           </button>
           <p className="text-sm text-stone-500">{t("form_note")}</p>
-        </form>
+        </LeadForm>
       </div>
     </div>
   );

@@ -13,6 +13,12 @@
     "body": "Something went wrong. Try again or come back later.",
     "retry": "Try again"
   },
+  "leads": {
+    "sending": "Sending…",
+    "sent": "Received. We'll reach out using the contacts you provided.",
+    "error": "Couldn't send. Try again or message us on Telegram.",
+    "rate_limited": "Too many submissions — please wait about a minute."
+  },
   "nav": {
     "home": "Home",
     "shop": "Shop",
@@ -363,7 +369,7 @@
     "step2": "We align batch and samples; one batch number for the whole order when volume allows.",
     "step3": "Invoice, payment as agreed, shipment from Tashkent with supporting documents.",
     "form_title": "Wholesale request",
-    "form_note": "Demo form on the site — wire it to email, Telegram, or your CRM in production.",
+    "form_note": "Submissions go to our API; with CRM webhook env vars they’re also forwarded to your stack.",
     "attach": "Attach file / photo",
     "cases": "References for HoReCa, floral, and furniture buyers — ask your manager.",
     "faq": "Wholesale FAQ",
@@ -471,7 +477,8 @@
     "open_pdp": "Product page",
     "ph_phone": "+998…",
     "ph_city_country": "City / country",
-    "quote_phone_required": "Enter your phone so we can send the quote"
+    "quote_phone_required": "Enter your phone so we can send the quote",
+    "quote_send_error": "Couldn't send the request. Try again or use the contact page."
   },
   "account": {
     "sub": "Local profile for 1-click: phone stored in your browser.",
