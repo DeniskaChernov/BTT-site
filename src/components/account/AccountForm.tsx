@@ -87,7 +87,10 @@ export function AccountForm() {
                 inputMode="tel"
               />
             </label>
-            <button type="submit" className={bttPrimaryButtonClass}>
+            <button
+              type="submit"
+              className={cn(bttPrimaryButtonClass, "btt-focus")}
+            >
               {t("save")}
             </button>
           </form>
@@ -137,7 +140,7 @@ export function AccountForm() {
               href="/cart"
               className={cn(
                 bttPrimaryButtonClass,
-                "mt-4 flex w-full justify-center py-2.5 text-sm",
+                "btt-focus mt-4 flex w-full justify-center py-2.5 text-sm",
                 lines.length === 0 && "opacity-90",
               )}
             >
@@ -152,19 +155,19 @@ export function AccountForm() {
             <nav className="mt-4 grid gap-2 text-sm" aria-label={t("shortcuts")}>
               <Link
                 href="/catalog"
-                className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06]"
+                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06] motion-reduce:transition-none"
               >
                 {n("catalog")}
               </Link>
               <Link
                 href="/cart"
-                className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06]"
+                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06] motion-reduce:transition-none"
               >
                 {n("cart")}
               </Link>
               <Link
                 href="/checkout"
-                className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06]"
+                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06] motion-reduce:transition-none"
               >
                 {tc("to_checkout")}
               </Link>

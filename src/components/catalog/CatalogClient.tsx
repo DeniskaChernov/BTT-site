@@ -4,9 +4,14 @@ import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { getPricePerKgForQty } from "@/lib/pricing";
-import { bttFieldClass, bttSelectFieldClass } from "@/lib/ui-classes";
+import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
+import {
+  bttFieldClass,
+  bttSelectFieldClass,
+  bttTapReduceClass,
+} from "@/lib/ui-classes";
 import clsx from "clsx";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Filter, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
@@ -80,6 +85,7 @@ export function CatalogClient({
     hardness: "all",
     stock: "all",
   }));
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!mobileFiltersOpen) return;
@@ -231,7 +237,10 @@ export function CatalogClient({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]",
         active
           ? "border-amber-400/60 bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-950/40 ring-1 ring-amber-400/30"
-          : "border-white/10 bg-white/[0.04] text-stone-300 hover:border-amber-500/35 hover:bg-white/[0.07] active:scale-95",
+          : clsx(
+              "border-white/10 bg-white/[0.04] text-stone-300 hover:border-amber-500/35 hover:bg-white/[0.07] active:scale-95",
+              bttTapReduceClass,
+            ),
         active && "scale-[1.02]",
       )}
     >
@@ -354,9 +363,12 @@ export function CatalogClient({
   return (
     <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]">
       <motion.aside
-        initial={{ opacity: 0, x: -8 }}
+        initial={reduceMotion ? false : { opacity: 0, x: -8 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        transition={{
+          duration: reduceMotion ? 0 : 0.35,
+          ease: [...BTT_EASE],
+        }}
         className="btt-glass hidden space-y-6 rounded-3xl p-5 shadow-inner shadow-black/20 lg:sticky lg:top-28 lg:block lg:self-start"
       >
         {filtersContent}
@@ -403,12 +415,16 @@ export function CatalogClient({
 
         <AnimatePresence>
           {(activeFilters.length > 0 || query.trim()) && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              className="mb-4 flex flex-wrap items-center gap-2"
-            >
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.22,
+              ease: [...BTT_EASE],
+            }}
+            className="mb-4 flex flex-wrap items-center gap-2"
+          >
               <span className="text-xs text-stone-500">{t("active_filters")}</span>
               {query.trim() ? (
                 <button
@@ -447,8 +463,12 @@ export function CatalogClient({
           <CatalogSkeletonGrid label={t("loading_grid")} />
         ) : filtered.length === 0 ? (
           <motion.p
-            initial={{ opacity: 0, y: 6 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.28,
+              ease: [...BTT_EASE],
+            }}
             className="text-sm text-stone-500"
           >
             {t("empty")}
@@ -460,7 +480,7 @@ export function CatalogClient({
             variants={{
               hidden: {},
               show: {
-                transition: { staggerChildren: 0.05 },
+                transition: { staggerChildren: reduceMotion ? 0 : 0.05 },
               },
             }}
             className={clsx(
@@ -473,10 +493,16 @@ export function CatalogClient({
                 key={p.sku}
                 className="h-full min-h-0"
                 variants={{
-                  hidden: { opacity: 0, y: 12 },
+                  hidden: {
+                    opacity: reduceMotion ? 1 : 0,
+                    y: reduceMotion ? 0 : 12,
+                  },
                   show: { opacity: 1, y: 0 },
                 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.35,
+                  ease: [...BTT_EASE],
+                }}
               >
                 <ProductCard product={p} />
               </motion.div>
@@ -487,7 +513,10 @@ export function CatalogClient({
 
       <button
         type="button"
-        className="btt-focus fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-600 to-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_36px_-6px_rgba(245,158,11,0.38),0_6px_20px_rgba(0,0,0,0.45)] ring-1 ring-white/20 transition active:scale-[0.97] lg:hidden"
+        className={clsx(
+          "btt-focus fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-600 to-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_36px_-6px_rgba(245,158,11,0.38),0_6px_20px_rgba(0,0,0,0.45)] ring-1 ring-white/20 transition active:scale-[0.97] lg:hidden",
+          bttTapReduceClass,
+        )}
         onClick={() => setMobileFiltersOpen(true)}
       >
         <Filter className="h-4 w-4 opacity-95" aria-hidden />
@@ -503,7 +532,7 @@ export function CatalogClient({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: reduceMotion ? 0.12 : 0.2 }}
               aria-label={t("filters_close")}
               className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[3px] lg:hidden"
               onClick={() => setMobileFiltersOpen(false)}
@@ -516,7 +545,11 @@ export function CatalogClient({
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", stiffness: 420, damping: 36 }}
+              transition={
+                reduceMotion
+                  ? { duration: 0.2, ease: "easeInOut" }
+                  : BTT_SPRING_SNAPPY
+              }
               className="fixed inset-x-0 bottom-0 z-[51] max-h-[88vh] overflow-y-auto rounded-t-3xl border border-white/10 bg-[#0c0a09] px-5 pt-4 pb-[max(2rem,calc(1rem+env(safe-area-inset-bottom,0px)))] shadow-[0_-24px_64px_rgba(0,0,0,0.55)] lg:hidden"
             >
               <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
@@ -530,7 +563,7 @@ export function CatalogClient({
                 <button
                   type="button"
                   onClick={() => setMobileFiltersOpen(false)}
-                  className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-stone-200 transition hover:border-amber-500/40 hover:text-amber-100"
+                  className="btt-focus rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-stone-200 transition hover:border-amber-500/40 hover:text-amber-100"
                 >
                   {t("filters_close")}
                 </button>
@@ -539,7 +572,7 @@ export function CatalogClient({
               <button
                 type="button"
                 onClick={() => setMobileFiltersOpen(false)}
-                className="mt-5 w-full rounded-full border border-amber-500/45 bg-gradient-to-r from-amber-600 to-orange-600 py-3 text-sm font-semibold text-white shadow-md shadow-amber-950/40"
+                className="btt-focus mt-5 w-full rounded-full border border-amber-500/45 bg-gradient-to-r from-amber-600 to-orange-600 py-3 text-sm font-semibold text-white shadow-md shadow-amber-950/40"
               >
                 {t("filters_done")}
               </button>

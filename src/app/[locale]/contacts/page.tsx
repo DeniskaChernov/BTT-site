@@ -70,7 +70,10 @@ export default async function ContactsPage() {
             minLength={3}
             aria-label={tc("comment")}
           />
-          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
+          <button
+            type="submit"
+            className={cn(bttPrimaryButtonClass, "btt-focus w-fit")}
+          >
             {tc("submit")}
           </button>
         </LeadForm>
@@ -103,7 +106,10 @@ export default async function ContactsPage() {
             minLength={8}
             aria-label={t("ph_request")}
           />
-          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
+          <button
+            type="submit"
+            className={cn(bttPrimaryButtonClass, "btt-focus w-fit")}
+          >
             {tc("submit")}
           </button>
         </LeadForm>

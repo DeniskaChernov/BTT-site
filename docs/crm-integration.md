@@ -10,6 +10,9 @@
 | `CRM_WEBHOOK_URL` | URL в CRM, куда сайт **POST**-ит событие при каждом новом заказе (опционально). |
 | `CRM_WEBHOOK_SECRET` | Секрет для проверки подписи тела (≥16 символов). |
 | `NEXT_PUBLIC_SITE_URL` | Полный URL сайта (например `https://bententrade.uz`) — попадает в webhook payload как `site`. |
+| `CUSTOMER_NOTIFY_WEBHOOK_URL` | URL вашего сервиса уведомлений клиентам (опционально). |
+| `CUSTOMER_NOTIFY_WEBHOOK_SECRET` | Секрет HMAC для `CUSTOMER_NOTIFY_*` (≥16 символов). |
+| `PAYMENT_WEBHOOK_SHARED_SECRET` | Общий секрет проверки входящего webhook от платёжного шлюза (≥16 символов). См. раздел ниже. |
 
 ## API для CRM (Bearer)
 
@@ -23,7 +26,7 @@ Authorization: Bearer <ADMIN_API_SECRET>
 
 `GET /api/admin/summary`
 
-Ответ (фрагмент): `ordersTotal`, `ordersToday`, `revenueUzToday` (с начала **текущих суток UTC**), `lastOrder`, `webhookConfigured`, `generatedAt`.
+Ответ (фрагмент): `ordersTotal`, `ordersToday`, `revenueUzToday` (с начала **текущих суток UTC**), `byStatus`, `byPaymentStatus`, `lastOrder`, `webhookConfigured` (исходящий CRM), `customerNotifyConfigured`, `paymentWebhookConfigured`, `generatedAt`.
 
 ### Список заказов
 
@@ -37,21 +40,61 @@ Authorization: Bearer <ADMIN_API_SECRET>
 
 404, если заказ не найден.
 
-## Webhook «заказ создан»
+### Обновление статуса и трекинга заказа
 
-При успешном сохранении заказа в БД сайт отправляет **асинхронно** (ошибка webhook не отменяет заказ):
+`PATCH /api/admin/orders/<id>`
 
-- **URL:** `CRM_WEBHOOK_URL`
-- **Method:** `POST`
-- **Headers:**
-  - `Content-Type: application/json; charset=utf-8`
-  - `X-BTT-Event: order.created`
-  - `X-BTT-Signature: sha256=<hex>` — HMAC-SHA256 от **сырого тела** строки UTF-8 с ключом `CRM_WEBHOOK_SECRET`
-  - опционально `X-Request-Id` — корреляция с логами сайта
+Тело запроса (JSON):
 
-**Проверка в CRM:** пересчитать HMAC-SHA256(body, CRM_WEBHOOK_SECRET), сравнить с заголовком (после префикса `sha256=`).
+```json
+{
+  "status": "PACKING",
+  "statusNote": "Готовим к передаче в Яндекс Доставку",
+  "trackingProvider": "Yandex Delivery",
+  "trackingNumber": "YD-123456",
+  "trackingUrl": "https://tracking.example/..."
+}
+```
 
-**Тело:** JSON с полями `event`, `site`, `createdAt`, `order` (структура как в admin API).
+Доступные поля:
+
+- `status`: `NEW`, `CONFIRMED`, `PACKING`, `SHIPPED`, `DELIVERED`, `CANCELLED`
+- `paymentStatus`: `PENDING`, `REQUIRES_ACTION`, `PAID`, `FAILED`, `REFUNDED`, `PARTIALLY_REFUNDED`
+- `statusNote`, `trackingProvider`, `trackingNumber`, `trackingUrl`
+- `paymentProvider`, `paymentReference`, `paymentUrl`
+
+Можно отправить любое подмножество полей (минимум одно).
+
+После успешного обновления сайт **асинхронно** шлёт в CRM событие `order.updated` (см. ниже) и опционально — клиентский notify-webhook (если настроены `CUSTOMER_NOTIFY_*`).
+
+## Webhook «заказ создан» и «заказ обновлён» (исходящие в CRM)
+
+Оба события идут на **`CRM_WEBHOOK_URL`**, метод **POST**, подпись тела тем же **`CRM_WEBHOOK_SECRET`** (заголовок `X-BTT-Signature: sha256=<hex>`). Ошибка webhook не отменяет операцию на сайте.
+
+**`order.created`** — при сохранении нового заказа.
+
+- **Headers:** `Content-Type: application/json; charset=utf-8`, `X-BTT-Event: order.created`, `X-BTT-Signature`, опционально `X-Request-Id`.
+- **Тело:** JSON с полями `event`, `site`, `createdAt`, `order` (структура как в admin API).
+
+**`order.updated`** — при `PATCH /api/admin/orders/<id>` или при нормализации оплаты через [входящий webhook платежей](#входящий-webhook-платежей-нормализация-статуса).
+
+- **Headers:** те же, но `X-BTT-Event: order.updated`.
+- **Тело:** JSON с полями `event`, `site`, `updatedAt`, `reason` (`status_changed` \| `payment_changed` \| `tracking_changed` \| `order_updated`), `order` (тот же формат, что в admin API).
+
+**Проверка в CRM:** пересчитать HMAC-SHA256(body, `CRM_WEBHOOK_SECRET`), сравнить с заголовком (после префикса `sha256=`).
+
+## Уведомления клиентам (опционально)
+
+Если заданы `CUSTOMER_NOTIFY_WEBHOOK_URL` и `CUSTOMER_NOTIFY_WEBHOOK_SECRET`, сайт **POST**-ит JSON на этот URL при создании заказа и при обновлениях из admin API / платёжного webhook. Подпись: `X-BTT-Notify-Signature: sha256=<hex>` (HMAC-SHA256 тела UTF-8), причина: `X-BTT-Notify-Reason` (`order_created`, `status_changed`, `payment_changed`, `tracking_changed`).
+
+## Входящий webhook платежей (нормализация статуса)
+
+`POST /api/payments/webhook/<provider>`, где `<provider>` — один из идентификаторов в коде (`payme`, `click`, `telegram_manual`, … — см. `PAYMENT_PROVIDER` в `src/lib/payments/contract.ts`).
+
+- **Подпись:** заголовок `X-BTT-Pay-Signature: sha256=<hex>` — HMAC-SHA256 от **сырого тела** с ключом `PAYMENT_WEBHOOK_SHARED_SECRET` (≥16 символов). Без корректного секрера в env endpoint отвечает 503.
+- **Тело (JSON):** обязательно поле `status` — одно из: `pending`, `requires_action`, `succeeded`, `failed`, `refunded`, `partially_refunded`. Идентификация заказа: **`orderId`** (id в БД) **или** пара **`paymentReference`** + совпадение `provider` в пути.
+- Опционально: `paymentUrl`, `paidAt` (ISO-8601; при `succeeded` используется как время оплаты).
+- Успех: `200` и `{ ok: true, orderId, paymentStatus }`. После обновления БД отправляются `order.updated` в CRM и клиентский notify (если настроен).
 
 ## Рекомендуемая схема в CRM
 

@@ -5,8 +5,9 @@ import { NavAccountLink } from "@/components/layout/NavAccountLink";
 import { SlideTabs, type SlideTabItem } from "@/components/ui/slide-tabs";
 import { useCart } from "@/contexts/CartContext";
 import { usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function resolveActiveNavId(pathname: string): string | undefined {
   const normalized = (pathname.replace(/\/$/, "") || "/") as string;
@@ -30,6 +31,14 @@ export function GlowSiteNav() {
   const pathname = usePathname();
   const { lines } = useCart();
   const cartCount = lines.length;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 14);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const activeId = useMemo(
     () => resolveActiveNavId(pathname),
@@ -56,7 +65,14 @@ export function GlowSiteNav() {
   );
 
   return (
-    <header className="relative sticky top-0 z-50 border-b border-white/[0.06] bg-stone-950/40 backdrop-blur-md supports-[backdrop-filter]:bg-stone-950/25">
+    <header
+      className={cn(
+        "relative sticky top-0 z-50 border-b pt-[env(safe-area-inset-top,0px)] backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-300 ease-out supports-[backdrop-filter]:backdrop-blur-xl",
+        scrolled
+          ? "border-white/[0.1] bg-stone-950/72 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.55)] supports-[backdrop-filter]:bg-stone-950/55"
+          : "border-white/[0.06] bg-stone-950/40 supports-[backdrop-filter]:bg-stone-950/25",
+      )}
+    >
       <div className="btt-container py-3.5">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-4">
           <div className="flex items-center justify-between gap-3 md:justify-start">

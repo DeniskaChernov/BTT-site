@@ -5,7 +5,7 @@ import { trackEvent } from "@/lib/analytics";
 import { formatUzs } from "@/lib/pricing";
 import { telegramBotStartUrl } from "@/lib/telegram";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Clock, Send, TrendingUp } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
@@ -55,6 +55,7 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
   const remainingKg = Math.max(0, collective.targetKg - collective.currentKg);
   const countdown = useDeadlineCountdown(collective.deadlineAt);
   const botUrl = telegramBotStartUrl(collective.botStartParam);
+  const reduceMotion = useReducedMotion();
 
   const onCta = () => {
     trackEvent("collective_join_click", {
@@ -157,8 +158,8 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
             rel="noopener noreferrer"
             onClick={onCta}
             className="btt-focus inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/30 sm:w-auto"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+            whileTap={reduceMotion ? undefined : { scale: 0.98 }}
           >
             <Send className="h-4 w-4" aria-hidden />
             {t("join_bot")}

@@ -116,7 +116,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Providers>
             <a
               href="#main-content"
-              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:border focus:border-amber-500/40 focus:bg-stone-950 focus:px-4 focus:py-2 focus:text-sm focus:text-stone-100"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-[max(1rem,env(safe-area-inset-top,0px))] focus:z-[100] focus:rounded-lg focus:border focus:border-amber-500/40 focus:bg-stone-950 focus:px-4 focus:py-2 focus:text-sm focus:text-stone-100"
             >
               {tCommon("skip_main")}
             </a>

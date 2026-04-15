@@ -1,5 +1,7 @@
 "use client";
 
+import { bttTapReduceClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 
@@ -22,7 +24,10 @@ export default function LocaleError({ error, reset }: Props) {
       <button
         type="button"
         onClick={() => reset()}
-        className="mt-8 rounded-full border border-amber-500/40 bg-amber-500/15 px-6 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-amber-500/25"
+        className={cn(
+          "btt-focus mt-8 rounded-full border border-amber-500/40 bg-amber-500/15 px-6 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-amber-500/25 active:scale-[0.98]",
+          bttTapReduceClass,
+        )}
       >
         {t("retry")}
       </button>

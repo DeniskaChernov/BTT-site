@@ -15,9 +15,14 @@ import { crmSiteUrl, sendCrmOutboundPayload } from "@/lib/crm/outbound";
 import type {
   CrmLeadSubmittedPayload,
   CrmOrderCreatedPayload,
+  CrmOrderUpdatedPayload,
 } from "@/lib/crm/payloads";
 
-export type { CrmLeadSubmittedPayload, CrmOrderCreatedPayload } from "@/lib/crm/payloads";
+export type {
+  CrmLeadSubmittedPayload,
+  CrmOrderCreatedPayload,
+  CrmOrderUpdatedPayload,
+} from "@/lib/crm/payloads";
 export { signCrmWebhookBody } from "@/lib/crm/signing";
 
 /**
@@ -41,6 +46,31 @@ export function notifyCrmOrderCreated(
   sendCrmOutboundPayload(CRM_EVENT.ORDER_CREATED, { ...payload }, {
     requestId,
     idempotencyKey: `order-${order.id}`,
+  });
+}
+
+/**
+ * Обновление заказа: статус/оплата/трекинг. Событие `order.updated`.
+ */
+export function notifyCrmOrderUpdated(
+  order: Order & { lines: OrderLine[] },
+  reason: "status_changed" | "payment_changed" | "tracking_changed" | "order_updated",
+  requestId?: string,
+): void {
+  const payloadId = randomUUID();
+  const payload: CrmOrderUpdatedPayload = {
+    schemaVersion: CRM_PAYLOAD_SCHEMA_VERSION,
+    payloadId,
+    source: CRM_SOURCE_APP,
+    site: crmSiteUrl(),
+    event: CRM_EVENT.ORDER_UPDATED,
+    updatedAt: new Date().toISOString(),
+    reason,
+    order: orderToJson(order),
+  };
+  sendCrmOutboundPayload(CRM_EVENT.ORDER_UPDATED, { ...payload }, {
+    requestId,
+    idempotencyKey: `order-upd-${order.id}-${reason}-${order.updatedAt.toISOString()}`,
   });
 }
 

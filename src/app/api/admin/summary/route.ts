@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   startUtc.setUTCHours(0, 0, 0, 0);
 
   try {
-    const [ordersTotal, todayAgg, lastRow] = await Promise.all([
+    const [ordersTotal, todayAgg, lastRow, byStatusRows, byPaymentStatusRows] = await Promise.all([
       prisma.order.count(),
       prisma.order.aggregate({
         where: { createdAt: { gte: startUtc } },
@@ -41,7 +41,21 @@ export async function GET(request: Request) {
         orderBy: { createdAt: "desc" },
         include: { lines: true },
       }),
+      prisma.order.groupBy({
+        by: ["status"],
+        _count: { status: true },
+      }),
+      prisma.order.groupBy({
+        by: ["paymentStatus"],
+        _count: { paymentStatus: true },
+      }),
     ]);
+    const byStatus = Object.fromEntries(
+      byStatusRows.map((r) => [r.status, r._count.status]),
+    );
+    const byPaymentStatus = Object.fromEntries(
+      byPaymentStatusRows.map((r) => [r.paymentStatus, r._count.paymentStatus]),
+    );
 
     const res = NextResponse.json({
       ok: true as const,
@@ -50,11 +64,22 @@ export async function GET(request: Request) {
       ordersTotal,
       ordersToday: todayAgg._count.id,
       revenueUzToday: todayAgg._sum.totalUz ?? 0,
+      byStatus,
+      byPaymentStatus,
       lastOrder: lastRow ? orderToJson(lastRow) : null,
       webhookConfigured: Boolean(
         process.env.CRM_WEBHOOK_URL?.trim() &&
           process.env.CRM_WEBHOOK_SECRET &&
           process.env.CRM_WEBHOOK_SECRET.length >= 16,
+      ),
+      customerNotifyConfigured: Boolean(
+        process.env.CUSTOMER_NOTIFY_WEBHOOK_URL?.trim() &&
+          process.env.CUSTOMER_NOTIFY_WEBHOOK_SECRET &&
+          process.env.CUSTOMER_NOTIFY_WEBHOOK_SECRET.length >= 16,
+      ),
+      paymentWebhookConfigured: Boolean(
+        process.env.PAYMENT_WEBHOOK_SHARED_SECRET &&
+          process.env.PAYMENT_WEBHOOK_SHARED_SECRET.trim().length >= 16,
       ),
     });
     return withRequestId(res, requestId);

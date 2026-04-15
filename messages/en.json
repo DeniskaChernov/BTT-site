@@ -1,7 +1,7 @@
 {
   "meta": {
     "site": "Bententrade — artificial rattan & planters, Tashkent",
-    "home_desc": "Artificial rattan thread and handwoven planters from our Tashkent workshop. 18 colours, thread from 36,000 UZS/kg (wholesale from 5 kg), delivery across Uzbekistan. Uzcard, Humo, Payme, Click."
+    "home_desc": "Artificial rattan thread and handwoven planters from our Tashkent workshop. 18 colors, thread from 36,000 UZS/kg (wholesale from 5 kg), delivery across Uzbekistan. Uzcard, Humo, Payme, Click."
   },
   "notFound": {
     "title": "Page not found",
@@ -36,7 +36,7 @@
     "locale_switch": "Site language",
     "kinetic_menu": "Menu",
     "kinetic_close": "Close",
-    "cart_sr": "Cart: {count} line(s) in your order"
+    "cart_sr": "Cart: {count} items in your order"
   },
   "common": {
     "from": "from",
@@ -142,9 +142,9 @@
     "card_3_desc": "From request to shipment — more articles planned."
   },
   "articleRattanThickness": {
-    "meta_description": "How to pick artificial rattan thickness and profile for furniture: load zones, cross-section shape, colour batching, and yield.",
+    "meta_description": "How to pick artificial rattan thickness and profile for furniture: load zones, cross-section shape, color batching, and yield.",
     "title": "Choosing rattan thickness for furniture",
-    "lead": "A practical take: profile shape, structural load, and keeping colour consistent across coils.",
+    "lead": "A practical take: profile shape, structural load, and keeping color consistent across coils.",
     "date_display": "20 March 2026",
     "reading_time": "~7 min read",
     "intro": "Artificial rattan is sold by the coil and priced by weight: thicker profiles are usually stiffer and less bendy. For furniture, the millimetres on the spec sheet matter together with the cross-section — half-round, flat, round, oval — and whether the weave carries body load (seat, arm) or is decorative trim.",
@@ -153,11 +153,11 @@
     "sec1_b": "If you hesitate between two neighbouring thicknesses for a large surface, test sag on a mock-up with the same geometry. On a long span a couple of millimetres is more noticeable than on a short run.",
     "sec2_h": "Profile shape and workflow",
     "sec2_a": "Half-round is common for classic shapes and radii; flat suits flat planes and ribbon-style weaving; round works for fine repeating coils. Oval changes pitch and pattern — read shape and thickness together on the product card.",
-    "sec2_b": "Outdoors, confirm UV stabilisation and allowed conditions for the SKU; indoors, colour consistency across coils on repeat orders is usually the bigger risk.",
+    "sec2_b": "Outdoors, confirm UV stabilization and allowed conditions for the SKU; indoors, color consistency across coils on repeat orders is usually the bigger risk.",
     "sec3_h": "Colour batch and yield",
     "sec3_a": "One batch number for the whole job reduces two-shade mismatches in one piece. Estimate yield by coil length and overlap; a short trial piece on your actual weaving setup validates both flexibility and real consumption.",
     "sec3_b": "Start with a small trial coil when you change series or supplier — you check bend feel and whether the gauge matches your fixtures.",
-    "outro": "In the Bententrade catalogue each item lists thickness, profile shape, colour family, and stock. Need a matched set of profiles for a chair or table? Send span, load, and a sketch via contacts — we’ll advise from workshop experience."
+    "outro": "In the Bententrade catalog each item lists thickness, profile shape, color family, and stock. Need a matched set of profiles for a chair or table? Send span, load, and a sketch via contacts — we’ll advise from workshop experience."
   },
   "segments": {
     "sub": "Made in Tashkent, shipping across Uzbekistan — from trial batches and workshops to wholesale and HoReCa.",
@@ -243,6 +243,14 @@
     "w12": "1–2 kg",
     "w5": "5 kg",
     "w10": "10+ kg",
+    "preorder_100": "100 kg",
+    "preorder_250": "250 kg",
+    "preorder_500": "500 kg",
+    "preorder_cta": "Place order from 100 kg",
+    "preorder_min_note": "On-order item: minimum batch size is 100 kg.",
+    "preorder_collective_hint": "Need less volume? Join the Telegram group-buy flow.",
+    "preorder_collective_bot": "Group-buy bot",
+    "preorder_collective_channel": "Batch channel",
     "empty": "No matches — reset filters or use the picker",
     "brochure_kicker": "PDF catalog",
     "brochure_lead": "Full catalog as PDF: browse on this page or download in one click.",
@@ -302,6 +310,12 @@
     "material_b1": "No painting needed; long UV exposure may create a natural patina, like most synthetic outdoor goods.",
     "material_b2": "Does not absorb water; wipe dry after rain if you like.",
     "material_b3": "Keep away from open flame; avoid acetone/solvents — they can damage the polymer.",
+    "preorder_cta": "Place order from 100 kg",
+    "preorder_min_note": "This item is available on order from 100 kg.",
+    "preorder_min_error": "To add this item, set quantity to at least 100 kg.",
+    "preorder_collective_hint": "If you need less volume, use the Telegram group-buy option.",
+    "preorder_collective_bot": "Open bot",
+    "preorder_collective_channel": "Group-buy channel",
     "videos_soon_title": "Video coming soon",
     "videos_soon_body": "We're filming profile overviews, thickness comparisons, and install notes. For now, use the photo gallery and articles."
   },
@@ -348,6 +362,7 @@
     "error_address": "Address is required for courier delivery",
     "error_rate_limit": "Too many requests — wait a minute and try again",
     "error_validation": "Could not place the order — check your details and try again",
+    "error_min_preorder": "For on-order items, the minimum quantity is 100 kg. If you need less, use the Telegram group-buy flow.",
     "one_click_title": "1-click",
     "one_click_hint": "Phone + address minimum",
     "pickup_no_address": "Address is not required for pickup",
@@ -370,7 +385,7 @@
     "lead": "Made in Tashkent: artificial rattan yarn and hand-woven planters, 18 colors, several profile types. Classic yarn wholesale from 5 kg; volume discounts on request. Separate flow from retail, stable color batches, and a PDF quote after volumes are confirmed.",
     "benefits_title": "What B2B clients get",
     "benefit_1_title": "Single batch number",
-    "benefit_1_body": "We align colour and series so the whole project batch looks consistent — for workshops and HoReCa alike: fewer rejects and rework on the floor.",
+    "benefit_1_body": "We align color and series so the whole project batch looks consistent — for workshops and HoReCa alike: fewer rejects and rework on the floor.",
     "benefit_2_title": "Shipment-ready paperwork",
     "benefit_2_body": "Invoice, specification, and supporting docs in the standard flow; extra formats for legal entities and export under contract.",
     "benefit_3_title": "Separate from retail",
@@ -397,7 +412,7 @@
     "checklist_1": "Incoterms and handover point — they drive insurance and liability on the route.",
     "checklist_2": "Line items and gross weight — for customs description and container or truck choice.",
     "checklist_3": "Currency and payment form — prepayment or documents against payment as agreed.",
-    "checklist_4": "Production lead time and colour batch hold — fixed before invoicing.",
+    "checklist_4": "Production lead time and color batch hold — fixed before invoicing.",
     "country": "Country",
     "currency": "Currency",
     "duties": "Duties (estimate)",
@@ -513,8 +528,27 @@
     "orders_local_hint": "Orders live in PostgreSQL (Railway). If the server was unreachable at checkout, a copy is kept in this browser and merged here.",
     "orders_rate_limited": "The server is temporarily rate-limiting requests — only orders saved in this browser are shown. Try refreshing in a minute.",
     "order_lines_count": "Items: {count}",
+    "order_status_updated": "Status updated:",
+    "status_new": "Created",
+    "status_confirmed": "Confirmed",
+    "status_packing": "Packing",
+    "status_shipped": "Handed to delivery",
+    "status_delivered": "Delivered",
+    "status_cancelled": "Cancelled",
+    "payment_pending": "Awaiting payment",
+    "payment_requires_action": "Action required",
+    "payment_paid": "Paid",
+    "payment_failed": "Payment failed",
+    "payment_refunded": "Refunded",
+    "payment_partially_refunded": "Partially refunded",
     "order_ship": "Shipping",
     "order_pay": "Payment",
-    "order_contact": "Contact & address"
+    "order_contact": "Contact & address",
+    "order_payment_ref": "Payment",
+    "order_payment_open": "Open payment",
+    "order_tracking": "Tracking",
+    "order_tracking_open": "Open tracking",
+    "order_help": "Need help with this order?",
+    "order_help_link": "Contact manager"
   }
 }

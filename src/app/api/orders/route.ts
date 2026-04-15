@@ -1,6 +1,7 @@
 import { MAX_ORDER_JSON_BYTES } from "@/lib/api-limits";
 import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
 import { notifyCrmOrderCreated } from "@/lib/crm-webhook";
+import { notifyCustomerOrderEvent } from "@/lib/customer-notify";
 import { prisma } from "@/lib/db";
 import { log } from "@/lib/logger";
 import { isDbConnectionError } from "@/lib/prisma-errors";
@@ -112,6 +113,26 @@ export async function POST(request: Request) {
     });
 
     notifyCrmOrderCreated(order, requestId);
+    notifyCustomerOrderEvent(
+      {
+        reason: "order_created",
+        order: {
+          id: order.id,
+          createdAt: order.createdAt.toISOString(),
+          updatedAt: order.updatedAt.toISOString(),
+          phone: order.phone,
+          customerName: order.customerName,
+          status: order.status,
+          paymentStatus: order.paymentStatus,
+          totalUz: order.totalUz,
+          trackingProvider: order.trackingProvider ?? "",
+          trackingNumber: order.trackingNumber ?? "",
+          trackingUrl: order.trackingUrl ?? "",
+          paymentUrl: order.paymentUrl ?? "",
+        },
+      },
+      requestId,
+    );
 
     return NextResponse.json({
       id: order.id,
@@ -174,7 +195,21 @@ export async function GET(request: Request) {
     const orders = rows.map((o) => ({
       id: o.id,
       createdAt: o.createdAt.toISOString(),
+      updatedAt: o.updatedAt.toISOString(),
       totalUz: o.totalUz,
+      status: o.status,
+      statusUpdatedAt: o.statusUpdatedAt.toISOString(),
+      statusNote: o.statusNote ?? "",
+      paymentStatus: o.paymentStatus,
+      paymentStatusUpdatedAt: o.paymentStatusUpdatedAt.toISOString(),
+      paymentProvider: o.paymentProvider ?? "",
+      paymentReference: o.paymentReference ?? "",
+      paymentUrl: o.paymentUrl ?? "",
+      paymentRequestedAt: o.paymentRequestedAt?.toISOString() ?? "",
+      paidAt: o.paidAt?.toISOString() ?? "",
+      trackingProvider: o.trackingProvider ?? "",
+      trackingNumber: o.trackingNumber ?? "",
+      trackingUrl: o.trackingUrl ?? "",
       pay: o.pay,
       ship: o.ship as "courier" | "pickup",
       customerName: o.customerName,

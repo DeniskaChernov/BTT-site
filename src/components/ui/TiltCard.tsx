@@ -1,8 +1,10 @@
 "use client";
 
+import { BTT_SPRING_SNAPPY } from "@/lib/motion";
 import {
   motion,
   useMotionValue,
+  useReducedMotion,
   useSpring,
   useTransform,
 } from "framer-motion";
@@ -21,12 +23,18 @@ export function TiltCard({
   className = "",
   intensity = 12,
 }: Props) {
+  const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const spring = { stiffness: 350, damping: 28 };
-  const sx = useSpring(x, spring);
-  const sy = useSpring(y, spring);
+  const sx = useSpring(x, {
+    stiffness: BTT_SPRING_SNAPPY.stiffness,
+    damping: BTT_SPRING_SNAPPY.damping,
+  });
+  const sy = useSpring(y, {
+    stiffness: BTT_SPRING_SNAPPY.stiffness,
+    damping: BTT_SPRING_SNAPPY.damping,
+  });
   const rotateX = useTransform(sy, [-0.5, 0.5], [`${intensity}deg`, `-${intensity}deg`]);
   const rotateY = useTransform(sx, [-0.5, 0.5], [`-${intensity}deg`, `${intensity}deg`]);
 
@@ -41,6 +49,10 @@ export function TiltCard({
     x.set(0);
     y.set(0);
   };
+
+  if (reduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <div className="perspective-[1400px]" style={{ perspective: 1400 }}>

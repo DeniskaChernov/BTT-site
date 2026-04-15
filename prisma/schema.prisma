@@ -10,7 +10,21 @@ datasource db {
 model Order {
   id           String      @id @default(cuid())
   createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
   totalUz      Int
+  status       OrderStatus @default(NEW)
+  statusUpdatedAt DateTime @default(now())
+  statusNote   String?
+  paymentStatus PaymentStatus @default(PENDING)
+  paymentStatusUpdatedAt DateTime @default(now())
+  paymentProvider String?
+  paymentReference String?
+  paymentUrl    String?
+  paymentRequestedAt DateTime?
+  paidAt        DateTime?
+  trackingProvider String?
+  trackingNumber String?
+  trackingUrl  String?
   pay          String
   ship         String
   customerName String
@@ -18,6 +32,7 @@ model Order {
   address      String?
   lines        OrderLine[]
 
+  @@index([status])
   @@index([phone])
   @@map("orders")
 }
@@ -47,4 +62,22 @@ model Lead {
   @@index([kind])
   @@index([createdAt])
   @@map("leads")
+}
+
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  PACKING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  REQUIRES_ACTION
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
 }

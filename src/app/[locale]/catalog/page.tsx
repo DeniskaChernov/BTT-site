@@ -51,7 +51,7 @@ export default async function CatalogPage({ searchParams }: PageProps) {
           href="/catalog/brochure"
           className={cn(
             bttPrimaryButtonClass,
-            "inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3 text-sm",
+            "btt-focus inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3 text-sm",
           )}
         >
           <FileDown className="h-4 w-4" aria-hidden />

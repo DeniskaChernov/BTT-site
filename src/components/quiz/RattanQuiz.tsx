@@ -10,9 +10,10 @@ import {
   bttPrimaryButtonClass,
   bttQuizChipClass,
   bttQuizOptionClass,
+  bttTapReduceClass,
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
@@ -41,6 +42,7 @@ export function RattanQuiz() {
   const [contact, setContact] = useState({ phone: "", city: "", company: "" });
   const [quoteError, setQuoteError] = useState<string | null>(null);
   const [quoteSending, setQuoteSending] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   const totalSteps = 5;
 
@@ -186,7 +188,11 @@ export function RattanQuiz() {
           <button
             type="button"
             onClick={start}
-            className={cn(bttPrimaryButtonClass, "btt-focus shadow-btt-sm active:scale-[0.99]")}
+            className={cn(
+              bttPrimaryButtonClass,
+              "btt-focus shadow-btt-sm active:scale-[0.99]",
+              bttTapReduceClass,
+            )}
           >
             {t("open")}
           </button>
@@ -197,9 +203,10 @@ export function RattanQuiz() {
         {step === 1 && (
           <motion.div
             key="s1"
-            initial={{ opacity: 0, x: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="mt-8 grid gap-3 md:grid-cols-3"
           >
             <p className="md:col-span-3 text-sm font-medium">{t("q_segment")}</p>
@@ -228,9 +235,10 @@ export function RattanQuiz() {
         {step === 2 && (
           <motion.div
             key="s2"
-            initial={{ opacity: 0, x: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="mt-8 grid gap-3 md:grid-cols-2"
           >
             <p className="md:col-span-2 text-sm font-medium">{t("q_product")}</p>
@@ -260,9 +268,10 @@ export function RattanQuiz() {
         {step === 3 && (
           <motion.div
             key="s3"
-            initial={{ opacity: 0, x: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="mt-8 grid gap-3 md:grid-cols-3"
           >
             <p className="md:col-span-3 text-sm font-medium">{t("q_place")}</p>
@@ -291,9 +300,10 @@ export function RattanQuiz() {
         {step === 4 && (
           <motion.div
             key="s4"
-            initial={{ opacity: 0, x: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="mt-8 grid gap-3 md:grid-cols-2"
           >
             <p className="md:col-span-2 text-sm font-medium">{t("q_volume")}</p>
@@ -332,9 +342,10 @@ export function RattanQuiz() {
         {step === 5 && (
           <motion.div
             key="s5"
-            initial={{ opacity: 0, x: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="mt-8 grid gap-3"
           >
             <p className="text-sm font-medium">{t("q_time")}</p>
@@ -362,8 +373,9 @@ export function RattanQuiz() {
         {step === 6 && endMode === "quote" && (
           <motion.div
             key="quote"
-            initial={{ opacity: 0, y: 8 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.25 }}
             className="mt-8 grid gap-4"
           >
             <p className="text-sm font-medium">{t("result_quote")}</p>
@@ -410,7 +422,11 @@ export function RattanQuiz() {
               type="button"
               onClick={() => void submitQuote()}
               disabled={quoteSending}
-              className={cn(bttPrimaryButtonClass, "btt-focus active:scale-[0.99]")}
+              className={cn(
+                bttPrimaryButtonClass,
+                "btt-focus active:scale-[0.99]",
+                bttTapReduceClass,
+              )}
             >
               {quoteSending ? common("loading") : common("submit")}
             </button>
@@ -420,8 +436,9 @@ export function RattanQuiz() {
         {step === 6 && endMode === "result" && (
           <motion.div
             key="result"
-            initial={{ opacity: 0, y: 8 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.25 }}
             className="mt-8 grid gap-4"
           >
             <p className="font-semibold">{t("result_skus")}</p>
@@ -447,7 +464,7 @@ export function RattanQuiz() {
                     </button>
                     <Link
                       href={`/product/${p.slug}`}
-                      className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-amber-500/40 hover:bg-white/[0.05]"
+                      className="btt-focus rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold transition hover:border-amber-500/40 hover:bg-white/[0.05]"
                     >
                       {t("open_pdp")}
                     </Link>
@@ -457,7 +474,11 @@ export function RattanQuiz() {
             </div>
             <Link
               href="/checkout"
-              className={cn(bttPrimaryButtonClass, "btt-focus inline-flex w-fit active:scale-[0.99]")}
+              className={cn(
+                bttPrimaryButtonClass,
+                "btt-focus inline-flex w-fit active:scale-[0.99]",
+                bttTapReduceClass,
+              )}
             >
               {t("one_click")}
             </Link>
@@ -467,8 +488,9 @@ export function RattanQuiz() {
         {endMode === "done" && (
           <motion.p
             key="done"
-            initial={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="mt-8 text-sm font-medium text-emerald-400"
           >
             {t("quote_success")}

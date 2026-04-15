@@ -32,10 +32,13 @@ export async function HomeHits() {
             <p className="text-sm text-stone-500 md:text-right">{t("trust_payments")}</p>
             <Link
               href="/catalog"
-              className="group inline-flex items-center justify-center gap-2 self-start rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-stone-200 transition hover:border-amber-500/35 hover:text-amber-100 md:self-end"
+              className="group btt-focus inline-flex items-center justify-center gap-2 self-start rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-stone-200 transition hover:border-amber-500/35 hover:text-amber-100 motion-reduce:transition-none md:self-end"
             >
               {t("hits_cta")}
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden />
+              <ArrowRight
+                className="h-4 w-4 transition group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                aria-hidden
+              />
             </Link>
           </div>
         </div>

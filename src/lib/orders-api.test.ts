@@ -100,6 +100,29 @@ describe("validateOrderAgainstCatalog", () => {
     expect(validateOrderAgainstCatalog(b)).toBe("Invalid product");
   });
 
+  it("rejects on-order material below 100kg", () => {
+    const onOrder = products.find(
+      (p) => p.stock === "on_order" && p.category === "material",
+    );
+    if (!onOrder) {
+      throw new Error("expected at least one on_order material in fixtures");
+    }
+    const lowQty = 50;
+    const b = validBody({
+      lines: [
+        {
+          sku: onOrder.sku,
+          slug: onOrder.slug,
+          name: onOrder.names.ru,
+          qtyKg: lowQty,
+          lineTotalUz: Math.round(getPricePerKgForQty(onOrder, lowQty) * lowQty),
+        },
+      ],
+      totalUz: Math.round(getPricePerKgForQty(onOrder, lowQty) * lowQty),
+    });
+    expect(validateOrderAgainstCatalog(b)).toBe("Minimum preorder quantity is 100 kg");
+  });
+
   it("sums multiple lines against totalUz", () => {
     const slug = products[0]!.slug;
     const a = lineForProduct(slug, 1);

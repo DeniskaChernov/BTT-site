@@ -16,7 +16,7 @@ export function NavAccountLink({ className }: NavAccountLinkProps) {
     <Link
       href="/account"
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-stone-200 shadow-none backdrop-blur-xl transition hover:border-white/20 hover:bg-white/[0.09] hover:text-stone-50 [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)] md:px-3.5",
+        "btt-focus inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-stone-200 shadow-none backdrop-blur-xl transition hover:border-white/20 hover:bg-white/[0.09] hover:text-stone-50 motion-reduce:transition-none [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)] md:px-3.5",
         className,
       )}
     >

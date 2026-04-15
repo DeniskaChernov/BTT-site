@@ -11,6 +11,7 @@ export const CRM_SOURCE_APP = "btt-site" as const;
 
 export const CRM_EVENT = {
   ORDER_CREATED: "order.created",
+  ORDER_UPDATED: "order.updated",
   LEAD_SUBMITTED: "lead.submitted",
 } as const;
 

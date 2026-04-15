@@ -4,6 +4,8 @@ import { Link } from "@/i18n/navigation";
 import {
   bttFieldClass,
   bttPrimaryButtonClass,
+  bttSecondaryAmberButtonClass,
+  bttSecondaryNeutralButtonClass,
   bttSelectFieldClass,
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
@@ -35,13 +37,13 @@ export default async function ExportPage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/contacts"
-              className="inline-flex items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15"
+              className={bttSecondaryAmberButtonClass}
             >
               {t("cta_contacts")}
             </Link>
             <Link
               href="/wholesale"
-              className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-stone-200 transition hover:border-white/25"
+              className={bttSecondaryNeutralButtonClass}
             >
               {t("cta_wholesale")}
             </Link>
@@ -96,7 +98,10 @@ export default async function ExportPage() {
               aria-label={t("duties")}
             />
           </label>
-          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
+          <button
+            type="submit"
+            className={cn(bttPrimaryButtonClass, "btt-focus w-fit")}
+          >
             {t("request_calc")}
           </button>
           <p className="text-sm text-stone-500">{t("form_note")}</p>

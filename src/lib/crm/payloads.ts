@@ -20,6 +20,13 @@ export type CrmOrderCreatedPayload = CrmPayloadEnvelope & {
   order: CrmOrderJson;
 };
 
+export type CrmOrderUpdatedPayload = CrmPayloadEnvelope & {
+  event: "order.updated";
+  updatedAt: string;
+  reason: "status_changed" | "payment_changed" | "tracking_changed" | "order_updated";
+  order: CrmOrderJson;
+};
+
 export type CrmLeadSubmittedPayload = CrmPayloadEnvelope & {
   event: "lead.submitted";
   submittedAt: string;

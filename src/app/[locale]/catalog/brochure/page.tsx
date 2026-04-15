@@ -27,7 +27,10 @@ export default async function CatalogBrochurePage() {
   return (
     <div className="btt-container py-10 md:py-16">
       <nav className="text-sm text-stone-500">
-        <Link href="/catalog" className="transition hover:text-amber-400">
+        <Link
+          href="/catalog"
+          className="btt-focus rounded-sm text-stone-500 outline-none transition hover:text-amber-400 motion-reduce:transition-none"
+        >
           {tc("title")}
         </Link>
         <span className="mx-2 text-stone-600">/</span>
@@ -53,7 +56,7 @@ export default async function CatalogBrochurePage() {
             download={DOWNLOAD_NAME}
             className={cn(
               bttPrimaryButtonClass,
-              "inline-flex items-center justify-center gap-2 px-6",
+              "btt-focus inline-flex items-center justify-center gap-2 px-6",
             )}
           >
             <Download className="h-4 w-4" aria-hidden />
@@ -63,7 +66,7 @@ export default async function CatalogBrochurePage() {
             href={PDF_HREF}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/40"
+            className="btt-focus inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/40"
           >
             <ExternalLink className="h-4 w-4" aria-hidden />
             {t("open_tab")}

@@ -53,6 +53,11 @@
   html {
     scroll-behavior: smooth;
   }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
   body {
     @apply min-h-screen text-[var(--btt-foreground)] antialiased;
     font-feature-settings: "ss01" on, "cv02" on;
@@ -124,7 +129,12 @@
       transparent 100%
     );
     background-size: 200% 100%;
-    animation: btt-shimmer 4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btt-shimmer {
+      animation: btt-shimmer 4s ease-in-out infinite;
+    }
   }
 
   /* Интерактив: фокус и «живые» карточки */

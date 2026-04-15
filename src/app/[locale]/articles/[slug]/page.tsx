@@ -1,5 +1,9 @@
 import { getPublishedSlugs, getArticleBySlug } from "@/data/articles";
 import { Link } from "@/i18n/navigation";
+import {
+  bttSecondaryAmberButtonClass,
+  bttSecondaryNeutralButtonClass,
+} from "@/lib/ui-classes";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -49,7 +53,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       <div className="mx-auto max-w-3xl">
         <Link
           href="/articles"
-          className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-stone-400 transition hover:text-amber-400"
+          className="btt-focus mb-8 inline-flex items-center gap-2 rounded-sm text-sm font-medium text-stone-400 transition hover:text-amber-400 motion-reduce:transition-none"
         >
           <ArrowLeft className="h-4 w-4" />
           {ta("back_to_list")}
@@ -97,13 +101,13 @@ export default async function ArticleDetailPage({ params }: Props) {
         <div className="mt-12 flex flex-wrap gap-3 border-t border-white/[0.08] pt-10">
           <Link
             href="/catalog"
-            className="inline-flex items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15"
+            className={bttSecondaryAmberButtonClass}
           >
             {ta("cta_catalog")}
           </Link>
           <Link
             href="/contacts"
-            className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-stone-200 transition hover:border-white/25"
+            className={bttSecondaryNeutralButtonClass}
           >
             {ta("cta_contacts")}
           </Link>

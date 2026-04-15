@@ -4,14 +4,19 @@ import { Link } from "@/i18n/navigation";
 import type { Locale, Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs, getPricePerKgForQty, UZS_PER_USD } from "@/lib/pricing";
-import { bttFieldCompactClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import {
+  bttFieldCompactClass,
+  bttPrimaryButtonClass,
+  bttTapReduceClass,
+} from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
 import { trackEvent } from "@/lib/analytics";
 import { productGalleryImages, productMainImage } from "@/lib/product-media";
+import { telegramBotStartUrl, telegramChannelUrl } from "@/lib/telegram";
 import { useRouter } from "@/i18n/navigation";
-import { motion } from "framer-motion";
-import { ChevronDown, ShoppingBag } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ChevronDown, ShoppingBag, Users } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
@@ -24,13 +29,23 @@ export function ProductDetail({ product, related }: Props) {
   const c = useTranslations("common");
   const { add } = useCart();
   const router = useRouter();
-  const [qty, setQty] = useState(1.5);
+  const [qty, setQty] = useState(
+    product.stock === "on_order" && product.category === "material" ? 100 : 1.5,
+  );
   const [meters, setMeters] = useState(10);
   const [activeImg, setActiveImg] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
+  const belowPreorderMin = isOnOrderMaterial && qty < 100;
+  const collectiveBotUrl = product.collective
+    ? telegramBotStartUrl(product.collective.botStartParam)
+    : null;
+  const collectiveChannelUrl = telegramChannelUrl();
 
   const normalizeQty = (value: number) => {
-    if (!Number.isFinite(value)) return 0.5;
-    return Math.max(0.5, Math.round(value * 2) / 2);
+    const minQty = isOnOrderMaterial ? 100 : 0.5;
+    if (!Number.isFinite(value)) return minQty;
+    return Math.max(minQty, Math.round(value * 2) / 2);
   };
 
   const normalizeMeters = (value: number) => {
@@ -150,7 +165,7 @@ export function ProductDetail({ product, related }: Props) {
               <span className="flex items-center justify-between gap-3">
                 {t("material_title")}
                 <ChevronDown
-                  className="h-4 w-4 shrink-0 text-amber-500/75 motion-safe:transition-transform group-open:rotate-180"
+                  className="h-4 w-4 shrink-0 text-amber-500/75 motion-safe:transition-transform group-open:rotate-180 motion-reduce:group-open:rotate-0"
                   aria-hidden
                 />
               </span>
@@ -208,7 +223,7 @@ export function ProductDetail({ product, related }: Props) {
               <span>{t("qty")}</span>
               <input
                 type="number"
-                min={0.5}
+                min={isOnOrderMaterial ? 100 : 0.5}
                 step={0.5}
                 value={qty}
                 onChange={(e) => {
@@ -233,32 +248,70 @@ export function ProductDetail({ product, related }: Props) {
             <motion.button
               type="button"
               onClick={onAdd}
+              disabled={belowPreorderMin}
               className={cn(
                 bttPrimaryButtonClass,
                 "btt-focus inline-flex items-center justify-center gap-2",
+                belowPreorderMin && "pointer-events-none opacity-60",
               )}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             >
               <ShoppingBag className="h-4 w-4" aria-hidden />
-              {c("add_cart")}
+              {isOnOrderMaterial ? t("preorder_cta") : c("add_cart")}
             </motion.button>
             <motion.button
               type="button"
               onClick={oneClick}
-              className="btt-glass-cta inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              disabled={belowPreorderMin}
+              className="btt-focus btt-glass-cta inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
+              whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             >
               {c("one_click")}
             </motion.button>
             <Link
               href="/#quiz"
-              className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/45 hover:bg-white/[0.04] active:scale-[0.98]"
+              className={cn(
+                "btt-focus rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/45 hover:bg-white/[0.04] active:scale-[0.98]",
+                bttTapReduceClass,
+              )}
             >
               {c("pick_2m")}
             </Link>
           </div>
+          {isOnOrderMaterial ? (
+            <div className="mt-4 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 text-sm text-amber-100">
+              <p>{t("preorder_min_note")}</p>
+              {belowPreorderMin ? (
+                <p className="mt-2 text-xs text-amber-200/90">{t("preorder_min_error")}</p>
+              ) : null}
+              <p className="mt-3 text-xs text-amber-200/90">{t("preorder_collective_hint")}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {collectiveBotUrl ? (
+                  <a
+                    href={collectiveBotUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btt-focus inline-flex items-center gap-1 rounded-full border border-amber-300/40 px-3 py-1.5 text-xs font-medium text-amber-100 outline-none hover:bg-amber-500/10"
+                  >
+                    <Users className="h-3.5 w-3.5" aria-hidden />
+                    {t("preorder_collective_bot")}
+                  </a>
+                ) : null}
+                {collectiveChannelUrl ? (
+                  <a
+                    href={collectiveChannelUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btt-focus inline-flex items-center gap-1 rounded-full border border-white/25 px-3 py-1.5 text-xs font-medium text-stone-200 outline-none hover:bg-white/[0.08]"
+                  >
+                    {t("preorder_collective_channel")}
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
 
           <div className="btt-glass mt-10 rounded-3xl p-5">
             <h2 className="font-semibold text-stone-100">{t("calc")}</h2>
@@ -303,20 +356,20 @@ export function ProductDetail({ product, related }: Props) {
             <div key={p.sku} className="h-full min-h-0">
               <Link
                 href={`/product/${p.slug}`}
-                className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-sm transition duration-300 hover:-translate-y-1 hover:border-amber-500/35 hover:shadow-xl hover:shadow-amber-950/20"
+                className="group btt-focus flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-sm outline-none transition duration-300 hover:-translate-y-1 hover:border-amber-500/35 hover:shadow-xl hover:shadow-amber-950/20 motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-sm"
               >
                 <div className="relative aspect-square shrink-0 overflow-hidden">
                   <Image
                     src={productMainImage(p)}
                     alt={p.names[locale]}
                     fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    className="object-cover transition duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 20vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition group-hover:opacity-100 motion-reduce:transition-none" />
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col p-3">
-                  <p className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-stone-200 transition group-hover:text-amber-100/95">
+                  <p className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-stone-200 transition group-hover:text-amber-100/95 motion-reduce:transition-none">
                     {p.names[locale]}
                   </p>
                 </div>
@@ -335,9 +388,12 @@ export function ProductDetail({ product, related }: Props) {
           <button
             type="button"
             onClick={onAdd}
+            disabled={belowPreorderMin}
             className={cn(
               bttPrimaryButtonClass,
               "btt-focus inline-flex items-center gap-2 px-5 active:scale-[0.98]",
+              bttTapReduceClass,
+              belowPreorderMin && "pointer-events-none opacity-60",
             )}
           >
             <ShoppingBag className="h-4 w-4" aria-hidden />

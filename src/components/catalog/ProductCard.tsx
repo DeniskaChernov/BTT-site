@@ -6,11 +6,12 @@ import type { Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { productMainImage } from "@/lib/product-media";
 import { formatUzs, getPricePerKgForQty } from "@/lib/pricing";
+import { telegramBotStartUrl, telegramChannelUrl } from "@/lib/telegram";
 import { trackEvent } from "@/lib/analytics";
-import { bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { bttPrimaryButtonClass, bttTapReduceClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Check, ShoppingBag } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Check, ShoppingBag, Users } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -27,12 +28,18 @@ export function ProductCard({ product }: Props) {
   const c = useTranslations("catalog");
   const { add } = useCart();
   const [toast, setToast] = useState(false);
-  const [quickQty, setQuickQty] = useState<1.5 | 5 | 10>(1.5);
+  const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
+  const [quickQty, setQuickQty] = useState<number>(isOnOrderMaterial ? 100 : 1.5);
   const toastTimerRef = useRef<number | null>(null);
+  const reduceMotion = useReducedMotion();
 
   const name = product.names[locale];
   const ppk = getPricePerKgForQty(product, quickQty);
   const img = productMainImage(product);
+  const collectiveBotUrl = product.collective
+    ? telegramBotStartUrl(product.collective.botStartParam)
+    : null;
+  const collectiveChannelUrl = telegramChannelUrl();
 
   const onAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -57,9 +64,9 @@ export function ProductCard({ product }: Props) {
 
   return (
     <motion.article
-      layout
+      layout={!reduceMotion}
       className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition duration-300 hover:border-amber-500/30 hover:shadow-[0_24px_64px_-12px_rgba(245,158,11,0.18)]"
-      whileHover={{ y: -5 }}
+      whileHover={reduceMotion ? undefined : { y: -5 }}
     >
       <Link
         href={`/product/${product.slug}`}
@@ -117,11 +124,17 @@ export function ProductCard({ product }: Props) {
       <div className="mt-auto px-5 pb-5">
         <div className="mb-3 flex gap-2">
           {(
-            [
-              [1.5, c("w12")],
-              [5, c("w5")],
-              [10, c("w10")],
-            ] as const
+            isOnOrderMaterial
+              ? ([
+                  [100, c("preorder_100")],
+                  [250, c("preorder_250")],
+                  [500, c("preorder_500")],
+                ] as const)
+              : ([
+                  [1.5, c("w12")],
+                  [5, c("w5")],
+                  [10, c("w10")],
+                ] as const)
           ).map(([kg, label]) => (
             <button
               key={kg}
@@ -138,28 +151,73 @@ export function ProductCard({ product }: Props) {
             </button>
           ))}
         </div>
+        {isOnOrderMaterial ? (
+          <p className="mb-3 text-xs leading-relaxed text-stone-500">
+            {c("preorder_min_note")}
+          </p>
+        ) : null}
         <button
           type="button"
           onClick={onAdd}
           className={cn(
             bttPrimaryButtonClass,
             "btt-focus flex w-full items-center justify-center gap-2 active:scale-[0.98]",
+            bttTapReduceClass,
           )}
         >
           <ShoppingBag className="h-4 w-4 opacity-90" aria-hidden />
-          {t("add_cart")}
+          {isOnOrderMaterial ? c("preorder_cta") : t("add_cart")}
         </button>
+        {isOnOrderMaterial ? (
+          <div className="mt-2 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-3 text-xs text-amber-100/95">
+            <p>{c("preorder_collective_hint")}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {collectiveBotUrl ? (
+                <a
+                  href={collectiveBotUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btt-focus inline-flex items-center gap-1 rounded-full border border-amber-400/40 px-2.5 py-1 outline-none hover:bg-amber-500/10"
+                >
+                  <Users className="h-3.5 w-3.5" aria-hidden />
+                  {c("preorder_collective_bot")}
+                </a>
+              ) : null}
+              {collectiveChannelUrl ? (
+                <a
+                  href={collectiveChannelUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btt-focus inline-flex items-center gap-1 rounded-full border border-white/25 px-2.5 py-1 text-stone-200 outline-none hover:bg-white/[0.08]"
+                >
+                  {c("preorder_collective_channel")}
+                </a>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
         <AnimatePresence>
           {toast && (
             <motion.p
-              initial={{ opacity: 0, y: 10, scale: 0.92 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 10, scale: 0.92 }}
               animate={{
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                transition: { type: "spring", stiffness: 480, damping: 26 },
+                transition: reduceMotion
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 480, damping: 26 },
               }}
-              exit={{ opacity: 0, y: -6, scale: 0.96, transition: { duration: 0.18 } }}
+              exit={
+                reduceMotion
+                  ? { opacity: 0, transition: { duration: 0.12 } }
+                  : {
+                      opacity: 0,
+                      y: -6,
+                      scale: 0.96,
+                      transition: { duration: 0.18 },
+                    }
+              }
               className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400"
             >
               <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />

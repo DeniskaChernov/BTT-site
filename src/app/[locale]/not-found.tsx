@@ -1,4 +1,6 @@
 import { Link } from "@/i18n/navigation";
+import { bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
 export default async function NotFound() {
@@ -13,7 +15,10 @@ export default async function NotFound() {
       <p className="mt-2 max-w-md text-stone-500">{t("body")}</p>
       <Link
         href="/"
-        className="mt-10 inline-flex rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-8 py-3 text-sm font-semibold text-white shadow-lg"
+        className={cn(
+          bttPrimaryButtonClass,
+          "btt-focus mt-10 inline-flex items-center justify-center px-8 py-3 shadow-lg",
+        )}
       >
         {t("cta")}
       </Link>

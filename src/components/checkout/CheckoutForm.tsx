@@ -13,6 +13,7 @@ import {
   bttPillButtonActiveClass,
   bttPillButtonInactiveClass,
   bttPrimaryButtonClass,
+  bttTapReduceClass,
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
@@ -139,6 +140,14 @@ export function CheckoutForm() {
         } else if (res.status === 429) {
           setErr(t("error_rate_limit"));
           return;
+        } else if (res.status === 400) {
+          const payload = (await res.json().catch(() => null)) as { error?: string } | null;
+          if (payload?.error === "Minimum preorder quantity is 100 kg") {
+            setErr(t("error_min_preorder"));
+            return;
+          }
+          setErr(t("error_validation"));
+          return;
         } else if (res.status >= 400 && res.status < 500) {
           setErr(t("error_validation"));
           return;
@@ -200,6 +209,7 @@ export function CheckoutForm() {
               className={cn(
                 bttPrimaryButtonClass,
                 "btt-focus mt-6 inline-flex items-center justify-center active:scale-[0.99]",
+                bttTapReduceClass,
               )}
             >
               {t("open_telegram")}
@@ -207,7 +217,10 @@ export function CheckoutForm() {
           ) : pay === "telegram" && !telegramPayUrl ? (
             <p className="mt-4 text-sm text-stone-500">
               {t("telegram_config_hint")}{" "}
-              <Link href="/contacts" className="font-medium text-amber-400 underline-offset-4 hover:underline">
+              <Link
+                href="/contacts"
+                className="btt-focus rounded-sm font-medium text-amber-400 underline-offset-4 outline-none hover:underline"
+              >
                 {nav("contacts")}
               </Link>
             </p>
@@ -219,6 +232,7 @@ export function CheckoutForm() {
             className={cn(
               bttPrimaryButtonClass,
               "btt-focus mt-6 inline-flex items-center justify-center border border-white/15 bg-white/[0.06] active:scale-[0.99]",
+              bttTapReduceClass,
             )}
           >
             {t("cta_catalog")}
@@ -226,7 +240,7 @@ export function CheckoutForm() {
           <p className="mt-6">
             <Link
               href="/account"
-              className="text-sm font-medium text-amber-400/95 underline-offset-4 hover:text-amber-300 hover:underline"
+              className="btt-focus rounded-sm text-sm font-medium text-amber-400/95 underline-offset-4 outline-none transition hover:text-amber-300 hover:underline motion-reduce:transition-none"
             >
               {t("view_orders")}
             </Link>
@@ -372,6 +386,7 @@ export function CheckoutForm() {
           className={cn(
             bttPrimaryButtonClass,
             "btt-focus px-8 py-3.5 active:scale-[0.99]",
+            bttTapReduceClass,
             submitting && "pointer-events-none opacity-70",
           )}
         >

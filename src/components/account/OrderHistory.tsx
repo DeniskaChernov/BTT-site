@@ -126,6 +126,57 @@ export function OrderHistory({ profilePhone }: Props) {
     return k ? tch(k) : pay;
   };
 
+  const orderStatus = (
+    s: StoredOrder["status"],
+  ): "NEW" | "CONFIRMED" | "PACKING" | "SHIPPED" | "DELIVERED" | "CANCELLED" =>
+    s === "CONFIRMED" ||
+    s === "PACKING" ||
+    s === "SHIPPED" ||
+    s === "DELIVERED" ||
+    s === "CANCELLED"
+      ? s
+      : "NEW";
+
+  const statusText = (s: StoredOrder["status"]) =>
+    t(`status_${orderStatus(s).toLowerCase()}`);
+
+  const statusTone = (s: StoredOrder["status"]) => {
+    switch (orderStatus(s)) {
+      case "DELIVERED":
+        return "border-emerald-500/35 bg-emerald-500/10 text-emerald-300";
+      case "CANCELLED":
+        return "border-red-500/35 bg-red-500/10 text-red-300";
+      case "SHIPPED":
+        return "border-sky-500/35 bg-sky-500/10 text-sky-300";
+      case "PACKING":
+        return "border-amber-500/35 bg-amber-500/10 text-amber-300";
+      case "CONFIRMED":
+        return "border-violet-500/35 bg-violet-500/10 text-violet-300";
+      default:
+        return "border-white/20 bg-white/[0.04] text-stone-300";
+    }
+  };
+
+  const paymentStatus = (
+    s: StoredOrder["paymentStatus"],
+  ):
+    | "PENDING"
+    | "REQUIRES_ACTION"
+    | "PAID"
+    | "FAILED"
+    | "REFUNDED"
+    | "PARTIALLY_REFUNDED" =>
+    s === "REQUIRES_ACTION" ||
+    s === "PAID" ||
+    s === "FAILED" ||
+    s === "REFUNDED" ||
+    s === "PARTIALLY_REFUNDED"
+      ? s
+      : "PENDING";
+
+  const paymentStatusText = (s: StoredOrder["paymentStatus"]) =>
+    t(`payment_${paymentStatus(s).toLowerCase()}`);
+
   const phoneForHistory = normalizePhone(profilePhone);
   const loading =
     remoteOrders === undefined &&
@@ -179,18 +230,28 @@ export function OrderHistory({ profilePhone }: Props) {
               <button
                 type="button"
                 onClick={() => setOpenId(expanded ? null : order.id)}
-                className="flex w-full items-start justify-between gap-4 p-4 text-left transition hover:bg-white/[0.03] md:p-5"
+                aria-expanded={expanded}
+                className="btt-focus flex w-full items-start justify-between gap-4 p-4 text-left transition hover:bg-white/[0.03] md:p-5"
               >
                 <div>
                   <p className="font-mono text-xs text-amber-500/90">{order.id.slice(0, 13)}…</p>
                   <p className="mt-1 text-sm text-stone-400">
                     {formatWhen(order.createdAt, locale)}
                   </p>
+                  <p className="mt-1 text-xs text-stone-600">
+                    {t("order_status_updated")}{" "}
+                    {formatWhen(order.statusUpdatedAt ?? order.createdAt, locale)}
+                  </p>
                   <p className="mt-2 text-sm text-stone-500">
                     {t("order_lines_count", { count: order.lines.length })}
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-3">
+                  <span
+                    className={`hidden rounded-full border px-2.5 py-1 text-xs font-semibold md:inline-flex ${statusTone(order.status)}`}
+                  >
+                    {statusText(order.status)}
+                  </span>
                   <span className="text-lg font-bold tabular-nums text-amber-400">
                     {formatUzs(order.totalUz)}
                   </span>
@@ -203,6 +264,16 @@ export function OrderHistory({ profilePhone }: Props) {
               </button>
               {expanded && (
                 <div className="border-t border-white/[0.06] px-4 py-4 md:px-5 md:pb-5">
+                  <div className="mb-4 flex flex-wrap items-center gap-2">
+                    <span
+                      className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(order.status)}`}
+                    >
+                      {statusText(order.status)}
+                    </span>
+                    {order.statusNote ? (
+                      <span className="text-xs text-stone-400">{order.statusNote}</span>
+                    ) : null}
+                  </div>
                   <dl className="grid gap-2 text-sm text-stone-400 sm:grid-cols-2">
                     <div>
                       <dt className="text-xs uppercase tracking-wide text-stone-600">
@@ -216,7 +287,13 @@ export function OrderHistory({ profilePhone }: Props) {
                       <dt className="text-xs uppercase tracking-wide text-stone-600">
                         {t("order_pay")}
                       </dt>
-                      <dd className="text-stone-300">{payKey(order.pay)}</dd>
+                      <dd className="text-stone-300">
+                        {payKey(order.pay)}
+                        <span className="text-stone-500">
+                          {" · "}
+                          {paymentStatusText(order.paymentStatus)}
+                        </span>
+                      </dd>
                     </div>
                     <div className="sm:col-span-2">
                       <dt className="text-xs uppercase tracking-wide text-stone-600">
@@ -227,6 +304,58 @@ export function OrderHistory({ profilePhone }: Props) {
                         {order.address ? ` · ${order.address}` : null}
                       </dd>
                     </div>
+                    {order.trackingNumber ? (
+                      <div className="sm:col-span-2">
+                        <dt className="text-xs uppercase tracking-wide text-stone-600">
+                          {t("order_tracking")}
+                        </dt>
+                        <dd className="text-stone-300">
+                          {order.trackingProvider
+                            ? `${order.trackingProvider}: `
+                            : ""}
+                          {order.trackingNumber}
+                          {order.trackingUrl ? (
+                            <>
+                              {" · "}
+                              <a
+                                href={order.trackingUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btt-focus rounded-sm text-amber-400 underline-offset-4 outline-none hover:underline"
+                              >
+                                {t("order_tracking_open")}
+                              </a>
+                            </>
+                          ) : null}
+                        </dd>
+                      </div>
+                    ) : null}
+                    {order.paymentReference ? (
+                      <div className="sm:col-span-2">
+                        <dt className="text-xs uppercase tracking-wide text-stone-600">
+                          {t("order_payment_ref")}
+                        </dt>
+                        <dd className="text-stone-300">
+                          {order.paymentProvider
+                            ? `${order.paymentProvider}: `
+                            : ""}
+                          {order.paymentReference}
+                          {order.paymentUrl ? (
+                            <>
+                              {" · "}
+                              <a
+                                href={order.paymentUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btt-focus rounded-sm text-amber-400 underline-offset-4 outline-none hover:underline"
+                              >
+                                {t("order_payment_open")}
+                              </a>
+                            </>
+                          ) : null}
+                        </dd>
+                      </div>
+                    ) : null}
                   </dl>
                   <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4">
                     {order.lines.map((line) => (
@@ -236,7 +365,7 @@ export function OrderHistory({ profilePhone }: Props) {
                       >
                         <Link
                           href={`/product/${line.slug}`}
-                          className="min-w-0 flex-1 text-stone-200 hover:text-amber-400"
+                          className="btt-focus min-w-0 flex-1 rounded-sm text-stone-200 outline-none hover:text-amber-400"
                         >
                           {line.name}
                         </Link>
@@ -252,6 +381,15 @@ export function OrderHistory({ profilePhone }: Props) {
                   <p className="mt-4 flex justify-between border-t border-white/[0.06] pt-4 text-sm font-medium text-stone-300">
                     <span>{tc("subtotal")}</span>
                     <span className="tabular-nums text-stone-100">{formatUzs(order.totalUz)}</span>
+                  </p>
+                  <p className="mt-3 text-xs text-stone-500">
+                    {t("order_help")}{" "}
+                    <Link
+                      href="/contacts"
+                      className="btt-focus rounded-sm text-amber-400 underline-offset-4 outline-none hover:underline"
+                    >
+                      {t("order_help_link")}
+                    </Link>
                   </p>
                 </div>
               )}

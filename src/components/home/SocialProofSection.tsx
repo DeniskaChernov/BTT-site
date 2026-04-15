@@ -1,11 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function SocialProofSection() {
   const t = useTranslations("home");
+  const reduceMotion = useReducedMotion();
 
   const blocks = [
     {
@@ -29,7 +31,13 @@ export function SocialProofSection() {
 
   return (
     <section className="btt-container pb-20 pt-6 md:pb-28 md:pt-8">
-      <div className="mx-auto mb-8 max-w-2xl text-center md:mb-10">
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
+        className="mx-auto mb-8 max-w-2xl text-center md:mb-10"
+      >
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
           {t("proof_section_kicker")}
         </p>
@@ -39,26 +47,54 @@ export function SocialProofSection() {
         <p className="mt-3 text-pretty text-sm leading-relaxed text-stone-400 md:text-base">
           {t("proof_section_lead")}
         </p>
-      </div>
+      </motion.div>
       <div className="mb-8 flex flex-wrap justify-center gap-2 md:mb-10 md:gap-3">
-        {chips.map(({ key, label }) => (
-          <span
+        {chips.map(({ key, label }, i) => (
+          <motion.span
             key={key}
-            className="rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-medium text-stone-400 backdrop-blur-sm md:text-sm"
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.94 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.35,
+              delay: reduceMotion ? 0 : bttStaggerDelay(i, 0.05),
+              ease: [...BTT_EASE],
+            }}
+            whileHover={
+              reduceMotion
+                ? undefined
+                : {
+                    y: -2,
+                    transition: { duration: 0.2, ease: [...BTT_EASE] },
+                  }
+            }
+            className="rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-medium text-stone-400 backdrop-blur-sm md:text-sm motion-reduce:hover:translate-y-0"
           >
             {label}
-          </span>
+          </motion.span>
         ))}
       </div>
       <div className="grid gap-6 md:grid-cols-2">
         {blocks.map((b, i) => (
           <motion.div
             key={b.title}
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="group relative overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-white/[0.07] to-transparent p-8 shadow-xl backdrop-blur-2xl"
+            transition={{
+              delay: reduceMotion ? 0 : bttStaggerDelay(i, 0.1),
+              duration: reduceMotion ? 0 : 0.5,
+              ease: [...BTT_EASE],
+            }}
+            whileHover={
+              reduceMotion
+                ? undefined
+                : {
+                    y: -3,
+                    transition: { duration: 0.25, ease: [...BTT_EASE] },
+                  }
+            }
+            className="group relative overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-white/[0.07] to-transparent p-8 shadow-xl backdrop-blur-2xl motion-reduce:hover:translate-y-0"
           >
             <Quote className="absolute right-6 top-6 h-16 w-16 text-amber-500/10 transition group-hover:text-amber-500/20" />
             <h2 className="text-sm font-semibold uppercase tracking-wider text-amber-500/90">

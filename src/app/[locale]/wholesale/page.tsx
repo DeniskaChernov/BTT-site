@@ -1,7 +1,12 @@
 import { LeadForm } from "@/components/forms/LeadForm";
 import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/navigation";
-import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import {
+  bttFieldClass,
+  bttPrimaryButtonClass,
+  bttSecondaryAmberButtonClass,
+  bttSecondaryNeutralButtonClass,
+} from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
@@ -29,19 +34,19 @@ export default async function WholesalePage() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/contacts"
-              className="inline-flex items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15"
+              className={bttSecondaryAmberButtonClass}
             >
               {t("cta_contacts")}
             </Link>
             <Link
               href="/catalog"
-              className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-stone-200 transition hover:border-white/25"
+              className={bttSecondaryNeutralButtonClass}
             >
               {t("cta_catalog")}
             </Link>
             <Link
               href="/faq"
-              className="inline-flex items-center rounded-full border border-white/10 bg-transparent px-4 py-2 text-sm font-semibold text-stone-400 transition hover:border-white/20 hover:text-stone-200"
+              className="btt-focus inline-flex items-center rounded-full border border-white/10 bg-transparent px-4 py-2 text-sm font-semibold text-stone-400 transition hover:border-white/20 hover:text-stone-200 motion-reduce:transition-none"
             >
               {t("cta_faq")}
             </Link>
@@ -112,7 +117,10 @@ export default async function WholesalePage() {
               className="mt-2 block w-full text-sm text-stone-400 file:mr-4 file:rounded-lg file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-sm file:text-stone-200"
             />
           </label>
-          <button type="submit" className={cn(bttPrimaryButtonClass, "w-fit")}>
+          <button
+            type="submit"
+            className={cn(bttPrimaryButtonClass, "btt-focus w-fit")}
+          >
             {tc("submit")}
           </button>
         </LeadForm>

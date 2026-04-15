@@ -2,7 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
-import { motion } from "framer-motion";
+import { BTT_SPRING_SNAPPY } from "@/lib/motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   forwardRef,
   useCallback,
@@ -114,6 +115,7 @@ type SlideTabProps = {
 
 const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
   ({ children, href, isActive, setPosition, badge, linkAriaLabel }, ref) => {
+    const reduceMotion = useReducedMotion();
     const showBadge = typeof badge === "number" && badge > 0;
     return (
       <li
@@ -134,7 +136,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
           aria-label={linkAriaLabel}
           aria-current={isActive ? "page" : undefined}
           className={cn(
-            "relative block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide transition-colors md:px-5 md:py-3 md:text-base",
+            "relative block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none md:px-5 md:py-3 md:text-base",
             showBadge && "pr-6 md:pr-8",
             isActive
               ? "text-stone-50"
@@ -145,10 +147,12 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
           {showBadge ? (
             <motion.span
               key={badge}
-              layout
-              initial={{ scale: 0.75, opacity: 0.6 }}
+              layout={!reduceMotion}
+              initial={reduceMotion ? false : { scale: 0.75, opacity: 0.6 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 520, damping: 22 }}
+              transition={
+                reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY
+              }
               className="pointer-events-none absolute -right-0.5 top-1 flex h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-full bg-gradient-to-b from-amber-500 to-orange-600 px-1 text-[0.625rem] font-bold leading-none text-white shadow-md shadow-amber-950/50 ring-1 ring-white/25 md:right-0.5 md:top-2 md:h-5 md:min-w-5 md:text-[0.65rem]"
             >
               {badge > 9 ? "9+" : badge}
@@ -163,6 +167,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
 SlideTab.displayName = "SlideTab";
 
 function SlideCursor({ position }: { position: CursorPosition }) {
+  const reduceMotion = useReducedMotion();
   return (
     <motion.li
       aria-hidden
@@ -171,7 +176,9 @@ function SlideCursor({ position }: { position: CursorPosition }) {
         width: position.width,
         opacity: position.opacity,
       }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      transition={
+        reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY
+      }
       className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-gradient-to-b from-amber-500/25 via-white/[0.12] to-orange-950/30 shadow-[0_0_24px_rgba(245,158,11,0.12)] ring-1 ring-white/10"
     />
   );

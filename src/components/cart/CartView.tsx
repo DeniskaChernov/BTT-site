@@ -3,15 +3,20 @@
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
-import { bttFieldStepperInputClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import {
+  bttFieldStepperInputClass,
+  bttPrimaryButtonClass,
+  bttTapReduceClass,
+} from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { Home, ShoppingBag } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 export function CartView() {
   const { lines, subtotalUz, lineTotalUz, updateQty, remove, clear } = useCart();
   const t = useTranslations("cart");
+  const reduceMotion = useReducedMotion();
 
   const onClear = () => {
     if (typeof window !== "undefined" && window.confirm(t("clear_confirm"))) {
@@ -23,9 +28,12 @@ export function CartView() {
     return (
       <div className="btt-container py-16 text-center md:py-24">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.45,
+            ease: [0.22, 1, 0.36, 1],
+          }}
           className="mx-auto flex max-w-md flex-col items-center"
         >
           <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/[0.1] bg-white/[0.04] text-stone-400 shadow-inner shadow-black/30">
@@ -38,13 +46,16 @@ export function CartView() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/catalog"
-              className={cn(bttPrimaryButtonClass, "inline-flex px-8 py-3")}
+              className={cn(
+                bttPrimaryButtonClass,
+                "btt-focus inline-flex px-8 py-3",
+              )}
             >
               {t("empty_catalog")}
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-white/25 hover:bg-white/[0.08]"
+              className="btt-focus inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-white/25 hover:bg-white/[0.08] motion-reduce:transition-none"
             >
               <Home className="h-4 w-4" aria-hidden />
               {t("empty_home")}
@@ -66,15 +77,16 @@ export function CartView() {
           {lines.map((l) => (
             <motion.li
               key={l.sku}
-              layout
-              initial={{ opacity: 0, x: -8 }}
+              layout={!reduceMotion}
+              initial={reduceMotion ? false : { opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.25 }}
               className="btt-glass btt-interactive-lift grid grid-cols-1 gap-4 border-white/[0.06] p-5 sm:grid-cols-[1fr_auto_auto] sm:items-center"
             >
               <div>
                 <Link
                   href={`/product/${l.slug}`}
-                  className="font-semibold text-stone-100 hover:text-amber-400"
+                  className="btt-focus rounded-sm font-semibold text-stone-100 transition hover:text-amber-400 motion-reduce:transition-none"
                 >
                   {l.name}
                 </Link>
@@ -141,6 +153,7 @@ export function CartView() {
             className={cn(
               bttPrimaryButtonClass,
               "btt-focus mt-8 flex w-full justify-center py-3.5 transition active:scale-[0.99]",
+              bttTapReduceClass,
             )}
           >
             {t("to_checkout")}
@@ -148,7 +161,7 @@ export function CartView() {
           <button
             type="button"
             onClick={onClear}
-            className="mt-4 w-full rounded-full border border-white/10 bg-transparent py-2.5 text-sm font-medium text-stone-400 transition hover:border-red-500/30 hover:bg-red-500/5 hover:text-red-200"
+            className="btt-focus mt-4 w-full rounded-full border border-white/10 bg-transparent py-2.5 text-sm font-medium text-stone-400 transition hover:border-red-500/30 hover:bg-red-500/5 hover:text-red-200"
           >
             {t("clear")}
           </button>

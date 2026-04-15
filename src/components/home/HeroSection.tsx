@@ -1,9 +1,10 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Droplets, Sun, Trees } from "lucide-react";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { useTranslations } from "next-intl";
@@ -11,6 +12,7 @@ import { useTranslations } from "next-intl";
 export function HeroSection() {
   const t = useTranslations("hero");
   const h = useTranslations("home");
+  const reduceMotion = useReducedMotion();
 
   const items = [
     { icon: Sun, label: t("trust_sun") },
@@ -35,9 +37,12 @@ export function HeroSection() {
           {/* Текст + CTA — асимметричная колонка */}
           <div className="lg:col-span-5">
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.65,
+                ease: [...BTT_EASE],
+              }}
             >
               <p className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-amber-200/90">
                 Bententrade · 2026
@@ -50,24 +55,30 @@ export function HeroSection() {
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link href="/catalog">
+                <Link
+                  href="/catalog"
+                  className="btt-focus inline-block rounded-full sm:inline-flex"
+                >
                   <motion.span
                     className={cn(
                       bttPrimaryButtonClass,
                       "group inline-flex w-full items-center justify-center gap-2 px-8 py-3.5 shadow-orange-900/40 sm:w-auto"
                     )}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                   >
                     {t("cta_buy")}
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
                   </motion.span>
                 </Link>
-                <Link href="/#quiz">
+                <Link
+                  href="/#quiz"
+                  className="btt-focus inline-block rounded-full sm:inline-flex"
+                >
                   <motion.span
-                    className="btt-glass-cta inline-flex w-full items-center justify-center sm:w-auto"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    className="btt-glass-cta inline-flex w-full items-center justify-center motion-reduce:transition-none sm:w-auto"
+                    whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                   >
                     {t("cta_pick")}
                   </motion.span>
@@ -79,9 +90,15 @@ export function HeroSection() {
           {/* Визуал — стекло + изображение */}
           <div className="lg:col-span-7">
             <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              initial={
+                reduceMotion ? false : { opacity: 0, y: 20, scale: 0.98 }
+              }
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.7,
+                delay: reduceMotion ? 0 : 0.1,
+                ease: [...BTT_EASE],
+              }}
               className="relative"
             >
               <div className="relative aspect-[16/11] overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-2xl backdrop-blur-xl">
@@ -111,11 +128,18 @@ export function HeroSection() {
                 {items.map(({ icon: Icon, label }, i) => (
                   <motion.div
                     key={label}
-                    initial={{ opacity: 0, y: 12 }}
+                    initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.35 + i * 0.08 }}
-                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                    className="btt-glass flex items-center gap-3 p-4 transition hover:border-amber-500/30"
+                    transition={{
+                      delay: reduceMotion ? 0 : 0.35 + bttStaggerDelay(i, 0.08),
+                      ease: [...BTT_EASE],
+                    }}
+                    whileHover={
+                      reduceMotion
+                        ? undefined
+                        : { y: -4, transition: { duration: 0.2 } }
+                    }
+                    className="btt-glass flex items-center gap-3 p-4 transition hover:border-amber-500/30 motion-reduce:transition-none"
                   >
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/10 text-amber-400 ring-1 ring-amber-500/20">
                       <Icon className="h-5 w-5" aria-hidden />

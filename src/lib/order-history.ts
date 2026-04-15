@@ -14,7 +14,21 @@ export type StoredOrderLine = {
 export type StoredOrder = {
   id: string;
   createdAt: string;
+  updatedAt?: string;
   totalUz: number;
+  status?: "NEW" | "CONFIRMED" | "PACKING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
+  statusUpdatedAt?: string;
+  statusNote?: string;
+  paymentStatus?: "PENDING" | "REQUIRES_ACTION" | "PAID" | "FAILED" | "REFUNDED" | "PARTIALLY_REFUNDED";
+  paymentStatusUpdatedAt?: string;
+  paymentProvider?: string;
+  paymentReference?: string;
+  paymentUrl?: string;
+  paymentRequestedAt?: string;
+  paidAt?: string;
+  trackingProvider?: string;
+  trackingNumber?: string;
+  trackingUrl?: string;
   lines: StoredOrderLine[];
   pay: string;
   ship: "courier" | "pickup";
@@ -88,6 +102,20 @@ export function appendOrder(
         ? crypto.randomUUID()
         : `ord-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`),
     createdAt: server?.createdAt ?? new Date().toISOString(),
+    updatedAt: server?.createdAt ?? new Date().toISOString(),
+    status: "NEW",
+    statusUpdatedAt: server?.createdAt ?? new Date().toISOString(),
+    statusNote: "",
+    paymentStatus: "PENDING",
+    paymentStatusUpdatedAt: server?.createdAt ?? new Date().toISOString(),
+    paymentProvider: "",
+    paymentReference: "",
+    paymentUrl: "",
+    paymentRequestedAt: "",
+    paidAt: "",
+    trackingProvider: "",
+    trackingNumber: "",
+    trackingUrl: "",
   };
 
   if (typeof window === "undefined") return order;

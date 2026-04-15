@@ -2,12 +2,14 @@
 
 import { Link } from "@/i18n/navigation";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { motion } from "framer-motion";
+import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Sparkles, Wrench, Warehouse } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function SegmentSection() {
   const t = useTranslations("segments");
+  const reduceMotion = useReducedMotion();
 
   const cards = [
     {
@@ -37,9 +39,13 @@ export function SegmentSection() {
     <section className="relative py-16 md:py-24">
       <div className="btt-container">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.45,
+            ease: [...BTT_EASE],
+          }}
           className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-2xl lg:text-left"
         >
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
@@ -57,18 +63,22 @@ export function SegmentSection() {
           {cards.map((c, i) => (
             <motion.div
               key={c.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.45 }}
+              transition={{
+                delay: reduceMotion ? 0 : bttStaggerDelay(i, 0.08),
+                duration: reduceMotion ? 0 : 0.45,
+                ease: [...BTT_EASE],
+              }}
               className="min-w-0"
             >
               <TiltCard className="h-full">
                 <Link
                   href={c.href}
-                  className={`group relative flex h-full min-h-[200px] flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br ${c.accent} p-8 shadow-xl backdrop-blur-xl transition hover:border-amber-500/35`}
+                  className={`group btt-focus relative flex h-full min-h-[200px] flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br ${c.accent} p-8 shadow-xl backdrop-blur-xl outline-none transition hover:border-amber-500/35 motion-reduce:transition-none`}
                 >
-                  <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-500/10 blur-3xl transition group-hover:bg-amber-500/20" />
+                  <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-500/10 blur-3xl transition group-hover:bg-amber-500/20 motion-reduce:transition-none" />
                   <c.icon className="relative h-8 w-8 text-amber-400" strokeWidth={1.5} />
                   <h3 className="relative mt-6 text-xl font-semibold text-stone-50">
                     {c.title}
@@ -76,7 +86,7 @@ export function SegmentSection() {
                   <p className="relative mt-2 flex-1 text-sm leading-relaxed text-stone-400">
                     {c.desc}
                   </p>
-                  <span className="relative mt-6 inline-flex items-center gap-1 text-sm font-semibold text-amber-400 transition group-hover:gap-2">
+                  <span className="relative mt-6 inline-flex items-center gap-1 text-sm font-semibold text-amber-400 transition group-hover:gap-2 motion-reduce:transition-none motion-reduce:group-hover:gap-1">
                     {t("cta")}
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
