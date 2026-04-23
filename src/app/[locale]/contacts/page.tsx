@@ -59,6 +59,7 @@ export default async function ContactsPage() {
 
         <LeadForm
           kind="contacts_feedback"
+          source="contacts_feedback_page"
           className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8"
         >
           <h2 className="text-lg font-semibold text-stone-50">{t("form_feedback")}</h2>
@@ -89,6 +90,7 @@ export default async function ContactsPage() {
         <AnimatedReveal className="lg:col-span-2" delay={0.08}>
           <LeadForm
             kind="contacts_b2b"
+            source="contacts_b2b_page"
             className="btt-glass grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8"
           >
             <h2 className="text-lg font-semibold text-stone-50">{t("form_b2b")}</h2>

@@ -2,17 +2,30 @@
 
 import { Link } from "@/i18n/navigation";
 import { TiltCard } from "@/components/ui/TiltCard";
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, HeartHandshake, Wrench, Warehouse } from "lucide-react";
 import { useTranslations } from "next-intl";
+import type { BttEventPayloads } from "@/lib/analytics";
+
+type Segment = BttEventPayloads[typeof BTT_EVENTS.SegmentCardClick]["segment"];
 
 export function SegmentSection() {
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
 
-  const cards = [
+  const cards: {
+    id: Segment;
+    title: string;
+    desc: string;
+    cta: string;
+    href: string;
+    icon: typeof Wrench;
+    accent: string;
+  }[] = [
     {
+      id: "master",
       title: s("segment_master_title"),
       desc: s("segment_master_desc"),
       cta: s("segment_master_cta"),
@@ -21,6 +34,7 @@ export function SegmentSection() {
       accent: "from-amber-500/20 to-transparent",
     },
     {
+      id: "production",
       title: s("segment_prod_title"),
       desc: s("segment_prod_desc"),
       cta: s("segment_prod_cta"),
@@ -29,6 +43,7 @@ export function SegmentSection() {
       accent: "from-orange-600/15 to-transparent",
     },
     {
+      id: "pick",
       title: s("segment_pick_title"),
       desc: s("segment_pick_desc"),
       cta: s("segment_pick_cta"),
@@ -79,6 +94,11 @@ export function SegmentSection() {
               <TiltCard className="h-full">
                 <Link
                   href={c.href}
+                  onClick={() =>
+                    trackBttEvent(BTT_EVENTS.SegmentCardClick, {
+                      segment: c.id,
+                    })
+                  }
                   className={`group btt-focus relative flex h-full min-h-[210px] flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br ${c.accent} p-8 shadow-xl backdrop-blur-xl outline-none transition duration-300 hover:border-amber-500/35 motion-reduce:transition-none`}
                 >
                   <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-500/10 blur-3xl transition duration-500 group-hover:bg-amber-500/25 motion-reduce:transition-none" />

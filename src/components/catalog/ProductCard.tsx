@@ -7,7 +7,7 @@ import { useCart } from "@/contexts/CartContext";
 import { productMainImage } from "@/lib/product-media";
 import { formatUzs, getPricePerKgForQty } from "@/lib/pricing";
 import { telegramBotStartUrl, telegramChannelUrl } from "@/lib/telegram";
-import { trackEvent } from "@/lib/analytics";
+import { BTT_EVENTS, trackBttEvent, trackEvent } from "@/lib/analytics";
 import { bttPrimaryButtonClass, bttTapReduceClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -215,6 +215,12 @@ export function ProductCard({ product }: Props) {
         </motion.button>
         <Link
           href="/#quiz"
+          onClick={() =>
+            trackBttEvent(BTT_EVENTS.CardPickClick, {
+              sku: product.sku,
+              slug: product.slug,
+            })
+          }
           className="btt-focus mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-white/12 bg-white/[0.02] px-4 py-2 text-xs font-semibold text-stone-200 transition-colors duration-200 hover:border-amber-500/35 hover:bg-white/[0.06] hover:text-amber-100 motion-reduce:transition-none"
         >
           <HeartHandshake className="h-3.5 w-3.5 text-amber-300" aria-hidden />

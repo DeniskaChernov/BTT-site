@@ -1,6 +1,11 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import {
+  BTT_EVENTS,
+  trackBttEvent,
+  type BttEventPayloads,
+} from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { motion, useReducedMotion } from "framer-motion";
@@ -8,30 +13,42 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
+type ExampleType = BttEventPayloads[typeof BTT_EVENTS.ExampleCardClick]["type"];
+
 export function ExamplesSection() {
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
 
-  const items = [
+  const items: {
+    id: ExampleType;
+    title: string;
+    desc: string;
+    seed: string;
+    href: string;
+  }[] = [
     {
+      id: "furniture",
       title: s("example_furniture_title"),
       desc: s("example_furniture_desc"),
       seed: "btt-cat-rattan",
       href: "/catalog?tab=material",
     },
     {
+      id: "planter",
       title: s("example_planters_title"),
       desc: s("example_planters_desc"),
       seed: "btt-cat-planter",
       href: "/catalog?tab=planter",
     },
     {
+      id: "chairs",
       title: s("example_chairs_title"),
       desc: s("example_chairs_desc"),
       seed: "btt-cat-twist",
       href: "/catalog?tab=material&shape=round",
     },
     {
+      id: "decor",
       title: s("example_decor_title"),
       desc: s("example_decor_desc"),
       seed: "btt-cat-new",
@@ -84,6 +101,9 @@ export function ExamplesSection() {
             >
               <Link
                 href={it.href}
+                onClick={() =>
+                  trackBttEvent(BTT_EVENTS.ExampleCardClick, { type: it.id })
+                }
                 className="group btt-focus block h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition-colors duration-300 hover:border-amber-500/35 motion-reduce:transition-none"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-stone-950">

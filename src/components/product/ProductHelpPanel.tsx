@@ -1,5 +1,6 @@
 "use client";
 
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
@@ -10,11 +11,17 @@ const PHONE_DISPLAY = "+998 77 104 44 22";
 const PHONE_TEL = "+998771044422";
 const WHATSAPP_URL = `https://wa.me/${PHONE_TEL.replace(/[^0-9]/g, "")}`;
 
+type Props = {
+  telegramUrl?: string | null;
+  /** SKU текущего товара — уйдёт в аналитику `pdp_help_click`. */
+  sku?: string;
+};
+
 /**
  * Продающий блок помощи на странице товара: телефон + мессенджеры.
  * Ведёт на WhatsApp и (если задана) Telegram-воронку.
  */
-export function ProductHelpPanel({ telegramUrl }: { telegramUrl?: string | null }) {
+export function ProductHelpPanel({ telegramUrl, sku }: Props) {
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
 
@@ -50,6 +57,9 @@ export function ProductHelpPanel({ telegramUrl }: { telegramUrl?: string | null 
       <div className="mt-5 flex flex-wrap gap-2.5">
         <motion.a
           href={`tel:${PHONE_TEL}`}
+          onClick={() =>
+            trackBttEvent(BTT_EVENTS.PdpHelpClick, { channel: "phone", sku })
+          }
           whileHover={reduceMotion ? undefined : { scale: 1.02 }}
           whileTap={reduceMotion ? undefined : { scale: 0.98 }}
           className="btt-focus inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/30 transition-[filter] duration-200 hover:brightness-110"
@@ -61,6 +71,12 @@ export function ProductHelpPanel({ telegramUrl }: { telegramUrl?: string | null 
           href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackBttEvent(BTT_EVENTS.PdpHelpClick, {
+              channel: "whatsapp",
+              sku,
+            })
+          }
           whileHover={reduceMotion ? undefined : { scale: 1.02 }}
           whileTap={reduceMotion ? undefined : { scale: 0.98 }}
           className="btt-focus inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-900/20 px-5 py-2.5 text-sm font-semibold text-emerald-100 transition-colors duration-200 hover:border-emerald-400/60 hover:bg-emerald-900/30"
@@ -73,6 +89,12 @@ export function ProductHelpPanel({ telegramUrl }: { telegramUrl?: string | null 
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              trackBttEvent(BTT_EVENTS.PdpHelpClick, {
+                channel: "telegram",
+                sku,
+              })
+            }
             whileHover={reduceMotion ? undefined : { scale: 1.02 }}
             whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             className={cn(

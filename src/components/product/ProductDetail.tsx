@@ -344,7 +344,7 @@ export function ProductDetail({ product, related }: Props) {
           <ProductSalesBlocks product={product} />
 
           {/* Блок помощи с номером +998 77 104 44 22 */}
-          <ProductHelpPanel telegramUrl={telegramPaymentChatUrl()} />
+          <ProductHelpPanel telegramUrl={telegramPaymentChatUrl()} sku={product.sku} />
 
           {/* Микро-доверие */}
           <div className="mt-8">

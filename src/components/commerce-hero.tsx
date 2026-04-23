@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
@@ -86,16 +87,23 @@ export function CommerceHero() {
                   alt=""
                   fill
                   priority
-                  className="object-cover object-center"
+                  className="object-cover object-center saturate-[0.85]"
                   sizes="(max-width: 1280px) 100vw, 1280px"
                 />
               </motion.div>
+              {/* Базовый scrim: чуть тяжелее снизу, чтобы CTA «дышали», а текст вверху лежал на глубокой области. */}
               <div
-                className="absolute inset-0 bg-gradient-to-b from-black/72 via-black/58 to-black/80"
+                className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-black/88"
                 aria-hidden
               />
+              {/* Боковая виньетка на холодную сторону, чтобы вытянуть фокус к центру и приглушить тёплые края. */}
               <div
-                className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_20%,rgba(180,83,9,0.15),transparent_50%)]"
+                className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_55%,transparent_35%,rgba(0,0,0,0.55)_100%)]"
+                aria-hidden
+              />
+              {/* Лёгкая amber-подсветка внизу под CTA — совпадает с зоной тёплого света на новом фоне. */}
+              <div
+                className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_95%,rgba(180,83,9,0.28),transparent_55%)]"
                 aria-hidden
               />
             </div>
@@ -122,9 +130,9 @@ export function CommerceHero() {
                   delay: reduceMotion ? 0 : 0.12,
                   ease: [...BTT_EASE],
                 }}
-                className="mt-8 max-w-4xl text-balance text-3xl font-bold leading-[1.15] tracking-tight md:text-5xl lg:text-[3.25rem]"
+                className="mt-8 max-w-4xl text-balance text-3xl font-bold leading-[1.15] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.55)] md:text-5xl lg:text-[3.25rem]"
               >
-                <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
                   {s("hero_title_accent")}
                 </span>
                 <br />
@@ -165,6 +173,9 @@ export function CommerceHero() {
               <div className="mt-10 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
                 <Link
                   href="/catalog"
+                  onClick={() =>
+                    trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "stock" })
+                  }
                   className="btt-focus inline-block rounded-full sm:inline-flex sm:justify-center"
                 >
                   <motion.span
@@ -181,6 +192,9 @@ export function CommerceHero() {
                 </Link>
                 <Link
                   href="/#quiz"
+                  onClick={() =>
+                    trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
+                  }
                   className="btt-focus inline-block rounded-full sm:inline-flex sm:justify-center"
                 >
                   <motion.span

@@ -3,6 +3,7 @@
 import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { getPricePerKgForQty } from "@/lib/pricing";
 import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
 import {
@@ -229,6 +230,10 @@ export function CatalogClient({
       type="button"
       onClick={() =>
         startTransition(() => {
+          trackBttEvent(BTT_EVENTS.CatalogFilterApply, {
+            key: String(key),
+            value,
+          });
           setF((s) => ({ ...s, [key]: value } as FilterState));
         })
       }
@@ -248,8 +253,9 @@ export function CatalogClient({
     </button>
   );
 
-  const resetFilters = () => {
+  const resetFilters = (source: "sidebar" | "active_chips" = "sidebar") => {
     startTransition(() => {
+      trackBttEvent(BTT_EVENTS.CatalogFilterReset, { source });
       setF({
         tab: f.tab,
         application: "all",
@@ -349,7 +355,7 @@ export function CatalogClient({
 
       <button
         type="button"
-        onClick={resetFilters}
+        onClick={() => resetFilters("sidebar")}
         className="text-sm font-semibold text-amber-400 underline underline-offset-4 hover:text-amber-300"
       >
         {t("reset")}
@@ -392,9 +398,11 @@ export function CatalogClient({
             {t("sort_label")}
             <select
               value={sortMode}
-              onChange={(e) =>
-                startTransition(() => setSortMode(e.target.value as SortMode))
-              }
+              onChange={(e) => {
+                const mode = e.target.value as SortMode;
+                trackBttEvent(BTT_EVENTS.CatalogSortChange, { mode });
+                startTransition(() => setSortMode(mode));
+              }}
               className={clsx(bttSelectFieldClass, "min-w-[190px] py-2")}
             >
               <option value="popular">{t("sort_popular")}</option>
@@ -451,7 +459,7 @@ export function CatalogClient({
               ))}
               <button
                 type="button"
-                onClick={resetFilters}
+                onClick={() => resetFilters("active_chips")}
                 className="text-xs font-medium text-stone-400 underline-offset-4 hover:text-stone-200 hover:underline"
               >
                 {t("reset")}

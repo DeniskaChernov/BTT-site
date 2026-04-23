@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
@@ -75,6 +76,11 @@ export function CollectiveSalesTeaser() {
             <div className="flex shrink-0">
               <Link
                 href="/wholesale"
+                onClick={() =>
+                  trackBttEvent(BTT_EVENTS.CollectiveCtaClick, {
+                    source: "home",
+                  })
+                }
                 className="btt-focus inline-block rounded-full"
               >
                 <motion.span

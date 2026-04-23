@@ -1,5 +1,6 @@
 "use client";
 
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import type { LeadKind } from "@/lib/leads-api";
 import { BTT_EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -12,9 +13,11 @@ type Props = {
   kind: LeadKind;
   className?: string;
   children: React.ReactNode;
+  /** Идентификатор места формы для аналитики воронки (например, `home_lead_capture`). */
+  source?: string;
 };
 
-export function LeadForm({ kind, className, children }: Props) {
+export function LeadForm({ kind, className, children, source }: Props) {
   const locale = useLocale();
   const t = useTranslations("leads");
   const formRef = useRef<HTMLFormElement>(null);
@@ -43,19 +46,35 @@ export function LeadForm({ kind, className, children }: Props) {
       if (res.status === 429) {
         setErrMsg(t("rate_limited"));
         setState("err");
+        trackBttEvent(BTT_EVENTS.LeadError, {
+          kind,
+          source,
+          reason: "rate_limited",
+        });
         return;
       }
       const data = (await res.json()) as { ok?: boolean };
       if (!res.ok || !data.ok) {
         setErrMsg(t("error"));
         setState("err");
+        trackBttEvent(BTT_EVENTS.LeadError, {
+          kind,
+          source,
+          reason: `http_${res.status}`,
+        });
         return;
       }
       setState("ok");
       formRef.current?.reset();
+      trackBttEvent(BTT_EVENTS.LeadSubmit, { kind, source });
     } catch {
       setErrMsg(t("error"));
       setState("err");
+      trackBttEvent(BTT_EVENTS.LeadError, {
+        kind,
+        source,
+        reason: "network",
+      });
     }
   }
 

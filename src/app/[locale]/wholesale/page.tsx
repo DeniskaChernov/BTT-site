@@ -90,6 +90,7 @@ export default async function WholesalePage() {
         <AnimatedReveal delay={0.12}>
           <LeadForm
             kind="wholesale"
+            source="wholesale_page"
             className="btt-glass mt-8 grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8"
           >
           <h2 className="text-lg font-semibold text-stone-50">{t("form_title")}</h2>

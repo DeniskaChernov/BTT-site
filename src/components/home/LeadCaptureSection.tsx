@@ -66,6 +66,7 @@ export function LeadCaptureSection() {
 
             <LeadForm
               kind="wholesale"
+              source="home_lead_capture"
               className="grid gap-3 rounded-3xl border border-white/[0.08] bg-black/40 p-5 backdrop-blur-xl md:p-6"
             >
               <input type="hidden" name="lead_source" value="home_lead_capture" />

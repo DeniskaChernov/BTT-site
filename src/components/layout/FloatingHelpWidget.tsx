@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "@/i18n/navigation";
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
 import { telegramPaymentChatUrl } from "@/lib/telegram";
 import { cn } from "@/lib/utils";
@@ -97,6 +98,11 @@ export function FloatingHelpWidget() {
               <li>
                 <motion.a
                   href={`tel:${PHONE_TEL}`}
+                  onClick={() =>
+                    trackBttEvent(BTT_EVENTS.HelpWidgetChannel, {
+                      channel: "phone",
+                    })
+                  }
                   whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                   className="btt-focus flex items-center gap-3 rounded-2xl border border-amber-500/35 bg-gradient-to-r from-amber-600 to-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/30 transition hover:brightness-110"
                 >
@@ -111,6 +117,11 @@ export function FloatingHelpWidget() {
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackBttEvent(BTT_EVENTS.HelpWidgetChannel, {
+                      channel: "whatsapp",
+                    })
+                  }
                   whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                   className="btt-focus flex items-center gap-3 rounded-2xl border border-emerald-500/35 bg-emerald-900/20 px-3.5 py-2.5 text-sm font-semibold text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-900/30"
                 >
@@ -124,6 +135,11 @@ export function FloatingHelpWidget() {
                     href={telegram}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() =>
+                      trackBttEvent(BTT_EVENTS.HelpWidgetChannel, {
+                        channel: "telegram",
+                      })
+                    }
                     whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                     className="btt-focus flex items-center gap-3 rounded-2xl border border-sky-500/35 bg-sky-900/20 px-3.5 py-2.5 text-sm font-semibold text-sky-100 transition hover:border-sky-400/60 hover:bg-sky-900/30"
                   >
@@ -139,7 +155,14 @@ export function FloatingHelpWidget() {
 
       <motion.button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() =>
+          setOpen((v) => {
+            trackBttEvent(BTT_EVENTS.HelpWidgetToggle, {
+              state: v ? "close" : "open",
+            });
+            return !v;
+          })
+        }
         aria-expanded={open}
         aria-label={s("help_title")}
         initial={reduceMotion ? false : { opacity: 0, y: 12, scale: 0.9 }}

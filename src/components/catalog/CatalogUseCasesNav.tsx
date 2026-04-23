@@ -1,10 +1,18 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import {
+  BTT_EVENTS,
+  trackBttEvent,
+  type BttEventPayloads,
+} from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
 import { Armchair, ArrowUpRight, Flower2, Shuffle } from "lucide-react";
 import { useTranslations } from "next-intl";
+
+type UseCasePreset =
+  BttEventPayloads[typeof BTT_EVENTS.CatalogUsecaseClick]["preset"];
 
 /**
  * Продающая навигация над каталогом: три пресета под задачу (мебель / кашпо / универсальный).
@@ -14,20 +22,29 @@ export function CatalogUseCasesNav() {
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
 
-  const items = [
+  const items: {
+    id: UseCasePreset;
+    title: string;
+    desc: string;
+    href: string;
+    icon: typeof Armchair;
+  }[] = [
     {
+      id: "furniture",
       title: s("catalog_use_furniture"),
       desc: s("catalog_use_furniture_desc"),
       href: "/catalog?tab=material",
       icon: Armchair,
     },
     {
+      id: "planter",
       title: s("catalog_use_planter"),
       desc: s("catalog_use_planter_desc"),
       href: "/catalog?tab=planter",
       icon: Flower2,
     },
     {
+      id: "universal",
       title: s("catalog_use_universal"),
       desc: s("catalog_use_universal_desc"),
       href: "/catalog?tab=material&shape=half_round",
@@ -66,6 +83,11 @@ export function CatalogUseCasesNav() {
           >
             <Link
               href={it.href}
+              onClick={() =>
+                trackBttEvent(BTT_EVENTS.CatalogUsecaseClick, {
+                  preset: it.id,
+                })
+              }
               className="group btt-focus relative flex h-full items-start gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 shadow-inner shadow-black/10 transition-colors duration-200 hover:border-amber-500/35 hover:bg-white/[0.06] motion-reduce:transition-none md:p-5"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300 ring-1 ring-white/[0.06] transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
