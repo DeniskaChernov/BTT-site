@@ -475,6 +475,7 @@ export function CatalogClient({
           </motion.p>
         ) : (
           <motion.div
+            layout={!reduceMotion}
             initial="hidden"
             animate="show"
             variants={{
@@ -488,25 +489,33 @@ export function CatalogClient({
               searchLagging && "opacity-60 transition-opacity duration-200",
             )}
           >
-            {filtered.map((p: Product) => (
-              <motion.div
-                key={p.sku}
-                className="h-full min-h-0"
-                variants={{
-                  hidden: {
-                    opacity: reduceMotion ? 1 : 0,
-                    y: reduceMotion ? 0 : 12,
-                  },
-                  show: { opacity: 1, y: 0 },
-                }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.35,
-                  ease: [...BTT_EASE],
-                }}
-              >
-                <ProductCard product={p} />
-              </motion.div>
-            ))}
+            <AnimatePresence mode="popLayout">
+              {filtered.map((p: Product) => (
+                <motion.div
+                  key={p.sku}
+                  layout={!reduceMotion}
+                  className="h-full min-h-0"
+                  variants={{
+                    hidden: {
+                      opacity: reduceMotion ? 1 : 0,
+                      y: reduceMotion ? 0 : 12,
+                    },
+                    show: { opacity: 1, y: 0 },
+                  }}
+                  exit={
+                    reduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: -8, transition: { duration: 0.2 } }
+                  }
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.35,
+                    ease: [...BTT_EASE],
+                  }}
+                >
+                  <ProductCard product={p} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </motion.div>
         )}
       </div>

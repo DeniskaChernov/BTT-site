@@ -1,10 +1,14 @@
 import { CollectiveHomeTeaser } from "@/components/collective/CollectiveHomeTeaser";
 import { CommerceHero } from "@/components/commerce-hero";
-import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
-import { ArticlesTeaser } from "@/components/home/ArticlesTeaser";
+import { CollectiveSalesTeaser } from "@/components/home/CollectiveSalesTeaser";
+import { ExamplesSection } from "@/components/home/ExamplesSection";
 import { HomeHits } from "@/components/home/HomeHits";
+import { LeadCaptureSection } from "@/components/home/LeadCaptureSection";
+import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
 import { SegmentSection } from "@/components/home/SegmentSection";
 import { SocialProofSection } from "@/components/home/SocialProofSection";
+import { TrustCountersSection } from "@/components/home/TrustCountersSection";
+import { WhyBeneficialSection } from "@/components/home/WhyBeneficialSection";
 import { RattanQuizLazy } from "@/components/quiz/RattanQuizLazy";
 import { SectionReveal } from "@/components/ui/animated-reveal";
 import { getTranslations } from "next-intl/server";
@@ -14,13 +18,29 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* 2.1 Первый экран */}
       <CommerceHero />
-      <MaterialTrustStrip />
-      <CollectiveHomeTeaser />
-      <ArticlesTeaser />
+
+      {/* 2.2 Сегментация: мастера / производство / подбор */}
       <SegmentSection />
+
+      {/* 2.3 Почему это выгодно */}
+      <WhyBeneficialSection />
+
+      {/* Материал: свойства и уход (UV, влага, уход) */}
+      <MaterialTrustStrip />
+
+      {/* 2.4 Примеры использования */}
+      <ExamplesSection />
+
+      {/* Популярные позиции — короткий переход в каталог */}
       <HomeHits />
-      <section className="relative py-16 md:py-24">
+
+      {/* 2.5 Блок доверия: клиенты, объёмы, реальные фото */}
+      <TrustCountersSection />
+
+      {/* Подбор материала — интерактивный квиз */}
+      <section id="quiz" className="relative scroll-mt-24 py-16 md:py-24">
         <div className="pointer-events-none absolute left-1/2 top-0 h-px w-[min(90%,48rem)] -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-500/40 to-transparent" />
         <div className="btt-container">
           <SectionReveal>
@@ -41,6 +61,17 @@ export default async function HomePage() {
           </SectionReveal>
         </div>
       </section>
+
+      {/* 2.6 Коллективные заказы — под ТЗ (от 5 кг, удобный формат, тест) */}
+      <CollectiveSalesTeaser />
+
+      {/* Существующий Telegram-коллектив (оставляем как отдельный модуль входа в бот/канал) */}
+      <CollectiveHomeTeaser />
+
+      {/* 2.7 Захват заявки: имя + телефон */}
+      <LeadCaptureSection />
+
+      {/* Дополнительный social proof от существующих блоков (реальные цитаты/чипы) */}
       <SocialProofSection />
     </>
   );

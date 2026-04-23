@@ -1,5 +1,7 @@
 import { FaqList } from "@/components/faq/FaqList";
+import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
+import { AnimatedReveal } from "@/components/ui/animated-reveal";
 import { getTranslations } from "next-intl/server";
 
 type MetadataProps = {
@@ -29,10 +31,15 @@ export default async function FaqPage() {
   return (
     <div className="btt-container py-14 md:py-20">
       <div className="mx-auto max-w-3xl">
-        <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")} />
-        <div className="mt-10 md:mt-12">
+        <AnimatedReveal>
+          <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")} />
+        </AnimatedReveal>
+        <AnimatedReveal className="mt-6" delay={0.03}>
+          <MicroTrustStrip />
+        </AnimatedReveal>
+        <AnimatedReveal delay={0.06} className="mt-10 md:mt-12">
           <FaqList items={items} />
-        </div>
+        </AnimatedReveal>
       </div>
     </div>
   );

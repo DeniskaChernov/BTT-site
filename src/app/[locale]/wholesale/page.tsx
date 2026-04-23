@@ -1,5 +1,7 @@
 import { LeadForm } from "@/components/forms/LeadForm";
+import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
+import { AnimatedReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
 import {
   bttFieldClass,
@@ -53,7 +55,11 @@ export default async function WholesalePage() {
           </div>
         </PageHero>
 
-        <div className="mt-10 md:mt-12">
+        <AnimatedReveal className="mt-6" delay={0.01}>
+          <MicroTrustStrip />
+        </AnimatedReveal>
+
+        <AnimatedReveal className="mt-10 md:mt-12" delay={0.02}>
           <h2 className="text-lg font-semibold text-stone-50 md:text-xl">{t("benefits_title")}</h2>
           <ul className="mt-5 grid gap-4 sm:grid-cols-3">
             {([1, 2, 3] as const).map((i) => (
@@ -68,21 +74,24 @@ export default async function WholesalePage() {
               </li>
             ))}
           </ul>
-        </div>
+        </AnimatedReveal>
 
-        <div className="btt-glass mt-10 rounded-2xl border border-white/[0.07] p-6 md:mt-12 md:rounded-3xl md:p-8">
+        <AnimatedReveal delay={0.08}>
+          <div className="btt-glass mt-10 rounded-2xl border border-white/[0.07] p-6 md:mt-12 md:rounded-3xl md:p-8">
           <h2 className="text-lg font-semibold text-stone-50 md:text-xl">{t("steps_title")}</h2>
           <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-relaxed text-stone-400 md:pl-6 md:text-base">
             <li>{t("step1")}</li>
             <li>{t("step2")}</li>
             <li>{t("step3")}</li>
           </ol>
-        </div>
+          </div>
+        </AnimatedReveal>
 
-        <LeadForm
-          kind="wholesale"
-          className="btt-glass mt-8 grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8"
-        >
+        <AnimatedReveal delay={0.12}>
+          <LeadForm
+            kind="wholesale"
+            className="btt-glass mt-8 grid gap-4 rounded-2xl p-6 md:rounded-3xl md:p-8"
+          >
           <h2 className="text-lg font-semibold text-stone-50">{t("form_title")}</h2>
           <p className="text-sm text-stone-500">{t("form_note")}</p>
           <input
@@ -123,7 +132,8 @@ export default async function WholesalePage() {
           >
             {tc("submit")}
           </button>
-        </LeadForm>
+          </LeadForm>
+        </AnimatedReveal>
 
         <p className="mt-8 text-sm text-stone-500">{t("cases")}</p>
       </div>

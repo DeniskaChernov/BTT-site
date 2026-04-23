@@ -1,5 +1,7 @@
 import { ArticlesCardGrid } from "@/components/articles/ArticlesCardGrid";
+import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
+import { AnimatedReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
 import {
   bttSecondaryAmberButtonClass,
@@ -42,6 +44,10 @@ export default async function ArticlesPage() {
           </Link>
         </div>
       </PageHero>
+
+      <AnimatedReveal className="mt-6" delay={0.02}>
+        <MicroTrustStrip />
+      </AnimatedReveal>
 
       <ArticlesCardGrid />
 

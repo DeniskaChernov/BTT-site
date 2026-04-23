@@ -1,14 +1,21 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { useTranslations } from "next-intl";
+import { useRef } from "react";
 
 type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
 
@@ -29,8 +36,18 @@ const HERO_CATEGORIES: {
 
 export function CommerceHero() {
   const t = useTranslations("commerceHero");
-  const th = useTranslations("hero");
+  const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
+  const parallaxRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: parallaxRef,
+    offset: ["start start", "end start"],
+  });
+  // Лёгкий parallax: двигаем фоновое изображение вверх и чуть масштабируем.
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+
+  const subBullets = [s("hero_micro_stock"), s("hero_micro_ship"), s("hero_micro_help")];
 
   return (
     <section className="relative overflow-hidden">
@@ -45,10 +62,9 @@ export function CommerceHero() {
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-        {/* Один max-width для героя и карточек — без «съезда» влево/вправо */}
-        <div className="pt-10 pb-6 md:pt-12 md:pb-8">
+        <div ref={parallaxRef} className="pt-10 pb-6 md:pt-12 md:pb-8">
           <motion.div
-            className="relative flex min-h-[380px] w-full flex-col justify-center overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#1a1a1a] shadow-[0_24px_80px_rgba(0,0,0,0.5)] md:min-h-[440px] lg:min-h-[460px]"
+            className="relative flex min-h-[420px] w-full flex-col justify-center overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#1a1a1a] shadow-[0_24px_80px_rgba(0,0,0,0.5)] md:min-h-[480px] lg:min-h-[520px]"
             initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -57,14 +73,23 @@ export function CommerceHero() {
             }}
           >
             <div className="pointer-events-none absolute inset-0">
-              <Image
-                src={SITE_MEDIA.heroPanel}
-                alt=""
-                fill
-                priority
-                className="object-cover object-center"
-                sizes="(max-width: 1280px) 100vw, 1280px"
-              />
+              <motion.div
+                className="absolute inset-0"
+                style={
+                  reduceMotion
+                    ? undefined
+                    : { y: bgY, scale: bgScale, willChange: "transform" }
+                }
+              >
+                <Image
+                  src={SITE_MEDIA.heroPanel}
+                  alt=""
+                  fill
+                  priority
+                  className="object-cover object-center"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                />
+              </motion.div>
               <div
                 className="absolute inset-0 bg-gradient-to-b from-black/72 via-black/58 to-black/80"
                 aria-hidden
@@ -76,19 +101,66 @@ export function CommerceHero() {
             </div>
 
             <div className="relative z-10 flex flex-col items-center px-6 py-14 text-center sm:px-10 sm:py-16 md:px-14">
-              <p className="inline-flex items-center rounded-full border border-white/15 bg-black/45 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-amber-100/95 backdrop-blur-md sm:text-[11px]">
-                {t("kicker")}
-              </p>
-              <h1 className="mt-8 max-w-3xl text-balance text-3xl font-bold leading-[1.15] tracking-tight md:text-5xl lg:text-[3.25rem]">
+              <motion.p
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.45,
+                  delay: reduceMotion ? 0 : 0.05,
+                  ease: [...BTT_EASE],
+                }}
+                className="inline-flex items-center rounded-full border border-white/15 bg-black/45 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-amber-100/95 backdrop-blur-md sm:text-[11px]"
+              >
+                {s("hero_kicker")}
+              </motion.p>
+
+              <motion.h1
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.55,
+                  delay: reduceMotion ? 0 : 0.12,
+                  ease: [...BTT_EASE],
+                }}
+                className="mt-8 max-w-4xl text-balance text-3xl font-bold leading-[1.15] tracking-tight md:text-5xl lg:text-[3.25rem]"
+              >
                 <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-transparent">
-                  {t("headline_accent")}
+                  {s("hero_title_accent")}
                 </span>
                 <br />
-                <span className="text-white">{t("headline_rest")}</span>
-              </h1>
-              <p className="mx-auto mt-5 max-w-2xl text-pretty text-sm leading-relaxed text-neutral-300 md:text-base">
-                {t("lead")}
-              </p>
+                <span className="text-white">{s("hero_title_rest")}</span>
+              </motion.h1>
+
+              <motion.p
+                initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.5,
+                  delay: reduceMotion ? 0 : 0.22,
+                  ease: [...BTT_EASE],
+                }}
+                className="mx-auto mt-5 max-w-2xl text-pretty text-sm leading-relaxed text-neutral-300 md:text-base"
+              >
+                {s("hero_lead")}
+              </motion.p>
+
+              <motion.ul
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.45,
+                  delay: reduceMotion ? 0 : 0.3,
+                  ease: [...BTT_EASE],
+                }}
+                className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-amber-100/80 sm:text-sm"
+              >
+                {subBullets.map((b) => (
+                  <li key={b} className="inline-flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" aria-hidden />
+                    {b}
+                  </li>
+                ))}
+              </motion.ul>
 
               <div className="mt-10 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
                 <Link
@@ -98,12 +170,12 @@ export function CommerceHero() {
                   <motion.span
                     className={cn(
                       bttPrimaryButtonClass,
-                      "group inline-flex w-full items-center justify-center gap-2 px-8 py-3.5 shadow-black/30 sm:w-auto"
+                      "group inline-flex w-full items-center justify-center gap-2 px-8 py-3.5 shadow-black/30 sm:w-auto",
                     )}
                     whileHover={reduceMotion ? undefined : { scale: 1.02 }}
                     whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                   >
-                    {th("cta_buy")}
+                    {s("hero_cta_stock")}
                     <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
                   </motion.span>
                 </Link>
@@ -116,15 +188,18 @@ export function CommerceHero() {
                     whileHover={reduceMotion ? undefined : { scale: 1.02 }}
                     whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                   >
-                    {th("cta_pick")}
+                    {s("hero_cta_pick")}
                   </motion.span>
                 </Link>
+              </div>
+
+              <div className="mt-10 w-full max-w-3xl">
+                <MicroTrustStrip />
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Карточки: одна сетка, равная высота, референс #1a1a1a */}
         <div className="grid grid-cols-1 gap-5 pb-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:pb-16">
           {HERO_CATEGORIES.map((cat, index) => {
             const title = t(cat.messageKey);

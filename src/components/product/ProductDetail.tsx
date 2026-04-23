@@ -11,9 +11,12 @@ import {
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
+import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
+import { ProductHelpPanel } from "@/components/product/ProductHelpPanel";
+import { ProductSalesBlocks } from "@/components/product/ProductSalesBlocks";
 import { trackEvent } from "@/lib/analytics";
 import { productGalleryImages, productMainImage } from "@/lib/product-media";
-import { telegramBotStartUrl, telegramChannelUrl } from "@/lib/telegram";
+import { telegramBotStartUrl, telegramChannelUrl, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useRouter } from "@/i18n/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, ShoppingBag, Users } from "lucide-react";
@@ -335,6 +338,17 @@ export function ProductDetail({ product, related }: Props) {
                 <p className="text-lg font-semibold text-stone-100">{kgEst.toFixed(1)} kg</p>
               </div>
             </div>
+          </div>
+
+          {/* Продающие блоки: применимость, выгода, практика, выбор */}
+          <ProductSalesBlocks product={product} />
+
+          {/* Блок помощи с номером +998 77 104 44 22 */}
+          <ProductHelpPanel telegramUrl={telegramPaymentChatUrl()} />
+
+          {/* Микро-доверие */}
+          <div className="mt-8">
+            <MicroTrustStrip />
           </div>
 
           <div className="mt-10">

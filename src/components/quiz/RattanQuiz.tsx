@@ -6,6 +6,10 @@ import type { Locale } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { trackEvent } from "@/lib/analytics";
 import {
+  pickQuizRecommendations,
+  QUIZ_EXCLUSIVE_SKUS,
+} from "@/lib/quiz-recommendations";
+import {
   bttFieldClass,
   bttPrimaryButtonClass,
   bttQuizChipClass,
@@ -18,9 +22,15 @@ import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 type Segment = "novice" | "master" | "wholesale";
+type WorkGoal = "furniture" | "planter";
+type FurnitureUse = "seating" | "other";
+type PlanterPath = "ready" | "weave";
+
+const RESULT_STEP = 7;
 
 export function RattanQuiz() {
   const t = useTranslations("quiz");
+  const ts = useTranslations("segments");
   const c = useTranslations("catalog");
   const common = useTranslations("common");
   const locale = useLocale() as Locale;
@@ -28,42 +38,51 @@ export function RattanQuiz() {
 
   const [step, setStep] = useState(0);
   const [segment, setSegment] = useState<Segment | null>(null);
+  const [workGoal, setWorkGoal] = useState<WorkGoal | null>(null);
+  const [furnitureUse, setFurnitureUse] = useState<FurnitureUse | null>(null);
+  const [planterPath, setPlanterPath] = useState<PlanterPath | null>(null);
   const [productKind, setProductKind] = useState<"material" | "planter" | null>(
-    null
+    null,
   );
   const [place, setPlace] = useState<"outdoor" | "indoor" | "both" | null>(
-    null
+    null,
   );
   const [vol, setVol] = useState<"12" | "5" | "10" | "unknown" | null>(null);
   const [when, setWhen] = useState<string | null>(null);
   const [endMode, setEndMode] = useState<"idle" | "result" | "quote" | "done">(
-    "idle"
+    "idle",
   );
   const [contact, setContact] = useState({ phone: "", city: "", company: "" });
   const [quoteError, setQuoteError] = useState<string | null>(null);
   const [quoteSending, setQuoteSending] = useState(false);
   const reduceMotion = useReducedMotion();
 
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   const recommended = useMemo(() => {
-    if (!productKind || !place) return [];
-    let list = products.filter((p) =>
-      productKind === "planter" ? p.category === "planter" : p.category !== "planter"
-    );
-    if (place === "outdoor")
-      list = list.filter(
-        (p) => p.application === "outdoor" || p.application === "both"
-      );
-    if (place === "indoor")
-      list = list.filter(
-        (p) => p.application === "indoor" || p.application === "both"
-      );
-    return list.slice(0, 3);
-  }, [productKind, place]);
+    if (!productKind || !place || !workGoal) return [];
+    if (workGoal === "furniture" && !furnitureUse) return [];
+    if (workGoal === "planter" && !planterPath) return [];
+    return pickQuizRecommendations(products, {
+      productKind,
+      place,
+      workGoal,
+      furnitureUse,
+      planterPath,
+    });
+  }, [productKind, place, workGoal, furnitureUse, planterPath]);
 
   const start = () => {
     trackEvent("quiz_start", { source: "home_quiz" });
+    setSegment(null);
+    setWorkGoal(null);
+    setFurnitureUse(null);
+    setPlanterPath(null);
+    setProductKind(null);
+    setPlace(null);
+    setVol(null);
+    setWhen(null);
+    setEndMode("idle");
     setStep(1);
   };
 
@@ -78,18 +97,26 @@ export function RattanQuiz() {
     const needQuote = segment === "wholesale" || vol === "unknown";
     trackEvent("quiz_complete", {
       segment,
+      workGoal,
+      furnitureUse,
+      planterPath,
       productKind,
       place,
       vol,
       when: label,
       needQuote,
+      recommendedCount: needQuote ? 0 : recommended.length,
     });
     if (needQuote) {
       setEndMode("quote");
-      setStep(6);
+      setStep(RESULT_STEP);
     } else {
       setEndMode("result");
-      setStep(6);
+      setStep(RESULT_STEP);
+      trackEvent("quiz_result_view", {
+        source: "home_quiz",
+        skus: recommended.map((p) => p.sku),
+      });
     }
   };
 
@@ -114,6 +141,9 @@ export function RattanQuiz() {
           },
           quiz: {
             segment: segment ?? "",
+            workGoal: workGoal ?? "",
+            furnitureUse: furnitureUse ?? "",
+            planterPath: planterPath ?? "",
             productKind: productKind ?? "",
             place: place ?? "",
             vol: vol ?? "",
@@ -128,6 +158,9 @@ export function RattanQuiz() {
       }
       trackEvent("quote_submit", {
         segment,
+        workGoal,
+        furnitureUse,
+        planterPath,
         productKind,
         place,
         vol,
@@ -159,29 +192,56 @@ export function RattanQuiz() {
         )}
       >
         <div className={cn(idle && "w-full")}>
-          <h2
-            className={cn(
-              "text-xl font-semibold text-stone-50 md:text-2xl",
-              idle && "text-center",
-            )}
-          >
-            {t("start")}
-          </h2>
+          {!idle ? (
+            <h2 className="text-xl font-semibold text-stone-50 md:text-2xl">
+              {step === RESULT_STEP && endMode === "result"
+                ? t("title_result")
+                : step === RESULT_STEP && endMode === "quote"
+                  ? t("title_quote")
+                  : t("title_in_progress")}
+            </h2>
+          ) : null}
           <p
             className={cn(
-              "mt-1 text-sm text-stone-400",
-              idle && "mx-auto max-w-md text-center",
+              "text-sm text-stone-400",
+              idle ? "mx-auto max-w-md text-center" : "mt-1",
             )}
           >
-            {t("hint")}
+            {idle
+              ? t("hint")
+              : step <= totalSteps
+                ? t("hint_active")
+                : null}
           </p>
         </div>
-        {step > 0 && step <= 5 && (
+        {step > 0 && step <= totalSteps && (
           <p className="text-xs font-medium text-stone-500">
             {t("progress", { n: step, total: totalSteps })}
           </p>
         )}
       </div>
+
+      {step > 0 && step <= totalSteps && (
+        <div
+          className="mt-4 h-1 w-full overflow-hidden rounded-full bg-white/[0.06]"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={totalSteps}
+          aria-valuenow={step}
+          aria-label={t("progress", { n: step, total: totalSteps })}
+        >
+          <motion.div
+            className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 shadow-[0_0_12px_rgba(245,158,11,0.4)]"
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.round((step / totalSteps) * 100)}%` }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }
+            }
+          />
+        </div>
+      )}
 
       {idle && (
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -226,7 +286,7 @@ export function RattanQuiz() {
                 }}
                 className={cn(bttQuizOptionClass, "px-4 py-4")}
               >
-                {t(key as "novice")}
+                {ts(key)}
               </button>
             ))}
           </motion.div>
@@ -241,33 +301,109 @@ export function RattanQuiz() {
             transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="mt-8 grid gap-3 md:grid-cols-2"
           >
-            <p className="md:col-span-2 text-sm font-medium">{t("q_product")}</p>
+            <p className="md:col-span-2 text-sm font-medium">{t("q_work_goal")}</p>
             <button
               type="button"
               onClick={() => {
-                setProductKind("material");
+                setWorkGoal("furniture");
+                setPlanterPath(null);
                 setStep(3);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
-              {t("kind_material")}
+              {t("goal_furniture")}
             </button>
             <button
               type="button"
               onClick={() => {
-                setProductKind("planter");
+                setWorkGoal("planter");
+                setFurnitureUse(null);
                 setStep(3);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
-              {t("kind_planter")}
+              {t("goal_planter")}
             </button>
           </motion.div>
         )}
 
-        {step === 3 && (
+        {step === 3 && workGoal === "furniture" && (
           <motion.div
-            key="s3"
+            key="s3f"
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            className="mt-8 grid gap-3 md:grid-cols-2"
+          >
+            <p className="md:col-span-2 text-sm font-medium">{t("q_furniture_use")}</p>
+            <button
+              type="button"
+              onClick={() => {
+                setFurnitureUse("seating");
+                setPlanterPath(null);
+                setProductKind("material");
+                setStep(4);
+              }}
+              className={cn(bttQuizOptionClass, "px-4 py-4")}
+            >
+              {t("furniture_seating")}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setFurnitureUse("other");
+                setPlanterPath(null);
+                setProductKind("material");
+                setStep(4);
+              }}
+              className={cn(bttQuizOptionClass, "px-4 py-4")}
+            >
+              {t("furniture_other")}
+            </button>
+          </motion.div>
+        )}
+
+        {step === 3 && workGoal === "planter" && (
+          <motion.div
+            key="s3p"
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            className="mt-8 grid gap-3 md:grid-cols-2"
+          >
+            <p className="md:col-span-2 text-sm font-medium">{t("q_planter_path")}</p>
+            <button
+              type="button"
+              onClick={() => {
+                setPlanterPath("ready");
+                setFurnitureUse(null);
+                setProductKind("planter");
+                setStep(4);
+              }}
+              className={cn(bttQuizOptionClass, "px-4 py-4")}
+            >
+              {t("planter_ready")}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPlanterPath("weave");
+                setFurnitureUse(null);
+                setProductKind("material");
+                setStep(4);
+              }}
+              className={cn(bttQuizOptionClass, "px-4 py-4")}
+            >
+              {t("planter_weave")}
+            </button>
+          </motion.div>
+        )}
+
+        {step === 4 && (
+          <motion.div
+            key="s4"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
@@ -287,7 +423,7 @@ export function RattanQuiz() {
                 type="button"
                 onClick={() => {
                   setPlace(val);
-                  setStep(4);
+                  setStep(5);
                 }}
                 className={cn(bttQuizOptionClass, "px-4 py-3 text-sm")}
               >
@@ -297,9 +433,9 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <motion.div
-            key="s4"
+            key="s5"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
@@ -319,7 +455,7 @@ export function RattanQuiz() {
                 type="button"
                 onClick={() => {
                   setVol(val);
-                  setStep(5);
+                  setStep(6);
                 }}
                 className={cn(bttQuizOptionClass, "px-4 py-3 text-sm")}
               >
@@ -330,7 +466,7 @@ export function RattanQuiz() {
               type="button"
               onClick={() => {
                 setVol("unknown");
-                setStep(5);
+                setStep(6);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-3 text-sm md:col-span-2")}
             >
@@ -339,9 +475,9 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 5 && (
+        {step === 6 && (
           <motion.div
-            key="s5"
+            key="s6"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
@@ -370,7 +506,7 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 6 && endMode === "quote" && (
+        {step === RESULT_STEP && endMode === "quote" && (
           <motion.div
             key="quote"
             initial={reduceMotion ? false : { opacity: 0, y: 8 }}
@@ -433,7 +569,7 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 6 && endMode === "result" && (
+        {step === RESULT_STEP && endMode === "result" && (
           <motion.div
             key="result"
             initial={reduceMotion ? false : { opacity: 0, y: 8 }}
@@ -441,20 +577,39 @@ export function RattanQuiz() {
             transition={{ duration: reduceMotion ? 0 : 0.25 }}
             className="mt-8 grid gap-4"
           >
-            <p className="font-semibold">{t("result_skus")}</p>
             <div className="grid gap-3 md:grid-cols-3">
               {recommended.map((p) => (
                 <div
                   key={p.sku}
                   className="btt-interactive-lift flex h-full min-h-0 flex-col rounded-btt border border-white/15 bg-white/[0.02] p-4 transition hover:border-amber-500/25"
                 >
+                  {QUIZ_EXCLUSIVE_SKUS.has(p.sku) ? (
+                    <p className="mb-2 w-fit rounded-full border border-amber-500/35 bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-200/95">
+                      {t("badge_exclusive")}
+                    </p>
+                  ) : null}
                   <p className="line-clamp-2 min-h-[2.5rem] font-medium leading-snug">
                     {p.names[locale]}
                   </p>
+                  {QUIZ_EXCLUSIVE_SKUS.has(p.sku) ? (
+                    <p className="mt-1 text-xs text-stone-500">{t("exclusive_hint")}</p>
+                  ) : null}
                   <div className="mt-auto flex flex-wrap gap-2 pt-3">
                     <button
                       type="button"
-                      onClick={() => add(p, p.names[locale], pickQtyKg())}
+                      onClick={() => {
+                        const kg = pickQtyKg();
+                        trackEvent("quiz_add_to_cart", {
+                          source: "home_quiz",
+                          sku: p.sku,
+                          slug: p.slug,
+                          kg,
+                          workGoal,
+                          furnitureUse,
+                          planterPath,
+                        });
+                        add(p, p.names[locale], kg);
+                      }}
                       className={cn(
                         bttPrimaryButtonClass,
                         "btt-focus px-3 py-1.5 text-xs active:scale-[0.98]",
@@ -474,6 +629,9 @@ export function RattanQuiz() {
             </div>
             <Link
               href="/checkout"
+              onClick={() =>
+                trackEvent("quiz_checkout", { source: "home_quiz" })
+              }
               className={cn(
                 bttPrimaryButtonClass,
                 "btt-focus inline-flex w-fit active:scale-[0.99]",

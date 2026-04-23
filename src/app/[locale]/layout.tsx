@@ -1,4 +1,6 @@
+import { GtmScript } from "@/components/GtmScript";
 import { Providers } from "@/components/Providers";
+import { FloatingHelpWidget } from "@/components/layout/FloatingHelpWidget";
 import { Footer } from "@/components/layout/Footer";
 import { GlowSiteNav } from "@/components/layout/GlowSiteNav";
 import { ScrollToHash } from "@/components/layout/ScrollToHash";
@@ -108,10 +110,12 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   const messages = await getMessages();
   const tCommon = await getTranslations({ locale, namespace: "common" });
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "";
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${montserrat.variable} min-h-screen font-sans`}>
+        {gtmId ? <GtmScript gtmId={gtmId} /> : null}
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <a
@@ -125,6 +129,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <main id="main-content" className="min-h-[75vh]">
               {children}
             </main>
+            <FloatingHelpWidget />
             <Footer />
           </Providers>
         </NextIntlClientProvider>

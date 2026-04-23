@@ -19,6 +19,20 @@ export function readUtmFromSearch(search: string): Record<string, string> {
   return out;
 }
 
+/**
+ * Пушит событие в `window.dataLayer` (GTM).
+ *
+ * Квиз на главной (воронка):
+ * - `quiz_start` — нажата кнопка входа в подбор
+ * - `quiz_complete` — пройдены все шаги (`needQuote`, `recommendedCount` в payload)
+ * - `quiz_result_view` — показ блока с SKU (если не ушли в заявку КП)
+ * - `quiz_add_to_cart` — добавление из карточки подбора (`sku`, `kg`, …)
+ * - `quiz_checkout` — переход по «1-клик» на оформление
+ * - `quote_submit` — отправка лида из ветки КП
+ *
+ * CTR «подбор → корзина»: `quiz_add_to_cart` / `quiz_complete`, где `needQuote === false`
+ * (в GTM — фильтр по полю в объекте dataLayer). Альтернатива: отношение к `quiz_result_view`.
+ */
 export function trackEvent(
   event: string,
   payload?: AnalyticsPayload

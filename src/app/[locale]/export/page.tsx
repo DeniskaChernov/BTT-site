@@ -1,5 +1,7 @@
 import { LeadForm } from "@/components/forms/LeadForm";
+import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
+import { AnimatedReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
 import {
   bttFieldClass,
@@ -50,7 +52,12 @@ export default async function ExportPage() {
           </div>
         </PageHero>
 
-        <div className="btt-glass mt-10 rounded-2xl border border-white/[0.07] p-6 md:mt-12 md:rounded-3xl md:p-8">
+        <AnimatedReveal className="mt-6" delay={0.02}>
+          <MicroTrustStrip />
+        </AnimatedReveal>
+
+        <AnimatedReveal delay={0.04}>
+          <div className="btt-glass mt-10 rounded-2xl border border-white/[0.07] p-6 md:mt-12 md:rounded-3xl md:p-8">
           <h2 className="text-lg font-semibold text-stone-50 md:text-xl">{t("checklist_title")}</h2>
           <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm leading-relaxed text-stone-400 md:pl-6 md:text-base">
             <li>{t("checklist_1")}</li>
@@ -58,12 +65,14 @@ export default async function ExportPage() {
             <li>{t("checklist_3")}</li>
             <li>{t("checklist_4")}</li>
           </ol>
-        </div>
+          </div>
+        </AnimatedReveal>
 
-        <LeadForm
-          kind="export_quote"
-          className="btt-glass mt-8 grid gap-5 rounded-2xl p-6 md:rounded-3xl md:p-8"
-        >
+        <AnimatedReveal delay={0.1}>
+          <LeadForm
+            kind="export_quote"
+            className="btt-glass mt-8 grid gap-5 rounded-2xl p-6 md:rounded-3xl md:p-8"
+          >
           <label className="grid gap-1.5 text-sm text-stone-300">
             {t("country")}
             <input
@@ -105,7 +114,8 @@ export default async function ExportPage() {
             {t("request_calc")}
           </button>
           <p className="text-sm text-stone-500">{t("form_note")}</p>
-        </LeadForm>
+          </LeadForm>
+        </AnimatedReveal>
       </div>
     </div>
   );
