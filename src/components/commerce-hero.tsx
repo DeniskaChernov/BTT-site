@@ -1,7 +1,6 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
@@ -47,8 +46,6 @@ export function CommerceHero() {
   // Лёгкий parallax: двигаем фоновое изображение вверх и чуть масштабируем.
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
-
-  const subBullets = [s("hero_micro_stock"), s("hero_micro_ship"), s("hero_micro_help")];
 
   return (
     <section className="relative overflow-hidden">
@@ -139,38 +136,7 @@ export function CommerceHero() {
                 <span className="text-white">{s("hero_title_rest")}</span>
               </motion.h1>
 
-              <motion.p
-                initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.5,
-                  delay: reduceMotion ? 0 : 0.22,
-                  ease: [...BTT_EASE],
-                }}
-                className="mx-auto mt-5 max-w-2xl text-pretty text-sm leading-relaxed text-neutral-300 md:text-base"
-              >
-                {s("hero_lead")}
-              </motion.p>
-
-              <motion.ul
-                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.45,
-                  delay: reduceMotion ? 0 : 0.3,
-                  ease: [...BTT_EASE],
-                }}
-                className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-amber-100/80 sm:text-sm"
-              >
-                {subBullets.map((b) => (
-                  <li key={b} className="inline-flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" aria-hidden />
-                    {b}
-                  </li>
-                ))}
-              </motion.ul>
-
-              <div className="mt-10 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
+              <div className="mt-12 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
                 <Link
                   href="/catalog"
                   onClick={() =>
@@ -205,10 +171,6 @@ export function CommerceHero() {
                     {s("hero_cta_pick")}
                   </motion.span>
                 </Link>
-              </div>
-
-              <div className="mt-10 w-full max-w-3xl">
-                <MicroTrustStrip />
               </div>
             </div>
           </motion.div>

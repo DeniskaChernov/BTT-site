@@ -2,6 +2,7 @@ import { CollectiveHomeTeaser } from "@/components/collective/CollectiveHomeTeas
 import { CommerceHero } from "@/components/commerce-hero";
 import { CollectiveSalesTeaser } from "@/components/home/CollectiveSalesTeaser";
 import { ExamplesSection } from "@/components/home/ExamplesSection";
+import { HeroPromisesStrip } from "@/components/home/HeroPromisesStrip";
 import { HomeHits } from "@/components/home/HomeHits";
 import { LeadCaptureSection } from "@/components/home/LeadCaptureSection";
 import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
@@ -20,6 +21,9 @@ export default async function HomePage() {
     <>
       {/* 2.1 Первый экран */}
       <CommerceHero />
+
+      {/* Три обещания материала сразу под hero — разгружают первый экран. */}
+      <HeroPromisesStrip />
 
       {/* 2.2 Сегментация: мастера / производство / подбор */}
       <SegmentSection />
