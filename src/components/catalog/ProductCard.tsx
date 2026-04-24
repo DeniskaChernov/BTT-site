@@ -136,11 +136,6 @@ export function ProductCard({ product }: Props) {
               {col("card_badge")}
             </span>
           )}
-          {product.lowStock && (
-            <span className="absolute left-3 bottom-3 rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-2.5 py-1 text-xs font-semibold text-white shadow-lg ring-1 ring-white/20">
-              {t("low_stock")}
-            </span>
-          )}
         </div>
         <div className="flex min-h-0 flex-1 flex-col p-5">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/90">
@@ -152,6 +147,11 @@ export function ProductCard({ product }: Props) {
           <p className="mt-2 line-clamp-2 min-h-[2.625rem] text-sm leading-relaxed text-stone-500">
             {product.short[locale]}
           </p>
+          {product.lowStock ? (
+            <p className="mt-2 inline-flex w-fit items-center rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-2.5 py-1 text-xs font-semibold text-white shadow-md ring-1 ring-white/20">
+              {t("low_stock")}
+            </p>
+          ) : null}
 
           {/* Характеристики (буллеты) — не удаляем существующие параметры */}
           <ul className="mt-3 flex flex-wrap gap-1.5">

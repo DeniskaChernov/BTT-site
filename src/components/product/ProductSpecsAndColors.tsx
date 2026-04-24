@@ -58,6 +58,26 @@ export function ProductSpecsAndColors({ product }: Props) {
     (product.category === "new" && product.thicknessMm <= 0)
       ? p("pdp_spec_material_planter")
       : p("pdp_spec_material_rattan");
+  const showPlanterSizeGuide =
+    product.category === "planter" || (product.category === "new" && product.thicknessMm <= 0);
+  const planterSizes = [
+    {
+      title: "size_planter_puffy_10_title",
+      values: ["33 см", "22.5 см", "24 см"] as const,
+    },
+    {
+      title: "size_planter_puffy_16_title",
+      values: ["36 см", "26 см", "28 см"] as const,
+    },
+    {
+      title: "size_planter_classic_10_title",
+      values: ["31 см", "23 см", "24 см"] as const,
+    },
+    {
+      title: "size_planter_classic_16_title",
+      values: ["35 см", "27.5 см", "28.5 см"] as const,
+    },
+  ] as const;
 
   const rows: { k: string; v: string; mono?: boolean }[] = [
     { k: p("pdp_spec_shape"), v: c(shapeKey as "shape_round") },
@@ -170,6 +190,37 @@ export function ProductSpecsAndColors({ product }: Props) {
             );
           })}
         </ul>
+        {showPlanterSizeGuide ? (
+          <div className="mt-6 rounded-2xl border border-white/[0.08] bg-stone-950/40 p-4">
+            <h3 className="text-sm font-semibold text-stone-100">{c("size_guide_title")}</h3>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              {planterSizes.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3"
+                >
+                  <p className="text-sm font-semibold text-amber-200">
+                    {c(item.title as "size_planter_puffy_10_title")}
+                  </p>
+                  <ul className="mt-2 space-y-1.5 text-xs text-stone-300">
+                    <li className="flex items-center justify-between gap-3">
+                      <span className="text-stone-500">{c("size_line_outer_d")}</span>
+                      <span className="font-medium text-stone-200">{item.values[0]}</span>
+                    </li>
+                    <li className="flex items-center justify-between gap-3">
+                      <span className="text-stone-500">{c("size_line_inner_d")}</span>
+                      <span className="font-medium text-stone-200">{item.values[1]}</span>
+                    </li>
+                    <li className="flex items-center justify-between gap-3">
+                      <span className="text-stone-500">{c("size_line_height")}</span>
+                      <span className="font-medium text-stone-200">{item.values[2]}</span>
+                    </li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </motion.div>
     </section>
   );
