@@ -26,8 +26,10 @@ export async function generateMetadata({ params }: MetadataProps) {
 const TABS: CategoryTab[] = ["material", "planter", "new"];
 const SHAPES = ["round", "flat", "oval", "half_round"] as const;
 
+const COLORS = ["all", "natural", "black", "white", "brown", "grey"] as const;
+
 type PageProps = {
-  searchParams: Promise<{ tab?: string; shape?: string }>;
+  searchParams: Promise<{ tab?: string; shape?: string; color?: string }>;
 };
 
 export default async function CatalogPage({ searchParams }: PageProps) {
@@ -38,6 +40,10 @@ export default async function CatalogPage({ searchParams }: PageProps) {
   const shape = SHAPES.includes(sp.shape as (typeof SHAPES)[number])
     ? (sp.shape as (typeof SHAPES)[number])
     : "all";
+  const color: (typeof COLORS)[number] =
+    sp.color && (COLORS as readonly string[]).includes(sp.color)
+      ? (sp.color as (typeof COLORS)[number])
+      : "all";
 
   return (
     <div className="btt-container py-12 md:py-16">
@@ -73,9 +79,10 @@ export default async function CatalogPage({ searchParams }: PageProps) {
       </SectionReveal>
 
       <CatalogClient
-        key={`${tab}-${shape}`}
+        key={`${tab}-${shape}-${color}`}
         initialTab={tab}
         initialShape={shape}
+        initialColor={color}
       />
     </div>
   );

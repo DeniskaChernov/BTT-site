@@ -34,11 +34,23 @@ type FilterState = {
 
 type SortMode = "popular" | "price_asc" | "price_desc" | "name_asc";
 
+const CATALOG_COLORS = [
+  "all",
+  "natural",
+  "black",
+  "white",
+  "brown",
+  "grey",
+] as const;
+type CatalogColor = (typeof CATALOG_COLORS)[number];
+
 type CatalogClientProps = {
   /** Из URL `?tab=` (ссылки с главной) */
   initialTab?: CategoryTab;
   /** Из URL `?shape=` */
   initialShape?: "all" | Product["shape"];
+  /** Из URL `?color=` */
+  initialColor?: string;
 };
 
 function CatalogSkeletonGrid({ label }: { label: string }) {
@@ -66,11 +78,20 @@ function CatalogSkeletonGrid({ label }: { label: string }) {
   );
 }
 
+function parseInitialColor(v: string | undefined): CatalogColor {
+  if (v && (CATALOG_COLORS as readonly string[]).includes(v)) {
+    return v as CatalogColor;
+  }
+  return "all";
+}
+
 export function CatalogClient({
   initialTab = "material",
   initialShape = "all",
+  initialColor,
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
+  const color0 = parseInitialColor(initialColor);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const [sortMode, setSortMode] = useState<SortMode>("popular");
@@ -79,7 +100,7 @@ export function CatalogClient({
   const [f, setF] = useState<FilterState>(() => ({
     tab: initialTab,
     thickness: "all",
-    color: "all",
+    color: color0,
     shape: initialShape,
     hardness: "all",
     stock: "all",

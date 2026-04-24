@@ -46,7 +46,23 @@ export default function ProductLoading() {
         </div>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Skeleton key={i} className="h-40 w-full rounded-2xl" />
+        ))}
+      </div>
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+        <Skeleton className="h-56 w-full rounded-2xl" />
+        <Skeleton className="h-56 w-full rounded-2xl" />
+      </div>
+      <div className="mt-6 border-t border-white/[0.08] py-4">
+        <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-14 w-full rounded-lg" />
+          ))}
+        </div>
+      </div>
+      <div className="mt-12">
         <Skeleton className="h-6 w-40" />
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (

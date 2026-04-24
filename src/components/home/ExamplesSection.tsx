@@ -57,7 +57,11 @@ export function ExamplesSection() {
   ];
 
   return (
-    <section className="relative py-16 md:py-20" aria-labelledby="home-examples-title">
+    <section
+      id="examples"
+      className="relative scroll-mt-24 py-16 md:py-20"
+      aria-labelledby="home-examples-title"
+    >
       <div className="btt-container">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}

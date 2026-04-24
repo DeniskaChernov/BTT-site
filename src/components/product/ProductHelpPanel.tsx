@@ -15,13 +15,14 @@ type Props = {
   telegramUrl?: string | null;
   /** SKU текущего товара — уйдёт в аналитику `pdp_help_click`. */
   sku?: string;
+  className?: string;
 };
 
 /**
  * Продающий блок помощи на странице товара: телефон + мессенджеры.
  * Ведёт на WhatsApp и (если задана) Telegram-воронку.
  */
-export function ProductHelpPanel({ telegramUrl, sku }: Props) {
+export function ProductHelpPanel({ telegramUrl, sku, className }: Props) {
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
 
@@ -31,7 +32,10 @@ export function ProductHelpPanel({ telegramUrl, sku }: Props) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-6%" }}
       transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
-      className="mt-10 overflow-hidden rounded-3xl border border-amber-500/25 bg-gradient-to-br from-amber-950/40 via-stone-950/90 to-orange-950/25 p-6 shadow-[0_20px_60px_-24px_rgba(245,158,11,0.35)] md:p-7"
+      className={cn(
+        "mt-10 overflow-hidden rounded-3xl border border-amber-500/25 bg-gradient-to-br from-amber-950/40 via-stone-950/90 to-orange-950/25 p-6 shadow-[0_20px_60px_-24px_rgba(245,158,11,0.35)] md:p-7",
+        className,
+      )}
       aria-labelledby="product-help-title"
     >
       <div className="flex items-start gap-4">
