@@ -136,7 +136,7 @@ export function CommerceHero() {
                 <span className="text-white">{s("hero_title_rest")}</span>
               </motion.h1>
 
-              <div className="mt-12 flex w-full max-w-md flex-col items-stretch gap-3 rounded-2xl border border-white/10 bg-black/25 p-2 backdrop-blur-sm sm:max-w-none sm:flex-row sm:justify-center sm:gap-3 sm:rounded-full sm:p-1.5">
+              <div className="mt-12 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
                 <Link
                   href="/catalog"
                   onClick={() =>

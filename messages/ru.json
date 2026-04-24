@@ -761,10 +761,14 @@
   },
   "footer": {
     "rights": "© Bententrade. Все права защищены.",
+    "logo_sub": "Премиум качество",
     "privacy": "Политика конфиденциальности",
+    "cookies": "Политика cookies",
     "offer": "Оферта",
+    "company_details": "Реквизиты компании",
     "col_shop": "Покупателям",
     "col_company": "Компания",
+    "col_docs": "Документы",
     "pdf_catalog": "Каталог PDF"
   },
   "quiz": {

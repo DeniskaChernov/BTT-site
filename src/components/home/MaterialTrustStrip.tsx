@@ -15,7 +15,7 @@ export function MaterialTrustStrip() {
 
   return (
     <section
-      className="relative py-12 md:py-16"
+      className="relative py-8 md:py-12"
       aria-labelledby="home-material-strip-title"
     >
       <div className="btt-container">

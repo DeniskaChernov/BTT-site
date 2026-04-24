@@ -17,7 +17,7 @@ export function CollectiveSalesTeaser() {
 
   return (
     <section
-      className="relative py-14 md:py-20"
+      className="relative py-8 md:py-12"
       aria-labelledby="home-collective-sales-title"
     >
       <div className="btt-container">

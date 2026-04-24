@@ -15,24 +15,24 @@ export function TrustCountersSection() {
 
   const counters = [
     {
-      value: s("trust_clients_value"),
+      value: "350+",
       label: s("trust_clients_label"),
       Icon: Users2,
     },
     {
-      value: s("trust_volume_value"),
+      value: "5-900 кг",
       label: s("trust_volume_label"),
       Icon: Weight,
     },
     {
-      value: s("trust_repeat_value"),
+      value: "72%",
       label: s("trust_repeat_label"),
       Icon: Repeat,
     },
   ];
 
   return (
-    <section className="relative py-14 md:py-20" aria-labelledby="home-trust-title">
+    <section className="relative py-8 md:py-12" aria-labelledby="home-trust-title">
       <div className="btt-container">
         <div className="rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-br from-white/[0.05] to-transparent p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-xl md:p-10">
           <motion.div

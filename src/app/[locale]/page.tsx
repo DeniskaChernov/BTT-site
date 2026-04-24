@@ -44,8 +44,7 @@ export default async function HomePage() {
       <TrustCountersSection />
 
       {/* Подбор материала — интерактивный квиз */}
-      <section id="quiz" className="relative scroll-mt-24 py-16 md:py-24">
-        <div className="pointer-events-none absolute left-1/2 top-0 h-px w-[min(90%,48rem)] -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-500/40 to-transparent" />
+      <section id="quiz" className="relative scroll-mt-24 py-10 md:py-14">
         <div className="btt-container">
           <SectionReveal>
             <div className="rounded-[1.75rem] border border-white/[0.07] bg-gradient-to-b from-white/[0.04] to-transparent p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] md:p-10">

@@ -22,7 +22,10 @@ export async function Footer() {
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-600 to-orange-700 text-sm font-bold text-white shadow-lg">
               BT
             </span>
-            <span className="text-lg">Bententrade</span>
+            <div className="flex flex-col">
+              <span className="text-lg leading-none">Bententrade</span>
+              <span className="mt-1 text-[11px] font-medium text-stone-500">{t("logo_sub")}</span>
+            </div>
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-stone-500">
             {t("rights")}
@@ -136,9 +139,22 @@ export async function Footer() {
         </AnimatedReveal>
 
         <AnimatedReveal className="min-w-0" delay={0.21}>
-        <div className="grid gap-3 text-sm text-stone-500">
-          <p>{t("privacy")}</p>
-          <p>{t("offer")}</p>
+        <div className="grid gap-3 text-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+            {t("col_docs")}
+          </p>
+          <Link className={bttFooterLinkClass} href="/privacy">
+            {t("privacy")}
+          </Link>
+          <Link className={bttFooterLinkClass} href="/cookies">
+            {t("cookies")}
+          </Link>
+          <Link className={bttFooterLinkClass} href="/terms">
+            {t("offer")}
+          </Link>
+          <Link className={bttFooterLinkClass} href="/company-details">
+            {t("company_details")}
+          </Link>
         </div>
         </AnimatedReveal>
       </div>

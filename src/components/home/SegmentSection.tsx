@@ -54,7 +54,7 @@ export function SegmentSection() {
   ];
 
   return (
-    <section className="relative py-16 md:py-24">
+    <section className="relative py-10 md:py-14">
       <div className="btt-container">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}

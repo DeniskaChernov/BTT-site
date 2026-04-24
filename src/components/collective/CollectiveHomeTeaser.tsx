@@ -11,7 +11,7 @@ export async function CollectiveHomeTeaser() {
   const channelUrl = telegramChannelUrl();
 
   return (
-    <section className="relative py-10 md:py-14" aria-labelledby="collective-home-heading">
+    <section className="relative py-8 md:py-10" aria-labelledby="collective-home-heading">
       <div className="btt-container">
         <div className="relative overflow-hidden rounded-[1.75rem] border border-amber-500/25 bg-gradient-to-br from-amber-950/50 via-stone-950/90 to-orange-950/40 p-6 shadow-[0_20px_60px_-24px_rgba(245,158,11,0.35)] md:p-8">
           <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-amber-500/15 blur-3xl" aria-hidden />

@@ -761,10 +761,14 @@
   },
   "footer": {
     "rights": "© Bententrade.",
+    "logo_sub": "Premium sifat",
     "privacy": "Maxfiylik",
+    "cookies": "Cookies siyosati",
     "offer": "Oferta",
+    "company_details": "Kompaniya rekvizitlari",
     "col_shop": "Xaridorlar",
     "col_company": "Kompaniya",
+    "col_docs": "Hujjatlar",
     "pdf_catalog": "PDF-katalog"
   },
   "quiz": {

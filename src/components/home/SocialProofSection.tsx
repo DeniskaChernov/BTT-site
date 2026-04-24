@@ -2,35 +2,114 @@
 
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
-import { Quote } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 
 export function SocialProofSection() {
   const t = useTranslations("home");
+  const locale = useLocale() as "ru" | "en" | "uz";
   const reduceMotion = useReducedMotion();
 
-  const blocks = [
-    {
-      quote: t("proof_1_quote"),
-      meta: t("proof_1_meta"),
-      title: t("reviews"),
-    },
-    {
-      quote: t("proof_2_quote"),
-      meta: t("proof_2_meta"),
-      title: t("cases"),
-    },
-  ];
+  const blocks = useMemo(() => {
+    const extraByLocale: Record<
+      "ru" | "en" | "uz",
+      { quote: string; meta: string; title: string }[]
+    > = {
+      ru: [
+        {
+          title: "Отзывы",
+          quote: "«Берем уже четвертую партию, цвет между поставками стабильный, брака минимум.»",
+          meta: "Цех мебели, Самарканд",
+        },
+        {
+          title: "Кейсы",
+          quote: "Кафе: комплект из 26 кашпо закрыли за 3 дня, отгрузили с маркировкой по точкам.",
+          meta: "HoReCa, Ташкент",
+        },
+        {
+          title: "Отзывы",
+          quote: "«Менеджер быстро помог с подбором толщины под кресла, перерасхода почти нет.»",
+          meta: "Мастерская, Бухара",
+        },
+        {
+          title: "Кейсы",
+          quote: "Для маркетплейса собрали тестовую серию, после чего масштабировали до регулярных поставок.",
+          meta: "Проект B2B",
+        },
+      ],
+      en: [
+        {
+          title: "Reviews",
+          quote: "“Fourth batch already: color stays consistent and defect rate remains low.”",
+          meta: "Furniture workshop, Samarkand",
+        },
+        {
+          title: "Cases",
+          quote: "Cafe chain: 26 planters delivered in 3 days with per-location labels.",
+          meta: "HoReCa, Tashkent",
+        },
+        {
+          title: "Reviews",
+          quote: "“Manager helped us pick the right gauge for chairs, waste is minimal.”",
+          meta: "Workshop, Bukhara",
+        },
+        {
+          title: "Cases",
+          quote: "We launched a test batch for marketplace and scaled to regular supply.",
+          meta: "B2B project",
+        },
+      ],
+      uz: [
+        {
+          title: "Fikrlar",
+          quote: "«To‘rtinchi partiyani olyapmiz: rang barqaror, brak juda kam.»",
+          meta: "Mebel sexi, Samarqand",
+        },
+        {
+          title: "Keyslar",
+          quote: "Kafe tarmog‘i: 26 ta kashpo 3 kunda jo‘natildi, nuqtalar bo‘yicha markirovka bilan.",
+          meta: "HoReCa, Toshkent",
+        },
+        {
+          title: "Fikrlar",
+          quote: "«Menejer stullar uchun mos profilni tez tanlab berdi, chiqit deyarli yo‘q.»",
+          meta: "Ustaxona, Buxoro",
+        },
+        {
+          title: "Keyslar",
+          quote: "Marketplace uchun test partiyadan boshlab, muntazam yetkazib berishga o‘tdik.",
+          meta: "B2B loyiha",
+        },
+      ],
+    };
+
+    return [
+      {
+        quote: t("proof_1_quote"),
+        meta: t("proof_1_meta"),
+        title: t("reviews"),
+      },
+      {
+        quote: t("proof_2_quote"),
+        meta: t("proof_2_meta"),
+        title: t("cases"),
+      },
+      ...extraByLocale[locale],
+    ];
+  }, [locale, t]);
+  const [active, setActive] = useState(0);
+  const prev = () => setActive((i) => (i - 1 + blocks.length) % blocks.length);
+  const next = () => setActive((i) => (i + 1) % blocks.length);
 
   const chips = [
-    { key: "pay", label: t("trust_payments") },
     { key: "ship", label: t("trust_ship") },
     { key: "batch", label: t("trust_batch") },
     { key: "clients", label: t("trust_clients") },
   ];
 
   return (
-    <section className="btt-container pb-20 pt-6 md:pb-28 md:pt-8">
+    <section className="btt-container pb-12 pt-6 md:pb-16 md:pt-8">
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -75,9 +154,12 @@ export function SocialProofSection() {
         ))}
       </div>
       <div className="grid gap-6 md:grid-cols-2">
-        {blocks.map((b, i) => (
+        {[0, 1].map((slot) => {
+          const i = (active + slot) % blocks.length;
+          const b = blocks[i]!;
+          return (
           <motion.div
-            key={b.title}
+            key={`${b.title}-${i}`}
             initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -106,7 +188,29 @@ export function SocialProofSection() {
             <p className="relative mt-4 text-xs text-stone-500">{b.meta}</p>
             <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent opacity-0 transition group-hover:opacity-100" />
           </motion.div>
-        ))}
+          );
+        })}
+      </div>
+      <div className="mt-5 flex items-center justify-center gap-2">
+        <button
+          type="button"
+          aria-label="Previous review"
+          onClick={prev}
+          className="rounded-full border border-white/15 bg-white/[0.03] p-2 text-stone-300 transition hover:border-amber-500/40 hover:text-amber-100"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <p className="min-w-24 text-center text-xs text-stone-500">
+          {active + 1} / {blocks.length}
+        </p>
+        <button
+          type="button"
+          aria-label="Next review"
+          onClick={next}
+          className="rounded-full border border-white/15 bg-white/[0.03] p-2 text-stone-300 transition hover:border-amber-500/40 hover:text-amber-100"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
       </div>
     </section>
   );

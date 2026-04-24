@@ -59,7 +59,7 @@ export function ExamplesSection() {
   return (
     <section
       id="examples"
-      className="relative scroll-mt-24 py-16 md:py-20"
+      className="relative scroll-mt-24 py-10 md:py-14"
       aria-labelledby="home-examples-title"
     >
       <div className="btt-container">

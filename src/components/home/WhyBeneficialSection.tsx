@@ -20,10 +20,9 @@ export function WhyBeneficialSection() {
 
   return (
     <section
-      className="relative py-16 md:py-20"
+      className="relative py-10 md:py-14"
       aria-labelledby="home-benefits-title"
     >
-      <div className="pointer-events-none absolute left-1/2 top-0 h-px w-[min(90%,48rem)] -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
       <div className="btt-container">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}

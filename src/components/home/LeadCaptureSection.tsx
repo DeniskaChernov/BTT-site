@@ -24,7 +24,7 @@ export function LeadCaptureSection() {
   return (
     <section
       id="lead-capture"
-      className="relative py-16 md:py-20"
+      className="relative py-10 md:py-14"
       aria-labelledby="home-lead-title"
     >
       <div className="btt-container">

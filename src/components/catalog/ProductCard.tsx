@@ -93,7 +93,7 @@ export function ProductCard({ product }: Props) {
   return (
     <motion.article
       layout={!reduceMotion}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-all duration-300 ease-out hover:border-amber-500/30 hover:shadow-[0_24px_64px_-12px_rgba(245,158,11,0.18)]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-all duration-300 ease-out hover:border-amber-500/30"
       whileHover={reduceMotion ? undefined : { y: -4 }}
     >
       <div

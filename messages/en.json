@@ -761,10 +761,14 @@
   },
   "footer": {
     "rights": "© Bententrade.",
+    "logo_sub": "Premium quality",
     "privacy": "Privacy",
+    "cookies": "Cookies policy",
     "offer": "Terms",
+    "company_details": "Company details",
     "col_shop": "Shop",
     "col_company": "Company",
+    "col_docs": "Documents",
     "pdf_catalog": "PDF catalog"
   },
   "quiz": {
