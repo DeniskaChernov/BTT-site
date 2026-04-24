@@ -88,8 +88,27 @@ export default async function ArticleDetailPage({ params }: Props) {
         caption: t("image_2_caption"),
       },
     ],
+    "what-is-artificial-rattan": [
+      {
+        src: SITE_MEDIA.categoryCard("btt-cat-rattan"),
+        alt: t("image_1_alt"),
+        caption: t("image_1_caption"),
+      },
+      {
+        src: SITE_MEDIA.categoryCard("btt-cat-twist"),
+        alt: t("image_2_alt"),
+        caption: t("image_2_caption"),
+      },
+    ],
   };
   const gallery = articleImagesBySlug[slug] ?? [];
+
+  const relatedCover: Record<string, string> = {
+    "rattan-thickness-furniture": SITE_MEDIA.categoryCard("btt-cat-rattan"),
+    "planters-outdoor-uv-drainage": SITE_MEDIA.categoryCard("btt-cat-planter"),
+    "wholesale-horeca-timelines": SITE_MEDIA.heroPanel,
+    "what-is-artificial-rattan": SITE_MEDIA.categoryCard("btt-cat-twist"),
+  };
 
   return (
     <div className="btt-container py-14 md:py-20">
@@ -195,11 +214,7 @@ export default async function ArticleDetailPage({ params }: Props) {
                   <div className="relative aspect-[16/10]">
                     <Image
                       src={
-                        x.slug === "planters-outdoor-uv-drainage"
-                          ? SITE_MEDIA.categoryCard("btt-cat-planter")
-                          : x.slug === "wholesale-horeca-timelines"
-                            ? SITE_MEDIA.heroPanel
-                            : SITE_MEDIA.categoryCard("btt-cat-rattan")
+                        relatedCover[x.slug] ?? SITE_MEDIA.categoryCard("btt-cat-rattan")
                       }
                       alt={ta(x.cardTitleKey)}
                       fill

@@ -1,4 +1,5 @@
 import { CatalogClient } from "@/components/catalog/CatalogClient";
+import { CatalogPriceGuide } from "@/components/catalog/CatalogPriceGuide";
 import { CatalogUseCasesNav } from "@/components/catalog/CatalogUseCasesNav";
 import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
@@ -48,6 +49,10 @@ export default async function CatalogPage({ searchParams }: PageProps) {
   return (
     <div className="btt-container py-12 md:py-16">
       <PageHero kicker={t("page_kicker")} title={t("title")} lead={t("intro")} />
+
+      <SectionReveal className="mt-6">
+        <CatalogPriceGuide />
+      </SectionReveal>
 
       <SectionReveal className="mt-6">
         <MicroTrustStrip />

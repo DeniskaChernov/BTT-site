@@ -18,6 +18,7 @@ import { PdpWholesaleTeaser } from "@/components/product/PdpWholesaleTeaser";
 import { ProductHelpPanel } from "@/components/product/ProductHelpPanel";
 import { ProductSpecsAndColors } from "@/components/product/ProductSpecsAndColors";
 import { ProductValueGrid } from "@/components/product/ProductValueGrid";
+import { BackButton } from "@/components/ui/BackButton";
 import { trackEvent } from "@/lib/analytics";
 import { productGalleryImages, productMainImage } from "@/lib/product-media";
 import { telegramBotStartUrl, telegramChannelUrl, telegramPaymentChatUrl } from "@/lib/telegram";
@@ -101,8 +102,13 @@ export function ProductDetail({ product, related }: Props) {
     el.scrollBy({ left: dir * 140, behavior: "smooth" });
   };
 
+  const catalogFallback = `/catalog?tab=${product.category}`;
+
   return (
     <div className="btt-container py-10 pb-28 lg:pb-10">
+      <div className="mb-6">
+        <BackButton fallbackHref={catalogFallback} />
+      </div>
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12 xl:gap-16">
         <div>
           <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 bg-stone-900/50 shadow-2xl">

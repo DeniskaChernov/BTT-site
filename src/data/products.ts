@@ -642,6 +642,53 @@ export const products: Product[] = [
     priceUz: { t12: 191_000, t5: 174_000, t10: 159_000 },
     imageSeed: "btt-ov5blk",
   },
+  {
+    id: "21",
+    slug: "rattan-twisted-natural-5",
+    sku: "RTN-TW-5-NAT",
+    category: "new",
+    names: {
+      ru: "Кручёный ротанг 5 мм, натуральный",
+      uz: "Aylanma burma rattan 5 mm, tabiiy",
+      en: "Twisted rattan 5 mm, natural",
+    },
+    short: {
+      ru: "Кручёной скрутки — выразительный рисунок плетения; тот же полимер, что у остального каталога: влага и UV по позиции.",
+      uz: "Aylanma burish — ifodali to‘qish naqshi; katalogdagi qolgan seriya bilan bir xil polimer — nam va UV bo‘yicha pozitsiyani tekshiring.",
+      en: "Twisted profile for a richer weave look; same polymer family as the rest of the line — check the listing for moisture/UV notes.",
+    },
+    bullets: b(
+      [
+        "5 мм калибр",
+        "Скрутка",
+        "Партия стабильна",
+        "Улица и дом",
+        "UV по серии",
+      ],
+      [
+        "5 mm kaliabr",
+        "Burma",
+        "Barqaror partiya",
+        "Kocha va uy",
+        "UV seriya bo‘yicha",
+      ],
+      [
+        "5 mm gauge",
+        "Twist",
+        "Stable batch",
+        "Indoor & outdoor",
+        "UV per series",
+      ]
+    ),
+    application: "both",
+    hardness: "medium",
+    thicknessMm: 5,
+    colorKey: "natural",
+    shape: "round",
+    stock: "in_stock",
+    priceUz: { t12: 190_000, t5: 173_000, t10: 158_000 },
+    imageSeed: "btt-tw5nat",
+  },
 ];
 
 export function getProductBySlug(slug: string) {

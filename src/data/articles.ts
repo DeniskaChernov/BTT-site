@@ -2,8 +2,8 @@
 export type ArticleStatus = "published" | "soon";
 
 type ArticleCardKeys = {
-  cardTitleKey: "card_1_title" | "card_2_title" | "card_3_title";
-  cardDescKey: "card_1_desc" | "card_2_desc" | "card_3_desc";
+  cardTitleKey: "card_1_title" | "card_2_title" | "card_3_title" | "card_4_title";
+  cardDescKey: "card_1_desc" | "card_2_desc" | "card_3_desc" | "card_4_desc";
 };
 
 export type ArticleRecord = { slug: string } & ArticleCardKeys &
@@ -14,7 +14,8 @@ export type ArticleRecord = { slug: string } & ArticleCardKeys &
         messageNamespace:
           | "articleRattanThickness"
           | "articlePlantersOutdoor"
-          | "articleWholesaleTimelines";
+          | "articleWholesaleTimelines"
+          | "articleWhatIsRattan";
       }
     | { status: "soon" }
   );
@@ -43,6 +44,14 @@ export const ARTICLES: ArticleRecord[] = [
     cardTitleKey: "card_3_title",
     cardDescKey: "card_3_desc",
     messageNamespace: "articleWholesaleTimelines",
+  },
+  {
+    slug: "what-is-artificial-rattan",
+    status: "published",
+    publishedAt: "2026-04-24",
+    cardTitleKey: "card_4_title",
+    cardDescKey: "card_4_desc",
+    messageNamespace: "articleWhatIsRattan",
   },
 ];
 

@@ -44,7 +44,7 @@ export function ArticlesTeaser() {
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
             <Link
-              href="/articles/rattan-thickness-furniture"
+              href="/articles/what-is-artificial-rattan"
               className="group btt-focus inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-2.5 text-sm font-semibold text-emerald-100 transition hover:border-emerald-400/45 hover:bg-emerald-500/15 motion-reduce:transition-none"
             >
               {t("articles_featured")}

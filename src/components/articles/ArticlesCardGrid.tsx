@@ -17,6 +17,7 @@ export function ArticlesCardGrid() {
     "rattan-thickness-furniture": SITE_MEDIA.categoryCard("btt-cat-rattan"),
     "planters-outdoor-uv-drainage": SITE_MEDIA.categoryCard("btt-cat-planter"),
     "wholesale-horeca-timelines": SITE_MEDIA.heroPanel,
+    "what-is-artificial-rattan": SITE_MEDIA.categoryCard("btt-cat-twist"),
   };
 
   return (

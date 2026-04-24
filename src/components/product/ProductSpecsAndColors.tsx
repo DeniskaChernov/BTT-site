@@ -2,9 +2,10 @@
 
 import { Link } from "@/i18n/navigation";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
-import type { Product } from "@/types/product";
+import type { Locale, Product } from "@/types/product";
+import { formatProfileGauge } from "@/lib/profile-size";
 import { motion, useReducedMotion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = { product: Product };
 
@@ -25,9 +26,14 @@ const SWATCH: Record<string, string> = {
 };
 
 export function ProductSpecsAndColors({ product }: Props) {
+  const locale = useLocale() as Locale;
   const c = useTranslations("catalog");
   const p = useTranslations("product");
   const reduceMotion = useReducedMotion();
+  const gauge = formatProfileGauge(
+    product,
+    locale === "uz" ? "uz" : locale === "en" ? "en" : "ru",
+  );
 
   const shapeKey =
     product.shape === "round"
@@ -47,11 +53,8 @@ export function ProductSpecsAndColors({ product }: Props) {
   const rows: { k: string; v: string; mono?: boolean }[] = [
     { k: p("pdp_spec_shape"), v: c(shapeKey as "shape_round") },
     {
-      k: p("pdp_spec_diameter"),
-      v:
-        product.thicknessMm > 0
-          ? `${product.thicknessMm} mm`
-          : "—",
+      k: p("pdp_spec_gauge"),
+      v: gauge,
     },
     { k: p("pdp_spec_color"), v: c(`color_${product.colorKey}` as "color_natural") },
     {

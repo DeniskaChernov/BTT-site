@@ -33,7 +33,13 @@ export type Product = {
   bullets: Record<Locale, string[]>;
   application: ApplicationFilter;
   hardness: "soft" | "medium" | "rigid";
+  /** Калибр/«толщина» профиля в карточке, мм (для круга — диаметр). */
   thicknessMm: number;
+  /**
+   * Второй габарит в перечне ленты (ширина плоского/овального сечения), мм.
+   * Если не задан — в карточке показываем только `thicknessMm` (см. `lib/profile-size.ts`).
+   */
+  profileWidthMm?: number;
   colorKey: string;
   shape: "round" | "flat" | "oval" | "half_round";
   stock: StockFilter;
