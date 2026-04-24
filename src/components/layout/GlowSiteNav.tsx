@@ -5,7 +5,6 @@ import { NavAccountLink } from "@/components/layout/NavAccountLink";
 import { SlideTabs, type SlideTabItem } from "@/components/ui/slide-tabs";
 import { useCart } from "@/contexts/CartContext";
 import { usePathname } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
@@ -66,12 +65,8 @@ export function GlowSiteNav() {
 
   return (
     <header
-      className={cn(
-        "relative sticky top-0 z-50 border-b pt-[env(safe-area-inset-top,0px)] backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-300 ease-out supports-[backdrop-filter]:backdrop-blur-xl",
-        scrolled
-          ? "border-white/[0.1] bg-stone-950/72 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.55)] supports-[backdrop-filter]:bg-stone-950/55"
-          : "border-white/[0.06] bg-stone-950/40 supports-[backdrop-filter]:bg-stone-950/25",
-      )}
+      className="relative sticky top-0 z-50 bg-transparent pt-[env(safe-area-inset-top,0px)]"
+      data-scrolled={scrolled ? "true" : "false"}
     >
       <div className="btt-container py-3.5">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-4">
