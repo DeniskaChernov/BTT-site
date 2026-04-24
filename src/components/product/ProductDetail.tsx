@@ -3,7 +3,14 @@
 import { Link } from "@/i18n/navigation";
 import type { Locale, Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
-import { formatUzs, getPricePerKgForQty, UZS_PER_USD } from "@/lib/pricing";
+import {
+  formatUzs,
+  getPricePerKgForQty,
+  isPricedPerKg,
+  isTwistedRattan,
+  lineItemTotalUz,
+  UZS_PER_USD,
+} from "@/lib/pricing";
 import {
   bttFieldCompactClass,
   bttPrimaryButtonClass,
@@ -37,14 +44,14 @@ export function ProductDetail({ product, related }: Props) {
   const c = useTranslations("common");
   const { add } = useCart();
   const router = useRouter();
-  const [qty, setQty] = useState(
-    product.stock === "on_order" && product.category === "material" ? 100 : 1.5,
-  );
+  const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
+  const perKg = isPricedPerKg(product);
+  const isTwisted = isTwistedRattan(product);
+  const [qty, setQty] = useState(isOnOrderMaterial ? 100 : perKg ? 5 : 1);
   const [meters, setMeters] = useState(10);
   const [activeImg, setActiveImg] = useState(0);
   const thumbStripRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
   const belowPreorderMin = isOnOrderMaterial && qty < 100;
   const collectiveBotUrl = product.collective
     ? telegramBotStartUrl(product.collective.botStartParam)
@@ -52,9 +59,16 @@ export function ProductDetail({ product, related }: Props) {
   const collectiveChannelUrl = telegramChannelUrl();
 
   const normalizeQty = (value: number) => {
-    const minQty = isOnOrderMaterial ? 100 : 0.5;
-    if (!Number.isFinite(value)) return minQty;
-    return Math.max(minQty, Math.round(value * 2) / 2);
+    if (isOnOrderMaterial) {
+      if (!Number.isFinite(value)) return 100;
+      return Math.max(100, Math.round(value));
+    }
+    if (perKg) {
+      if (!Number.isFinite(value)) return 5;
+      return Math.max(5, Math.round(value / 5) * 5);
+    }
+    if (!Number.isFinite(value)) return 1;
+    return Math.max(1, Math.round(value));
   };
 
   const normalizeMeters = (value: number) => {
@@ -78,7 +92,7 @@ export function ProductDetail({ product, related }: Props) {
   }, [images.length]);
 
   const ppk = useMemo(() => getPricePerKgForQty(product, qty), [product, qty]);
-  const lineTotal = Math.round(ppk * qty);
+  const lineTotal = lineItemTotalUz(product, qty);
   const kgEst = useMemo(() => Math.max(0.1, meters * 0.12), [meters]);
 
   const onAdd = () => {
@@ -229,39 +243,70 @@ export function ProductDetail({ product, related }: Props) {
           <div className="mt-6 rounded-2xl border border-white/[0.1] bg-stone-900/30 p-4 sm:p-5">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-xs text-stone-500">{c("per_kg")}</p>
+                <p className="text-xs text-stone-500">
+                  {perKg ? c("per_kg") : c("per_piece")}
+                </p>
                 <p className="text-2xl font-bold tabular-nums text-amber-300 md:text-3xl">
                   {formatUzs(ppk)}
                 </p>
                 <p className="text-xs text-stone-500">
-                  {c("total_to_pay")}: {formatUzs(lineTotal)} · {t("qty")}: {qty} kg
+                  {c("total_to_pay")}: {formatUzs(lineTotal)} ·{" "}
+                  {perKg ? (
+                    <>
+                      {t("qty")}: {qty} kg
+                    </>
+                  ) : (
+                    <>
+                      {t("qty_piece")}: {qty}
+                    </>
+                  )}
                 </p>
               </div>
             </div>
             <p className="mt-3 text-[11px] text-stone-500">
               {t("usd_note", { rate: UZS_PER_USD.toLocaleString() })}
             </p>
-            <p className="text-sm font-semibold text-stone-200">{t("ladder_title")}</p>
+            <p className="text-sm font-semibold text-stone-200">
+              {perKg ? t("ladder_title") : t("ladder_title_piece")}
+            </p>
             <div className="mt-2 grid grid-cols-3 gap-2">
               <div className="rounded-xl border border-white/10 bg-white/[0.04] p-2 text-center">
-                <p className="text-[10px] text-stone-500">{t("ladder_12")}</p>
+                <p className="text-[10px] text-stone-500">
+                  {perKg
+                    ? isTwisted
+                      ? t("ladder_5")
+                      : t("ladder_12")
+                    : t("ladder_12_piece")}
+                </p>
                 <p className="mt-0.5 text-xs font-bold tabular-nums text-stone-100">
-                  {formatUzs(product.priceUz.t12)}
+                  {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 5 : 1.5) : 1))}
                 </p>
               </div>
               <div className="relative rounded-xl border-2 border-amber-500/55 bg-gradient-to-b from-amber-950/40 to-stone-950/80 p-2 text-center">
                 <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-1.5 py-0.5 text-[8px] font-bold uppercase text-white">
                   {t("ladder_anchor_badge")}
                 </span>
-                <p className="text-[10px] text-stone-400">{t("ladder_5")}</p>
+                <p className="text-[10px] text-stone-400">
+                  {perKg
+                    ? isTwisted
+                      ? t("ladder_200")
+                      : t("ladder_5")
+                    : t("ladder_5_piece")}
+                </p>
                 <p className="mt-0.5 text-xs font-bold tabular-nums text-amber-200">
-                  {formatUzs(product.priceUz.t5)}
+                  {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 200 : 5) : 3))}
                 </p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/[0.04] p-2 text-center">
-                <p className="text-[10px] text-stone-500">{t("ladder_10")}</p>
+                <p className="text-[10px] text-stone-500">
+                  {perKg
+                    ? isTwisted
+                      ? t("ladder_400")
+                      : t("ladder_10")
+                    : t("ladder_10_piece")}
+                </p>
                 <p className="mt-0.5 text-xs font-bold tabular-nums text-stone-100">
-                  {formatUzs(product.priceUz.t10)}
+                  {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 400 : 10) : 10))}
                 </p>
               </div>
             </div>
@@ -277,11 +322,11 @@ export function ProductDetail({ product, related }: Props) {
 
           <div className="mt-5 flex flex-wrap items-end gap-4">
             <label className="grid gap-1 text-sm">
-              <span>{t("qty")}</span>
+              <span>{perKg ? t("qty") : t("qty_piece")}</span>
               <input
                 type="number"
-                min={isOnOrderMaterial ? 100 : 0.5}
-                step={0.5}
+                min={isOnOrderMaterial ? 100 : perKg ? 5 : 1}
+                step={perKg ? 5 : 1}
                 value={qty}
                 onChange={(e) => {
                   if (e.target.value === "") return;
@@ -405,29 +450,35 @@ export function ProductDetail({ product, related }: Props) {
           </div>
         </details>
 
-        <div className="btt-glass rounded-2xl p-5">
-          <h2 className="font-semibold text-stone-100">{t("calc")}</h2>
-          <p className="mt-1 text-sm text-stone-500">{t("calc_hint")}</p>
-          <div className="mt-3 flex flex-wrap gap-4">
-            <label className="grid gap-1 text-sm">
-              {t("meters")}
-              <input
-                type="number"
-                min={1}
-                value={meters}
-                onChange={(e) => {
-                  if (e.target.value === "") return;
-                  setMeters(normalizeMeters(Number(e.target.value)));
-                }}
-                className={bttFieldCompactClass}
-              />
-            </label>
-            <div>
-              <p className="text-xs text-stone-500">{t("kg_est")}</p>
-              <p className="text-lg font-semibold text-stone-100">{kgEst.toFixed(1)} kg</p>
+        {perKg ? (
+          <div className="btt-glass rounded-2xl p-5">
+            <h2 className="font-semibold text-stone-100">{t("calc")}</h2>
+            <p className="mt-1 text-sm text-stone-500">{t("calc_hint")}</p>
+            <div className="mt-3 flex flex-wrap gap-4">
+              <label className="grid gap-1 text-sm">
+                {t("meters")}
+                <input
+                  type="number"
+                  min={1}
+                  value={meters}
+                  onChange={(e) => {
+                    if (e.target.value === "") return;
+                    setMeters(normalizeMeters(Number(e.target.value)));
+                  }}
+                  className={bttFieldCompactClass}
+                />
+              </label>
+              <div>
+                <p className="text-xs text-stone-500">{t("kg_est")}</p>
+                <p className="text-lg font-semibold text-stone-100">{kgEst.toFixed(1)} kg</p>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="btt-glass rounded-2xl p-5">
+            <p className="text-sm leading-relaxed text-stone-400">{t("calc_planter_hint")}</p>
+          </div>
+        )}
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -476,7 +527,9 @@ export function ProductDetail({ product, related }: Props) {
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden">
         <div className="btt-container flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs text-stone-500">{c("per_kg")}</p>
+            <p className="text-xs text-stone-500">
+              {perKg ? c("per_kg") : c("per_piece")}
+            </p>
             <p className="text-lg font-bold tabular-nums text-amber-400">{formatUzs(ppk)}</p>
           </div>
           <button

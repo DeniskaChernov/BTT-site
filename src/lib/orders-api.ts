@@ -1,7 +1,7 @@
 /** Лимиты и проверки для POST /api/orders (защита от мусора и злоупотреблений) */
 
 import { getProductBySlug } from "@/data/products";
-import { getPricePerKgForQty } from "@/lib/pricing";
+import { lineItemTotalUz, normalizeLineQty } from "@/lib/pricing";
 
 export const MAX_ORDER_LINES = 60;
 export const MAX_TOTAL_UZ = 500_000_000;
@@ -26,20 +26,15 @@ const ALLOWED_PAY = new Set([
 ]);
 const ALLOWED_SHIP = new Set(["courier", "pickup"]);
 
-/** Как в корзине: шаг 0,5 кг, минимум 0,5 */
-const QTY_STEP_KG = 0.5;
-const MIN_QTY_KG = 0.5;
-
 /** Допуск по сумам между клиентом и пересчётом по каталогу (округление) */
 const LINE_TOTAL_UZ_EPS = 2;
 const ORDER_TOTAL_UZ_EPS = 2;
 
 function isValidQtyKg(qtyKg: number): boolean {
-  if (!Number.isFinite(qtyKg) || qtyKg < MIN_QTY_KG || qtyKg > MAX_QTY_KG) {
+  if (!Number.isFinite(qtyKg) || qtyKg <= 0 || qtyKg > MAX_QTY_KG) {
     return false;
   }
-  const steps = Math.round(qtyKg / QTY_STEP_KG);
-  return Math.abs(qtyKg - steps * QTY_STEP_KG) < 1e-6;
+  return true;
 }
 
 export type OrderLineInput = {
@@ -118,6 +113,9 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
       return "Invalid line";
     }
     if (!isValidQtyKg(l.qtyKg)) return "Invalid line";
+    const p = getProductBySlug(l.slug);
+    if (!p) return "Invalid line";
+    if (normalizeLineQty(p, l.qtyKg) !== l.qtyKg) return "Invalid line";
     if (l.lineTotalUz < 0 || l.lineTotalUz > MAX_LINE_TOTAL_UZ) return "Invalid line";
     if (
       !trimLen(l.sku, MAX_SKU_CHARS) ||
@@ -148,7 +146,7 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
 
 /**
  * Серверный пересчёт цен по каталогу — защита от подмены сумм в JSON.
- * Должно совпадать с логикой `CartContext` / `getPricePerKgForQty`.
+ * Должно совпадать с логикой `CartContext` / `lineItemTotalUz`.
  */
 export function validateOrderAgainstCatalog(data: CreateOrderBody): true | string {
   let sumLineTotals = 0;
@@ -159,9 +157,7 @@ export function validateOrderAgainstCatalog(data: CreateOrderBody): true | strin
     if (p.stock === "on_order" && p.category === "material" && line.qtyKg < MIN_PREORDER_QTY_KG) {
       return "Minimum preorder quantity is 100 kg";
     }
-    const expected = Math.round(
-      getPricePerKgForQty(p, line.qtyKg) * line.qtyKg,
-    );
+    const expected = lineItemTotalUz(p, line.qtyKg);
     if (Math.abs(expected - line.lineTotalUz) > LINE_TOTAL_UZ_EPS) {
       return "Line total mismatch";
     }

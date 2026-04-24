@@ -5,7 +5,13 @@ import type { Locale } from "@/types/product";
 import type { Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { productMainImage } from "@/lib/product-media";
-import { formatUzs, getPricePerKgForQty } from "@/lib/pricing";
+import {
+  formatUzs,
+  getPricePerKgForQty,
+  isPricedPerKg,
+  isTwistedRattan,
+  lineItemTotalUz,
+} from "@/lib/pricing";
 import { telegramBotStartUrl, telegramChannelUrl } from "@/lib/telegram";
 import { BTT_EVENTS, trackBttEvent, trackEvent } from "@/lib/analytics";
 import { bttPrimaryButtonClass, bttTapReduceClass } from "@/lib/ui-classes";
@@ -45,7 +51,11 @@ export function ProductCard({ product }: Props) {
   const { add } = useCart();
   const [toast, setToast] = useState(false);
   const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
-  const [quickQty, setQuickQty] = useState<number>(isOnOrderMaterial ? 100 : 1.5);
+  const perKg = isPricedPerKg(product);
+  const isTwisted = isTwistedRattan(product);
+  const [quickQty, setQuickQty] = useState<number>(
+    isOnOrderMaterial ? 100 : perKg ? 5 : 1,
+  );
   const toastTimerRef = useRef<number | null>(null);
   const reduceMotion = useReducedMotion();
 
@@ -65,7 +75,7 @@ export function ProductCard({ product }: Props) {
     add(product, name, quickQty);
     trackEvent("add_to_cart", {
       sku: product.sku,
-      value: Math.round(ppk * quickQty),
+      value: lineItemTotalUz(product, quickQty),
       currency: "UZS",
       qtyKg: quickQty,
     });
@@ -156,10 +166,20 @@ export function ProductCard({ product }: Props) {
               <span className="text-xl font-bold tabular-nums text-amber-400">
                 {formatUzs(ppk)}
               </span>
-              <span className="text-xs text-stone-500">{t("per_kg")}</span>
+              <span className="text-xs text-stone-500">
+                {perKg ? t("per_kg") : t("per_piece")}
+              </span>
             </div>
             <p className="mt-1 text-xs text-stone-500">
-              {`≈ ${formatUzs(Math.round(ppk * quickQty))} / ${quickQty} kg`}
+              {perKg
+                ? t("card_hint_line_kg", {
+                    total: formatUzs(lineItemTotalUz(product, quickQty)),
+                    qty: String(quickQty),
+                  })
+                : t("card_hint_line_pcs", {
+                    total: formatUzs(lineItemTotalUz(product, quickQty)),
+                    qty: String(quickQty),
+                  })}
             </p>
           </div>
         </div>
@@ -170,14 +190,26 @@ export function ProductCard({ product }: Props) {
             isOnOrderMaterial
               ? ([
                   [100, c("preorder_100")],
-                  [250, c("preorder_250")],
-                  [500, c("preorder_500")],
+                  [200, c("preorder_200")],
+                  [400, c("preorder_400")],
                 ] as const)
-              : ([
-                  [1.5, c("w12")],
-                  [5, c("w5")],
-                  [10, c("w10")],
-                ] as const)
+              : perKg && isTwisted
+                ? ([
+                    [5, c("w5")],
+                    [200, c("preorder_200")],
+                    [400, c("preorder_400")],
+                  ] as const)
+                : perKg
+                  ? ([
+                      [5, "5 kg"],
+                      [10, "10 kg"],
+                      [25, "25 kg"],
+                    ] as const)
+                : ([
+                    [1, c("w12_piece")],
+                    [3, c("w5_piece")],
+                    [10, c("w10_piece")],
+                  ] as const)
           ).map(([kg, label]) => (
             <button
               key={kg}

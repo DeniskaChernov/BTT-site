@@ -1,5 +1,5 @@
 import { products } from "@/data/products";
-import { getPricePerKgForQty } from "@/lib/pricing";
+import { lineItemTotalUz } from "@/lib/pricing";
 import { describe, expect, it } from "vitest";
 import {
   validateCreateOrderBody,
@@ -13,7 +13,7 @@ function lineForProduct(
 ): { sku: string; slug: string; name: string; qtyKg: number; lineTotalUz: number } {
   const p = products.find((x) => x.slug === slug);
   if (!p) throw new Error(`missing product ${slug}`);
-  const lineTotalUz = Math.round(getPricePerKgForQty(p, qtyKg) * qtyKg);
+  const lineTotalUz = lineItemTotalUz(p, qtyKg);
   return {
     sku: p.sku,
     slug: p.slug,
@@ -24,7 +24,7 @@ function lineForProduct(
 }
 
 function validBody(overrides: Partial<CreateOrderBody> = {}): CreateOrderBody {
-  const line = lineForProduct(products[0]!.slug, 2);
+  const line = lineForProduct(products[0]!.slug, 5);
   return {
     totalUz: line.lineTotalUz,
     lines: [line],
@@ -47,7 +47,7 @@ describe("validateCreateOrderBody", () => {
   });
 
   it("rejects wrong qty step", () => {
-    const line = lineForProduct(products[0]!.slug, 2);
+    const line = lineForProduct(products[0]!.slug, 7);
     line.qtyKg = 1.37;
     const r = validateCreateOrderBody({
       ...validBody(),
@@ -115,10 +115,10 @@ describe("validateOrderAgainstCatalog", () => {
           slug: onOrder.slug,
           name: onOrder.names.ru,
           qtyKg: lowQty,
-          lineTotalUz: Math.round(getPricePerKgForQty(onOrder, lowQty) * lowQty),
+          lineTotalUz: lineItemTotalUz(onOrder, lowQty),
         },
       ],
-      totalUz: Math.round(getPricePerKgForQty(onOrder, lowQty) * lowQty),
+      totalUz: lineItemTotalUz(onOrder, lowQty),
     });
     expect(validateOrderAgainstCatalog(b)).toBe("Minimum preorder quantity is 100 kg");
   });

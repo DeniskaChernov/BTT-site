@@ -50,7 +50,9 @@ export function ProductValueGrid({ product }: Props) {
   const s = useTranslations("sales");
   const p = useTranslations("product");
   const reduceMotion = useReducedMotion();
-  const isPlanter = product.category === "planter";
+  const isPlanter =
+    product.category === "planter" ||
+    (product.category === "new" && product.thicknessMm <= 0);
 
   const fitItems: { label: string; Icon: ElementType }[] = isPlanter
     ? [

@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import type { Locale, Product } from "@/types/product";
 import { formatProfileGauge } from "@/lib/profile-size";
+import { isPricedPerKg } from "@/lib/pricing";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -50,21 +51,20 @@ export function ProductSpecsAndColors({ product }: Props) {
         ? "hard_med"
         : "hard_rigid";
 
+  const showGauge = product.thicknessMm > 0;
+  const showHardness = isPricedPerKg(product);
+  const materialLabel =
+    product.category === "planter" ||
+    (product.category === "new" && product.thicknessMm <= 0)
+      ? p("pdp_spec_material_planter")
+      : p("pdp_spec_material_rattan");
+
   const rows: { k: string; v: string; mono?: boolean }[] = [
     { k: p("pdp_spec_shape"), v: c(shapeKey as "shape_round") },
-    {
-      k: p("pdp_spec_gauge"),
-      v: gauge,
-    },
+    ...(showGauge ? [{ k: p("pdp_spec_gauge"), v: gauge }] : []),
     { k: p("pdp_spec_color"), v: c(`color_${product.colorKey}` as "color_natural") },
-    {
-      k: p("pdp_spec_material"),
-      v:
-        product.category === "planter"
-          ? p("pdp_spec_material_planter")
-          : p("pdp_spec_material_rattan"),
-    },
-    { k: p("pdp_spec_hardness"), v: c(hardKey as "hard_soft") },
+    { k: p("pdp_spec_material"), v: materialLabel },
+    ...(showHardness ? [{ k: p("pdp_spec_hardness"), v: c(hardKey as "hard_soft") }] : []),
     {
       k: p("pdp_spec_stock"),
       v:

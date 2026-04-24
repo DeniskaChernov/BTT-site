@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import { BROCHURE_PRODUCTS } from "@/data/brochure-products";
 
 const b = (
   ru: string[],
@@ -114,7 +115,7 @@ export const products: Product[] = [
       botStartParam: "product_rtn_fl_6_blk",
       targetKg: 80,
       currentKg: 72,
-      deadlineAt: "2026-04-18T12:00:00+05:00",
+      deadlineAt: "2026-05-20T12:00:00+05:00",
       depositPct: 30,
       retailPriceTier: "t12",
       collectivePriceTier: "t10",
@@ -689,6 +690,7 @@ export const products: Product[] = [
     priceUz: { t12: 190_000, t5: 173_000, t10: 158_000 },
     imageSeed: "btt-tw5nat",
   },
+  ...BROCHURE_PRODUCTS,
 ];
 
 export function getProductBySlug(slug: string) {

@@ -51,6 +51,8 @@ export type Product = {
    * Если не задано — используется один файл `{imageSeed}.png`.
    */
   gallery?: string[];
+  /** Источник карточки: добавлено из PDF-брошюры */
+  isBrochure?: boolean;
   /** low stock hint for scarcity (optional, real business should sync) */
   lowStock?: boolean;
   collective?: CollectiveCampaign;

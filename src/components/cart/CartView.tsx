@@ -2,7 +2,8 @@
 
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
-import { formatUzs } from "@/lib/pricing";
+import { getProductBySlug } from "@/data/products";
+import { formatUzs, isPricedPerKg } from "@/lib/pricing";
 import {
   bttFieldStepperInputClass,
   bttPrimaryButtonClass,
@@ -74,7 +75,12 @@ export function CartView() {
       </header>
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
         <ul className="space-y-4">
-          {lines.map((l) => (
+          {lines.map((l) => {
+            const p = getProductBySlug(l.slug);
+            const perKg = p ? isPricedPerKg(p) : true;
+            const step = perKg ? 5 : 1;
+            const min = perKg ? 5 : 1;
+            return (
             <motion.li
               key={l.sku}
               layout={!reduceMotion}
@@ -94,11 +100,11 @@ export function CartView() {
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <label className="text-sm text-stone-400">
-                  {t("qty_kg")}
+                  {perKg ? t("qty_kg") : t("qty_pcs")}
                   <div className="ml-2 inline-flex items-center overflow-hidden rounded-xl border border-white/15 bg-white/[0.05]">
                     <button
                       type="button"
-                      onClick={() => updateQty(l.sku, l.qtyKg - 0.5)}
+                      onClick={() => updateQty(l.sku, l.qtyKg - step)}
                       aria-label={t("decrease_qty")}
                       className="px-2 py-1.5 text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
                     >
@@ -106,8 +112,8 @@ export function CartView() {
                     </button>
                     <input
                       type="number"
-                      min={0.5}
-                      step={0.5}
+                      min={min}
+                      step={step}
                       value={l.qtyKg}
                       onChange={(e) => {
                         const raw = e.target.value;
@@ -120,7 +126,7 @@ export function CartView() {
                     />
                     <button
                       type="button"
-                      onClick={() => updateQty(l.sku, l.qtyKg + 0.5)}
+                      onClick={() => updateQty(l.sku, l.qtyKg + step)}
                       aria-label={t("increase_qty")}
                       className="px-2 py-1.5 text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
                     >
@@ -141,7 +147,8 @@ export function CartView() {
                 {formatUzs(lineTotalUz(l))}
               </p>
             </motion.li>
-          ))}
+            );
+          })}
         </ul>
         <aside className="btt-glass-strong h-fit rounded-3xl p-6 ring-1 ring-amber-500/10">
           <p className="text-sm font-medium text-stone-400">{t("subtotal")}</p>

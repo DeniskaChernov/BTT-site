@@ -87,7 +87,7 @@ export function RattanQuiz() {
   const pickQtyKg = () => {
     if (vol === "10") return 10;
     if (vol === "5") return 5;
-    return 1.5;
+    return 5;
   };
 
   const onTime = (label: string) => {

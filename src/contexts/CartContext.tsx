@@ -1,7 +1,7 @@
 "use client";
 
 import { getProductBySlug } from "@/data/products";
-import { getPricePerKgForQty } from "@/lib/pricing";
+import { lineItemTotalUz, normalizeLineQty } from "@/lib/pricing";
 import type { Product } from "@/types/product";
 import {
   createContext,
@@ -32,9 +32,6 @@ type CartCtx = {
 const CartContext = createContext<CartCtx | null>(null);
 
 const STORAGE = "btt-cart";
-const MIN_QTY_KG = 0.5;
-const QTY_STEP_KG = 0.5;
-
 function isCartLine(x: unknown): x is CartLine {
   if (typeof x !== "object" || x === null) return false;
   const o = x as Record<string, unknown>;
@@ -53,13 +50,6 @@ function lineStillValid(line: CartLine): boolean {
   return getProductBySlug(line.slug) !== undefined;
 }
 
-function normalizeQtyKg(qtyKg: number): number | null {
-  if (!Number.isFinite(qtyKg)) return null;
-  const normalized = Math.round(qtyKg / QTY_STEP_KG) * QTY_STEP_KG;
-  if (normalized < MIN_QTY_KG) return null;
-  return normalized;
-}
-
 function loadLines(): CartLine[] {
   if (typeof window === "undefined") return [];
   try {
@@ -67,7 +57,15 @@ function loadLines(): CartLine[] {
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(isCartLine).filter(lineStillValid);
+    return parsed
+      .filter(isCartLine)
+      .filter(lineStillValid)
+      .map((line) => {
+        const p = getProductBySlug(line.slug);
+        if (!p) return line;
+        const fixed = normalizeLineQty(p, line.qtyKg);
+        return fixed !== null ? { ...line, qtyKg: fixed } : line;
+      });
   } catch {
     return [];
   }
@@ -103,8 +101,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const lineTotalUz = useCallback((line: CartLine) => {
     const p = getProductBySlug(line.slug);
     if (!p) return 0;
-    const ppk = getPricePerKgForQty(p, line.qtyKg);
-    return Math.round(ppk * line.qtyKg);
+    return lineItemTotalUz(p, line.qtyKg);
   }, []);
 
   const subtotalUz = useMemo(
@@ -114,14 +111,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const add = useCallback(
     (product: Product, localeName: string, qtyKg: number) => {
-      const normalizedQty = normalizeQtyKg(qtyKg);
+      const normalizedQty = normalizeLineQty(product, qtyKg);
       if (normalizedQty === null) return;
       setLines((prev) => {
         const i = prev.findIndex((x) => x.sku === product.sku);
         if (i >= 0) {
           const next = [...prev];
           const merged = next[i].qtyKg + normalizedQty;
-          const qtyRounded = normalizeQtyKg(merged) ?? merged;
+          const qtyRounded = normalizeLineQty(product, merged);
+          if (qtyRounded === null) return prev;
           next[i] = { ...next[i], qtyKg: qtyRounded };
           return next;
         }
@@ -140,14 +138,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const updateQty = useCallback((sku: string, qtyKg: number) => {
-    const normalizedQty = normalizeQtyKg(qtyKg);
-    if (normalizedQty === null) {
-      setLines((prev) => prev.filter((l) => l.sku !== sku));
-      return;
-    }
-    setLines((prev) =>
-      prev.map((l) => (l.sku === sku ? { ...l, qtyKg: normalizedQty } : l))
-    );
+    setLines((prev) => {
+      const line = prev.find((l) => l.sku === sku);
+      const p = line ? getProductBySlug(line.slug) : undefined;
+      if (!line || !p) return prev;
+      const normalizedQty = normalizeLineQty(p, qtyKg);
+      if (normalizedQty === null) {
+        return prev.filter((l) => l.sku !== sku);
+      }
+      return prev.map((l) => (l.sku === sku ? { ...l, qtyKg: normalizedQty } : l));
+    });
   }, []);
 
   const remove = useCallback((sku: string) => {

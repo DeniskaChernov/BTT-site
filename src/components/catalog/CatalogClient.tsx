@@ -4,7 +4,7 @@ import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
-import { getPricePerKgForQty } from "@/lib/pricing";
+import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
 import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
 import {
   bttFieldClass,
@@ -30,6 +30,7 @@ type FilterState = {
   shape: "all" | string;
   hardness: "all" | string;
   stock: "all" | "in_stock" | "on_order";
+  source: "all" | "pdf";
 };
 
 type SortMode = "popular" | "price_asc" | "price_desc" | "name_asc";
@@ -104,6 +105,7 @@ export function CatalogClient({
     shape: initialShape,
     hardness: "all",
     stock: "all",
+    source: "all",
   }));
   const reduceMotion = useReducedMotion();
 
@@ -137,6 +139,7 @@ export function CatalogClient({
       if (f.shape !== "all" && p.shape !== f.shape) return false;
       if (f.hardness !== "all" && p.hardness !== f.hardness) return false;
       if (f.stock !== "all" && p.stock !== f.stock) return false;
+      if (f.source === "pdf" && !p.isBrochure) return false;
       if (q) {
         const bag = [
           p.sku,
@@ -155,14 +158,15 @@ export function CatalogClient({
       return true;
     });
 
+    const refQty = (p: Product) => (isPricedPerKg(p) ? 5 : 1);
     if (sortMode === "price_asc") {
       return [...list].sort(
-        (a, b) => getPricePerKgForQty(a, 1.5) - getPricePerKgForQty(b, 1.5),
+        (a, b) => getPricePerKgForQty(a, refQty(a)) - getPricePerKgForQty(b, refQty(b)),
       );
     }
     if (sortMode === "price_desc") {
       return [...list].sort(
-        (a, b) => getPricePerKgForQty(b, 1.5) - getPricePerKgForQty(a, 1.5),
+        (a, b) => getPricePerKgForQty(b, refQty(b)) - getPricePerKgForQty(a, refQty(a)),
       );
     }
     if (sortMode === "name_asc") {
@@ -214,6 +218,13 @@ export function CatalogClient({
         key: "stock",
         value: f.stock,
         label: f.stock === "in_stock" ? t("stock_in") : t("stock_order"),
+      });
+    }
+    if (f.source !== "all") {
+      chips.push({
+        key: "source",
+        value: f.source,
+        label: t("filter_source_pdf"),
       });
     }
     return chips;
@@ -269,6 +280,7 @@ export function CatalogClient({
         shape: "all",
         hardness: "all",
         stock: "all",
+        source: "all",
       });
     });
     setQuery("");
@@ -336,6 +348,14 @@ export function CatalogClient({
           {chip("hardness", "soft", t("hard_soft"), f.hardness === "soft")}
           {chip("hardness", "medium", t("hard_med"), f.hardness === "medium")}
           {chip("hardness", "rigid", t("hard_rigid"), f.hardness === "rigid")}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-sm font-medium text-stone-200">{t("filter_source")}</p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {chip("source", "all", t("all"), f.source === "all")}
+          {chip("source", "pdf", t("filter_source_pdf"), f.source === "pdf")}
         </div>
       </div>
 

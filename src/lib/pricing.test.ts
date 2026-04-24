@@ -1,14 +1,30 @@
 import { describe, expect, it } from "vitest";
 import { products } from "@/data/products";
-import { formatUzs, getPricePerKgForQty } from "./pricing";
+import {
+  formatUzs,
+  getPricePerKgForQty,
+  isPricedPerKg,
+  lineItemTotalUz,
+} from "./pricing";
 
 describe("getPricePerKgForQty", () => {
-  const p = products[0]!;
+  const p = products.find((x) => x.slug === "rattan-twisted-natural-5")!;
 
   it("uses tier anchors like the cart", () => {
-    expect(getPricePerKgForQty(p, 1)).toBe(p.priceUz.t12);
-    expect(getPricePerKgForQty(p, 3)).toBe(p.priceUz.t5);
-    expect(getPricePerKgForQty(p, 10)).toBe(p.priceUz.t10);
+    expect(getPricePerKgForQty(p, 5)).toBe(39_600);
+    expect(getPricePerKgForQty(p, 200)).toBe(34_600);
+    expect(getPricePerKgForQty(p, 400)).toBe(32_100);
+  });
+});
+
+describe("planter piece pricing", () => {
+  const planter = products.find((x) => x.slug === "planter-basket-m")!;
+
+  it("treats planters as per-piece, not per kg", () => {
+    expect(isPricedPerKg(planter)).toBe(false);
+    expect(lineItemTotalUz(planter, 2)).toBe(
+      getPricePerKgForQty(planter, 2) * 2,
+    );
   });
 });
 
