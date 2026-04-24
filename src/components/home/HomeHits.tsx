@@ -28,7 +28,7 @@ export async function HomeHits() {
             </h2>
             <p className="mt-3 text-pretty text-stone-400 md:text-lg">{t("hits_lead")}</p>
           </div>
-          <div className="flex flex-col items-stretch gap-3 md:items-end">
+          <div className="flex flex-col items-stretch gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-3 ring-1 ring-white/[0.03] md:items-end md:p-4">
             <p className="text-sm text-stone-500 md:text-right">{t("trust_payments")}</p>
             <Link
               href="/catalog"

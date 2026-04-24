@@ -60,9 +60,9 @@ export function CommerceHero() {
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div ref={parallaxRef} className="pt-10 pb-6 md:pt-12 md:pb-8">
+        <div ref={parallaxRef} className="pt-10 pb-8 md:pt-12 md:pb-10">
           <motion.div
-            className="relative flex min-h-[420px] w-full flex-col justify-center overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#1a1a1a] shadow-[0_24px_80px_rgba(0,0,0,0.5)] md:min-h-[480px] lg:min-h-[520px]"
+            className="relative flex min-h-[420px] w-full flex-col justify-center overflow-hidden rounded-[2rem] border border-white/[0.1] bg-[#1a1a1a] shadow-[0_24px_80px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.04] md:min-h-[480px] lg:min-h-[520px]"
             initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -136,7 +136,7 @@ export function CommerceHero() {
                 <span className="text-white">{s("hero_title_rest")}</span>
               </motion.h1>
 
-              <div className="mt-12 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
+              <div className="mt-12 flex w-full max-w-md flex-col items-stretch gap-3 rounded-2xl border border-white/10 bg-black/25 p-2 backdrop-blur-sm sm:max-w-none sm:flex-row sm:justify-center sm:gap-3 sm:rounded-full sm:p-1.5">
                 <Link
                   href="/catalog"
                   onClick={() =>
@@ -195,8 +195,12 @@ export function CommerceHero() {
               >
                 <Link
                   href={cat.href}
-                  className="group btt-focus relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.06] bg-[#1a1a1a] p-5 pb-6 shadow-[0_8px_40px_rgba(0,0,0,0.35)] outline-none transition hover:border-white/12 motion-reduce:transition-none sm:min-h-[320px]"
+                  className="group btt-focus relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-5 pb-6 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.03] outline-none transition hover:-translate-y-0.5 hover:border-amber-500/35 motion-reduce:transition-none sm:min-h-[320px]"
                 >
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-40"
+                    aria-hidden
+                  />
                   <h2 className="relative z-10 text-center text-lg font-bold leading-tight tracking-tight text-white md:text-xl">
                     {title}
                   </h2>

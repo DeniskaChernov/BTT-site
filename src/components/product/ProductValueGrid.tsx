@@ -36,8 +36,12 @@ function ValueCol({ kicker, children, delay }: ColProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-4%" }}
       transition={{ duration: reduceMotion ? 0 : 0.4, delay, ease: [...BTT_EASE] }}
-      className="flex min-h-0 flex-col rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 shadow-inner shadow-black/20 md:p-5"
+      className="relative flex min-h-0 flex-col rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-4 shadow-inner shadow-black/20 ring-1 ring-white/[0.03] md:p-5"
     >
+      <div
+        className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+        aria-hidden
+      />
       <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500/85">
         {kicker}
       </p>

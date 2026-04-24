@@ -390,13 +390,13 @@ export function CatalogClient({
           duration: reduceMotion ? 0 : 0.35,
           ease: [...BTT_EASE],
         }}
-        className="btt-glass hidden space-y-6 rounded-3xl p-5 shadow-inner shadow-black/20 lg:sticky lg:top-28 lg:block lg:self-start"
+        className="btt-glass hidden space-y-6 rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-white/[0.02] p-5 shadow-inner shadow-black/20 lg:sticky lg:top-28 lg:block lg:self-start"
       >
         {filtersContent}
       </motion.aside>
 
       <div className="min-w-0 pb-[calc(5.25rem+env(safe-area-inset-bottom,0px))] lg:pb-0">
-        <div className="mb-4 grid gap-3 border-b border-white/[0.06] pb-4 md:grid-cols-[1fr_auto_auto] md:items-center">
+        <div className="mb-4 grid gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3 md:grid-cols-[1fr_auto_auto] md:items-center md:p-4">
           <label className="relative block">
             <Search
               className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-500"
@@ -438,16 +438,16 @@ export function CatalogClient({
 
         <AnimatePresence>
           {(activeFilters.length > 0 || query.trim()) && (
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
-            transition={{
-              duration: reduceMotion ? 0 : 0.22,
-              ease: [...BTT_EASE],
-            }}
-            className="mb-4 flex flex-wrap items-center gap-2"
-          >
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.22,
+                ease: [...BTT_EASE],
+              }}
+              className="mb-4 flex flex-wrap items-center gap-2"
+            >
               <span className="text-xs text-stone-500">{t("active_filters")}</span>
               {query.trim() ? (
                 <button

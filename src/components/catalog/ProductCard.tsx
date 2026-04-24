@@ -93,9 +93,13 @@ export function ProductCard({ product }: Props) {
   return (
     <motion.article
       layout={!reduceMotion}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] shadow-xl backdrop-blur-xl transition-all duration-300 ease-out hover:border-amber-500/30 hover:shadow-[0_24px_64px_-12px_rgba(245,158,11,0.18)]"
-      whileHover={reduceMotion ? undefined : { y: -5 }}
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-all duration-300 ease-out hover:border-amber-500/30 hover:shadow-[0_24px_64px_-12px_rgba(245,158,11,0.18)]"
+      whileHover={reduceMotion ? undefined : { y: -4 }}
     >
+      <div
+        className="pointer-events-none absolute inset-x-5 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+        aria-hidden
+      />
       <Link
         href={`/product/${product.slug}`}
         className="flex min-h-0 flex-1 flex-col outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]"

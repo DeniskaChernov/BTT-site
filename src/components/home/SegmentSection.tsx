@@ -99,8 +99,12 @@ export function SegmentSection() {
                       segment: c.id,
                     })
                   }
-                  className={`group btt-focus relative flex h-full min-h-[210px] flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br ${c.accent} p-8 shadow-xl backdrop-blur-xl outline-none transition duration-300 hover:border-amber-500/35 motion-reduce:transition-none`}
+                  className={`group btt-focus relative flex h-full min-h-[210px] flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br ${c.accent} p-8 shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl outline-none transition duration-300 hover:-translate-y-0.5 hover:border-amber-500/35 motion-reduce:transition-none`}
                 >
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent opacity-50"
+                    aria-hidden
+                  />
                   <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-500/10 blur-3xl transition duration-500 group-hover:bg-amber-500/25 motion-reduce:transition-none" />
                   <c.icon
                     className="relative h-8 w-8 text-amber-400 transition-transform duration-300 group-hover:scale-110 motion-reduce:group-hover:scale-100"

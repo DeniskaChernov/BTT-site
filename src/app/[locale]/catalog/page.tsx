@@ -51,7 +51,7 @@ export default async function CatalogPage({ searchParams }: PageProps) {
     <div className="btt-container py-12 md:py-16">
       <PageHero kicker={t("page_kicker")} title={t("title")} lead={t("intro")} />
 
-      <SectionReveal className="mt-6">
+      <SectionReveal className="mt-8">
         <CatalogPriceGuide />
       </SectionReveal>
 
@@ -80,11 +80,11 @@ export default async function CatalogPage({ searchParams }: PageProps) {
         </div>
       </SectionReveal>
 
-      <SectionReveal>
+      <SectionReveal className="mt-6">
         <CatalogUseCasesNav />
       </SectionReveal>
 
-      <SectionReveal>
+      <SectionReveal className="mt-6">
         <BrochureRattanSection />
       </SectionReveal>
 

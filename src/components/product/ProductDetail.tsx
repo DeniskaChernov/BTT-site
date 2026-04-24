@@ -125,7 +125,11 @@ export function ProductDetail({ product, related }: Props) {
       </div>
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12 xl:gap-16">
         <div>
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 bg-stone-900/50 shadow-2xl">
+          <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 bg-stone-900/50 shadow-2xl ring-1 ring-white/[0.04]">
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
+              aria-hidden
+            />
             <span
               className={cn(
                 "absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-lg backdrop-blur-sm",
@@ -209,7 +213,7 @@ export function ProductDetail({ product, related }: Props) {
           </div>
         </div>
 
-        <div className="min-w-0">
+        <div className="min-w-0 rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-transparent p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] md:p-6">
           <p className="text-xs font-semibold uppercase tracking-wider text-amber-500/80">
             {t("sku")}: {product.sku}
           </p>
@@ -240,7 +244,7 @@ export function ProductDetail({ product, related }: Props) {
             ))}
           </ul>
 
-          <div className="mt-6 rounded-2xl border border-white/[0.1] bg-stone-900/30 p-4 sm:p-5">
+          <div className="mt-6 rounded-2xl border border-white/[0.12] bg-gradient-to-b from-stone-900/60 to-stone-950/60 p-4 ring-1 ring-white/[0.03] sm:p-5">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-xs text-stone-500">
@@ -282,7 +286,7 @@ export function ProductDetail({ product, related }: Props) {
                   {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 5 : 1.5) : 1))}
                 </p>
               </div>
-              <div className="relative rounded-xl border-2 border-amber-500/55 bg-gradient-to-b from-amber-950/40 to-stone-950/80 p-2 text-center">
+              <div className="relative rounded-xl border-2 border-amber-500/55 bg-gradient-to-b from-amber-950/40 to-stone-950/80 p-2 text-center shadow-[0_8px_24px_rgba(245,158,11,0.1)]">
                 <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-1.5 py-0.5 text-[8px] font-bold uppercase text-white">
                   {t("ladder_anchor_badge")}
                 </span>
@@ -320,7 +324,7 @@ export function ProductDetail({ product, related }: Props) {
             />
           ) : null}
 
-          <div className="mt-5 flex flex-wrap items-end gap-4">
+          <div className="mt-5 flex flex-wrap items-end gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-3 sm:p-4">
             <label className="grid gap-1 text-sm">
               <span>{perKg ? t("qty") : t("qty_piece")}</span>
               <input
