@@ -75,34 +75,34 @@ export const products: Product[] = [
       en: "Flat rattan 6 mm, black",
     },
     short: {
-      ru: "Плоский профиль для уличной мебели и декора. Глубокий чёрный, с UV-стабилизацией.",
-      uz: "Kocha mebeli va dekor uchun tekis profil. Chuqur qora, UV barqaror.",
-      en: "Flat profile for outdoor furniture and decor — deep black, UV stabilized.",
+      ru: "Плоский профиль для мебели и декора, глубокий чёрный, с UV-стабилизацией — подходит и для открытых площадок, и для интерьера.",
+      uz: "Mebel va dekor uchun tekis profil, chuqur qora, UV barqaror — ochiq maydon va interyer uchun.",
+      en: "Flat profile for furniture and decor, deep black, UV stabilized — works in open areas and indoors alike.",
     },
     bullets: b(
       [
-        "Улица",
+        "UV-стойкость",
         "6 мм",
         "Партия стабильна",
         "Отправка 24–48 ч",
         "Лёгкая укладка",
       ],
       [
-        "Kocha",
+        "UV barqaror",
         "6 mm",
         "Barqaror partiya",
         "24–48 soat",
         "Oson joylash",
       ],
       [
-        "Outdoor",
+        "UV stable",
         "6 mm",
         "Stable batch",
         "24–48h ship",
         "Easy weave",
       ]
     ),
-    application: "outdoor",
+    application: "both",
     hardness: "rigid",
     thicknessMm: 6,
     colorKey: "black",
@@ -131,16 +131,16 @@ export const products: Product[] = [
       en: "Round rattan 4 mm, coffee",
     },
     short: {
-      ru: "Круглый профиль для мелкой сетки и декора в помещении — мягкий, ровный тон.",
-      uz: "Uy ichidagi mayda to‘r va dekor uchun dumaloq profil — yumshoq, tekis ton.",
-      en: "Round profile for fine indoor weave and decor — soft, even tone.",
+      ru: "Круглый профиль для мелкой сетки и декора — мягкий, ровный тон; по стойкости к погоде нитка ведёт себя так же, как и на улице.",
+      uz: "Mayda to‘r va dekor uchun dumaloq profil — yumshoq, tekis ton; havo sharoitlariga chidamlilik bir xil.",
+      en: "Round profile for fine weave and decor — soft, even tone; weathering matches our other diameters.",
     },
     bullets: b(
-      ["Дом", "4 мм", "Мягкий", "Отправка 24–48 ч", "Ровный тон"],
-      ["Uy", "4 mm", "Yumshoq", "24–48 soat", "Tekis ton"],
-      ["Indoor", "4 mm", "Soft", "24–48h", "Even tone"]
+      ["4 мм", "Мягкий", "Партия стабильна", "Отправка 24–48 ч", "Ровный тон"],
+      ["4 mm", "Yumshoq", "Barqaror partiya", "24–48 soat", "Tekis ton"],
+      ["4 mm", "Soft", "Stable batch", "24–48h", "Even tone"]
     ),
-    application: "indoor",
+    application: "both",
     hardness: "soft",
     thicknessMm: 4,
     colorKey: "brown",
@@ -160,16 +160,16 @@ export const products: Product[] = [
       en: "Oval rattan 7 mm, white",
     },
     short: {
-      ru: "Овальный крупный профиль для фасадов и улицы — UV, ровная поверхность.",
-      uz: "Fasad va kocha uchun katta oval profil — UV, tekis yuz.",
-      en: "Large oval profile for facades and outdoors — UV, smooth face.",
+      ru: "Крупный овальный профиль — UV, ровная поверхность; ориентируйтесь на габариты плетения, а не на «только улицу/только дом».",
+      uz: "Katta oval profil — UV, tekis yuz; o‘lcham va to‘qish vazifasiga qarang, «faqat kocha/uy» emas.",
+      en: "Large oval — UV, smooth face; pick by size and weave task, not indoor vs outdoor alone.",
     },
     bullets: b(
-      ["Улица", "7 мм", "UV", "Отправка 24–48 ч", "Ровная поверхность"],
-      ["Kocha", "7 mm", "UV", "24–48 soat", "Tekis"],
-      ["Outdoor", "7 mm", "UV", "24–48h", "Smooth surface"]
+      ["7 мм", "UV", "Партия стабильна", "Отправка 24–48 ч", "Ровная поверхность"],
+      ["7 mm", "UV", "Barqaror partiya", "24–48 soat", "Tekis"],
+      ["7 mm", "UV", "Stable batch", "24–48h", "Smooth surface"]
     ),
-    application: "outdoor",
+    application: "both",
     hardness: "rigid",
     thicknessMm: 7,
     colorKey: "white",
@@ -305,16 +305,16 @@ export const products: Product[] = [
       en: "Round rattan 3 mm, black",
     },
     short: {
-      ru: "Тонкий круглый 3 мм для декора и мелких форм в помещении.",
-      uz: "Uy ichidagi dekor va mayda forma uchun ingichka dumaloq 3 mm.",
-      en: "Fine 3 mm round for indoor decor and small forms.",
+      ru: "Тонкий круглый 3 мм для декора и мелких форм; по стойкости такой же материал, что и толстые демпферы, отличие — диаметр и гибкость.",
+      uz: "Dekor va mayda forma uchun ingichka dumaloq 3 mm — havo uchrashuvida qalinlar bilan bir xil qatlam.",
+      en: "Fine 3 mm round for decor and small forms; same base weathering as thicker line — difference is diameter and flex.",
     },
     bullets: b(
-      ["Дом", "3 мм", "Гибкий", "Отправка 24–48 ч", "Ровный цвет"],
-      ["Uy", "3 mm", "Egiluvchan", "24–48 soat", "Tekis rang"],
-      ["Indoor", "3 mm", "Flexible", "24–48h", "Even color"]
+      ["3 мм", "Гибкий", "Партия стабильна", "Отправка 24–48 ч", "Ровный цвет"],
+      ["3 mm", "Egiluvchan", "Barqaror partiya", "24–48 soat", "Tekis rang"],
+      ["3 mm", "Flexible", "Stable batch", "24–48h", "Even color"]
     ),
-    application: "indoor",
+    application: "both",
     hardness: "soft",
     thicknessMm: 3,
     colorKey: "black",
@@ -392,16 +392,16 @@ export const products: Product[] = [
       en: "Oval rattan 6 mm, natural",
     },
     short: {
-      ru: "Овальный 6 мм натуральный — универсальный профиль для улицы и крупных поверхностей.",
-      uz: "Kocha va katta yuzalar uchun oval 6 mm tabiiy — universal profil.",
-      en: "Oval 6 mm natural — versatile profile for outdoor and large surfaces.",
+      ru: "Овальный 6 мм натуральный — крупные поверхности и мебель; погодные условия не диктуют отдельную нитку.",
+      uz: "Oval 6 mm tabiiy — katta yuzalar va mebel; alohida «kocha/uy» ipi shart emas.",
+      en: "Oval 6 mm natural — large surfaces; no separate “outdoor thread” in our line.",
     },
     bullets: b(
-      ["Улица", "6 мм", "Партия стабильна", "Отправка 24–48 ч", "Ровная текстура"],
-      ["Kocha", "6 mm", "Barqaror partiya", "24–48 soat", "Tekis tekstura"],
-      ["Outdoor", "6 mm", "Stable batch", "24–48h", "Even texture"]
+      ["6 мм", "Партия стабильна", "Отправка 24–48 ч", "Ровная текстура", "UV"],
+      ["6 mm", "Barqaror partiya", "24–48 soat", "Tekis tekstura", "UV"],
+      ["6 mm", "Stable batch", "24–48h", "Even texture", "UV"]
     ),
-    application: "outdoor",
+    application: "both",
     hardness: "medium",
     thicknessMm: 6,
     colorKey: "natural",
@@ -450,16 +450,16 @@ export const products: Product[] = [
       en: "Round 4 mm, white",
     },
     short: {
-      ru: "Круглый 4 мм белый для светлых интерьерных проектов и мелкой плетени.",
-      uz: "Yorug‘ interyer loyihalari va mayda to‘qish uchun dumaloq 4 mm oq.",
-      en: "Round 4 mm white for light indoor projects and fine weave.",
+      ru: "Круглый 4 мм белый — светлые проекты и мелкая плеть; в открытом воздухе ведёт себя так же по стойкости, думайте о дизайне, а не о зоне.",
+      uz: "Dumaloq 4 mm oq — yorug‘ loyiha, mayda to‘qish; ochiq havoda ham xuddi shu qatlam, farq — dizayn.",
+      en: "Round 4 mm white — light projects, fine weave; same durability story outdoors — choose by look, not zone labels.",
     },
     bullets: b(
-      ["Дом", "4 мм", "Мягкий", "Отправка 24–48 ч", "Ровный"],
-      ["Uy", "4 mm", "Yumshoq", "24–48 soat", "Tekis"],
-      ["Indoor", "4 mm", "Soft", "24–48h", "Even"]
+      ["4 мм", "Мягкий", "Партия стабильна", "Отправка 24–48 ч", "Ровный"],
+      ["4 mm", "Yumshoq", "Barqaror partiya", "24–48 soat", "Tekis"],
+      ["4 mm", "Soft", "Stable batch", "24–48h", "Even"]
     ),
-    application: "indoor",
+    application: "both",
     hardness: "soft",
     thicknessMm: 4,
     colorKey: "white",
@@ -508,16 +508,16 @@ export const products: Product[] = [
       en: "Half-round 7 mm, coffee",
     },
     short: {
-      ru: "Полукруглый 7 мм «кофе» для объёмной уличной мебели и кресел.",
-      uz: "Kocha mebeli va kreslolar uchun yarim dumaloq 7 mm qahva.",
-      en: "Half-round 7 mm coffee for bulky outdoor furniture and armchairs.",
+      ru: "Полукруглый 7 мм «кофе» — объёмная мебель и кресла; крупный профиль, тот же тип полимерной нити по погоде, что и у остальной линейки.",
+      uz: "Yarim dumaloq 7 mm qahva — hajmli mebel; polimer qatlam boshqa diametrler bilan bir xil.",
+      en: "Half-round 7 mm coffee — bulky furniture; same base weathering as the rest of the line.",
     },
     bullets: b(
-      ["Улица", "7 мм", "Жёсткий", "Отправка 24–48 ч", "Тёплый тон"],
-      ["Kocha", "7 mm", "Qattiq", "24–48 soat", "Issiq ton"],
-      ["Outdoor", "7 mm", "Rigid", "24–48h", "Warm tone"]
+      ["7 мм", "Жёсткий", "Партия стабильна", "Отправка 24–48 ч", "Тёплый тон"],
+      ["7 mm", "Qattiq", "Barqaror partiya", "24–48 soat", "Issiq ton"],
+      ["7 mm", "Rigid", "Stable batch", "24–48h", "Warm tone"]
     ),
-    application: "outdoor",
+    application: "both",
     hardness: "rigid",
     thicknessMm: 7,
     colorKey: "brown",
@@ -624,16 +624,16 @@ export const products: Product[] = [
       en: "Oval 5 mm, black",
     },
     short: {
-      ru: "Овальный 5 мм чёрный — строгий профиль для уличной мебели, матовый UV.",
-      uz: "Kocha mebeli uchun qat’iy oval 5 mm qora — mat UV.",
-      en: "Oval 5 mm black — strict profile for outdoor furniture, matte UV.",
+      ru: "Овальный 5 мм чёрный — строгий профиль, матовый UV; подойдёт и для террас, и для тёмных интерьеров — без «отдельной уличной нитки».",
+      uz: "Oval 5 mm qora — qat’iy profil, mat UV; terasa va quyuq interyer, alohida «kocha ipi» shart emas.",
+      en: "Oval 5 mm black — strict matte UV; works on terraces or dark interiors — we don’t split an “outdoor-only” thread.",
     },
     bullets: b(
-      ["Улица", "5 мм", "UV", "Отправка 24–48 ч", "Матовый"],
-      ["Kocha", "5 mm", "UV", "24–48 soat", "Mat"],
-      ["Outdoor", "5 mm", "UV", "24–48h", "Matte"]
+      ["5 мм", "UV", "Партия стабильна", "Отправка 24–48 ч", "Матовый"],
+      ["5 mm", "UV", "Barqaror partiya", "24–48 soat", "Mat"],
+      ["5 mm", "UV", "Stable batch", "24–48h", "Matte"]
     ),
-    application: "outdoor",
+    application: "both",
     hardness: "medium",
     thicknessMm: 5,
     colorKey: "black",

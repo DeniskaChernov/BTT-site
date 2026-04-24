@@ -27,12 +27,12 @@ type Props = {
   product: Product;
 };
 
-/** Подзаголовок-выгода для карточки каталога: зависит от application/category. */
+/** Подзаголовок-выгода: кашпо / тонкие нити (декор) / крупные жёсткие (мебель) / в остальных случаях — универсальный профиль. */
 function benefitKeyFor(product: Product): "furniture" | "planter" | "universal" | "decor" {
   if (product.category === "planter") return "planter";
-  if (product.application === "both") return "universal";
   if (product.thicknessMm !== 0 && product.thicknessMm <= 4) return "decor";
-  return "furniture";
+  if (product.hardness === "rigid" && product.thicknessMm >= 6) return "furniture";
+  return "universal";
 }
 
 export function ProductCard({ product }: Props) {

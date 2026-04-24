@@ -23,6 +23,10 @@ function filterByKindAndPlace(
   let out = list.filter((p) =>
     productKind === "planter" ? p.category === "planter" : p.category !== "planter",
   );
+  // Нитка/профиль: для материала нет смысла отсеивать «улицу/дом» — поведение одно и то же.
+  if (productKind === "material") {
+    return out;
+  }
   if (place === "outdoor") {
     out = out.filter(
       (p) => p.application === "outdoor" || p.application === "both",

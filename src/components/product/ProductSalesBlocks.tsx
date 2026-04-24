@@ -77,11 +77,7 @@ export function ProductSalesBlocks({ product }: Props) {
 
   const whenToChoose = isPlanter
     ? s("when_planter")
-    : product.application === "outdoor"
-      ? s("when_material_outdoor")
-      : product.application === "indoor"
-        ? s("when_material_indoor")
-        : s("when_material_both");
+    : s("when_material_both");
 
   return (
     <div>

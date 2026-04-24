@@ -25,7 +25,6 @@ import {
 
 type FilterState = {
   tab: CategoryTab;
-  application: "all" | "outdoor" | "indoor" | "both";
   thickness: "all" | string;
   color: "all" | string;
   shape: "all" | string;
@@ -79,7 +78,6 @@ export function CatalogClient({
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [f, setF] = useState<FilterState>(() => ({
     tab: initialTab,
-    application: "all",
     thickness: "all",
     color: "all",
     shape: initialShape,
@@ -112,7 +110,6 @@ export function CatalogClient({
       if (f.tab === "material" && p.category !== "material") return false;
       if (f.tab === "planter" && p.category !== "planter") return false;
       if (f.tab === "new" && p.category !== "new") return false;
-      if (f.application !== "all" && p.application !== f.application) return false;
       if (f.thickness !== "all" && String(p.thicknessMm) !== f.thickness)
         return false;
       if (f.color !== "all" && p.colorKey !== f.color) return false;
@@ -155,18 +152,6 @@ export function CatalogClient({
 
   const activeFilters = useMemo(() => {
     const chips: { key: keyof FilterState; value: string; label: string }[] = [];
-    if (f.application !== "all") {
-      chips.push({
-        key: "application",
-        value: f.application,
-        label:
-          f.application === "outdoor"
-            ? t("use_outdoor")
-            : f.application === "indoor"
-              ? t("use_indoor")
-              : t("use_both"),
-      });
-    }
     if (f.thickness !== "all") {
       chips.push({ key: "thickness", value: f.thickness, label: `${f.thickness} mm` });
     }
@@ -258,7 +243,6 @@ export function CatalogClient({
       trackBttEvent(BTT_EVENTS.CatalogFilterReset, { source });
       setF({
         tab: f.tab,
-        application: "all",
         thickness: "all",
         color: "all",
         shape: "all",
@@ -277,16 +261,6 @@ export function CatalogClient({
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {tabs.map((tab) => chip("tab", tab.id, tab.label, f.tab === tab.id))}
-        </div>
-      </div>
-
-      <div>
-        <p className="text-sm font-medium text-stone-200">{t("filter_use")}</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {chip("application", "all", t("all"), f.application === "all")}
-          {chip("application", "outdoor", t("use_outdoor"), f.application === "outdoor")}
-          {chip("application", "indoor", t("use_indoor"), f.application === "indoor")}
-          {chip("application", "both", t("use_both"), f.application === "both")}
         </div>
       </div>
 
