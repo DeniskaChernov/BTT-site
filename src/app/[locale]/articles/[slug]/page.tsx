@@ -1,6 +1,7 @@
 import { getPublishedArticles, getPublishedSlugs, getArticleBySlug } from "@/data/articles";
 import { Link } from "@/i18n/navigation";
 import { buildAlternates } from "@/lib/seo";
+import { SITE_ORIGIN } from "@/lib/seo";
 import { SITE_MEDIA } from "@/lib/site-media";
 import {
   bttSecondaryAmberButtonClass,
@@ -111,9 +112,33 @@ export default async function ArticleDetailPage({ params }: Props) {
     "wholesale-horeca-timelines": SITE_MEDIA.heroPanel,
     "what-is-artificial-rattan": SITE_MEDIA.categoryCard("btt-cat-twist"),
   };
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: t("title"),
+    description: t("meta_description"),
+    author: {
+      "@type": "Organization",
+      name: "Bententrade",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Bententrade",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_ORIGIN}/favicon.ico`,
+      },
+    },
+    mainEntityOfPage: `${SITE_ORIGIN}/${locale}/articles/${slug}`,
+    inLanguage: locale,
+  };
 
   return (
     <div className="btt-container py-14 md:py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <div className="mx-auto max-w-3xl">
         <Link
           href="/articles"

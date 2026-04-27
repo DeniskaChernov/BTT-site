@@ -29,11 +29,11 @@ describe("clientKeyFromRequest", () => {
 });
 
 describe("allowAdminList", () => {
-  it("allows bursts within limit", () => {
+  it("allows bursts within limit", async () => {
     const k = `test-admin-${Math.random().toString(36).slice(2)}`;
     for (let i = 0; i < 40; i++) {
-      expect(allowAdminList(k, 40)).toBe(true);
+      expect(await allowAdminList(k, 40)).toBe(true);
     }
-    expect(allowAdminList(k, 40)).toBe(false);
+    expect(await allowAdminList(k, 40)).toBe(false);
   });
 });

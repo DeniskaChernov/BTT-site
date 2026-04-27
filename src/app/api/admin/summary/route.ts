@@ -14,7 +14,7 @@ export const maxDuration = 30;
  * GET /api/admin/summary — тот же Bearer, что и `/api/admin/orders`.
  */
 export async function GET(request: Request) {
-  const gate = gateAdminRequest(request);
+  const gate = await gateAdminRequest(request);
   if (!gate.ok) return gate.response;
   const { requestId } = gate;
 

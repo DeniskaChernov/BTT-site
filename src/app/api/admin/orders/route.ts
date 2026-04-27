@@ -14,7 +14,7 @@ export const maxDuration = 30;
  * Query: `take` — 1…100 (по умолчанию 50).
  */
 export async function GET(request: Request) {
-  const gate = gateAdminRequest(request);
+  const gate = await gateAdminRequest(request);
   if (!gate.ok) return gate.response;
   const { requestId } = gate;
 

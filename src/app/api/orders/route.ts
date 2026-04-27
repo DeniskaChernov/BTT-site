@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   }
 
   const key = clientKeyFromRequest(request);
-  if (!allowPostOrder(key)) {
+  if (!(await allowPostOrder(key))) {
     return apiJsonError(429, ApiErrorCode.RATE_LIMIT, "Too many requests", {
       "Retry-After": "60",
     });
@@ -184,7 +184,7 @@ export async function GET(request: Request) {
   }
 
   const key = clientKeyFromRequest(request);
-  if (!allowGetOrders(key, phoneNorm)) {
+  if (!(await allowGetOrders(key, phoneNorm))) {
     return NextResponse.json(
       { ok: false as const, error: "Too many requests", code: ApiErrorCode.RATE_LIMIT, orders: [] },
       { status: 429, headers: { "Retry-After": "60" } },

@@ -23,7 +23,7 @@ export type AdminGateFail = { ok: false; response: NextResponse };
  * Проверка БД, Bearer, rate limit для всех `/api/admin/*`.
  * CRM должна вызывать с сервера: `Authorization: Bearer <ADMIN_API_SECRET>`.
  */
-export function gateAdminRequest(request: Request): AdminGateOk | AdminGateFail {
+export async function gateAdminRequest(request: Request): Promise<AdminGateOk | AdminGateFail> {
   const requestId = requestIdFrom(request);
 
   if (!process.env.DATABASE_URL) {
@@ -61,7 +61,7 @@ export function gateAdminRequest(request: Request): AdminGateOk | AdminGateFail 
   }
 
   const key = `admin:${clientKeyFromRequest(request)}`;
-  if (!allowAdminList(key)) {
+  if (!(await allowAdminList(key))) {
     return {
       ok: false,
       response: apiJsonError(429, ApiErrorCode.RATE_LIMIT, "Too many requests", {

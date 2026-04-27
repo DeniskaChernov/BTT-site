@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 const TOKEN_TTL_SECONDS = 60 * 60 * 24 * 30;
 const ACCESS_STORAGE_KEY = "btt-orders-access";
+let warnedMissingSecret = false;
 
 type TokenPayload = {
   p: string;
@@ -25,7 +26,16 @@ function fromBase64Url(input: string): string {
 
 function secretKey(): string | null {
   const v = process.env.ORDER_HISTORY_TOKEN_SECRET?.trim();
-  return v && v.length >= 16 ? v : null;
+  if (v && v.length >= 16) return v;
+  const fallback = process.env.ADMIN_API_SECRET?.trim();
+  if (fallback && fallback.length >= 16) return fallback;
+  if (!warnedMissingSecret) {
+    warnedMissingSecret = true;
+    console.warn(
+      "[order-access] Missing ORDER_HISTORY_TOKEN_SECRET (and ADMIN_API_SECRET fallback). Order history sync tokens are disabled.",
+    );
+  }
+  return null;
 }
 
 function signPayload(payloadB64: string, secret: string): string {

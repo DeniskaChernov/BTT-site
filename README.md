@@ -34,3 +34,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Project Ops Notes
+
+- Order history sync requires `ORDER_HISTORY_TOKEN_SECRET` (or `ADMIN_API_SECRET` fallback).
+- Optional distributed rate limit uses Upstash REST:
+  - `UPSTASH_REDIS_REST_URL`
+  - `UPSTASH_REDIS_REST_TOKEN`
+- E2E smoke test:
+  - Install browser: `npx playwright install chromium`
+  - Run: `npm run test:e2e`
+- Media optimization pipeline (webp/avif derivatives for `public/media/site` and `public/media/catalog`):
+  - `npm run media:optimize`

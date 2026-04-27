@@ -37,7 +37,7 @@ function toHttpUrlOrEmpty(v: unknown): string {
 
 /** Один заказ по id (для карточки в CRM). */
 export async function GET(request: Request, { params }: Props) {
-  const gate = gateAdminRequest(request);
+  const gate = await gateAdminRequest(request);
   if (!gate.ok) return gate.response;
   const { requestId } = gate;
 
@@ -74,7 +74,7 @@ export async function GET(request: Request, { params }: Props) {
  * PATCH /api/admin/orders/:id
  */
 export async function PATCH(request: Request, { params }: Props) {
-  const gate = gateAdminRequest(request);
+  const gate = await gateAdminRequest(request);
   if (!gate.ok) return gate.response;
   const { requestId } = gate;
 

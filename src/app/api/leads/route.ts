@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   }
 
   const key = clientKeyFromRequest(request);
-  if (!allowPostLead(key)) {
+  if (!(await allowPostLead(key))) {
     return apiJsonError(429, ApiErrorCode.RATE_LIMIT, "Too many requests", {
       "Retry-After": "60",
     });

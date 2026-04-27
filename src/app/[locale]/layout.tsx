@@ -108,6 +108,21 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
   const tCommon = await getTranslations({ locale, namespace: "common" });
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "";
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Bententrade",
+    url: SITE_ORIGIN,
+    logo: `${SITE_ORIGIN}/favicon.ico`,
+    sameAs: ["https://t.me/BenTenTrade"],
+  };
+  const webSiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Bententrade",
+    url: SITE_ORIGIN,
+    inLanguage: [locale],
+  };
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -126,6 +141,14 @@ export default async function LocaleLayout({ children, params }: Props) {
             <main id="main-content" className="min-h-[75vh]">
               {children}
             </main>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+            />
             <FloatingHelpWidget />
             <Footer />
           </Providers>

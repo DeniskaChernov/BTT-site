@@ -4,6 +4,8 @@
  */
 
 const WINDOW_MS = 60_000;
+const UPSTASH_URL = process.env.UPSTASH_REDIS_REST_URL?.trim() ?? "";
+const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN?.trim() ?? "";
 
 type Bucket = { at: number[] };
 
@@ -32,6 +34,34 @@ function hit(map: Map<string, Bucket>, key: string, max: number, now: number): b
   return true;
 }
 
+async function remoteHit(key: string, max: number): Promise<boolean> {
+  if (!UPSTASH_URL || !UPSTASH_TOKEN) return true;
+  const redisKey = `ratelimit:${key}`;
+  try {
+    const incrRes = await fetch(`${UPSTASH_URL}/incr/${encodeURIComponent(redisKey)}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+      cache: "no-store",
+    });
+    if (!incrRes.ok) return true;
+    const incrJson = (await incrRes.json()) as { result?: number };
+    const count = Number(incrJson.result ?? 0);
+    if (count === 1) {
+      await fetch(
+        `${UPSTASH_URL}/expire/${encodeURIComponent(redisKey)}/${Math.ceil(WINDOW_MS / 1000)}`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+          cache: "no-store",
+        },
+      );
+    }
+    return count <= max;
+  } catch {
+    return true;
+  }
+}
+
 export function clientKeyFromRequest(request: Request): string {
   const fwd = request.headers.get("x-forwarded-for");
   const first = fwd?.split(",")[0]?.trim();
@@ -44,24 +74,38 @@ export function clientKeyFromRequest(request: Request): string {
 }
 
 /** POST /api/orders: не более max за минуту с одного ключа */
-export function allowPostOrder(key: string, max = 25): boolean {
-  return hit(postOrders, key, max, Date.now());
+export async function allowPostOrder(key: string, max = 25): Promise<boolean> {
+  const local = hit(postOrders, key, max, Date.now());
+  if (!local) return false;
+  return remoteHit(`post_orders:${key}`, max);
 }
 
 /** POST /api/leads: защита от спама */
-export function allowPostLead(key: string, max = 18): boolean {
-  return hit(postLeads, key, max, Date.now());
+export async function allowPostLead(key: string, max = 18): Promise<boolean> {
+  const local = hit(postLeads, key, max, Date.now());
+  if (!local) return false;
+  return remoteHit(`post_leads:${key}`, max);
 }
 
 /** GET /api/orders: двойной лимит по IP и по хэшу телефона */
-export function allowGetOrders(key: string, phoneNorm: string, maxByIp = 90, maxByPhone = 16): boolean {
+export async function allowGetOrders(
+  key: string,
+  phoneNorm: string,
+  maxByIp = 90,
+  maxByPhone = 16,
+): Promise<boolean> {
   const now = Date.now();
   if (!hit(getOrders, key, maxByIp, now)) return false;
   const phoneKey = `${key}:${phoneNorm}`;
-  return hit(getOrdersByPhone, phoneKey, maxByPhone, now);
+  if (!hit(getOrdersByPhone, phoneKey, maxByPhone, now)) return false;
+  const remoteIp = await remoteHit(`get_orders_ip:${key}`, maxByIp);
+  if (!remoteIp) return false;
+  return remoteHit(`get_orders_phone:${phoneKey}`, maxByPhone);
 }
 
 /** GET /api/admin/orders: строже — только с валидным Bearer */
-export function allowAdminList(key: string, max = 40): boolean {
-  return hit(adminList, key, max, Date.now());
+export async function allowAdminList(key: string, max = 40): Promise<boolean> {
+  const local = hit(adminList, key, max, Date.now());
+  if (!local) return false;
+  return remoteHit(`admin_list:${key}`, max);
 }
