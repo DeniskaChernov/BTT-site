@@ -1,7 +1,7 @@
 "use client";
 
 import { formatUzs } from "@/lib/pricing";
-import { readOrderAccessToken } from "@/lib/order-access";
+import { readOrderAccessToken } from "@/lib/order-access-client";
 import type { StoredOrder } from "@/lib/order-history";
 import { ORDERS_STORAGE_KEY, readOrders } from "@/lib/order-history";
 import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";

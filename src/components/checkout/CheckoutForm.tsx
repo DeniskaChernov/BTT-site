@@ -6,7 +6,7 @@ import { readUtmFromSearch, trackEvent } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { appendOrder } from "@/lib/order-history";
-import { saveOrderAccessToken } from "@/lib/order-access";
+import { saveOrderAccessToken } from "@/lib/order-access-client";
 import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import { readLocalProfile } from "@/lib/local-profile";
 import {
