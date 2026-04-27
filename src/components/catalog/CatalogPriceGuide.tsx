@@ -4,6 +4,7 @@ export async function CatalogPriceGuide() {
   const t = await getTranslations("catalog");
   const rows = [
     { label: "price_guide_label_rattan", value: "price_guide_value_rattan" },
+    { label: "price_guide_label_twisted", value: "price_guide_value_twisted" },
     { label: "price_guide_label_p5", value: "price_guide_value_p5" },
     { label: "price_guide_label_p5_handle", value: "price_guide_value_p5_handle" },
     { label: "price_guide_label_p10", value: "price_guide_value_p10" },

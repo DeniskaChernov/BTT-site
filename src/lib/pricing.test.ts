@@ -10,12 +10,19 @@ import {
 } from "./pricing";
 
 describe("getPricePerKgForQty", () => {
-  const p = products.find((x) => x.slug === "rattan-twisted-natural-5")!;
+  const twisted = products.find((x) => x.slug === "rattan-twisted-natural-5")!;
+  const regular = products.find((x) => x.slug === "rattan-hal-round-natural-5")!;
 
-  it("uses tier anchors like the cart", () => {
-    expect(getPricePerKgForQty(p, 5)).toBe(39_600);
-    expect(getPricePerKgForQty(p, 200)).toBe(34_600);
-    expect(getPricePerKgForQty(p, 400)).toBe(32_100);
+  it("uses twisted rattan tier anchors", () => {
+    expect(getPricePerKgForQty(twisted, 5)).toBe(39_600);
+    expect(getPricePerKgForQty(twisted, 200)).toBe(34_600);
+    expect(getPricePerKgForQty(twisted, 400)).toBe(32_100);
+  });
+
+  it("uses regular rattan tier anchors", () => {
+    expect(getPricePerKgForQty(regular, 5)).toBe(36_000);
+    expect(getPricePerKgForQty(regular, 200)).toBe(31_000);
+    expect(getPricePerKgForQty(regular, 500)).toBe(8_500);
   });
 });
 

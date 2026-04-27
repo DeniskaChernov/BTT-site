@@ -6,6 +6,9 @@ const MIN_PREORDER_QTY_KG = 100;
 const TWISTED_RETAIL_UZS_PER_KG = 39_600;
 const TWISTED_200PLUS_UZS_PER_KG = 34_600;
 const TWISTED_400PLUS_UZS_PER_KG = 32_100;
+const RATTAN_RETAIL_UZS_PER_KG = 36_000;
+const RATTAN_200PLUS_UZS_PER_KG = 31_000;
+const RATTAN_500PLUS_UZS_PER_KG = 8_500;
 
 /** Нить и материалы с калибром — цена за кг; кашпо и аксессуары — цена за штуку (tiers те же пороги: 1–2 / 3–9 / 10+). */
 export function isPricedPerKg(product: Product): boolean {
@@ -25,6 +28,11 @@ export function getPricePerKgForQty(product: Product, qty: number): number {
     if (qty >= 400) return TWISTED_400PLUS_UZS_PER_KG;
     if (qty >= 200) return TWISTED_200PLUS_UZS_PER_KG;
     return TWISTED_RETAIL_UZS_PER_KG;
+  }
+  if (product.category === "material") {
+    if (qty >= 500) return RATTAN_500PLUS_UZS_PER_KG;
+    if (qty >= 200) return RATTAN_200PLUS_UZS_PER_KG;
+    return RATTAN_RETAIL_UZS_PER_KG;
   }
   if (qty >= 10) return product.priceUz.t10;
   if (qty >= 3) return product.priceUz.t5;
