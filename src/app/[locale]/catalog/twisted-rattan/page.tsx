@@ -6,5 +6,5 @@ type Props = {
 
 export default async function CatalogTwistedRattanPage({ params }: Props) {
   const { locale } = await params;
-  redirect(`/${locale}/catalog?tab=material&shape=round`);
+  redirect(`/${locale}/catalog?tab=material&kind=twisted&source=pdf`);
 }

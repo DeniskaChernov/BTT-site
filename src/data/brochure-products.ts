@@ -31,7 +31,7 @@ const BROCHURE_SOURCE_CARDS: BrochureSourceCard[] = [
   { section: "semi_tube", article: "2910", image: "/media/catalog/brochure-cards/semi-2910.png" },
   { section: "semi_tube", article: "6630", image: "/media/catalog/brochure-cards/semi-6630.png" },
   { section: "twisted", article: "0038K", image: "/media/catalog/brochure-cards/twisted-0038k.png" },
-  { section: "twisted", article: "0080K", image: "/media/catalog/brochure-cards/twisted-0080k.png" },
+  { section: "twisted", article: "0808K", image: "/media/catalog/brochure-cards/twisted-0808k.png" },
   { section: "twisted", article: "2310K", image: "/media/catalog/brochure-cards/twisted-2310k.png" },
   { section: "twisted", article: "1710K", image: "/media/catalog/brochure-cards/twisted-1710k.png" },
   { section: "twisted", article: "1770K", image: "/media/catalog/brochure-cards/twisted-1770k.png" },

@@ -15,7 +15,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { useTranslations } from "next-intl";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
 
@@ -29,16 +29,26 @@ const HERO_CATEGORIES: {
   {
     href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
-    imageSrc: "/media/catalog/btt-tw5nat.png",
+    imageSrc: "/media/catalog/brochure-cards/twisted-0808k.png",
   },
   { href: "/catalog/furniture", messageKey: "card_fourth", imageSrc: "/media/catalog/btt-kshset.png" },
 ];
+
+const TWISTED_HERO_IMAGES = [
+  "/media/catalog/brochure-cards/twisted-0808k.png",
+  "/media/catalog/brochure-cards/twisted-3333k.png",
+  "/media/catalog/brochure-cards/twisted-0099k.png",
+  "/media/catalog/brochure-cards/twisted-1770k.png",
+  "/media/catalog/brochure-cards/twisted-2310k.png",
+  "/media/catalog/brochure-cards/twisted-0038k.png",
+] as const;
 
 export function CommerceHero() {
   const t = useTranslations("commerceHero");
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
   const parallaxRef = useRef<HTMLDivElement | null>(null);
+  const [twistedImageIndex, setTwistedImageIndex] = useState(0);
   const { scrollYProgress } = useScroll({
     target: parallaxRef,
     offset: ["start start", "end start"],
@@ -46,6 +56,14 @@ export function CommerceHero() {
   // Лёгкий parallax: двигаем фоновое изображение вверх и чуть масштабируем.
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+
+  useEffect(() => {
+    if (reduceMotion || TWISTED_HERO_IMAGES.length <= 1) return;
+    const id = window.setInterval(() => {
+      setTwistedImageIndex((prev) => (prev + 1) % TWISTED_HERO_IMAGES.length);
+    }, 3000);
+    return () => window.clearInterval(id);
+  }, [reduceMotion]);
 
   return (
     <section className="relative overflow-hidden">
@@ -179,7 +197,10 @@ export function CommerceHero() {
         <div className="grid grid-cols-1 gap-5 pb-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:pb-16">
           {HERO_CATEGORIES.map((cat, index) => {
             const title = t(cat.messageKey);
-            const src = cat.imageSrc;
+            const src =
+              cat.messageKey === "card_twisted"
+                ? TWISTED_HERO_IMAGES[twistedImageIndex]
+                : cat.imageSrc;
 
             return (
               <motion.div

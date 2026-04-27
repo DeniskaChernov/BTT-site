@@ -32,6 +32,7 @@ type FilterState = {
   hardness: "all" | string;
   stock: "all" | "in_stock" | "on_order";
   source: "all" | "pdf";
+  kind: "all" | "regular" | "twisted";
 };
 
 type SortMode = "popular" | "price_asc" | "price_desc" | "name_asc";
@@ -53,6 +54,10 @@ type CatalogClientProps = {
   initialShape?: "all" | Product["shape"];
   /** Из URL `?color=` */
   initialColor?: string;
+  /** Из URL `?source=` */
+  initialSource?: "all" | "pdf";
+  /** Из URL `?kind=` */
+  initialKind?: "all" | "regular" | "twisted";
 };
 
 function CatalogSkeletonGrid({ label }: { label: string }) {
@@ -91,6 +96,8 @@ export function CatalogClient({
   initialTab = "material",
   initialShape = "all",
   initialColor,
+  initialSource = "all",
+  initialKind = "all",
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
   const locale = useLocale();
@@ -108,7 +115,8 @@ export function CatalogClient({
     shape: initialShape,
     hardness: "all",
     stock: "all",
-    source: "all",
+    source: initialSource,
+    kind: initialKind,
   }));
   const reduceMotion = useReducedMotion();
 
@@ -135,8 +143,18 @@ export function CatalogClient({
     } else {
       next.searchParams.delete("color");
     }
+    if (f.source !== "all") {
+      next.searchParams.set("source", f.source);
+    } else {
+      next.searchParams.delete("source");
+    }
+    if (f.kind !== "all") {
+      next.searchParams.set("kind", f.kind);
+    } else {
+      next.searchParams.delete("kind");
+    }
     window.history.replaceState(window.history.state, "", `${next.pathname}${next.search}${next.hash}`);
-  }, [f.tab, f.shape, f.color]);
+  }, [f.tab, f.shape, f.color, f.source, f.kind]);
 
   useEffect(() => {
     if (!mobileFiltersOpen) return;
@@ -177,6 +195,8 @@ export function CatalogClient({
       if (f.hardness !== "all" && p.hardness !== f.hardness) return false;
       if (f.stock !== "all" && p.stock !== f.stock) return false;
       if (f.source === "pdf" && !p.isBrochure) return false;
+      if (f.kind === "twisted" && !p.sku.includes("RTN-TW-")) return false;
+      if (f.kind === "regular" && p.sku.includes("RTN-TW-")) return false;
       if (q) {
         const bag = [
           p.sku,
@@ -269,6 +289,13 @@ export function CatalogClient({
         label: t("filter_source_pdf"),
       });
     }
+    if (f.kind !== "all") {
+      chips.push({
+        key: "kind",
+        value: f.kind,
+        label: f.kind === "twisted" ? t("filter_kind_twisted") : t("filter_kind_regular"),
+      });
+    }
     return chips;
   }, [f, t]);
 
@@ -323,6 +350,7 @@ export function CatalogClient({
         hardness: "all",
         stock: "all",
         source: "all",
+        kind: "all",
       });
     });
     setQuery("");
@@ -390,6 +418,15 @@ export function CatalogClient({
           {chip("hardness", "soft", t("hard_soft"), f.hardness === "soft")}
           {chip("hardness", "medium", t("hard_med"), f.hardness === "medium")}
           {chip("hardness", "rigid", t("hard_rigid"), f.hardness === "rigid")}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-sm font-medium text-stone-200">{t("filter_kind")}</p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {chip("kind", "all", t("all"), f.kind === "all")}
+          {chip("kind", "regular", t("filter_kind_regular"), f.kind === "regular")}
+          {chip("kind", "twisted", t("filter_kind_twisted"), f.kind === "twisted")}
         </div>
       </div>
 

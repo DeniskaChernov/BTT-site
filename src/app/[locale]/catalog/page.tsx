@@ -32,7 +32,7 @@ const SHAPES = ["round", "flat", "oval", "half_round"] as const;
 const COLORS = ["all", "natural", "black", "white", "brown", "grey"] as const;
 
 type PageProps = {
-  searchParams: Promise<{ tab?: string; shape?: string; color?: string }>;
+  searchParams: Promise<{ tab?: string; shape?: string; color?: string; source?: string; kind?: string }>;
 };
 
 export default async function CatalogPage({ searchParams }: PageProps) {
@@ -47,6 +47,8 @@ export default async function CatalogPage({ searchParams }: PageProps) {
     sp.color && (COLORS as readonly string[]).includes(sp.color)
       ? (sp.color as (typeof COLORS)[number])
       : "all";
+  const source = sp.source === "pdf" ? "pdf" : "all";
+  const kind = sp.kind === "twisted" || sp.kind === "regular" ? sp.kind : "all";
 
   return (
     <div className="btt-container py-12 md:py-16">
@@ -86,10 +88,12 @@ export default async function CatalogPage({ searchParams }: PageProps) {
       </SectionReveal>
 
       <CatalogClient
-        key={`${tab}-${shape}-${color}`}
+        key={`${tab}-${shape}-${color}-${source}-${kind}`}
         initialTab={tab}
         initialShape={shape}
         initialColor={color}
+        initialSource={source}
+        initialKind={kind}
       />
     </div>
   );
