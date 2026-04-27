@@ -31,28 +31,28 @@ export function ExamplesSection() {
       title: s("example_furniture_title"),
       desc: s("example_furniture_desc"),
       seed: "btt-cat-rattan",
-      href: "/catalog?tab=material",
+      href: "/catalog/rattan",
     },
     {
       id: "planter",
       title: s("example_planters_title"),
       desc: s("example_planters_desc"),
       seed: "btt-cat-planter",
-      href: "/catalog?tab=planter",
+      href: "/catalog/planters",
     },
     {
       id: "chairs",
       title: s("example_chairs_title"),
       desc: s("example_chairs_desc"),
       seed: "btt-cat-twist",
-      href: "/catalog?tab=material&shape=round",
+      href: "/catalog/twisted-rattan",
     },
     {
       id: "decor",
       title: s("example_decor_title"),
       desc: s("example_decor_desc"),
       seed: "btt-cat-new",
-      href: "/catalog?tab=new",
+      href: "/catalog/furniture",
     },
   ];
 

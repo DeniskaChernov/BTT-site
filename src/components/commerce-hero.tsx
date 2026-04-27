@@ -24,14 +24,14 @@ const HERO_CATEGORIES: {
   messageKey: CardKey;
   imageSeed: string;
 }[] = [
-  { href: "/catalog?tab=material", messageKey: "card_rattan", imageSeed: "btt-cat-rattan" },
-  { href: "/catalog?tab=planter", messageKey: "card_planter", imageSeed: "btt-cat-planter" },
+  { href: "/catalog/rattan", messageKey: "card_rattan", imageSeed: "btt-cat-rattan" },
+  { href: "/catalog/planters", messageKey: "card_planter", imageSeed: "btt-cat-planter" },
   {
-    href: "/catalog?tab=material&shape=round",
+    href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
     imageSeed: "btt-cat-twist",
   },
-  { href: "/catalog?tab=new", messageKey: "card_fourth", imageSeed: "btt-cat-new" },
+  { href: "/catalog/furniture", messageKey: "card_fourth", imageSeed: "btt-cat-new" },
 ];
 
 export function CommerceHero() {

@@ -9,10 +9,10 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 const EXAMPLES = [
-  { seed: "btt-cat-rattan", href: "/catalog?tab=material" as const, id: "1" as const },
-  { seed: "btt-cat-planter", href: "/catalog?tab=planter" as const, id: "2" as const },
-  { seed: "btt-cat-twist", href: "/catalog?tab=material&shape=round" as const, id: "3" as const },
-  { seed: "btt-cat-new", href: "/catalog?tab=new" as const, id: "4" as const },
+  { seed: "btt-cat-rattan", href: "/catalog/rattan" as const, id: "1" as const },
+  { seed: "btt-cat-planter", href: "/catalog/planters" as const, id: "2" as const },
+  { seed: "btt-cat-twist", href: "/catalog/twisted-rattan" as const, id: "3" as const },
+  { seed: "btt-cat-new", href: "/catalog/furniture" as const, id: "4" as const },
 ] as const;
 
 const PROMISE_ICONS = [BadgeCheck, Banknote, Truck, Sparkles] as const;
