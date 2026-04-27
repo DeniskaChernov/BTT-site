@@ -22,16 +22,16 @@ type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
 const HERO_CATEGORIES: {
   href: string;
   messageKey: CardKey;
-  imageSeed: string;
+  imageSrc: string;
 }[] = [
-  { href: "/catalog/rattan", messageKey: "card_rattan", imageSeed: "btt-cat-rattan" },
-  { href: "/catalog/planters", messageKey: "card_planter", imageSeed: "btt-cat-planter" },
+  { href: "/catalog/rattan", messageKey: "card_rattan", imageSrc: "/media/catalog/btt-hr5nat.png" },
+  { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.png" },
   {
     href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
-    imageSeed: "btt-cat-twist",
+    imageSrc: "/media/catalog/btt-tw5nat.png",
   },
-  { href: "/catalog/furniture", messageKey: "card_fourth", imageSeed: "btt-cat-new" },
+  { href: "/catalog/furniture", messageKey: "card_fourth", imageSrc: "/media/catalog/btt-kshset.png" },
 ];
 
 export function CommerceHero() {
@@ -179,7 +179,7 @@ export function CommerceHero() {
         <div className="grid grid-cols-1 gap-5 pb-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:pb-16">
           {HERO_CATEGORIES.map((cat, index) => {
             const title = t(cat.messageKey);
-            const src = SITE_MEDIA.categoryCard(cat.imageSeed);
+            const src = cat.imageSrc;
 
             return (
               <motion.div
