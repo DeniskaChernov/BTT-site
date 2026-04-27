@@ -4,7 +4,7 @@ import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export function SocialProofSection() {
   const t = useTranslations("home");
@@ -99,8 +99,17 @@ export function SocialProofSection() {
     ];
   }, [locale, t]);
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const prev = () => setActive((i) => (i - 1 + blocks.length) % blocks.length);
   const next = () => setActive((i) => (i + 1) % blocks.length);
+
+  useEffect(() => {
+    if (reduceMotion || paused || blocks.length < 2) return;
+    const timer = window.setInterval(() => {
+      setActive((i) => (i + 1) % blocks.length);
+    }, 4500);
+    return () => window.clearInterval(timer);
+  }, [blocks.length, paused, reduceMotion]);
 
   const chips = [
     { key: "ship", label: t("trust_ship") },
@@ -153,7 +162,13 @@ export function SocialProofSection() {
           </motion.span>
         ))}
       </div>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div
+        className="grid gap-6 md:grid-cols-2"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onTouchStart={() => setPaused(true)}
+        onTouchEnd={() => setPaused(false)}
+      >
         {[0, 1].map((slot) => {
           const i = (active + slot) % blocks.length;
           const b = blocks[i]!;

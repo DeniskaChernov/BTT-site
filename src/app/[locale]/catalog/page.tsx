@@ -1,6 +1,5 @@
 import { CatalogClient } from "@/components/catalog/CatalogClient";
 import { CatalogPriceGuide } from "@/components/catalog/CatalogPriceGuide";
-import { BrochureRattanSection } from "@/components/catalog/BrochureRattanSection";
 import { CatalogUseCasesNav } from "@/components/catalog/CatalogUseCasesNav";
 import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
@@ -82,10 +81,6 @@ export default async function CatalogPage({ searchParams }: PageProps) {
 
       <SectionReveal className="mt-6">
         <CatalogUseCasesNav />
-      </SectionReveal>
-
-      <SectionReveal className="mt-6">
-        <BrochureRattanSection />
       </SectionReveal>
 
       <CatalogClient
