@@ -1,3 +1,5 @@
+import { buildAlternates } from "@/lib/seo";
+
 type Props = { params: Promise<{ locale: string }> };
 
 const COPY = {
@@ -14,6 +16,16 @@ const COPY = {
     body: "Bententrade, O'zbekiston, Toshkent. Shartnoma, hisob-faktura va yopuvchi hujjatlar uchun opt@bententrade.uz yoki +998 77 104 44 22 ga murojaat qiling.",
   },
 } as const;
+
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const l = (locale in COPY ? locale : "ru") as keyof typeof COPY;
+  return {
+    title: COPY[l].title,
+    description: COPY[l].body,
+    alternates: buildAlternates(locale, "/company-details"),
+  };
+}
 
 export default async function CompanyDetailsPage({ params }: Props) {
   const { locale } = await params;

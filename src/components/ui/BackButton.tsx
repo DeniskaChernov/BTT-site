@@ -26,7 +26,9 @@ export function BackButton({ fallbackHref, className }: Props) {
       router.push(fallbackHref);
       return;
     }
-    if (window.history.length > 1) {
+    const sameOriginReferrer =
+      document.referrer && document.referrer.startsWith(window.location.origin);
+    if (window.history.length > 1 && sameOriginReferrer) {
       router.back();
     } else {
       router.push(fallbackHref);

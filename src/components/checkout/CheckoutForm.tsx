@@ -6,6 +6,7 @@ import { readUtmFromSearch, trackEvent } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { appendOrder } from "@/lib/order-history";
+import { saveOrderAccessToken } from "@/lib/order-access";
 import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import { readLocalProfile } from "@/lib/local-profile";
 import {
@@ -127,6 +128,7 @@ export function CheckoutForm() {
           const saved = (await res.json().catch(() => null)) as {
             id?: string;
             createdAt?: string;
+            historyAccessToken?: string;
           } | null;
           if (saved?.id) {
             setCreatedOrderId(saved.id);
@@ -135,6 +137,9 @@ export function CheckoutForm() {
             appendOrder(orderBody, { id: saved.id, createdAt: saved.createdAt });
           } else {
             appendOrder(orderBody);
+          }
+          if (saved?.historyAccessToken) {
+            saveOrderAccessToken(orderBody.phone, saved.historyAccessToken);
           }
           serverOk = true;
         } else if (res.status === 429) {

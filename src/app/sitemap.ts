@@ -16,10 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contacts",
     "/faq",
     "/articles",
-    "/blog",
-    "/cart",
-    "/checkout",
-    "/account",
   ];
 
   const entries: MetadataRoute.Sitemap = [];

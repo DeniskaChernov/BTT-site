@@ -838,6 +838,8 @@
     "orders_empty": "No orders for this number yet — they show up here after checkout.",
     "orders_local_hint": "Orders live in PostgreSQL (Railway). If the server was unreachable at checkout, a copy is kept in this browser and merged here.",
     "orders_rate_limited": "The server is temporarily rate-limiting requests — only orders saved in this browser are shown. Try refreshing in a minute.",
+    "orders_verify_needed": "Server history is protected; place one successful order from this device to unlock synced history for your number.",
+    "orders_server_error": "Could not load order history from server. Please try again later.",
     "order_lines_count": "Items: {count}",
     "order_status_updated": "Status updated:",
     "status_new": "Created",

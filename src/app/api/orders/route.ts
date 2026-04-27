@@ -4,6 +4,7 @@ import { notifyCrmOrderCreated } from "@/lib/crm-webhook";
 import { notifyCustomerOrderEvent } from "@/lib/customer-notify";
 import { prisma } from "@/lib/db";
 import { log } from "@/lib/logger";
+import { issueOrderHistoryToken, verifyOrderHistoryToken } from "@/lib/order-access";
 import { isDbConnectionError } from "@/lib/prisma-errors";
 import { requestIdFrom } from "@/lib/request-id";
 import {
@@ -134,9 +135,11 @@ export async function POST(request: Request) {
       requestId,
     );
 
+    const historyAccessToken = issueOrderHistoryToken(phoneNorm) ?? undefined;
     return NextResponse.json({
       id: order.id,
       createdAt: order.createdAt.toISOString(),
+      historyAccessToken,
     });
   } catch (e) {
     log.error("api/orders POST", e, requestId ? { requestId } : undefined);
@@ -167,6 +170,7 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const phone = searchParams.get("phone");
+  const accessToken = searchParams.get("access") ?? "";
   if (!phone?.trim()) {
     return apiJsonError(400, ApiErrorCode.VALIDATION, "phone is required");
   }
@@ -175,9 +179,12 @@ export async function GET(request: Request) {
   if (!isMeaningfulPhone(phoneNorm)) {
     return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
   }
+  if (!accessToken || !verifyOrderHistoryToken(accessToken, phoneNorm)) {
+    return apiJsonError(401, ApiErrorCode.UNAUTHORIZED, "Order history access denied");
+  }
 
   const key = clientKeyFromRequest(request);
-  if (!allowGetOrders(key)) {
+  if (!allowGetOrders(key, phoneNorm)) {
     return NextResponse.json(
       { ok: false as const, error: "Too many requests", code: ApiErrorCode.RATE_LIMIT, orders: [] },
       { status: 429, headers: { "Retry-After": "60" } },
@@ -230,6 +237,13 @@ export async function GET(request: Request) {
       connection: isDbConnectionError(e),
       ...(requestId ? { requestId } : {}),
     });
-    return NextResponse.json({ orders: [] });
+    if (isDbConnectionError(e)) {
+      return apiJsonError(
+        503,
+        ApiErrorCode.DATABASE_UNAVAILABLE,
+        "Database temporarily unavailable",
+      );
+    }
+    return apiJsonError(500, ApiErrorCode.INTERNAL, "Failed to load orders");
   }
 }

@@ -1,4 +1,5 @@
 import { CartView } from "@/components/cart/CartView";
+import { buildAlternates } from "@/lib/seo";
 import { getTranslations } from "next-intl/server";
 
 type Props = {
@@ -11,6 +12,8 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t("title"),
     description: t("empty_lead"),
+    alternates: buildAlternates(locale, "/cart"),
+    robots: { index: false, follow: false },
   };
 }
 

@@ -5,19 +5,12 @@ import { notifyCrmOrderUpdated } from "@/lib/crm-webhook";
 import { notifyCustomerOrderEvent } from "@/lib/customer-notify";
 import { prisma } from "@/lib/db";
 import { log } from "@/lib/logger";
+import { isDbConnectionError } from "@/lib/prisma-errors";
 import { OrderStatus, PaymentStatus, Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
-
-function isDbConnectionError(e: unknown): boolean {
-  if (e instanceof Prisma.PrismaClientInitializationError) return true;
-  if (e instanceof Prisma.PrismaClientKnownRequestError) {
-    return ["P1001", "P1002", "P1008", "P1010", "P1011", "P1017"].includes(e.code);
-  }
-  return false;
-}
 
 type Props = { params: Promise<{ id: string }> };
 const ORDER_STATUS_VALUES = new Set<string>(Object.values(OrderStatus));

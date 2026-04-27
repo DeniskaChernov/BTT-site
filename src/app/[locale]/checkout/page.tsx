@@ -1,4 +1,5 @@
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
+import { buildAlternates } from "@/lib/seo";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -12,6 +13,8 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t("title"),
     description: t("delivery_note"),
+    alternates: buildAlternates(locale, "/checkout"),
+    robots: { index: false, follow: false },
   };
 }
 

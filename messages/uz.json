@@ -838,6 +838,8 @@
     "orders_empty": "Bu raqam bo‘yicha hozircha yo‘q — rasmiylashtirgach shu yerda paydo bo‘ladi.",
     "orders_local_hint": "Buyurtmalar PostgreSQL (Railway) da. Server ishlamasa, nusxa brauzerda saqlanadi va ro‘yxat bilan birlashtiriladi.",
     "orders_rate_limited": "Server vaqtincha so‘rovlarni cheklamoqda — faqat shu brauzerda saqlangan buyurtmalar ko‘rinadi. Daqiqa o‘tgach sahifani yangilang.",
+    "orders_verify_needed": "Server tarixini ko‘rish uchun shu qurilmadan kamida bitta muvaffaqiyatli buyurtma kerak — hozircha faqat brauzerdagi buyurtmalar ko‘rsatiladi.",
+    "orders_server_error": "Serverdan buyurtma tarixini yuklab bo‘lmadi. Keyinroq urinib ko‘ring.",
     "order_lines_count": "Pozitsiyalar: {count}",
     "order_status_updated": "Status yangilangan:",
     "status_new": "Yangi",

@@ -1,3 +1,5 @@
+import { buildAlternates } from "@/lib/seo";
+
 type Props = { params: Promise<{ locale: string }> };
 
 const COPY = {
@@ -14,6 +16,16 @@ const COPY = {
     body: "Buyurtma berish orqali to'lov shartlari, ishlab chiqarish va yetkazib berish muddatlari, shuningdek standart va individual pozitsiyalar uchun qaytarish qoidalariga rozilik bildirasiz.",
   },
 } as const;
+
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const l = (locale in COPY ? locale : "ru") as keyof typeof COPY;
+  return {
+    title: COPY[l].title,
+    description: COPY[l].body,
+    alternates: buildAlternates(locale, "/terms"),
+  };
+}
 
 export default async function TermsPage({ params }: Props) {
   const { locale } = await params;

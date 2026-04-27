@@ -3,8 +3,6 @@
 import { Link } from "@/i18n/navigation";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
-import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, HeartHandshake, Wrench, Warehouse } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { BttEventPayloads } from "@/lib/analytics";
@@ -13,7 +11,6 @@ type Segment = BttEventPayloads[typeof BTT_EVENTS.SegmentCardClick]["segment"];
 
 export function SegmentSection() {
   const s = useTranslations("sales");
-  const reduceMotion = useReducedMotion();
 
   const cards: {
     id: Segment;
@@ -56,16 +53,7 @@ export function SegmentSection() {
   return (
     <section className="relative py-10 md:py-14">
       <div className="btt-container">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.45,
-            ease: [...BTT_EASE],
-          }}
-          className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-2xl lg:text-left"
-        >
+        <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-2xl lg:text-left">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
             {s("segment_kicker")}
           </span>
@@ -75,22 +63,11 @@ export function SegmentSection() {
           <p className="mt-3 text-pretty text-base leading-relaxed text-stone-400 md:text-lg">
             {s("segment_sub")}
           </p>
-        </motion.div>
+        </div>
 
         <div className="mt-10 grid grid-cols-1 auto-rows-fr gap-4 md:mt-12 md:grid-cols-3">
-          {cards.map((c, i) => (
-            <motion.div
-              key={c.title}
-              initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: reduceMotion ? 0 : bttStaggerDelay(i, 0.08),
-                duration: reduceMotion ? 0 : 0.45,
-                ease: [...BTT_EASE],
-              }}
-              className="min-w-0"
-            >
+          {cards.map((c) => (
+            <div key={c.title} className="min-w-0">
               <TiltCard className="h-full">
                 <Link
                   href={c.href}
@@ -122,7 +99,7 @@ export function SegmentSection() {
                   </span>
                 </Link>
               </TiltCard>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

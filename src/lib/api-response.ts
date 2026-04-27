@@ -12,6 +12,8 @@ export const ApiErrorCode = {
   LEAD_SAVE_FAILED: "LEAD_SAVE_FAILED",
   QUERY_FAILED: "QUERY_FAILED",
   NOT_FOUND: "NOT_FOUND",
+  UNAUTHORIZED: "UNAUTHORIZED",
+  INTERNAL: "INTERNAL",
 } as const;
 
 export type ApiErrorPayload = {

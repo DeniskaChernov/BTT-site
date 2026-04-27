@@ -2,6 +2,7 @@ import type { Product } from "@/types/product";
 
 const MIN_QTY_KG = 5;
 const QTY_STEP_KG = 5;
+const MIN_PREORDER_QTY_KG = 100;
 const TWISTED_RETAIL_UZS_PER_KG = 39_600;
 const TWISTED_200PLUS_UZS_PER_KG = 34_600;
 const TWISTED_400PLUS_UZS_PER_KG = 32_100;
@@ -35,10 +36,21 @@ export function lineItemTotalUz(product: Product, qty: number): number {
   return Math.round(u * qty);
 }
 
+export function getQtyRules(product: Product): { min: number; step: number } {
+  if (isPricedPerKg(product)) {
+    if (product.category === "material" && product.stock === "on_order") {
+      return { min: MIN_PREORDER_QTY_KG, step: QTY_STEP_KG };
+    }
+    return { min: MIN_QTY_KG, step: QTY_STEP_KG };
+  }
+  return { min: 1, step: 1 };
+}
+
 export function normalizeLineQty(product: Product, qty: number): number | null {
   if (isPricedPerKg(product)) {
-    const normalized = Math.round(qty / QTY_STEP_KG) * QTY_STEP_KG;
-    if (!Number.isFinite(normalized) || normalized < MIN_QTY_KG) return null;
+    const { min, step } = getQtyRules(product);
+    const normalized = Math.round(qty / step) * step;
+    if (!Number.isFinite(normalized) || normalized < min) return null;
     return normalized;
   }
   const n = Math.round(qty);

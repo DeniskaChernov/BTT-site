@@ -1,6 +1,7 @@
 "use client";
 
 import { formatUzs } from "@/lib/pricing";
+import { readOrderAccessToken } from "@/lib/order-access";
 import type { StoredOrder } from "@/lib/order-history";
 import { ORDERS_STORAGE_KEY, readOrders } from "@/lib/order-history";
 import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
@@ -36,6 +37,8 @@ export function OrderHistory({ profilePhone }: Props) {
   );
   /** 429 — сервер ограничил частоту; показываем только локальные заказы */
   const [remoteRateLimited, setRemoteRateLimited] = useState(false);
+  const [remoteDenied, setRemoteDenied] = useState(false);
+  const [remoteError, setRemoteError] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
   const loadLocal = useCallback(() => {
@@ -65,14 +68,31 @@ export function OrderHistory({ profilePhone }: Props) {
       setRemoteOrders([]);
       return;
     }
+    const accessToken = readOrderAccessToken(phoneNorm);
+    if (!accessToken) {
+      setRemoteOrders([]);
+      setRemoteDenied(true);
+      setRemoteRateLimited(false);
+      setRemoteError(false);
+      return;
+    }
     let cancelled = false;
     setRemoteOrders(undefined);
     setRemoteRateLimited(false);
-    fetch(`/api/orders?phone=${encodeURIComponent(phoneNorm)}`)
+    setRemoteDenied(false);
+    setRemoteError(false);
+    fetch(`/api/orders?phone=${encodeURIComponent(phoneNorm)}&access=${encodeURIComponent(accessToken)}`)
       .then(async (res) => {
         if (res.status === 429) {
           if (!cancelled) setRemoteRateLimited(true);
           return [];
+        }
+        if (res.status === 401) {
+          if (!cancelled) setRemoteDenied(true);
+          return [];
+        }
+        if (res.status >= 500 && !cancelled) {
+          setRemoteError(true);
         }
         if (!cancelled) setRemoteRateLimited(false);
         if (!res.ok) return [];
@@ -90,6 +110,7 @@ export function OrderHistory({ profilePhone }: Props) {
         if (!cancelled) {
           setRemoteOrders([]);
           setRemoteRateLimited(false);
+          setRemoteError(true);
         }
       });
     return () => {
@@ -207,6 +228,10 @@ export function OrderHistory({ profilePhone }: Props) {
         <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
         {remoteRateLimited ? (
           <p className="mt-3 text-sm text-amber-400/95">{t("orders_rate_limited")}</p>
+        ) : remoteDenied ? (
+          <p className="mt-3 text-sm text-amber-400/95">{t("orders_verify_needed")}</p>
+        ) : remoteError ? (
+          <p className="mt-3 text-sm text-amber-400/95">{t("orders_server_error")}</p>
         ) : (
           <p className="mt-3 text-sm text-stone-500">{t("orders_empty")}</p>
         )}
@@ -220,6 +245,10 @@ export function OrderHistory({ profilePhone }: Props) {
       <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
       {remoteRateLimited ? (
         <p className="mt-2 text-xs text-amber-500/90">{t("orders_rate_limited")}</p>
+      ) : remoteDenied ? (
+        <p className="mt-2 text-xs text-amber-500/90">{t("orders_verify_needed")}</p>
+      ) : remoteError ? (
+        <p className="mt-2 text-xs text-amber-500/90">{t("orders_server_error")}</p>
       ) : null}
       <p className="mt-1 text-xs text-stone-600">{t("orders_local_hint")}</p>
       <ul className="mt-6 space-y-4">

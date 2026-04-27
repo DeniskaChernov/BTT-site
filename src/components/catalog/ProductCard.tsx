@@ -16,7 +16,6 @@ import { telegramBotStartUrl, telegramChannelUrl } from "@/lib/telegram";
 import { BTT_EVENTS, trackBttEvent, trackEvent } from "@/lib/analytics";
 import { bttPrimaryButtonClass, bttTapReduceClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Check,
@@ -57,7 +56,6 @@ export function ProductCard({ product }: Props) {
     isOnOrderMaterial ? 100 : perKg ? 5 : 1,
   );
   const toastTimerRef = useRef<number | null>(null);
-  const reduceMotion = useReducedMotion();
 
   const name = product.names[locale];
   const ppk = getPricePerKgForQty(product, quickQty);
@@ -91,11 +89,7 @@ export function ProductCard({ product }: Props) {
   }, []);
 
   return (
-    <motion.article
-      layout={!reduceMotion}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-all duration-300 ease-out hover:border-amber-500/30"
-      whileHover={reduceMotion ? undefined : { y: -4 }}
-    >
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-all duration-300 ease-out hover:border-amber-500/30">
       <div
         className="pointer-events-none absolute inset-x-5 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
         aria-hidden
@@ -235,11 +229,9 @@ export function ProductCard({ product }: Props) {
             {c("preorder_min_note")}
           </p>
         ) : null}
-        <motion.button
+        <button
           type="button"
           onClick={onAdd}
-          whileHover={reduceMotion ? undefined : { scale: 1.01 }}
-          whileTap={reduceMotion ? undefined : { scale: 0.98 }}
           className={cn(
             bttPrimaryButtonClass,
             "btt-focus flex w-full items-center justify-center gap-2",
@@ -248,7 +240,7 @@ export function ProductCard({ product }: Props) {
         >
           <ShoppingBag className="h-4 w-4 opacity-90" aria-hidden />
           {isOnOrderMaterial ? c("preorder_cta") : t("add_cart")}
-        </motion.button>
+        </button>
         <Link
           href="/#quiz"
           onClick={() =>
@@ -290,36 +282,13 @@ export function ProductCard({ product }: Props) {
             </div>
           </div>
         ) : null}
-        <AnimatePresence>
-          {toast && (
-            <motion.p
-              initial={reduceMotion ? false : { opacity: 0, y: 10, scale: 0.92 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                transition: reduceMotion
-                  ? { duration: 0 }
-                  : { type: "spring", stiffness: 480, damping: 26 },
-              }}
-              exit={
-                reduceMotion
-                  ? { opacity: 0, transition: { duration: 0.12 } }
-                  : {
-                      opacity: 0,
-                      y: -6,
-                      scale: 0.96,
-                      transition: { duration: 0.18 },
-                    }
-              }
-              className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400"
-            >
+        {toast ? (
+          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400">
               <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
               {tc("added_flash")}
-            </motion.p>
-          )}
-        </AnimatePresence>
+          </p>
+        ) : null}
       </div>
-    </motion.article>
+    </article>
   );
 }

@@ -3,7 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { getProductBySlug } from "@/data/products";
-import { formatUzs, isPricedPerKg } from "@/lib/pricing";
+import { formatUzs, getQtyRules, isPricedPerKg } from "@/lib/pricing";
 import {
   bttFieldStepperInputClass,
   bttPrimaryButtonClass,
@@ -78,8 +78,7 @@ export function CartView() {
           {lines.map((l) => {
             const p = getProductBySlug(l.slug);
             const perKg = p ? isPricedPerKg(p) : true;
-            const step = perKg ? 5 : 1;
-            const min = perKg ? 5 : 1;
+            const { min, step } = p ? getQtyRules(p) : { min: 5, step: 5 };
             return (
             <motion.li
               key={l.sku}

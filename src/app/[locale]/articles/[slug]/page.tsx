@@ -1,5 +1,6 @@
 import { getPublishedArticles, getPublishedSlugs, getArticleBySlug } from "@/data/articles";
 import { Link } from "@/i18n/navigation";
+import { buildAlternates } from "@/lib/seo";
 import { SITE_MEDIA } from "@/lib/site-media";
 import {
   bttSecondaryAmberButtonClass,
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t("title"),
     description: t("meta_description"),
+    alternates: buildAlternates(locale, `/articles/${slug}`),
   };
 }
 

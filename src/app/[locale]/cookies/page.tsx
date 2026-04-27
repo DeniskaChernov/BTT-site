@@ -1,3 +1,5 @@
+import { buildAlternates } from "@/lib/seo";
+
 type Props = { params: Promise<{ locale: string }> };
 
 const COPY = {
@@ -14,6 +16,16 @@ const COPY = {
     body: "Sayt savat ishlashi, til sozlamalari va foydalanuvchi tajribasini yaxshilash uchun cookies dan foydalanadi. Brauzer sozlamalarida cookies ni cheklashingiz mumkin.",
   },
 } as const;
+
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const l = (locale in COPY ? locale : "ru") as keyof typeof COPY;
+  return {
+    title: COPY[l].title,
+    description: COPY[l].body,
+    alternates: buildAlternates(locale, "/cookies"),
+  };
+}
 
 export default async function CookiesPage({ params }: Props) {
   const { locale } = await params;

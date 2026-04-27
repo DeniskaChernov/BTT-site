@@ -3,19 +3,11 @@ import { orderToJson } from "@/lib/admin-order-json";
 import { gateAdminRequest, withRequestId } from "@/lib/admin-request";
 import { prisma } from "@/lib/db";
 import { log } from "@/lib/logger";
-import { Prisma } from "@prisma/client";
+import { isDbConnectionError } from "@/lib/prisma-errors";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
-
-function isDbConnectionError(e: unknown): boolean {
-  if (e instanceof Prisma.PrismaClientInitializationError) return true;
-  if (e instanceof Prisma.PrismaClientKnownRequestError) {
-    return ["P1001", "P1002", "P1008", "P1010", "P1011", "P1017"].includes(e.code);
-  }
-  return false;
-}
 
 /**
  * Сводка для CRM: счётчики заказов, выручка за сегодня (UTC), последний заказ.

@@ -14,11 +14,12 @@ import {
 import clsx from "clsx";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Filter, Search } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   useDeferredValue,
   useEffect,
   useMemo,
+  useRef,
   useState,
   useTransition,
 } from "react";
@@ -92,12 +93,14 @@ export function CatalogClient({
   initialColor,
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
+  const locale = useLocale();
   const color0 = parseInitialColor(initialColor);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const [sortMode, setSortMode] = useState<SortMode>("popular");
   const [isPending, startTransition] = useTransition();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const mobileSheetRef = useRef<HTMLDivElement | null>(null);
   const [f, setF] = useState<FilterState>(() => ({
     tab: initialTab,
     thickness: "all",
@@ -119,11 +122,45 @@ export function CatalogClient({
   }, [mobileFiltersOpen]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const next = new URL(window.location.href);
+    next.searchParams.set("tab", f.tab);
+    if (f.shape !== "all") {
+      next.searchParams.set("shape", f.shape);
+    } else {
+      next.searchParams.delete("shape");
+    }
+    if (f.color !== "all") {
+      next.searchParams.set("color", f.color);
+    } else {
+      next.searchParams.delete("color");
+    }
+    window.history.replaceState(window.history.state, "", `${next.pathname}${next.search}${next.hash}`);
+  }, [f.tab, f.shape, f.color]);
+
+  useEffect(() => {
     if (!mobileFiltersOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMobileFiltersOpen(false);
+      if (e.key === "Tab" && mobileSheetRef.current) {
+        const focusables = mobileSheetRef.current.querySelectorAll<HTMLElement>(
+          "button,[href],input,select,textarea,[tabindex]:not([tabindex='-1'])",
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
+    const first = mobileSheetRef.current?.querySelector<HTMLElement>("button,[href],input,select,textarea");
+    first?.focus();
     return () => window.removeEventListener("keydown", onKey);
   }, [mobileFiltersOpen]);
 
@@ -170,10 +207,15 @@ export function CatalogClient({
       );
     }
     if (sortMode === "name_asc") {
-      return [...list].sort((a, b) => a.names.ru.localeCompare(b.names.ru));
+      return [...list].sort((a, b) =>
+        a.names[locale as "ru" | "uz" | "en"].localeCompare(
+          b.names[locale as "ru" | "uz" | "en"],
+          locale,
+        ),
+      );
     }
     return list;
-  }, [f, deferredQuery, sortMode]);
+  }, [f, deferredQuery, sortMode, locale]);
 
   const activeFilters = useMemo(() => {
     const chips: { key: keyof FilterState; value: string; label: string }[] = [];
@@ -485,61 +527,22 @@ export function CatalogClient({
         {showGridSkeleton ? (
           <CatalogSkeletonGrid label={t("loading_grid")} />
         ) : filtered.length === 0 ? (
-          <motion.p
-            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: reduceMotion ? 0 : 0.28,
-              ease: [...BTT_EASE],
-            }}
-            className="text-sm text-stone-500"
-          >
+          <p className="text-sm text-stone-500">
             {t("empty")}
-          </motion.p>
+          </p>
         ) : (
-          <motion.div
-            layout={!reduceMotion}
-            initial="hidden"
-            animate="show"
-            variants={{
-              hidden: {},
-              show: {
-                transition: { staggerChildren: reduceMotion ? 0 : 0.05 },
-              },
-            }}
+          <div
             className={clsx(
               "grid gap-4 sm:grid-cols-2 xl:grid-cols-3",
               searchLagging && "opacity-60 transition-opacity duration-200",
             )}
           >
-            <AnimatePresence mode="popLayout">
-              {filtered.map((p: Product) => (
-                <motion.div
-                  key={p.sku}
-                  layout={!reduceMotion}
-                  className="h-full min-h-0"
-                  variants={{
-                    hidden: {
-                      opacity: reduceMotion ? 1 : 0,
-                      y: reduceMotion ? 0 : 12,
-                    },
-                    show: { opacity: 1, y: 0 },
-                  }}
-                  exit={
-                    reduceMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: -8, transition: { duration: 0.2 } }
-                  }
-                  transition={{
-                    duration: reduceMotion ? 0 : 0.35,
-                    ease: [...BTT_EASE],
-                  }}
-                >
-                  <ProductCard product={p} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+            {filtered.map((p: Product) => (
+              <div key={p.sku} className="h-full min-h-0">
+                <ProductCard product={p} />
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
@@ -571,6 +574,7 @@ export function CatalogClient({
             />
             <motion.div
               key="catalog-filter-sheet"
+              ref={mobileSheetRef}
               role="dialog"
               aria-modal
               aria-labelledby="catalog-filters-sheet-title"

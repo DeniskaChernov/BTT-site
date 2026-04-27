@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 import { products } from "@/data/products";
 import {
   formatUzs,
+  getQtyRules,
   getPricePerKgForQty,
   isPricedPerKg,
   lineItemTotalUz,
+  normalizeLineQty,
 } from "./pricing";
 
 describe("getPricePerKgForQty", () => {
@@ -33,5 +35,16 @@ describe("formatUzs", () => {
     const s = formatUzs(185_000);
     expect(s.replace(/\s/g, "")).toMatch(/185/);
     expect(s.length).toBeGreaterThan(3);
+  });
+});
+
+describe("quantity rules", () => {
+  it("enforces 100kg minimum for on-order material", () => {
+    const preorder = products.find((p) => p.category === "material" && p.stock === "on_order");
+    expect(preorder).toBeTruthy();
+    if (!preorder) return;
+    expect(getQtyRules(preorder)).toEqual({ min: 100, step: 5 });
+    expect(normalizeLineQty(preorder, 50)).toBeNull();
+    expect(normalizeLineQty(preorder, 101)).toBe(100);
   });
 });

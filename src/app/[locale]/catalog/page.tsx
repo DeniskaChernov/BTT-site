@@ -5,6 +5,7 @@ import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
+import { buildAlternates } from "@/lib/seo";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import type { CategoryTab } from "@/types/product";
@@ -21,6 +22,7 @@ export async function generateMetadata({ params }: MetadataProps) {
   return {
     title: t("title"),
     description: t("intro"),
+    alternates: buildAlternates(locale, "/catalog"),
   };
 }
 

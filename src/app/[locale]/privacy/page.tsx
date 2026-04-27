@@ -1,3 +1,5 @@
+import { buildAlternates } from "@/lib/seo";
+
 type Props = { params: Promise<{ locale: string }> };
 
 const COPY = {
@@ -14,6 +16,16 @@ const COPY = {
     body: "Kontakt ma'lumotlaringiz faqat so'rovni qayta ishlash, buyurtma bo'yicha aloqa va jo'natmani kuzatish uchun ishlatiladi. Ma'lumotlar buyurtmani bajarish va yetkazib berish uchun zarur xizmatlardan tashqari uchinchi tomonlarga berilmaydi.",
   },
 } as const;
+
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+  const l = (locale in COPY ? locale : "ru") as keyof typeof COPY;
+  return {
+    title: COPY[l].title,
+    description: COPY[l].body,
+    alternates: buildAlternates(locale, "/privacy"),
+  };
+}
 
 export default async function PrivacyPage({ params }: Props) {
   const { locale } = await params;

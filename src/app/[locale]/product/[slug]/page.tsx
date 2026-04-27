@@ -1,5 +1,6 @@
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { getProductBySlug, getRelated, products } from "@/data/products";
+import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
 import type { Locale } from "@/types/product";
 import { notFound } from "next/navigation";
 
@@ -19,10 +20,12 @@ export async function generateMetadata({ params }: Props) {
   const p = getProductBySlug(slug);
   if (!p) return {};
   const name = p.names[locale as Locale];
+  const alternates = buildAlternates(locale, `/product/${slug}`);
   return {
     title: name,
     description: p.short[locale as Locale],
-    openGraph: { title: name, description: p.short[locale as Locale] },
+    alternates,
+    openGraph: { title: name, description: p.short[locale as Locale], url: alternates.canonical },
   };
 }
 
@@ -43,7 +46,10 @@ export default async function ProductPage({ params }: Props) {
       lowPrice: product.priceUz.t10,
       highPrice: product.priceUz.t12,
       offerCount: 3,
+      availability: product.stock === "in_stock" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
     },
+    url: `${SITE_ORIGIN}/${locale}/product/${product.slug}`,
+    image: (product.gallery && product.gallery[0]) || "",
   };
 
   return (

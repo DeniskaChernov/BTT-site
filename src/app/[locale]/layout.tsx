@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { GlowSiteNav } from "@/components/layout/GlowSiteNav";
 import { ScrollToHash } from "@/components/layout/ScrollToHash";
 import { routing } from "@/i18n/routing";
+import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
@@ -63,17 +64,12 @@ const META_KEYWORDS: Record<string, string[]> = {
   ],
 };
 
-const SITE_ORIGIN =
-  (process.env.NEXT_PUBLIC_SITE_URL || "https://bententrade.uz").replace(
-    /\/$/,
-    "",
-  );
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
   const keywords =
     META_KEYWORDS[locale] ?? META_KEYWORDS.ru;
+  const alternates = buildAlternates(locale, "/");
   return {
     metadataBase: new URL(SITE_ORIGIN),
     title: {
@@ -82,13 +78,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     description: t("home_desc"),
     keywords,
+    alternates,
     openGraph: {
       title: t("site"),
       description: t("home_desc"),
       locale,
       type: "website",
       siteName: "Bententrade",
-      url: SITE_ORIGIN,
+      url: alternates.canonical,
     },
     twitter: {
       card: "summary_large_image",

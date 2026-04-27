@@ -10,6 +10,7 @@ type Bucket = { at: number[] };
 const postOrders = new Map<string, Bucket>();
 const postLeads = new Map<string, Bucket>();
 const getOrders = new Map<string, Bucket>();
+const getOrdersByPhone = new Map<string, Bucket>();
 const adminList = new Map<string, Bucket>();
 
 function prune(bucket: number[], now: number): number[] {
@@ -52,9 +53,12 @@ export function allowPostLead(key: string, max = 18): boolean {
   return hit(postLeads, key, max, Date.now());
 }
 
-/** GET /api/orders: мягче, но защита от перебора номеров */
-export function allowGetOrders(key: string, max = 120): boolean {
-  return hit(getOrders, key, max, Date.now());
+/** GET /api/orders: двойной лимит по IP и по хэшу телефона */
+export function allowGetOrders(key: string, phoneNorm: string, maxByIp = 90, maxByPhone = 16): boolean {
+  const now = Date.now();
+  if (!hit(getOrders, key, maxByIp, now)) return false;
+  const phoneKey = `${key}:${phoneNorm}`;
+  return hit(getOrdersByPhone, phoneKey, maxByPhone, now);
 }
 
 /** GET /api/admin/orders: строже — только с валидным Bearer */
