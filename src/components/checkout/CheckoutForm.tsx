@@ -147,7 +147,7 @@ export function CheckoutForm() {
           return;
         } else if (res.status === 400) {
           const payload = (await res.json().catch(() => null)) as { error?: string } | null;
-          if (payload?.error === "Minimum preorder quantity is 100 kg") {
+          if (payload?.error === "Minimum preorder quantity is 5 kg") {
             setErr(t("error_min_preorder"));
             return;
           }

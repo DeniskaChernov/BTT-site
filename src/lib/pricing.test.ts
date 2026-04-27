@@ -46,12 +46,12 @@ describe("formatUzs", () => {
 });
 
 describe("quantity rules", () => {
-  it("enforces 100kg minimum for on-order material", () => {
+  it("enforces 5kg minimum for on-order material", () => {
     const preorder = products.find((p) => p.category === "material" && p.stock === "on_order");
     expect(preorder).toBeTruthy();
     if (!preorder) return;
-    expect(getQtyRules(preorder)).toEqual({ min: 100, step: 5 });
-    expect(normalizeLineQty(preorder, 50)).toBeNull();
-    expect(normalizeLineQty(preorder, 101)).toBe(100);
+    expect(getQtyRules(preorder)).toEqual({ min: 5, step: 5 });
+    expect(normalizeLineQty(preorder, 1)).toBeNull();
+    expect(normalizeLineQty(preorder, 6)).toBe(5);
   });
 });

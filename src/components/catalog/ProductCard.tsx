@@ -53,7 +53,7 @@ export function ProductCard({ product }: Props) {
   const perKg = isPricedPerKg(product);
   const isTwisted = isTwistedRattan(product);
   const [quickQty, setQuickQty] = useState<number>(
-    isOnOrderMaterial ? 100 : perKg ? 5 : 1,
+    perKg ? 5 : 1,
   );
   const toastTimerRef = useRef<number | null>(null);
 
@@ -185,13 +185,7 @@ export function ProductCard({ product }: Props) {
       <div className="mt-auto px-5 pb-5">
         <div className="mb-3 flex gap-2">
           {(
-            isOnOrderMaterial
-              ? ([
-                  [100, c("preorder_100")],
-                  [200, c("preorder_200")],
-                  [400, c("preorder_400")],
-                ] as const)
-              : perKg && isTwisted
+            perKg && isTwisted
                 ? ([
                     [5, c("w5")],
                     [200, c("preorder_200")],
@@ -199,9 +193,9 @@ export function ProductCard({ product }: Props) {
                   ] as const)
                 : perKg
                   ? ([
-                      [5, "5 kg"],
-                      [10, "10 kg"],
-                      [25, "25 kg"],
+                      [5, c("w5")],
+                      [200, c("preorder_200")],
+                      [500, c("preorder_500")],
                     ] as const)
                 : ([
                     [1, c("w12_piece")],

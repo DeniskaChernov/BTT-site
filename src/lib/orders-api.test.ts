@@ -100,14 +100,14 @@ describe("validateOrderAgainstCatalog", () => {
     expect(validateOrderAgainstCatalog(b)).toBe("Invalid product");
   });
 
-  it("rejects on-order material below 100kg", () => {
+  it("rejects on-order material below 5kg", () => {
     const onOrder = products.find(
       (p) => p.stock === "on_order" && p.category === "material",
     );
     if (!onOrder) {
       throw new Error("expected at least one on_order material in fixtures");
     }
-    const lowQty = 50;
+    const lowQty = 1;
     const b = validBody({
       lines: [
         {
@@ -120,7 +120,7 @@ describe("validateOrderAgainstCatalog", () => {
       ],
       totalUz: lineItemTotalUz(onOrder, lowQty),
     });
-    expect(validateOrderAgainstCatalog(b)).toBe("Minimum preorder quantity is 100 kg");
+    expect(validateOrderAgainstCatalog(b)).toBe("Minimum preorder quantity is 5 kg");
   });
 
   it("sums multiple lines against totalUz", () => {

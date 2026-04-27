@@ -9,7 +9,6 @@ import {
   isPricedPerKg,
   isTwistedRattan,
   lineItemTotalUz,
-  UZS_PER_USD,
 } from "@/lib/pricing";
 import {
   bttFieldCompactClass,
@@ -47,22 +46,18 @@ export function ProductDetail({ product, related }: Props) {
   const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
   const perKg = isPricedPerKg(product);
   const isTwisted = isTwistedRattan(product);
-  const [qty, setQty] = useState(isOnOrderMaterial ? 100 : perKg ? 5 : 1);
+  const [qty, setQty] = useState(perKg ? 5 : 1);
   const [meters, setMeters] = useState(10);
   const [activeImg, setActiveImg] = useState(0);
   const thumbStripRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const belowPreorderMin = isOnOrderMaterial && qty < 100;
+  const belowPreorderMin = false;
   const collectiveBotUrl = product.collective
     ? telegramBotStartUrl(product.collective.botStartParam)
     : null;
   const collectiveChannelUrl = telegramChannelUrl();
 
   const normalizeQty = (value: number) => {
-    if (isOnOrderMaterial) {
-      if (!Number.isFinite(value)) return 100;
-      return Math.max(100, Math.round(value));
-    }
     if (perKg) {
       if (!Number.isFinite(value)) return 5;
       return Math.max(5, Math.round(value / 5) * 5);
@@ -94,6 +89,7 @@ export function ProductDetail({ product, related }: Props) {
   const ppk = useMemo(() => getPricePerKgForQty(product, qty), [product, qty]);
   const lineTotal = lineItemTotalUz(product, qty);
   const kgEst = useMemo(() => Math.max(0.1, meters * 0.12), [meters]);
+  const usdNote = t("usd_note");
 
   const onAdd = () => {
     add(product, product.names[locale], qty);
@@ -267,23 +263,19 @@ export function ProductDetail({ product, related }: Props) {
                 </p>
               </div>
             </div>
-            <p className="mt-3 text-[11px] text-stone-500">
-              {t("usd_note", { rate: UZS_PER_USD.toLocaleString() })}
-            </p>
             <p className="text-sm font-semibold text-stone-200">
               {perKg ? t("ladder_title") : t("ladder_title_piece")}
             </p>
+            {usdNote ? <p className="mt-2 text-[11px] text-stone-500">{usdNote}</p> : null}
             <div className="mt-2 grid grid-cols-3 gap-2">
               <div className="rounded-xl border border-white/10 bg-white/[0.04] p-2 text-center">
                 <p className="text-[10px] text-stone-500">
                   {perKg
-                    ? isTwisted
-                      ? t("ladder_5")
-                      : t("ladder_12")
+                    ? t("ladder_5")
                     : t("ladder_12_piece")}
                 </p>
                 <p className="mt-0.5 text-xs font-bold tabular-nums text-stone-100">
-                  {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 5 : 1.5) : 1))}
+                  {formatUzs(getPricePerKgForQty(product, perKg ? 5 : 1))}
                 </p>
               </div>
               <div className="relative rounded-xl border-2 border-amber-500/55 bg-gradient-to-b from-amber-950/40 to-stone-950/80 p-2 text-center shadow-[0_8px_24px_rgba(245,158,11,0.1)]">
@@ -292,13 +284,11 @@ export function ProductDetail({ product, related }: Props) {
                 </span>
                 <p className="text-[10px] text-stone-400">
                   {perKg
-                    ? isTwisted
-                      ? t("ladder_200")
-                      : t("ladder_5")
+                    ? t("ladder_200")
                     : t("ladder_5_piece")}
                 </p>
                 <p className="mt-0.5 text-xs font-bold tabular-nums text-amber-200">
-                  {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 200 : 5) : 3))}
+                  {formatUzs(getPricePerKgForQty(product, perKg ? 200 : 3))}
                 </p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/[0.04] p-2 text-center">
@@ -306,11 +296,11 @@ export function ProductDetail({ product, related }: Props) {
                   {perKg
                     ? isTwisted
                       ? t("ladder_400")
-                      : t("ladder_10")
+                      : t("ladder_500")
                     : t("ladder_10_piece")}
                 </p>
                 <p className="mt-0.5 text-xs font-bold tabular-nums text-stone-100">
-                  {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 400 : 10) : 10))}
+                  {formatUzs(getPricePerKgForQty(product, perKg ? (isTwisted ? 400 : 500) : 10))}
                 </p>
               </div>
             </div>
@@ -329,7 +319,7 @@ export function ProductDetail({ product, related }: Props) {
               <span>{perKg ? t("qty") : t("qty_piece")}</span>
               <input
                 type="number"
-                min={isOnOrderMaterial ? 100 : perKg ? 5 : 1}
+                min={perKg ? 5 : 1}
                 step={perKg ? 5 : 1}
                 value={qty}
                 onChange={(e) => {

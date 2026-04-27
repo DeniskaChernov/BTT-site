@@ -7,7 +7,7 @@ export const MAX_ORDER_LINES = 60;
 export const MAX_TOTAL_UZ = 500_000_000;
 export const MAX_QTY_KG = 5_000;
 export const MAX_LINE_TOTAL_UZ = 200_000_000;
-export const MIN_PREORDER_QTY_KG = 100;
+export const MIN_PREORDER_QTY_KG = 5;
 export const MAX_PHONE_CHARS = 48;
 export const MAX_NAME_CHARS = 200;
 export const MAX_ADDRESS_CHARS = 600;
@@ -155,7 +155,7 @@ export function validateOrderAgainstCatalog(data: CreateOrderBody): true | strin
     if (!p) return "Invalid product";
     if (p.sku !== line.sku) return "SKU mismatch";
     if (p.stock === "on_order" && p.category === "material" && line.qtyKg < MIN_PREORDER_QTY_KG) {
-      return "Minimum preorder quantity is 100 kg";
+      return "Minimum preorder quantity is 5 kg";
     }
     const expected = lineItemTotalUz(p, line.qtyKg);
     if (Math.abs(expected - line.lineTotalUz) > LINE_TOTAL_UZ_EPS) {

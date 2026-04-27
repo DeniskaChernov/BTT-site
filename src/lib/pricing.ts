@@ -2,7 +2,7 @@ import type { Product } from "@/types/product";
 
 const MIN_QTY_KG = 5;
 const QTY_STEP_KG = 5;
-const MIN_PREORDER_QTY_KG = 100;
+const MIN_PREORDER_QTY_KG = 5;
 const TWISTED_RETAIL_UZS_PER_KG = 39_600;
 const TWISTED_200PLUS_UZS_PER_KG = 34_600;
 const TWISTED_400PLUS_UZS_PER_KG = 32_100;
