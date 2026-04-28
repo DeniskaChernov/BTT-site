@@ -29,7 +29,7 @@ const HERO_CATEGORIES: {
   {
     href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
-    imageSrc: "/media/catalog/brochure-cards/twisted-1770k.png",
+    imageSrc: "/media/catalog/twisted-rattan-hero.png",
   },
   { href: "/catalog/furniture", messageKey: "card_fourth", imageSrc: "/media/catalog/furniture-chair-hero.png" },
 ];
