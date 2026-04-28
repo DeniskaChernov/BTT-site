@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic";
+import { FurnitureRattanPreview } from "@/components/furniture/FurnitureRattanPreview";
 import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/navigation";
 import { buildAlternates } from "@/lib/seo";
@@ -6,22 +6,6 @@ import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-
-const FurnitureRattanPreview = dynamic(
-  () =>
-    import("@/components/furniture/FurnitureRattanPreview").then(
-      (mod) => mod.FurnitureRattanPreview,
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <div
-        className="aspect-[4/3] min-h-[260px] animate-pulse rounded-[1.75rem] border border-white/[0.06] bg-gradient-to-b from-stone-900/75 to-[#0a0908]"
-        aria-hidden
-      />
-    ),
-  },
-);
 
 type Props = {
   params: Promise<{ locale: string }>;

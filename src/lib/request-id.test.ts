@@ -9,14 +9,19 @@ describe("requestIdFrom", () => {
     expect(requestIdFrom(r)).toBe("abc-123");
   });
 
-  it("returns undefined when header missing or empty", () => {
-    expect(requestIdFrom(new Request("https://example.com"))).toBeUndefined();
-    expect(
-      requestIdFrom(
-        new Request("https://example.com", {
-          headers: { "x-request-id": "   " },
-        }),
-      ),
-    ).toBeUndefined();
+  it("returns generated uuid when header missing or empty", () => {
+    const generated = requestIdFrom(new Request("https://example.com"));
+    expect(generated).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    );
+
+    const generatedFromEmpty = requestIdFrom(
+      new Request("https://example.com", {
+        headers: { "x-request-id": "   " },
+      }),
+    );
+    expect(generatedFromEmpty).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    );
   });
 });
