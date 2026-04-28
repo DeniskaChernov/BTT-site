@@ -24,7 +24,7 @@ const HERO_CATEGORIES: {
   messageKey: CardKey;
   imageSrc: string;
 }[] = [
-  { href: "/catalog/rattan", messageKey: "card_rattan", imageSrc: "/media/catalog/btt-hr5nat.png" },
+  { href: "/catalog/rattan", messageKey: "card_rattan", imageSrc: "/media/catalog/rattan-hero.png" },
   { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.png" },
   {
     href: "/catalog/twisted-rattan",
@@ -206,7 +206,7 @@ export function CommerceHero() {
                   </h2>
 
                   <div className="relative mt-4 min-h-0 flex-1">
-                    <div className="relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl bg-[#121212]">
+                    <div className="relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl">
                       <Image
                         src={src}
                         alt=""
