@@ -24,6 +24,7 @@ const HERO_CATEGORIES: {
   messageKey: CardKey;
   imageSrc: string;
   imageFit?: "cover" | "contain";
+  blendScreen?: boolean;
 }[] = [
   {
     href: "/catalog/rattan",
@@ -36,8 +37,14 @@ const HERO_CATEGORIES: {
     href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
     imageSrc: "/media/catalog/twisted-rattan-hero.png",
+    blendScreen: true,
   },
-  { href: "/catalog/furniture", messageKey: "card_fourth", imageSrc: "/media/catalog/furniture-chair-hero.png" },
+  {
+    href: "/catalog/furniture",
+    messageKey: "card_fourth",
+    imageSrc: "/media/catalog/furniture-chair-hero.png",
+    blendScreen: true,
+  },
 ];
 
 export function CommerceHero() {
@@ -219,6 +226,7 @@ export function CommerceHero() {
                         fill
                         className={cn(
                           cat.imageFit === "contain" ? "object-contain" : "object-cover",
+                          cat.blendScreen && "mix-blend-screen",
                           "transition duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
                         )}
                         sizes="(max-width: 640px) 80vw, 220px"
