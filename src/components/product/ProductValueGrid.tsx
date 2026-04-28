@@ -16,9 +16,9 @@ import {
   Sparkles,
   Sun,
   Wrench,
+  type LucideIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { ElementType } from "react";
 
 type Props = { product: Product };
 
@@ -58,7 +58,7 @@ export function ProductValueGrid({ product }: Props) {
     product.category === "planter" ||
     (product.category === "new" && product.thicknessMm <= 0);
 
-  const fitItems: { label: string; Icon: ElementType }[] = isPlanter
+  const fitItems: { label: string; Icon: LucideIcon }[] = isPlanter
     ? [
         { label: s("fit_planter"), Icon: Flower2 },
         { label: s("fit_decor"), Icon: Sparkles },
@@ -69,14 +69,14 @@ export function ProductValueGrid({ product }: Props) {
         { label: s("fit_decor"), Icon: Sparkles },
       ];
 
-  const gains: { label: string; Icon: ElementType }[] = [
+  const gains: { label: string; Icon: LucideIcon }[] = [
     { label: s("gain_shape"), Icon: Gauge },
     { label: s("gain_uv"), Icon: Sun },
     { label: s("gain_weave"), Icon: Wrench },
     { label: s("gain_batch"), Icon: Palette },
   ];
 
-  const practical: { t: string; Icon: typeof ShieldCheck }[] = [
+  const practical: { t: string; Icon: LucideIcon }[] = [
     { t: s("practical_1_title"), Icon: ShieldCheck },
     { t: s("practical_2_title"), Icon: CheckCircle2 },
     { t: s("practical_3_title"), Icon: Leaf },
@@ -84,7 +84,7 @@ export function ProductValueGrid({ product }: Props) {
 
   const whenToChoose = isPlanter ? s("when_planter") : s("when_material_both");
 
-  const matAdv: { t: string; Icon: typeof Droplets }[] = isPlanter
+  const matAdv: { t: string; Icon: LucideIcon }[] = isPlanter
     ? [
         { t: p("mat_planter_adv_1"), Icon: Droplets },
         { t: p("mat_planter_adv_2"), Icon: Sun },

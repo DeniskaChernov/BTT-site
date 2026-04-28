@@ -512,7 +512,14 @@
     "active_filters": "Активные фильтры:",
     "filters_done": "Готово",
     "filters_close": "Закрыть",
-    "loading_grid": "Обновление каталога"
+    "loading_grid": "Обновление каталога",
+    "furniture_stub_kicker": "Скоро в каталоге",
+    "furniture_stub_title": "Мебель из искусственного ротанга",
+    "furniture_stub_note": "Страница на стадии разработки.",
+    "furniture_stub_lead": "Ниже — концептуальная 3D-модель стула из искусственного ротанга в стиле витрины.",
+    "furniture_stub_hint": "Вращайте модель: зажмите и потяните.",
+    "furniture_stub_cta": "Открыть общий каталог",
+    "furniture_stub_preview_label": "Концептуальная 3D-модель стула из искусственного ротанга"
   },
   "catalogBrochure": {
     "meta_title": "Каталог PDF",

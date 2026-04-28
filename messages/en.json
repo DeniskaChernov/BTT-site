@@ -512,7 +512,14 @@
     "active_filters": "Active filters:",
     "filters_done": "Done",
     "filters_close": "Close",
-    "loading_grid": "Updating catalog"
+    "loading_grid": "Updating catalog",
+    "furniture_stub_kicker": "Coming soon",
+    "furniture_stub_title": "Synthetic rattan furniture",
+    "furniture_stub_note": "This page is under development.",
+    "furniture_stub_lead": "Below is a conceptual 3D model of an artificial-rattan chair to match the storefront mood.",
+    "furniture_stub_hint": "Rotate the model — click/tap and drag.",
+    "furniture_stub_cta": "Open full catalog",
+    "furniture_stub_preview_label": "Conceptual 3D model of an artificial-rattan chair"
   },
   "catalogBrochure": {
     "meta_title": "PDF catalog",

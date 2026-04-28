@@ -512,7 +512,14 @@
     "active_filters": "Faol filtrlar:",
     "filters_done": "Tayyor",
     "filters_close": "Yopish",
-    "loading_grid": "Katalog yangilanmoqda"
+    "loading_grid": "Katalog yangilanmoqda",
+    "furniture_stub_kicker": "Tez orada",
+    "furniture_stub_title": "Sun’iy rotangdan mebel",
+    "furniture_stub_note": "Sahifa ishlab chiqish jarayonida.",
+    "furniture_stub_lead": "Pastda vitrina kayfiyati uchun sun’iy rotangdan stulning kontseptual 3D modeli.",
+    "furniture_stub_hint": "Modelni aylantiring — bosib torting.",
+    "furniture_stub_cta": "Umumiy katalogni ochish",
+    "furniture_stub_preview_label": "Sun’iy rotangdan stulning kontseptual 3D modeli"
   },
   "catalogBrochure": {
     "meta_title": "PDF katalog",
