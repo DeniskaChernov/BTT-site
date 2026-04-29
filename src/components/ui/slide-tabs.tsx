@@ -8,10 +8,12 @@ import {
   forwardRef,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 
 export type SlideTabItem = {
   id: string;
@@ -117,6 +119,8 @@ type SlideTabProps = {
   dropdown?: { href: string; label: string }[];
 };
 
+const DROPDOWN_CLOSE_MS = 220;
+
 const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
   (
     { children, href, isActive, setPosition, badge, linkAriaLabel, dropdown },
@@ -125,9 +129,118 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
     const reduceMotion = useReducedMotion();
     const showBadge = typeof badge === "number" && badge > 0;
     const hasDropdown = Array.isArray(dropdown) && dropdown.length > 0;
+
+    const [mounted, setMounted] = useState(false);
+    const [flyoutOpen, setFlyoutOpen] = useState(false);
+    const [flyoutPos, setFlyoutPos] = useState({ top: 0, left: 0 });
+    const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const liRef = useRef<HTMLLIElement | null>(null);
+
+    const clearCloseTimer = useCallback(() => {
+      if (closeTimerRef.current != null) {
+        clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    }, []);
+
+    const scheduleCloseFlyout = useCallback(() => {
+      if (!hasDropdown) return;
+      clearCloseTimer();
+      closeTimerRef.current = setTimeout(() => {
+        setFlyoutOpen(false);
+        closeTimerRef.current = null;
+      }, DROPDOWN_CLOSE_MS);
+    }, [hasDropdown, clearCloseTimer]);
+
+    const updateFlyoutPosition = useCallback(() => {
+      const el = liRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      setFlyoutPos({ top: r.bottom - 2, left: r.left });
+    }, []);
+
+    useEffect(() => setMounted(true), []);
+
+    useEffect(
+      () => () => {
+        clearCloseTimer();
+      },
+      [clearCloseTimer],
+    );
+
+    useLayoutEffect(() => {
+      if (!hasDropdown || !flyoutOpen) return;
+      updateFlyoutPosition();
+      const onScrollOrResize = () => updateFlyoutPosition();
+      window.addEventListener("scroll", onScrollOrResize, true);
+      window.addEventListener("resize", onScrollOrResize);
+      return () => {
+        window.removeEventListener("scroll", onScrollOrResize, true);
+        window.removeEventListener("resize", onScrollOrResize);
+      };
+    }, [hasDropdown, flyoutOpen, updateFlyoutPosition]);
+
+    const setLiRef = useCallback(
+      (node: HTMLLIElement | null) => {
+        liRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      },
+      [ref],
+    );
+
+    const openFlyout = useCallback(() => {
+      if (!hasDropdown) return;
+      clearCloseTimer();
+      updateFlyoutPosition();
+      setFlyoutOpen(true);
+    }, [hasDropdown, clearCloseTimer, updateFlyoutPosition]);
+
+    const flyoutPanel =
+      mounted &&
+      hasDropdown &&
+      flyoutOpen &&
+      typeof document !== "undefined"
+        ? createPortal(
+            <div
+              role="menu"
+              className="fixed z-[200] min-w-[12.5rem] max-w-[min(100vw-2rem,18rem)] pt-1"
+              style={{
+                top: flyoutPos.top,
+                left: Math.max(
+                  8,
+                  Math.min(flyoutPos.left, window.innerWidth - 8 - 288),
+                ),
+              }}
+              onMouseEnter={() => {
+                clearCloseTimer();
+                setFlyoutOpen(true);
+              }}
+              onMouseLeave={scheduleCloseFlyout}
+            >
+              <div className="rounded-2xl border border-white/[0.12] bg-gradient-to-b from-stone-900/98 to-stone-950/98 py-1.5 shadow-2xl shadow-black/60 ring-1 ring-white/[0.06] backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.08)]">
+                {(dropdown ?? []).map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    role="menuitem"
+                    className="btt-focus block px-4 py-2.5 text-left text-sm font-medium normal-case tracking-normal text-stone-200 outline-none transition-colors hover:bg-white/[0.06] hover:text-amber-100 motion-reduce:transition-none"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>,
+            document.body,
+          )
+        : null;
+
     return (
       <li
-        ref={ref}
+        ref={setLiRef}
         className={cn("relative z-10 shrink-0", hasDropdown && "z-[45]")}
         onMouseEnter={(e) => {
           const el = e.currentTarget;
@@ -137,14 +250,19 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
             width,
             opacity: 1,
           });
+          openFlyout();
+        }}
+        onMouseLeave={() => {
+          if (hasDropdown) scheduleCloseFlyout();
         }}
       >
-        <div className={cn("relative", hasDropdown && "group")}>
+        <div className="relative">
           <Link
             href={href}
             aria-label={linkAriaLabel}
             aria-current={isActive ? "page" : undefined}
             aria-haspopup={hasDropdown ? "menu" : undefined}
+            aria-expanded={hasDropdown ? flyoutOpen : undefined}
             className={cn(
               "relative block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none md:px-5 md:py-3 md:text-base",
               showBadge && "pr-6 md:pr-8",
@@ -169,32 +287,8 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
               </motion.span>
             ) : null}
           </Link>
-          {hasDropdown ? (
-            <div
-              role="menu"
-              className={cn(
-                "pointer-events-none absolute left-0 top-full z-[60] min-w-[12.5rem] max-w-[min(100vw-2rem,18rem)] pt-2",
-                "opacity-0 invisible translate-y-0.5",
-                "transition-[opacity,transform,visibility] duration-150 motion-reduce:transition-none",
-                "group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100",
-                "group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100",
-              )}
-            >
-              <div className="rounded-2xl border border-white/[0.12] bg-gradient-to-b from-stone-900/98 to-stone-950/98 py-1.5 shadow-2xl shadow-black/60 ring-1 ring-white/[0.06] backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.08)]">
-                {dropdown.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    role="menuitem"
-                    className="btt-focus block px-4 py-2.5 text-left text-sm font-medium normal-case tracking-normal text-stone-200 outline-none transition-colors hover:bg-white/[0.06] hover:text-amber-100 motion-reduce:transition-none"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : null}
         </div>
+        {flyoutPanel}
       </li>
     );
   },
