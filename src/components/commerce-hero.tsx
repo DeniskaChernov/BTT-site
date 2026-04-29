@@ -25,12 +25,14 @@ const HERO_CATEGORIES: {
   imageSrc: string;
   imageFit?: "cover" | "contain";
   blendScreen?: boolean;
+  imageScaleClass?: string;
 }[] = [
   {
     href: "/catalog/rattan",
     messageKey: "card_rattan",
     imageSrc: "/media/catalog/rattan-hero.png",
     imageFit: "contain",
+    imageScaleClass: "scale-[1.22]",
   },
   { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.png" },
   {
@@ -227,7 +229,10 @@ export function CommerceHero() {
                         className={cn(
                           cat.imageFit === "contain" ? "object-contain" : "object-cover",
                           cat.blendScreen && "mix-blend-screen",
-                          "transition duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+                          cat.imageScaleClass,
+                          cat.imageScaleClass
+                            ? "transition duration-500 motion-reduce:transition-none"
+                            : "transition duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
                         )}
                         sizes="(max-width: 640px) 80vw, 220px"
                       />
