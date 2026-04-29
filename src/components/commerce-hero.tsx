@@ -26,12 +26,15 @@ const HERO_CATEGORIES: {
   imageFit?: "cover" | "contain";
   blendScreen?: boolean;
   imageScaleClass?: string;
+  /** Отступ от краёв кадра превью (inner inset для fill + contain). */
+  imageInsetClass?: string;
 }[] = [
   {
     href: "/catalog/rattan",
     messageKey: "card_rattan",
     imageSrc: "/media/catalog/rattan-hero.png",
-    imageFit: "cover",
+    imageFit: "contain",
+    imageInsetClass: "inset-3 sm:inset-4",
   },
   { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.png" },
   {
@@ -221,20 +224,27 @@ export function CommerceHero() {
 
                   <div className="relative mt-4 min-h-0 flex-1">
                     <div className="relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl">
-                      <Image
-                        src={src}
-                        alt=""
-                        fill
+                      <div
                         className={cn(
-                          cat.imageFit === "contain" ? "object-contain" : "object-cover",
-                          cat.blendScreen && "mix-blend-screen",
-                          cat.imageScaleClass,
-                          cat.imageScaleClass
-                            ? "transition duration-500 motion-reduce:transition-none"
-                            : "transition duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+                          "absolute overflow-hidden rounded-xl",
+                          cat.imageInsetClass ?? "inset-0",
                         )}
-                        sizes="(max-width: 640px) 80vw, 220px"
-                      />
+                      >
+                        <Image
+                          src={src}
+                          alt=""
+                          fill
+                          className={cn(
+                            cat.imageFit === "contain" ? "object-contain" : "object-cover",
+                            cat.blendScreen && "mix-blend-screen",
+                            cat.imageScaleClass,
+                            cat.imageScaleClass
+                              ? "transition duration-500 motion-reduce:transition-none"
+                              : "transition duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+                          )}
+                          sizes="(max-width: 640px) 80vw, 220px"
+                        />
+                      </div>
                     </div>
                   </div>
 
