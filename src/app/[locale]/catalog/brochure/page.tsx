@@ -1,3 +1,4 @@
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { AnimatedReveal, SectionReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
@@ -28,6 +29,7 @@ export default async function CatalogBrochurePage() {
   return (
     <div className="btt-container py-10 md:py-16">
       <SectionReveal>
+        <PageBackNav fallbackHref="/catalog" />
         <nav className="text-sm text-stone-500">
           <Link
             href="/catalog"

@@ -1,6 +1,7 @@
 "use client";
 
 import { OrderHistory } from "@/components/account/OrderHistory";
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { trackEvent } from "@/lib/analytics";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
@@ -52,6 +53,7 @@ export function AccountForm() {
     <div className="btt-container py-12 md:py-16">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
         <div>
+          <PageBackNav fallbackHref="/" />
           <h1 className="text-3xl font-bold text-stone-50 md:text-4xl">{t("title")}</h1>
           <p className="mt-2 max-w-xl text-sm text-stone-400">{t("sub")}</p>
 

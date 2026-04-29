@@ -1,3 +1,4 @@
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { buildAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 
@@ -36,6 +37,7 @@ export default async function CatalogFurniturePage({ params }: Props) {
 
   return (
     <div className="btt-container py-12 md:py-16">
+      <PageBackNav fallbackHref="/catalog" />
       <div className="mx-auto max-w-3xl rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 text-center md:p-10">
         <h1 className="text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">
           {COPY[l].title}

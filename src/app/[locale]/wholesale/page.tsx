@@ -32,7 +32,12 @@ export default async function WholesalePage() {
   return (
     <div className="btt-container py-14 md:py-20">
       <div className="mx-auto max-w-3xl">
-        <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")}>
+        <PageHero
+          kicker={t("kicker")}
+          title={t("title")}
+          lead={t("lead")}
+          backFallbackHref="/"
+        >
           <div className="flex flex-wrap gap-3">
             <Link
               href="/contacts"

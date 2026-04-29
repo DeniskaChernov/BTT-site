@@ -1,5 +1,6 @@
 "use client";
 
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { getProductBySlug } from "@/data/products";
@@ -28,6 +29,9 @@ export function CartView() {
   if (lines.length === 0) {
     return (
       <div className="btt-container py-16 text-center md:py-24">
+        <div className="mb-8 text-left">
+          <PageBackNav fallbackHref="/" className="mb-0" />
+        </div>
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,6 +73,7 @@ export function CartView() {
 
   return (
     <div className="btt-container py-10 md:py-14">
+      <PageBackNav fallbackHref="/" />
       <header className="max-w-3xl">
         <h1 className="text-3xl font-bold text-stone-50 md:text-4xl">{t("title")}</h1>
         <p className="mt-2 text-sm text-stone-500">{t("lines_count", { count: lines.length })}</p>

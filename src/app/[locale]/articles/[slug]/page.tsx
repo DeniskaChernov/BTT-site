@@ -1,4 +1,5 @@
 import { getPublishedArticles, getPublishedSlugs, getArticleBySlug } from "@/data/articles";
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { buildAlternates } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/seo";
@@ -7,7 +8,6 @@ import {
   bttSecondaryAmberButtonClass,
   bttSecondaryNeutralButtonClass,
 } from "@/lib/ui-classes";
-import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -140,13 +140,7 @@ export default async function ArticleDetailPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <div className="mx-auto max-w-3xl">
-        <Link
-          href="/articles"
-          className="btt-focus mb-8 inline-flex items-center gap-2 rounded-sm text-sm font-medium text-stone-400 transition hover:text-amber-400 motion-reduce:transition-none"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {ta("back_to_list")}
-        </Link>
+        <PageBackNav fallbackHref="/articles" />
 
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/85">
           {ta("kicker")}

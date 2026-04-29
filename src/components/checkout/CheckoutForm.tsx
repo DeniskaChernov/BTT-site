@@ -17,6 +17,7 @@ import {
   bttTapReduceClass,
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { appendTelegramPrefillText, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useSearchParams } from "next/navigation";
@@ -176,6 +177,9 @@ export function CheckoutForm() {
   if (lines.length === 0 && !done) {
     return (
       <div className="btt-container py-16 text-center">
+        <div className="mb-8 text-left">
+          <PageBackNav fallbackHref="/cart" className="mb-0" />
+        </div>
         <p className="text-stone-400">{tc("empty")}</p>
       </div>
     );
@@ -184,6 +188,7 @@ export function CheckoutForm() {
   if (done) {
     return (
       <div className="btt-container max-w-lg py-16">
+        <PageBackNav fallbackHref="/catalog" />
         <div className="btt-glass-strong rounded-3xl p-8 text-center">
           <p className="text-lg font-semibold text-emerald-400">{t("success")}</p>
           {createdOrderId ? (
@@ -256,7 +261,9 @@ export function CheckoutForm() {
   }
 
   return (
-    <div className="btt-container grid gap-10 py-10 lg:grid-cols-[1fr_380px]">
+    <div className="btt-container py-10">
+      <PageBackNav fallbackHref="/cart" />
+      <div className="mt-2 grid gap-10 lg:grid-cols-[1fr_380px]">
       <form onSubmit={onPay} className="btt-glass space-y-6 rounded-3xl p-6 md:p-8">
         <div>
           <h1 className="text-2xl font-bold text-stone-50 md:text-3xl">{t("title")}</h1>
@@ -416,6 +423,7 @@ export function CheckoutForm() {
         </p>
         <p className="mt-1 text-xs text-stone-500">{c("total_to_pay")}</p>
       </aside>
+      </div>
     </div>
   );
 }

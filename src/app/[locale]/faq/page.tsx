@@ -32,7 +32,12 @@ export default async function FaqPage() {
     <div className="btt-container py-14 md:py-20">
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
-          <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")} />
+          <PageHero
+            kicker={t("kicker")}
+            title={t("title")}
+            lead={t("lead")}
+            backFallbackHref="/"
+          />
         </AnimatedReveal>
         <AnimatedReveal className="mt-6" delay={0.03}>
           <MicroTrustStrip />

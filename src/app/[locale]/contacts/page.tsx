@@ -25,7 +25,12 @@ export default async function ContactsPage() {
 
   return (
     <div className="btt-container max-w-4xl py-14 md:py-20">
-      <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")} />
+      <PageHero
+        kicker={t("kicker")}
+        title={t("title")}
+        lead={t("lead")}
+        backFallbackHref="/"
+      />
 
       <AnimatedReveal className="mt-6" delay={0.02}>
         <MicroTrustStrip />

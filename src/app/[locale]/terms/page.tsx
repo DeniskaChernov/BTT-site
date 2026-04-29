@@ -1,3 +1,4 @@
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { buildAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -32,6 +33,7 @@ export default async function TermsPage({ params }: Props) {
   const l = (locale in COPY ? locale : "ru") as keyof typeof COPY;
   return (
     <div className="btt-container py-12 md:py-16">
+      <PageBackNav fallbackHref="/" />
       <h1 className="text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">
         {COPY[l].title}
       </h1>

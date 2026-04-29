@@ -32,7 +32,12 @@ export default async function ExportPage() {
   return (
     <div className="btt-container py-14 md:py-20">
       <div className="mx-auto max-w-3xl">
-        <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")}>
+        <PageHero
+          kicker={t("kicker")}
+          title={t("title")}
+          lead={t("lead")}
+          backFallbackHref="/"
+        >
           <p className="max-w-2xl text-sm font-medium text-amber-400/95 md:text-base">
             {t("quote_checkout")}
           </p>

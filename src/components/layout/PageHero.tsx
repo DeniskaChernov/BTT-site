@@ -1,3 +1,4 @@
+import { PageBackNav } from "@/components/layout/PageBackNav";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
@@ -8,6 +9,8 @@ type Props = {
   children?: ReactNode;
   className?: string;
   titleClassName?: string;
+  /** Показать «Назад» над кикером; при прямом заходе — переход по этому пути. */
+  backFallbackHref?: string;
 };
 
 export function PageHero({
@@ -17,9 +20,11 @@ export function PageHero({
   children,
   className,
   titleClassName,
+  backFallbackHref,
 }: Props) {
   return (
     <header className={cn(className)}>
+      {backFallbackHref ? <PageBackNav fallbackHref={backFallbackHref} /> : null}
       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/90">
         {kicker}
       </p>

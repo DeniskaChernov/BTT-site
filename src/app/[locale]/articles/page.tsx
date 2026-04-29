@@ -27,7 +27,12 @@ export default async function ArticlesPage() {
 
   return (
     <div className="btt-container py-14 md:py-20">
-      <PageHero kicker={t("kicker")} title={t("title")} lead={t("lead")}>
+      <PageHero
+        kicker={t("kicker")}
+        title={t("title")}
+        lead={t("lead")}
+        backFallbackHref="/"
+      >
         <p className="max-w-2xl text-pretty text-sm text-stone-500 md:text-base">{t("intro")}</p>
         <div className="flex flex-wrap gap-3">
           <Link

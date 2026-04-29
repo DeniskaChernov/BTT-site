@@ -52,7 +52,12 @@ export default async function CatalogPage({ searchParams }: PageProps) {
 
   return (
     <div className="btt-container py-12 md:py-16">
-      <PageHero kicker={t("page_kicker")} title={t("title")} lead={t("intro")} />
+      <PageHero
+        kicker={t("page_kicker")}
+        title={t("title")}
+        lead={t("intro")}
+        backFallbackHref="/"
+      />
 
       <SectionReveal className="mt-8">
         <CatalogPriceGuide />
