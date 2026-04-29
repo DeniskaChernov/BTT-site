@@ -47,7 +47,29 @@ export function GlowSiteNav() {
   const items: SlideTabItem[] = useMemo(
     () => [
       { id: "home", label: t("home"), href: "/" },
-      { id: "catalog", label: t("catalog"), href: "/catalog" },
+      {
+        id: "catalog",
+        label: t("catalog"),
+        href: "/catalog",
+        dropdown: [
+          {
+            href: "/catalog?tab=material&kind=twisted",
+            label: t("catalog_section_twisted"),
+          },
+          {
+            href: "/catalog?tab=material&kind=regular",
+            label: t("catalog_section_rattan"),
+          },
+          {
+            href: "/catalog?tab=planter",
+            label: t("catalog_section_planter"),
+          },
+          {
+            href: "/catalog/furniture",
+            label: t("catalog_section_furniture"),
+          },
+        ],
+      },
       { id: "about", label: t("about"), href: "/about" },
       { id: "articles", label: t("articles"), href: "/articles" },
       { id: "contacts", label: t("contacts"), href: "/contacts" },
@@ -65,7 +87,7 @@ export function GlowSiteNav() {
 
   return (
     <header
-      className="relative sticky top-0 z-50 bg-transparent pt-[env(safe-area-inset-top,0px)]"
+      className="relative sticky top-0 z-50 overflow-visible bg-transparent pt-[env(safe-area-inset-top,0px)]"
       data-scrolled={scrolled ? "true" : "false"}
     >
       <div className="btt-container py-3.5">
@@ -76,7 +98,7 @@ export function GlowSiteNav() {
           </div>
 
           <div
-            className="min-w-0 overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="min-w-0 overflow-x-auto overflow-y-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             role="navigation"
             aria-label={t("kinetic_menu")}
           >
