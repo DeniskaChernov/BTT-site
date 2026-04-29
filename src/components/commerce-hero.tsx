@@ -31,8 +31,7 @@ const HERO_CATEGORIES: {
     href: "/catalog/rattan",
     messageKey: "card_rattan",
     imageSrc: "/media/catalog/rattan-hero.png",
-    imageFit: "contain",
-    imageScaleClass: "scale-[1.22]",
+    imageFit: "cover",
   },
   { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.png" },
   {
