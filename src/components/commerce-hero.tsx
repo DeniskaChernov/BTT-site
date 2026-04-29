@@ -41,6 +41,8 @@ const HERO_CATEGORIES: {
     href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
     imageSrc: "/media/catalog/twisted-rattan-hero.png",
+    imageFit: "contain",
+    imageInsetClass: "inset-3 sm:inset-4",
     blendScreen: true,
   },
   {
