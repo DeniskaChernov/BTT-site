@@ -1,5 +1,6 @@
 import { MAX_LEAD_JSON_BYTES } from "@/lib/api-limits";
 import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
+import { getSessionUser } from "@/lib/auth-session";
 import { notifyCrmLeadSubmitted } from "@/lib/crm-webhook";
 import { prisma } from "@/lib/db";
 import { validateLeadBody } from "@/lib/leads-api";
@@ -54,6 +55,9 @@ export async function POST(request: Request) {
     );
   }
 
+  const sessionUser =
+    process.env.DATABASE_URL ? await getSessionUser(request) : null;
+
   let leadId: string | undefined;
   if (process.env.DATABASE_URL) {
     try {
@@ -63,6 +67,7 @@ export async function POST(request: Request) {
           locale: validated.locale,
           fields: validated.fields,
           quiz: validated.quiz ?? undefined,
+          ...(sessionUser ? { userId: sessionUser.id } : {}),
         },
       });
       leadId = row.id;

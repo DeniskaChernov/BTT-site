@@ -64,8 +64,10 @@ function loadLines(): CartLine[] {
         const p = getProductBySlug(line.slug);
         if (!p) return line;
         const fixed = normalizeLineQty(p, line.qtyKg);
-        return fixed !== null ? { ...line, qtyKg: fixed } : line;
-      });
+        if (fixed === null) return null;
+        return { ...line, qtyKg: fixed };
+      })
+      .filter((line): line is CartLine => line !== null);
   } catch {
     return [];
   }

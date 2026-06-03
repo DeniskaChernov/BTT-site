@@ -1,10 +1,14 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
-import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
-import { Suspense } from "react";
 import { RattanChairModel } from "@/components/furniture/RattanChairModel";
 import { cn } from "@/lib/utils";
+import { Canvas } from "@react-three/fiber";
+import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
+import { useReducedMotion } from "framer-motion";
+import Image from "next/image";
+import { Suspense, useLayoutEffect, useState } from "react";
+
+const STATIC_FALLBACK = "/media/catalog/furniture-chair-hero.png";
 
 type Props = {
   className?: string;
@@ -60,6 +64,19 @@ function Scene() {
 }
 
 export function FurnitureRattanPreview({ className, "aria-label": ariaLabel }: Props) {
+  const reduceMotion = useReducedMotion();
+  const [narrowViewport, setNarrowViewport] = useState(false);
+
+  useLayoutEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const apply = () => setNarrowViewport(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  const useStaticPreview = Boolean(reduceMotion) || narrowViewport;
+
   return (
     <div
       className={cn(
@@ -70,24 +87,37 @@ export function FurnitureRattanPreview({ className, "aria-label": ariaLabel }: P
       role="img"
       aria-label={ariaLabel}
     >
-      <Canvas
-        shadows
-        className="touch-none !bg-transparent"
-        dpr={[1, 2]}
-        camera={{ position: [2.35, 1.05, 2.65], fov: 38, near: 0.1, far: 100 }}
-        gl={{
-          antialias: true,
-          alpha: true,
-          powerPreference: "high-performance",
-        }}
-        onCreated={({ gl }) => {
-          gl.setClearColor(0x000000, 0);
-        }}
-      >
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
-      </Canvas>
+      {useStaticPreview ? (
+        <div className="relative h-full min-h-[240px] w-full">
+          <Image
+            src={STATIC_FALLBACK}
+            alt={ariaLabel ?? "Furniture preview"}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 896px"
+            priority
+          />
+        </div>
+      ) : (
+        <Canvas
+          shadows
+          className="touch-none !bg-transparent"
+          dpr={[1, 2]}
+          camera={{ position: [2.35, 1.05, 2.65], fov: 38, near: 0.1, far: 100 }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(0x000000, 0);
+          }}
+        >
+          <Suspense fallback={null}>
+            <Scene />
+          </Suspense>
+        </Canvas>
+      )}
 
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/55 to-transparent"

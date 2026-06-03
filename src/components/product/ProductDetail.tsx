@@ -27,6 +27,7 @@ import { ProductValueGrid } from "@/components/product/ProductValueGrid";
 import { BackButton } from "@/components/ui/BackButton";
 import { trackEvent } from "@/lib/analytics";
 import { productGalleryImages, productMainImage } from "@/lib/product-media";
+import { MIN_PREORDER_QTY_KG } from "@/lib/orders-api";
 import { telegramBotStartUrl, telegramChannelUrl, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useRouter } from "@/i18n/navigation";
 import { motion, useReducedMotion } from "framer-motion";
@@ -51,7 +52,9 @@ export function ProductDetail({ product, related }: Props) {
   const [activeImg, setActiveImg] = useState(0);
   const thumbStripRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const belowPreorderMin = false;
+  /** Совпадает с правилом MIN_PREORDER на сервере для материала под заказ */
+  const belowPreorderMin =
+    isOnOrderMaterial && qty < MIN_PREORDER_QTY_KG;
   const collectiveBotUrl = product.collective
     ? telegramBotStartUrl(product.collective.botStartParam)
     : null;
@@ -478,6 +481,7 @@ export function ProductDetail({ product, related }: Props) {
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         <div>
           <h2 className="text-base font-semibold text-stone-100">{t("reviews")}</h2>
+          <p className="mt-1 text-xs text-stone-500">{t("review_sample_label")}</p>
           <p className="mt-2 text-sm text-stone-400">{t("review_sample")}</p>
         </div>
         <div>

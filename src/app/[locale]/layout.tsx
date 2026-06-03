@@ -115,13 +115,25 @@ export default async function LocaleLayout({ children, params }: Props) {
     url: SITE_ORIGIN,
     logo: `${SITE_ORIGIN}/favicon.ico`,
     sameAs: ["https://t.me/BenTenTrade"],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Tashkent",
+      addressCountry: "UZ",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+998-77-104-44-22",
+      contactType: "sales",
+      areaServed: "UZ",
+      availableLanguage: ["Russian", "Uzbek", "English"],
+    },
   };
   const webSiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Bententrade",
     url: SITE_ORIGIN,
-    inLanguage: [locale],
+    inLanguage: routing.locales,
   };
 
   return (

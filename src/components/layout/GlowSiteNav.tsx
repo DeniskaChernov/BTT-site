@@ -18,7 +18,7 @@ function resolveActiveNavId(pathname: string): string | undefined {
     return "articles";
   if (normalized.startsWith("/wholesale") || normalized.startsWith("/export"))
     return "catalog";
-  if (normalized.startsWith("/faq")) return "contacts";
+  if (normalized.startsWith("/faq")) return undefined;
   if (normalized.startsWith("/contacts")) return "contacts";
   if (normalized.startsWith("/checkout") || normalized.startsWith("/cart"))
     return "cart";
@@ -57,6 +57,10 @@ export function GlowSiteNav() {
             label: t("catalog_section_twisted"),
           },
           {
+            href: "/catalog?tab=material&source=pdf&kind=regular",
+            label: t("catalog_section_semi"),
+          },
+          {
             href: "/catalog?tab=material&kind=regular",
             label: t("catalog_section_rattan"),
           },
@@ -67,6 +71,14 @@ export function GlowSiteNav() {
           {
             href: "/catalog/furniture",
             label: t("catalog_section_furniture"),
+          },
+          {
+            href: "/wholesale",
+            label: t("wholesale"),
+          },
+          {
+            href: "/export",
+            label: t("export"),
           },
         ],
       },

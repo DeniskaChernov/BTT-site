@@ -9,6 +9,7 @@ import {
   bttSecondaryAmberButtonClass,
   bttSecondaryNeutralButtonClass,
 } from "@/lib/ui-classes";
+import { buildAlternates } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
@@ -19,9 +20,15 @@ type MetadataProps = {
 export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "wholesale" });
+  const alternates = buildAlternates(locale, "/wholesale");
+  const title = t("title");
+  const description = t("lead");
   return {
-    title: t("title"),
-    description: t("lead"),
+    title,
+    description,
+    alternates,
+    openGraph: { title, description, url: alternates.canonical },
+    twitter: { title, description },
   };
 }
 
@@ -79,6 +86,19 @@ export default async function WholesalePage() {
               </li>
             ))}
           </ul>
+        </AnimatedReveal>
+
+        <AnimatedReveal delay={0.05}>
+          <div className="btt-glass mt-10 rounded-2xl border border-white/[0.07] p-6 md:mt-12 md:rounded-3xl md:p-8">
+            <h2 className="text-lg font-semibold text-stone-50 md:text-xl">{t("range_title")}</h2>
+            <p className="mt-4 text-sm leading-relaxed text-stone-400 md:text-base">{t("range_body")}</p>
+            <Link
+              href="/catalog/brochure"
+              className={`${bttSecondaryAmberButtonClass} mt-6 inline-flex`}
+            >
+              {t("cta_catalog_pdf")}
+            </Link>
+          </div>
         </AnimatedReveal>
 
         <AnimatedReveal delay={0.08}>

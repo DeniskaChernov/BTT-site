@@ -1,8 +1,11 @@
 import { getPublishedArticles, getPublishedSlugs, getArticleBySlug } from "@/data/articles";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
-import { buildAlternates } from "@/lib/seo";
-import { SITE_ORIGIN } from "@/lib/seo";
+import {
+  getArticleCoverAbsoluteUrl,
+  getArticleCoverPath,
+} from "@/lib/article-cover";
+import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
 import { SITE_MEDIA } from "@/lib/site-media";
 import {
   bttSecondaryAmberButtonClass,
@@ -33,10 +36,28 @@ export async function generateMetadata({ params }: Props) {
     locale,
     namespace: article.messageNamespace,
   });
+  const alternates = buildAlternates(locale, `/articles/${slug}`);
+  const title = t("title");
+  const description = t("meta_description");
+  const coverUrl = getArticleCoverAbsoluteUrl(slug, SITE_ORIGIN);
   return {
-    title: t("title"),
-    description: t("meta_description"),
-    alternates: buildAlternates(locale, `/articles/${slug}`),
+    title,
+    description,
+    alternates,
+    openGraph: {
+      title,
+      description,
+      url: alternates.canonical,
+      type: "article",
+      publishedTime: article.publishedAt,
+      ...(coverUrl ? { images: [{ url: coverUrl, alt: title }] } : {}),
+    },
+    twitter: {
+      card: coverUrl ? "summary_large_image" : "summary",
+      title,
+      description,
+      ...(coverUrl ? { images: [coverUrl] } : {}),
+    },
   };
 }
 
@@ -106,17 +127,15 @@ export default async function ArticleDetailPage({ params }: Props) {
   };
   const gallery = articleImagesBySlug[slug] ?? [];
 
-  const relatedCover: Record<string, string> = {
-    "rattan-thickness-furniture": SITE_MEDIA.categoryCard("btt-cat-rattan"),
-    "planters-outdoor-uv-drainage": SITE_MEDIA.categoryCard("btt-cat-planter"),
-    "wholesale-horeca-timelines": SITE_MEDIA.heroPanel,
-    "what-is-artificial-rattan": SITE_MEDIA.categoryCard("btt-cat-twist"),
-  };
+  const coverUrl = getArticleCoverAbsoluteUrl(slug, SITE_ORIGIN);
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: t("title"),
     description: t("meta_description"),
+    datePublished: article.publishedAt,
+    dateModified: article.publishedAt,
+    ...(coverUrl ? { image: coverUrl } : {}),
     author: {
       "@type": "Organization",
       name: "Bententrade",
@@ -235,7 +254,8 @@ export default async function ArticleDetailPage({ params }: Props) {
                   <div className="relative aspect-[16/10]">
                     <Image
                       src={
-                        relatedCover[x.slug] ?? SITE_MEDIA.categoryCard("btt-cat-rattan")
+                        getArticleCoverPath(x.slug) ??
+                        SITE_MEDIA.categoryCard("btt-cat-rattan")
                       }
                       alt={ta(x.cardTitleKey)}
                       fill

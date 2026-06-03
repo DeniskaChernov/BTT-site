@@ -2,11 +2,11 @@
 
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
-import { CreditCard, Headset, RotateCcw, Shield } from "lucide-react";
+import { Banknote, Headset, RotateCcw, Shield } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
-const ICONS = [CreditCard, Shield, RotateCcw, Headset] as const;
+const ICONS = [Banknote, Shield, RotateCcw, Headset] as const;
 
 type LiProps = {
   children: ReactNode;
@@ -40,7 +40,7 @@ function TrustItem({ children, Icon, i }: LiProps) {
 }
 
 /**
- * Нижняя полоса доверия на PDP: оплата, партия, обмен, связь.
+ * Нижняя полоса доверия на PDP: оплата (Telegram/счёт), партия, обмен, связь.
  */
 export function PdpTrustBar() {
   const t = useTranslations("product");

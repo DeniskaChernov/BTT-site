@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { Download, ExternalLink, FileText } from "lucide-react";
+import { buildAlternates } from "@/lib/seo";
 import { getTranslations } from "next-intl/server";
 
 const PDF_HREF = "/downloads/bententrade-catalog.pdf";
@@ -16,9 +17,15 @@ type MetadataProps = {
 export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "catalogBrochure" });
+  const alternates = buildAlternates(locale, "/catalog/brochure");
+  const title = t("meta_title");
+  const description = t("lead");
   return {
-    title: t("meta_title"),
-    description: t("lead"),
+    title,
+    description,
+    alternates,
+    openGraph: { title, description, url: alternates.canonical },
+    twitter: { title, description },
   };
 }
 

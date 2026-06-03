@@ -1,48 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bententrade (btt-site)
 
-## Getting Started
+Сайт каталога и оформления заказов на искусственный ротанг и сопутствующие товары (Next.js 15, App Router, Prisma, PostgreSQL, next-intl).
 
-First, run the development server:
+## Локальный запуск
 
 ```bash
+npm install
+# При необходимости: скопируйте .env.example → .env.local и задайте DATABASE_URL
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте корень (`/` редиректит на локаль по умолчанию), например `http://localhost:3000/ru`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Скрипты
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Команда | Назначение |
+|--------|------------|
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript |
+| `npm run test` | Vitest (unit) |
+| `npm run test:e2e` | Playwright |
+| `npm run verify` | lint + typecheck + unit tests |
+| `npm run validate` | verify + production build |
+| `npm run media:optimize` | производные webp/avif для каталога |
 
-## Learn More
+## Чеклист перед продакшеном (staging → prod)
 
-To learn more about Next.js, take a look at the following resources:
+Проверьте переменные из [.env.example](.env.example):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **БД:** `DATABASE_URL`; после деплоя миграции выполняются при `npm start` (`prisma migrate deploy`).
+2. **История заказов в профиле:** `ORDER_HISTORY_TOKEN_SECRET` (или `ADMIN_API_SECRET` ≥ 24 символов как fallback).
+3. **Очередь запросов:** опционально Upstash (`UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`).
+4. **CRM:** `CRM_WEBHOOK_URL`, `CRM_WEBHOOK_SECRET`.
+5. **Уведомления клиентам:** `CUSTOMER_NOTIFY_WEBHOOK_URL`, `CUSTOMER_NOTIFY_WEBHOOK_SECRET`.
+6. **Аналитика:** `NEXT_PUBLIC_GTM_ID` (валидный `GTM-XXXXXXX`).
+7. **Telegram:** `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `NEXT_PUBLIC_TELEGRAM_CHANNEL_USERNAME`, при необходимости `NEXT_PUBLIC_TELEGRAM_PAYMENT_USERNAME`.
+8. **Платёжный webhook** (когда подключите шлюз): `PAYMENT_WEBHOOK_SHARED_SECRET` и POST на `/api/payments/webhook/<provider>` — см. комментарии в `.env.example`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Smoke после деплоя: главная → каталог → карточка → корзина → чекаут; форма контактов; при наличии БД — POST заказа и просмотр истории с тем же телефоном.
 
-## Deploy on Vercel
+### E2E
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Тест `order-post.spec.ts` создаёт реальный заказ, если у **запущенного** сервера на `E2E_BASE_URL` база отвечает на `GET /api/health?db=1` с `db: "up"`. Без PostgreSQL сценарий пропускается.
 
-## Project Ops Notes
+## Прочее
 
-- Order history sync requires `ORDER_HISTORY_TOKEN_SECRET` (or `ADMIN_API_SECRET` fallback).
-- Optional distributed rate limit uses Upstash REST:
-  - `UPSTASH_REDIS_REST_URL`
-  - `UPSTASH_REDIS_REST_TOKEN`
-- E2E smoke test:
-  - Install browser: `npx playwright install chromium`
-  - Run: `npm run test:e2e`
-- Media optimization pipeline (webp/avif derivatives for `public/media/site` and `public/media/catalog`):
-  - `npm run media:optimize`
+- Исходящий контракт CRM: [docs/crm-integration.md](docs/crm-integration.md).
+- Подробности по Docker и миграциям — комментарии в `.env.example`.

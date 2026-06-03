@@ -16,10 +16,15 @@ import {
   bttQuizOptionClass,
   bttTapReduceClass,
 } from "@/lib/ui-classes";
+import {
+  clearQuizPersisted,
+  loadQuizPersisted,
+  saveQuizPersisted,
+} from "@/lib/quiz-persist";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Segment = "novice" | "master" | "wholesale";
 type WorkGoal = "furniture" | "planter";
@@ -56,6 +61,59 @@ export function RattanQuiz() {
   const [quoteSending, setQuoteSending] = useState(false);
   const reduceMotion = useReducedMotion();
 
+  useEffect(() => {
+    const p = loadQuizPersisted();
+    if (
+      !p ||
+      p.step < 1 ||
+      p.step > RESULT_STEP ||
+      (p.step === RESULT_STEP && p.endMode === "idle")
+    ) {
+      return;
+    }
+    setStep(p.step);
+    setSegment(p.segment);
+    setWorkGoal(p.workGoal);
+    setFurnitureUse(p.furnitureUse);
+    setPlanterPath(p.planterPath);
+    setProductKind(p.productKind);
+    setVol(p.vol);
+    setWhen(p.when);
+    setEndMode(p.endMode);
+    setContact(p.contact);
+  }, []);
+
+  useEffect(() => {
+    if (step === 0 && endMode === "idle") return;
+    const t = window.setTimeout(() => {
+      saveQuizPersisted({
+        v: 1,
+        step,
+        segment,
+        workGoal,
+        furnitureUse,
+        planterPath,
+        productKind,
+        vol,
+        when,
+        endMode,
+        contact,
+      });
+    }, 400);
+    return () => window.clearTimeout(t);
+  }, [
+    step,
+    segment,
+    workGoal,
+    furnitureUse,
+    planterPath,
+    productKind,
+    vol,
+    when,
+    endMode,
+    contact,
+  ]);
+
   const totalSteps = 5;
 
   const recommended = useMemo(() => {
@@ -72,6 +130,7 @@ export function RattanQuiz() {
   }, [productKind, workGoal, furnitureUse, planterPath]);
 
   const start = () => {
+    clearQuizPersisted();
     trackEvent("quiz_start", { source: "home_quiz" });
     setSegment(null);
     setWorkGoal(null);
@@ -129,6 +188,7 @@ export function RattanQuiz() {
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           kind: "quiz_quote",
           locale,
@@ -166,6 +226,7 @@ export function RattanQuiz() {
         ...contact,
       });
       setEndMode("done");
+      clearQuizPersisted();
     } catch {
       setQuoteError(t("quote_send_error"));
     } finally {

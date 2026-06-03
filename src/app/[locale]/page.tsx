@@ -1,5 +1,6 @@
-import { CollectiveHomeTeaser } from "@/components/collective/CollectiveHomeTeaser";
+import { ArticlesTeaser } from "@/components/home/ArticlesTeaser";
 import { CommerceHero } from "@/components/commerce-hero";
+import { InstagramHighlightsSection } from "@/components/home/InstagramHighlightsSection";
 import { CollectiveSalesTeaser } from "@/components/home/CollectiveSalesTeaser";
 import { ExamplesSection } from "@/components/home/ExamplesSection";
 import { HeroPromisesStrip } from "@/components/home/HeroPromisesStrip";
@@ -68,8 +69,8 @@ export default async function HomePage() {
       {/* 2.6 Коллективные заказы — под ТЗ (от 5 кг, удобный формат, тест) */}
       <CollectiveSalesTeaser />
 
-      {/* Существующий Telegram-коллектив (оставляем как отдельный модуль входа в бот/канал) */}
-      <CollectiveHomeTeaser />
+      <InstagramHighlightsSection />
+      <ArticlesTeaser />
 
       {/* 2.7 Захват заявки: имя + телефон */}
       <LeadCaptureSection />

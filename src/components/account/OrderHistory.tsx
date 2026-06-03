@@ -25,12 +25,20 @@ type Props = {
   profilePhone: string;
 };
 
+type MeUser = {
+  id: string;
+  email: string;
+  name: string | null;
+  phone: string | null;
+};
+
 export function OrderHistory({ profilePhone }: Props) {
   const t = useTranslations("account");
   const tc = useTranslations("cart");
   const tch = useTranslations("checkout");
   const locale = useLocale();
 
+  const [me, setMe] = useState<MeUser | null | undefined>(undefined);
   const [localOrders, setLocalOrders] = useState<StoredOrder[]>([]);
   const [remoteOrders, setRemoteOrders] = useState<StoredOrder[] | undefined>(
     undefined,
@@ -43,6 +51,22 @@ export function OrderHistory({ profilePhone }: Props) {
 
   const loadLocal = useCallback(() => {
     setLocalOrders(readOrders());
+  }, []);
+
+  useEffect(() => {
+    let cancel = false;
+    fetch("/api/auth/me", { credentials: "include" })
+      .then((r) => (r.ok ? r.json() : { user: null }))
+      .then((d: { user: MeUser | null }) => {
+        if (cancel) return;
+        setMe(d.user ?? null);
+      })
+      .catch(() => {
+        if (!cancel) setMe(null);
+      });
+    return () => {
+      cancel = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -63,9 +87,51 @@ export function OrderHistory({ profilePhone }: Props) {
   }, [loadLocal]);
 
   useEffect(() => {
+    if (me === undefined) return;
+
+    if (me) {
+      let cancelled = false;
+      setRemoteOrders(undefined);
+      setRemoteRateLimited(false);
+      setRemoteDenied(false);
+      setRemoteError(false);
+      fetch("/api/orders", { credentials: "include" })
+        .then(async (res) => {
+          if (res.status === 429) {
+            if (!cancelled) setRemoteRateLimited(true);
+            return [];
+          }
+          if (res.status >= 500 && !cancelled) setRemoteError(true);
+          if (!cancelled) setRemoteRateLimited(false);
+          if (!res.ok) return [];
+          try {
+            const d = (await res.json()) as { orders?: StoredOrder[] };
+            return Array.isArray(d.orders) ? d.orders : [];
+          } catch {
+            return [];
+          }
+        })
+        .then((list) => {
+          if (!cancelled) setRemoteOrders(list);
+        })
+        .catch(() => {
+          if (!cancelled) {
+            setRemoteOrders([]);
+            setRemoteRateLimited(false);
+            setRemoteError(true);
+          }
+        });
+      return () => {
+        cancelled = true;
+      };
+    }
+
     const phoneNorm = normalizePhone(profilePhone);
     if (!phoneNorm || !isMeaningfulPhone(phoneNorm)) {
       setRemoteOrders([]);
+      setRemoteDenied(false);
+      setRemoteRateLimited(false);
+      setRemoteError(false);
       return;
     }
     const accessToken = readOrderAccessToken(phoneNorm);
@@ -81,7 +147,9 @@ export function OrderHistory({ profilePhone }: Props) {
     setRemoteRateLimited(false);
     setRemoteDenied(false);
     setRemoteError(false);
-    fetch(`/api/orders?phone=${encodeURIComponent(phoneNorm)}&access=${encodeURIComponent(accessToken)}`)
+    fetch(
+      `/api/orders?phone=${encodeURIComponent(phoneNorm)}&access=${encodeURIComponent(accessToken)}`,
+    )
       .then(async (res) => {
         if (res.status === 429) {
           if (!cancelled) setRemoteRateLimited(true);
@@ -116,7 +184,7 @@ export function OrderHistory({ profilePhone }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [profilePhone]);
+  }, [me, profilePhone]);
 
   const orders = useMemo(() => {
     const remote = remoteOrders ?? [];
@@ -199,21 +267,26 @@ export function OrderHistory({ profilePhone }: Props) {
     t(`payment_${paymentStatus(s).toLowerCase()}`);
 
   const phoneForHistory = normalizePhone(profilePhone);
-  const loading =
-    remoteOrders === undefined &&
-    phoneForHistory.length > 0 &&
-    isMeaningfulPhone(phoneForHistory);
 
-  if (!phoneForHistory || !isMeaningfulPhone(phoneForHistory)) {
+  if (me === undefined) {
     return (
       <section className="mt-12 border-t border-white/[0.08] pt-12">
         <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
-        <p className="mt-3 text-sm text-stone-500">{t("orders_need_phone")}</p>
+        <p className="mt-4 text-sm text-stone-500">{t("session_loading")}</p>
       </section>
     );
   }
 
-  if (loading) {
+  if (me === null && (!phoneForHistory || !isMeaningfulPhone(phoneForHistory))) {
+    return (
+      <section className="mt-12 border-t border-white/[0.08] pt-12">
+        <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
+        <p className="mt-3 text-sm text-stone-500">{t("orders_need_auth_or_phone")}</p>
+      </section>
+    );
+  }
+
+  if (remoteOrders === undefined) {
     return (
       <section className="mt-12 border-t border-white/[0.08] pt-12">
         <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>

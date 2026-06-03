@@ -19,10 +19,15 @@ type MetadataProps = {
 export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "catalog" });
+  const alternates = buildAlternates(locale, "/catalog");
+  const title = t("title");
+  const description = t("intro");
   return {
-    title: t("title"),
-    description: t("intro"),
-    alternates: buildAlternates(locale, "/catalog"),
+    title,
+    description,
+    alternates,
+    openGraph: { title, description, url: alternates.canonical },
+    twitter: { title, description },
   };
 }
 

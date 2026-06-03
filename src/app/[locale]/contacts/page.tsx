@@ -3,6 +3,7 @@ import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
 import { AnimatedReveal } from "@/components/ui/animated-reveal";
 import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
+import { buildAlternates } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
@@ -13,9 +14,15 @@ type MetadataProps = {
 export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "contacts" });
+  const alternates = buildAlternates(locale, "/contacts");
+  const title = t("title");
+  const description = t("meta_description");
   return {
-    title: t("title"),
-    description: t("meta_description"),
+    title,
+    description,
+    alternates,
+    openGraph: { title, description, url: alternates.canonical },
+    twitter: { title, description },
   };
 }
 

@@ -1,4 +1,10 @@
-/** Лимиты и проверки для POST /api/orders (защита от мусора и злоупотреблений) */
+/**
+ * Лимиты и проверки для POST /api/orders (защита от мусора и злоупотреблений).
+ *
+ * Способы оплаты на сайте согласованы с UI чекаута (`telegram`, `invoice`).
+ * Поля Order.payment* и POST `/api/payments/webhook/<provider>` остаются для
+ * будущего подключения шлюзов и ручного обновления в admin.
+ */
 
 import { getProductBySlug } from "@/data/products";
 import { lineItemTotalUz, normalizeLineQty } from "@/lib/pricing";
@@ -15,15 +21,10 @@ export const MAX_SKU_CHARS = 80;
 export const MAX_SLUG_CHARS = 160;
 export const MAX_LINE_NAME_CHARS = 240;
 
-const ALLOWED_PAY = new Set([
-  "telegram",
-  "uzcard",
-  "humo",
-  "payme",
-  "click",
-  "invoice",
-  "cod",
-]);
+/** Способы оплаты, доступные в UI оформления заказа */
+export type OrderPayMethod = "telegram" | "invoice";
+
+const ALLOWED_PAY = new Set<string>(["telegram", "invoice"]);
 const ALLOWED_SHIP = new Set(["courier", "pickup"]);
 
 /** Допуск по сумам между клиентом и пересчётом по каталогу (округление) */
@@ -48,7 +49,7 @@ export type OrderLineInput = {
 export type CreateOrderBody = {
   totalUz: number;
   lines: OrderLineInput[];
-  pay: string;
+  pay: OrderPayMethod;
   ship: string;
   customerName: string;
   phone: string;
@@ -136,7 +137,7 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
   return {
     totalUz,
     lines: outLines,
-    pay,
+    pay: pay as OrderPayMethod,
     ship,
     customerName: customerName.trim(),
     phone,

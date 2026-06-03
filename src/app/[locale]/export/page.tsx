@@ -10,6 +10,7 @@ import {
   bttSecondaryNeutralButtonClass,
   bttSelectFieldClass,
 } from "@/lib/ui-classes";
+import { buildAlternates } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
@@ -20,14 +21,21 @@ type MetadataProps = {
 export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "export_page" });
+  const alternates = buildAlternates(locale, "/export");
+  const title = t("title");
+  const description = t("lead");
   return {
-    title: t("title"),
-    description: t("lead"),
+    title,
+    description,
+    alternates,
+    openGraph: { title, description, url: alternates.canonical },
+    twitter: { title, description },
   };
 }
 
 export default async function ExportPage() {
   const t = await getTranslations("export_page");
+  const tw = await getTranslations("wholesale");
 
   return (
     <div className="btt-container py-14 md:py-20">
@@ -70,6 +78,19 @@ export default async function ExportPage() {
             <li>{t("checklist_3")}</li>
             <li>{t("checklist_4")}</li>
           </ol>
+          </div>
+        </AnimatedReveal>
+
+        <AnimatedReveal delay={0.07}>
+          <div className="btt-glass mt-10 rounded-2xl border border-white/[0.07] p-6 md:mt-12 md:rounded-3xl md:p-8">
+            <h2 className="text-lg font-semibold text-stone-50 md:text-xl">{t("products_title")}</h2>
+            <p className="mt-4 text-sm leading-relaxed text-stone-400 md:text-base">{t("products_body")}</p>
+            <Link
+              href="/catalog/brochure"
+              className={`${bttSecondaryAmberButtonClass} mt-6 inline-flex`}
+            >
+              {tw("cta_catalog_pdf")}
+            </Link>
           </div>
         </AnimatedReveal>
 

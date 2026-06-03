@@ -6,6 +6,7 @@ import {
   bttSecondaryAmberButtonClass,
   bttSecondaryNeutralButtonClass,
 } from "@/lib/ui-classes";
+import { buildAlternates } from "@/lib/seo";
 import { getTranslations } from "next-intl/server";
 
 type MetadataProps = {
@@ -15,9 +16,15 @@ type MetadataProps = {
 export async function generateMetadata({ params }: MetadataProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
+  const alternates = buildAlternates(locale, "/about");
+  const title = t("title");
+  const description = t("meta_description");
   return {
-    title: t("title"),
-    description: t("meta_description"),
+    title,
+    description,
+    alternates,
+    openGraph: { title, description, url: alternates.canonical },
+    twitter: { title, description },
   };
 }
 
@@ -26,6 +33,7 @@ export default async function AboutPage() {
   const s = await getTranslations("sales");
 
   const blocks = [
+    { title: t("range"), body: t("range_body") },
     { title: t("quality"), body: t("quality_body") },
     { title: t("batch"), body: t("batch_body") },
     { title: t("requisites"), body: t("requisites_body") },

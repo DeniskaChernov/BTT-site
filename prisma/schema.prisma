@@ -7,6 +7,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  name         String?
+  phone        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+  orders       Order[]
+  leads        Lead[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+  @@map("sessions")
+}
+
 model Order {
   id           String      @id @default(cuid())
   createdAt    DateTime    @default(now())
@@ -30,10 +58,13 @@ model Order {
   customerName String
   phone        String
   address      String?
+  userId       String?     @map("user_id")
+  user         User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
   lines        OrderLine[]
 
   @@index([status])
   @@index([phone])
+  @@index([userId])
   @@map("orders")
 }
 
@@ -58,9 +89,12 @@ model Lead {
   locale    String
   fields    Json
   quiz      Json?
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([kind])
   @@index([createdAt])
+  @@index([userId])
   @@map("leads")
 }
 

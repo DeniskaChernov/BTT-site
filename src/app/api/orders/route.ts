@@ -1,5 +1,6 @@
 import { MAX_ORDER_JSON_BYTES } from "@/lib/api-limits";
 import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
+import { getSessionUser } from "@/lib/auth-session";
 import { notifyCrmOrderCreated } from "@/lib/crm-webhook";
 import { notifyCustomerOrderEvent } from "@/lib/customer-notify";
 import { prisma } from "@/lib/db";
@@ -14,6 +15,7 @@ import {
 import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import {
   allowGetOrders,
+  allowGetOrdersSession,
   allowPostOrder,
   clientKeyFromRequest,
 } from "@/lib/rate-limit";
@@ -91,6 +93,9 @@ export async function POST(request: Request) {
     return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
   }
 
+  const sessionUser =
+    process.env.DATABASE_URL ? await getSessionUser(request) : null;
+
   try {
     const order = await prisma.order.create({
       data: {
@@ -100,6 +105,7 @@ export async function POST(request: Request) {
         customerName,
         phone: phoneNorm,
         address: address || null,
+        ...(sessionUser ? { userId: sessionUser.id } : {}),
         lines: {
           create: lines.map((l) => ({
             sku: l.sku,
@@ -168,32 +174,62 @@ export async function GET(request: Request) {
     return NextResponse.json({ orders: [] });
   }
 
-  const { searchParams } = new URL(request.url);
-  const phone = searchParams.get("phone");
-  const accessToken = searchParams.get("access") ?? "";
-  if (!phone?.trim()) {
-    return apiJsonError(400, ApiErrorCode.VALIDATION, "phone is required");
-  }
-
-  const phoneNorm = normalizePhone(phone);
-  if (!isMeaningfulPhone(phoneNorm)) {
-    return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
-  }
-  if (!accessToken || !verifyOrderHistoryToken(accessToken, phoneNorm)) {
-    return apiJsonError(401, ApiErrorCode.UNAUTHORIZED, "Order history access denied");
-  }
-
+  const sessionUser = await getSessionUser(request);
   const key = clientKeyFromRequest(request);
-  if (!(await allowGetOrders(key, phoneNorm))) {
-    return NextResponse.json(
-      { ok: false as const, error: "Too many requests", code: ApiErrorCode.RATE_LIMIT, orders: [] },
-      { status: 429, headers: { "Retry-After": "60" } },
-    );
+
+  let guestPhoneNorm: string | undefined;
+
+  if (sessionUser) {
+    if (!(await allowGetOrdersSession(key))) {
+      return NextResponse.json(
+        {
+          ok: false as const,
+          error: "Too many requests",
+          code: ApiErrorCode.RATE_LIMIT,
+          orders: [],
+        },
+        { status: 429, headers: { "Retry-After": "60" } },
+      );
+    }
+  } else {
+    const { searchParams } = new URL(request.url);
+    const phone = searchParams.get("phone");
+    const accessToken = searchParams.get("access") ?? "";
+    if (!phone?.trim()) {
+      return apiJsonError(400, ApiErrorCode.VALIDATION, "phone is required");
+    }
+
+    const phoneNorm = normalizePhone(phone);
+    if (!isMeaningfulPhone(phoneNorm)) {
+      return apiJsonError(400, ApiErrorCode.VALIDATION, "Invalid phone");
+    }
+    if (!accessToken || !verifyOrderHistoryToken(accessToken, phoneNorm)) {
+      return apiJsonError(
+        401,
+        ApiErrorCode.UNAUTHORIZED,
+        "Order history access denied",
+      );
+    }
+
+    if (!(await allowGetOrders(key, phoneNorm))) {
+      return NextResponse.json(
+        {
+          ok: false as const,
+          error: "Too many requests",
+          code: ApiErrorCode.RATE_LIMIT,
+          orders: [],
+        },
+        { status: 429, headers: { "Retry-After": "60" } },
+      );
+    }
+    guestPhoneNorm = phoneNorm;
   }
 
   try {
     const rows = await prisma.order.findMany({
-      where: { phone: phoneNorm },
+      where: sessionUser
+        ? { userId: sessionUser.id }
+        : { phone: guestPhoneNorm! },
       include: { lines: true },
       orderBy: { createdAt: "desc" },
       take: 100,

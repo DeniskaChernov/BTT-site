@@ -13,6 +13,8 @@ const postOrders = new Map<string, Bucket>();
 const postLeads = new Map<string, Bucket>();
 const getOrders = new Map<string, Bucket>();
 const getOrdersByPhone = new Map<string, Bucket>();
+const getOrdersSession = new Map<string, Bucket>();
+const postAuth = new Map<string, Bucket>();
 const adminList = new Map<string, Bucket>();
 
 function prune(bucket: number[], now: number): number[] {
@@ -101,6 +103,23 @@ export async function allowGetOrders(
   const remoteIp = await remoteHit(`get_orders_ip:${key}`, maxByIp);
   if (!remoteIp) return false;
   return remoteHit(`get_orders_phone:${phoneKey}`, maxByPhone);
+}
+
+/** GET /api/orders с сессией: лимит по IP */
+export async function allowGetOrdersSession(
+  key: string,
+  max = 90,
+): Promise<boolean> {
+  const local = hit(getOrdersSession, key, max, Date.now());
+  if (!local) return false;
+  return remoteHit(`get_orders_session:${key}`, max);
+}
+
+/** POST /api/auth/*: защита от брутфорса */
+export async function allowPostAuth(key: string, max = 12): Promise<boolean> {
+  const local = hit(postAuth, key, max, Date.now());
+  if (!local) return false;
+  return remoteHit(`post_auth:${key}`, max);
 }
 
 /** GET /api/admin/orders: строже — только с валидным Bearer */

@@ -16,14 +16,14 @@ import {
   bttPrimaryButtonClass,
   bttTapReduceClass,
 } from "@/lib/ui-classes";
+import type { OrderPayMethod } from "@/lib/orders-api";
+import { cartHasInvalidPreorder } from "@/lib/cart-preorder";
 import { cn } from "@/lib/utils";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { appendTelegramPrefillText, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-
-type Pay = "telegram" | "uzcard" | "humo" | "payme" | "click" | "invoice" | "cod";
 
 export function CheckoutForm() {
   const t = useTranslations("checkout");
@@ -39,7 +39,7 @@ export function CheckoutForm() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [ship, setShip] = useState<"courier" | "pickup">("courier");
-  const [pay, setPay] = useState<Pay>("telegram");
+  const [pay, setPay] = useState<OrderPayMethod>("telegram");
   const [done, setDone] = useState(false);
   const [createdOrderId, setCreatedOrderId] = useState<string | null>(null);
   /** false — заказ ушёл только в localStorage (сеть или сервер без БД) */
@@ -84,6 +84,10 @@ export function CheckoutForm() {
       setErr(t("error_address"));
       return;
     }
+    if (cartHasInvalidPreorder(lines)) {
+      setErr(t("error_min_preorder"));
+      return;
+    }
     setSubmitting(true);
     setCreatedOrderId(null);
     try {
@@ -123,6 +127,7 @@ export function CheckoutForm() {
         const res = await fetch("/api/orders", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify(orderBody),
         });
         if (res.ok) {

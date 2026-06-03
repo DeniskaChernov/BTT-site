@@ -689,6 +689,10 @@ export const products: Product[] = [
     stock: "in_stock",
     priceUz: { t12: 190_000, t5: 173_000, t10: 158_000 },
     imageSeed: "btt-tw5nat",
+    gallery: [
+      "/media/catalog/btt-tw5nat.png",
+      "/media/catalog/twisted-rattan-hero.png",
+    ],
   },
   ...BROCHURE_PRODUCTS,
 ];

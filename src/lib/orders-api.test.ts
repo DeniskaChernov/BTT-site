@@ -28,7 +28,7 @@ function validBody(overrides: Partial<CreateOrderBody> = {}): CreateOrderBody {
   return {
     totalUz: line.lineTotalUz,
     lines: [line],
-    pay: "payme",
+    pay: "telegram",
     ship: "courier",
     customerName: "Тест",
     phone: "+998 90 000 00 00",
@@ -57,8 +57,9 @@ describe("validateCreateOrderBody", () => {
   });
 
   it("returns 422 candidates for invalid pay/ship strings", () => {
-    const b = validBody({ pay: "visa" as "payme" });
-    expect(validateCreateOrderBody(b)).toBe("Invalid pay method");
+    expect(
+      validateCreateOrderBody({ ...validBody(), pay: "visa" }),
+    ).toBe("Invalid pay method");
     const b2 = validBody({ ship: "drone" as "courier" });
     expect(validateCreateOrderBody(b2)).toBe("Invalid shipping");
   });
@@ -68,6 +69,13 @@ describe("validateCreateOrderBody", () => {
     expect(r).not.toBe("Invalid payload");
     if (typeof r === "string") throw new Error(r);
     expect(r.pay).toBe("telegram");
+  });
+
+  it("accepts invoice as pay method", () => {
+    const r = validateCreateOrderBody(validBody({ pay: "invoice" }));
+    expect(r).not.toBe("Invalid payload");
+    if (typeof r === "string") throw new Error(r);
+    expect(r.pay).toBe("invoice");
   });
 });
 
