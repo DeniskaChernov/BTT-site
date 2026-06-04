@@ -21,6 +21,7 @@ import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
 import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PdpExamplesAndPromises } from "@/components/product/PdpExamplesAndPromises";
 import { PdpTrustBar } from "@/components/product/PdpTrustBar";
+import { ProductPriceStory } from "@/components/product/ProductPriceStory";
 import { ProductRelatedSection } from "@/components/product/ProductRelatedSection";
 import { PdpWholesaleTeaser } from "@/components/product/PdpWholesaleTeaser";
 import { ProductHelpPanel } from "@/components/product/ProductHelpPanel";
@@ -320,6 +321,7 @@ export function ProductDetail({ product }: Props) {
                 </p>
               </div>
             </div>
+            <ProductPriceStory product={product} qty={qty} />
           </div>
 
           {product.collective ? (
@@ -507,7 +509,7 @@ export function ProductDetail({ product }: Props) {
 
       <PdpTrustBar />
 
-      <ProductRelatedSection product={product} />
+      <ProductRelatedSection product={product} compact />
 
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden">
         <div className="btt-container flex items-center justify-between gap-3">

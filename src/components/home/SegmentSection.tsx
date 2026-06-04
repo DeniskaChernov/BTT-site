@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
+import { withJourneyHref } from "@/lib/journey/href";
 import { reorderByJourney } from "@/lib/journey/orchestrator";
 import { ArrowUpRight, HeartHandshake, Wrench, Warehouse } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -81,7 +82,7 @@ export function SegmentSection() {
             <div key={c.title} className="min-w-0">
               <TiltCard className="h-full">
                 <Link
-                  href={c.href}
+                  href={withJourneyHref(c.href, profile.journey)}
                   onClick={() =>
                     trackBttEvent(BTT_EVENTS.SegmentCardClick, {
                       segment: c.id,

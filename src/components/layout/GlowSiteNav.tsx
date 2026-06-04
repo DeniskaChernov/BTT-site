@@ -42,6 +42,27 @@ export function GlowSiteNav() {
     return insight ? t("cart_bulk_hint", { kg: insight.kgToNext }) : undefined;
   }, [lines, t]);
 
+  const megaFooter = useMemo(() => {
+    if (profile.journey === "production") {
+      return [
+        { href: "/wholesale", label: t("wholesale") },
+        { href: "/export", label: t("export") },
+        { href: "/catalog?tab=material&kind=semi", label: tc("preset_semi") },
+      ];
+    }
+    if (profile.journey === "knowledge") {
+      return [
+        { href: "/articles", label: t("articles") },
+        { href: "/faq", label: t("faq") },
+        { href: "/#quiz", label: tc("preset_furniture") },
+      ];
+    }
+    return [
+      { href: "/wholesale", label: t("wholesale") },
+      { href: "/export", label: t("export") },
+    ];
+  }, [profile.journey, t, tc]);
+
   const recentCatalogLinks = useMemo(() => {
     if (!ready || profile.viewedSkus.length === 0) return [];
     return profile.viewedSkus
@@ -98,10 +119,7 @@ export function GlowSiteNav() {
             { href: "/catalog?tab=material&kind=semi", label: tc("preset_semi") },
             { href: "/catalog?tab=material&stock=in_stock", label: tc("preset_stock") },
           ],
-          footer: [
-            { href: "/wholesale", label: t("wholesale") },
-            { href: "/export", label: t("export") },
-          ],
+          footer: megaFooter,
         },
       },
       { id: "about", label: t("about"), href: "/about" },
@@ -128,7 +146,7 @@ export function GlowSiteNav() {
             : undefined,
       },
     ],
-    [t, tc, cartCount, cartBulkHint, recentCatalogLinks],
+    [t, tc, cartCount, cartBulkHint, recentCatalogLinks, megaFooter],
   );
 
   return (

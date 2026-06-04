@@ -1,4 +1,5 @@
 import { ArticleEngagementBlocks } from "@/components/articles/ArticleEngagementBlocks";
+import { ArticleReaderChrome } from "@/components/articles/ArticleReaderChrome";
 import { getPublishedSlugs, getArticleBySlug } from "@/data/articles";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
@@ -150,6 +151,7 @@ export default async function ArticleDetailPage({ params }: Props) {
   };
 
   return (
+    <ArticleReaderChrome>
     <div className="btt-container py-14 md:py-20">
       <script
         type="application/ld+json"
@@ -240,5 +242,6 @@ export default async function ArticleDetailPage({ params }: Props) {
         <ArticleEngagementBlocks slug={slug} />
       </div>
     </div>
+    </ArticleReaderChrome>
   );
 }

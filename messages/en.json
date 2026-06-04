@@ -279,7 +279,9 @@
     "related_title": "Related reads",
     "related_lead": "More articles on the topic — skipping ones you have already read.",
     "recommended_products_title": "Recommended for this article",
-    "recommended_products_lead": "Materials matched to this topic — add to cart straight from the product card."
+    "recommended_products_lead": "Materials matched to this topic — add to cart straight from the product card.",
+    "for_you_title": "For you",
+    "for_you_lead": "Articles based on your interests and browsing."
   },
   "articleRattanThickness": {
     "meta_description": "How to pick artificial rattan thickness and profile for furniture: load zones, cross-section shape, color batching, and yield.",
@@ -607,6 +609,16 @@
     "ladder_12_piece": "1–2 pcs",
     "ladder_5_piece": "3–9 pcs (better)",
     "ladder_10_piece": "10+ pcs (best)",
+    "tier_retail": "Retail tier",
+    "tier_rattan_200": "Wholesale from 200 kg",
+    "tier_rattan_500": "Wholesale from 500 kg",
+    "tier_twisted_200": "Twisted: from 200 kg",
+    "tier_twisted_400": "Twisted: from 400 kg",
+    "tier_piece_1": "1–2 pcs",
+    "tier_piece_3": "3–9 pcs",
+    "tier_piece_10": "10+ pcs",
+    "price_story_ppk": "Now {price}",
+    "price_story_next": "· at {kg} kg — next tier",
     "qty": "Qty, kg",
     "qty_piece": "Qty, pcs",
     "pdp_lead": "Quality artificial rattan without overpayments—convenient to work with and consistent in results.",
@@ -702,7 +714,19 @@
     "unit_pcs": "pcs",
     "upsell_title": "Add to your order",
     "upsell_lead": "Picked for your cart — excluding items already in the list.",
-    "bulk_progress": "{qty} kg — {next} kg more to the next price tier ({pct}%)"
+    "bulk_progress": "{qty} kg — {next} kg more to the next price tier ({pct}%)",
+    "moq_title": "Check minimum order",
+    "moq_below_min": "minimum {min} kg or pcs",
+    "moq_wrong_step": "step {step} kg",
+    "quote_est_title": "Wholesale estimate",
+    "quote_est_lead": "For large batches request a quote — we apply tier pricing and lead times.",
+    "quote_est_material_kg": "Material in cart",
+    "quote_est_tier_hint": "Tier savings potential",
+    "quote_est_cta": "Request quote",
+    "optimizer_title": "Next price tier",
+    "optimizer_lead": "Increase qty on a line to unlock a lower per-kg price.",
+    "optimizer_suggest": "up to {qty} kg (−{save})",
+    "optimizer_apply": "Apply"
   },
   "command": {
     "placeholder": "Search product, article, or section…",

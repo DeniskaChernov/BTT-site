@@ -1,7 +1,10 @@
 "use client";
 
 import { CartBulkHint } from "@/components/cart/CartBulkHint";
+import { CartMoqWarnings } from "@/components/cart/CartMoqWarnings";
+import { CartOptimizerHint } from "@/components/cart/CartOptimizerHint";
 import { CartUpsell } from "@/components/cart/CartUpsell";
+import { QuoteEstimatorPanel } from "@/components/cart/QuoteEstimatorPanel";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
@@ -80,6 +83,7 @@ export function CartView() {
         <h1 className="text-3xl font-bold text-stone-50 md:text-4xl">{t("title")}</h1>
         <p className="mt-2 text-sm text-stone-500">{t("lines_count", { count: lines.length })}</p>
       </header>
+      <CartMoqWarnings />
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
         <ul className="space-y-4">
           {lines.map((l) => {
@@ -179,8 +183,10 @@ export function CartView() {
           >
             {t("clear")}
           </button>
+          <QuoteEstimatorPanel />
         </aside>
       </div>
+      <CartOptimizerHint />
       <CartUpsell />
     </div>
   );

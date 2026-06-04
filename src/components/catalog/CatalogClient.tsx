@@ -5,6 +5,7 @@ import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
+import { productMatchesQuery } from "@/lib/catalog/product-search";
 import { rankProducts, rankProductsSimple } from "@/lib/intent/rank-products";
 import {
   catalogDefaultsForJourney,
@@ -237,21 +238,7 @@ export function CatalogClient({
       if (f.kind === "semi" && (!p.isBrochure || !p.sku.includes("RTN-ST-"))) return false;
       if (f.kind === "twisted" && !p.sku.includes("RTN-TW-")) return false;
       if (f.kind === "regular" && (p.sku.includes("RTN-TW-") || p.isBrochure)) return false;
-      if (q) {
-        const bag = [
-          p.sku,
-          p.slug,
-          p.names.ru,
-          p.names.en,
-          p.names.uz,
-          p.short.ru,
-          p.short.en,
-          p.short.uz,
-        ]
-          .join(" ")
-          .toLowerCase();
-        if (!bag.includes(q)) return false;
-      }
+      if (q && !productMatchesQuery(p, q)) return false;
       return true;
     });
   }, [f, deferredQuery]);

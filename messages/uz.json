@@ -279,7 +279,9 @@
     "related_title": "O‘xshash materiallar",
     "related_lead": "Mavzu bo‘yicha yana ikki amaliy maqola — tez davom etish uchun.",
     "recommended_products_title": "Ushbu maqolaga tavsiya",
-    "recommended_products_lead": "Mavzuga mos materiallar — tovar kartochkasidan savatchaga qo‘shish mumkin."
+    "recommended_products_lead": "Mavzuga mos materiallar — tovar kartochkasidan savatchaga qo‘shish mumkin.",
+    "for_you_title": "Siz uchun",
+    "for_you_lead": "Qiziqishlar va ko‘rishlar bo‘yicha maqolalar."
   },
   "articleRattanThickness": {
     "meta_description": "Mebel uchun sun'iy rattan qalinligi va profilini qanday tanlash: yuk, kesim shakli, rang partiyasi va sarfi.",
@@ -606,6 +608,16 @@
     "ladder_12_piece": "1–2 dona",
     "ladder_5_piece": "3–9 dona (foydaliroq)",
     "ladder_10_piece": "10+ dona (eng yaxshi)",
+    "tier_retail": "Chakana narx",
+    "tier_rattan_200": "Ulgurji 200 kg dan",
+    "tier_rattan_500": "Ulgurji 500 kg dan",
+    "tier_twisted_200": "Burma: 200 kg dan",
+    "tier_twisted_400": "Burma: 400 kg dan",
+    "tier_piece_1": "1–2 dona",
+    "tier_piece_3": "3–9 dona",
+    "tier_piece_10": "10+ dona",
+    "price_story_ppk": "Hozir {price}",
+    "price_story_next": "· {kg} kg da — keyingi daraja",
     "qty": "kg",
     "qty_piece": "Dona soni",
     "pdp_lead": "Ortiqcha to‘lovsiz sifatli sun’iy rattan — ish qulay, natija barqaror.",
@@ -701,7 +713,19 @@
     "unit_pcs": "dona",
     "upsell_title": "Buyurtmaga qo‘shing",
     "upsell_lead": "Savatchangizga mos — ro‘yxatdagi pozitsiyalar qayta taklif qilinmaydi.",
-    "bulk_progress": "{qty} kg — keyingi narx pog‘onasigacha yana {next} kg ({pct}%)"
+    "bulk_progress": "{qty} kg — keyingi narx pog‘onasigacha yana {next} kg ({pct}%)",
+    "moq_title": "Minimal buyurtmani tekshiring",
+    "moq_below_min": "minimum {min} kg yoki dona",
+    "moq_wrong_step": "qadam {step} kg",
+    "quote_est_title": "Ulgurji taxmini",
+    "quote_est_lead": "Yirik partiya uchun KP so‘rang — narx darajalari va muddatlar.",
+    "quote_est_material_kg": "Savatdagi material",
+    "quote_est_tier_hint": "Darajadan tejash",
+    "quote_est_cta": "KP so‘rash",
+    "optimizer_title": "Keyingi narx darajasi",
+    "optimizer_lead": "Pozitsiya hajmini oshiring — kg narxi arzonlashadi.",
+    "optimizer_suggest": "{qty} kg gacha (−{save})",
+    "optimizer_apply": "Qo‘llash"
   },
   "command": {
     "placeholder": "Tovar, maqola yoki bo‘lim qidirish…",
