@@ -4,6 +4,7 @@ import {
   loadIntentProfile,
   mergeProfile,
   recordArticleRead,
+  recordCartAdd,
   recordCatalogFilters,
   recordQuizComplete,
   recordViewedSku,
@@ -30,6 +31,7 @@ type IntentCtx = {
   trackArticleRead: (slug: string, depth: number) => void;
   trackCatalogFilters: (filters: FilterSnapshot) => void;
   trackQuizComplete: (input: QuizIntentInput) => void;
+  trackCartAdd: (sku: string, qtyKg: number) => void;
   syncCartSkus: (skus: string[]) => void;
 };
 
@@ -77,6 +79,11 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
     [updateProfile],
   );
 
+  const trackCartAdd = useCallback(
+    (sku: string, qtyKg: number) => updateProfile((prev) => recordCartAdd(prev, sku, qtyKg)),
+    [updateProfile],
+  );
+
   const syncCartSkus = useCallback(
     (skus: string[]) => updateProfile((prev) => mergeProfile(prev, { cartSkus: skus })),
     [updateProfile],
@@ -91,6 +98,7 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
       trackArticleRead,
       trackCatalogFilters,
       trackQuizComplete,
+      trackCartAdd,
       syncCartSkus,
     }),
     [
@@ -101,6 +109,7 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
       trackArticleRead,
       trackCatalogFilters,
       trackQuizComplete,
+      trackCartAdd,
       syncCartSkus,
     ],
   );

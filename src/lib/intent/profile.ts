@@ -189,6 +189,21 @@ function volumeFromQuiz(input: QuizIntentInput): IntentProfile["volumeIntent"] {
   return "unknown";
 }
 
+export function recordCartAdd(
+  profile: IntentProfile,
+  sku: string,
+  qtyKg: number,
+): IntentProfile {
+  const cartSkus = [...new Set([...profile.cartSkus, sku])];
+  const volumeIntent =
+    qtyKg >= 10 || profile.volumeIntent === "bulk"
+      ? "bulk"
+      : profile.volumeIntent === "unknown"
+        ? "retail"
+        : profile.volumeIntent;
+  return mergeProfile(profile, { cartSkus, volumeIntent });
+}
+
 export function recordQuizComplete(
   profile: IntentProfile,
   input: QuizIntentInput,

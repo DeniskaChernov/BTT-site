@@ -2,53 +2,64 @@
 
 import { Link } from "@/i18n/navigation";
 import { TiltCard } from "@/components/ui/TiltCard";
+import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
+import { reorderByJourney } from "@/lib/journey/orchestrator";
 import { ArrowUpRight, HeartHandshake, Wrench, Warehouse } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { BttEventPayloads } from "@/lib/analytics";
+import { useMemo } from "react";
 
 type Segment = BttEventPayloads[typeof BTT_EVENTS.SegmentCardClick]["segment"];
 
 export function SegmentSection() {
   const s = useTranslations("sales");
+  const { profile } = useIntent();
 
-  const cards: {
-    id: Segment;
-    title: string;
-    desc: string;
-    cta: string;
-    href: string;
-    icon: typeof Wrench;
-    accent: string;
-  }[] = [
-    {
-      id: "master",
-      title: s("segment_master_title"),
-      desc: s("segment_master_desc"),
-      cta: s("segment_master_cta"),
-      href: "/catalog?tab=material",
-      icon: Wrench,
-      accent: "from-amber-500/20 to-transparent",
-    },
-    {
-      id: "production",
-      title: s("segment_prod_title"),
-      desc: s("segment_prod_desc"),
-      cta: s("segment_prod_cta"),
-      href: "/wholesale",
-      icon: Warehouse,
-      accent: "from-orange-600/15 to-transparent",
-    },
-    {
-      id: "pick",
-      title: s("segment_pick_title"),
-      desc: s("segment_pick_desc"),
-      cta: s("segment_pick_cta"),
-      href: "/#quiz",
-      icon: HeartHandshake,
-      accent: "from-stone-600/30 to-transparent",
-    },
-  ];
+  const cards = useMemo(() => {
+    const list: {
+      id: Segment;
+      title: string;
+      desc: string;
+      cta: string;
+      href: string;
+      icon: typeof Wrench;
+      accent: string;
+    }[] = [
+      {
+        id: "master",
+        title: s("segment_master_title"),
+        desc: s("segment_master_desc"),
+        cta: s("segment_master_cta"),
+        href: "/catalog?tab=material",
+        icon: Wrench,
+        accent: "from-amber-500/20 to-transparent",
+      },
+      {
+        id: "production",
+        title: s("segment_prod_title"),
+        desc: s("segment_prod_desc"),
+        cta: s("segment_prod_cta"),
+        href: "/wholesale",
+        icon: Warehouse,
+        accent: "from-orange-600/15 to-transparent",
+      },
+      {
+        id: "pick",
+        title: s("segment_pick_title"),
+        desc: s("segment_pick_desc"),
+        cta: s("segment_pick_cta"),
+        href: "/#quiz",
+        icon: HeartHandshake,
+        accent: "from-stone-600/30 to-transparent",
+      },
+    ];
+    return reorderByJourney(list, profile.journey, {
+      master: "master",
+      production: "production",
+      knowledge: "pick",
+    });
+  }, [s, profile.journey]);
 
   return (
     <section className="relative py-10 md:py-14">

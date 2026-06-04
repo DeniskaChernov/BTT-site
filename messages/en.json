@@ -41,7 +41,16 @@
     "locale_switch": "Site language",
     "kinetic_menu": "Menu",
     "kinetic_close": "Close",
-    "cart_sr": "Cart: {count} items in your order"
+    "cart_sr": "Cart: {count} items in your order",
+    "cart_bulk_hint": "{kg} kg to wholesale tier",
+    "mega_presets": "By task"
+  },
+  "intent": {
+    "journey_label": "Mode",
+    "journey_master": "Maker",
+    "journey_production": "Wholesale",
+    "journey_knowledge": "Learning",
+    "journey_auto": "Auto"
   },
   "common": {
     "from": "from",
@@ -547,6 +556,8 @@
     "preset_semi": "Semi-tube",
     "preset_stock": "In stock",
     "sort_smart": "Recommended",
+    "explain_title": "Intent ranking (debug)",
+    "explain_lead": "Order when sort=smart and ?explain=1.",
     "card_price_from": "from {price} {unit} · {moq}",
     "card_moq": "from {min} kg",
     "card_moq_short": "from {min} kg",

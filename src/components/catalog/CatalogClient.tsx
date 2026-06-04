@@ -3,10 +3,13 @@
 import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
-import { useCart } from "@/contexts/CartContext";
 import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
-import { rankProductsSimple } from "@/lib/intent/rank-products";
+import { rankProducts, rankProductsSimple } from "@/lib/intent/rank-products";
+import {
+  catalogDefaultsForJourney,
+  shouldApplyJourneyCatalogDefaults,
+} from "@/lib/journey/orchestrator";
 import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
 import { BTT_Z } from "@/lib/layering";
 import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
@@ -19,6 +22,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Filter, Search, Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import {
   useDeferredValue,
   useEffect,
@@ -105,8 +109,10 @@ export function CatalogClient({
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
   const locale = useLocale();
-  const { lines } = useCart();
-  const { profile, trackCatalogFilters, syncCartSkus } = useIntent();
+  const { profile, ready, trackCatalogFilters } = useIntent();
+  const searchParams = useSearchParams();
+  const explainMode = searchParams.get("explain") === "1";
+  const journeyDefaultsApplied = useRef(false);
   const color0 = parseInitialColor(initialColor);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -125,6 +131,24 @@ export function CatalogClient({
     kind: initialKind,
   }));
   const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (!ready || journeyDefaultsApplied.current) return;
+    const defaults = catalogDefaultsForJourney(profile.journey);
+    if (
+      !defaults ||
+      !shouldApplyJourneyCatalogDefaults(profile.journey, {
+        tab: initialTab,
+        shape: initialShape,
+        kind: initialKind,
+        source: initialSource,
+      })
+    ) {
+      return;
+    }
+    journeyDefaultsApplied.current = true;
+    setF((prev) => ({ ...prev, ...defaults }));
+  }, [ready, profile.journey, initialTab, initialShape, initialKind, initialSource]);
 
   useEffect(() => {
     if (!mobileFiltersOpen) return;
@@ -172,10 +196,6 @@ export function CatalogClient({
   }, [f.tab, f.kind, f.shape, f.stock, trackCatalogFilters]);
 
   useEffect(() => {
-    syncCartSkus(lines.map((l) => l.sku));
-  }, [lines, syncCartSkus]);
-
-  useEffect(() => {
     if (!mobileFiltersOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMobileFiltersOpen(false);
@@ -201,9 +221,9 @@ export function CatalogClient({
     return () => window.removeEventListener("keydown", onKey);
   }, [mobileFiltersOpen]);
 
-  const filtered = useMemo(() => {
+  const matched = useMemo(() => {
     const q = deferredQuery.trim().toLowerCase();
-    const list = products.filter((p) => {
+    return products.filter((p) => {
       if (f.tab === "material" && p.category !== "material") return false;
       if (f.tab === "planter" && p.category !== "planter") return false;
       if (f.tab === "new" && p.category !== "new") return false;
@@ -234,20 +254,32 @@ export function CatalogClient({
       }
       return true;
     });
+  }, [f, deferredQuery]);
 
+  const explainRankings = useMemo(() => {
+    if (!explainMode || sortMode !== "smart") return null;
+    return rankProducts(matched, {
+      profile,
+      purpose: "catalog_smart_sort",
+      explain: true,
+      limit: 8,
+    });
+  }, [explainMode, sortMode, matched, profile]);
+
+  const filtered = useMemo(() => {
     const refQty = (p: Product) => (isPricedPerKg(p) ? 5 : 1);
     if (sortMode === "price_asc") {
-      return [...list].sort(
+      return [...matched].sort(
         (a, b) => getPricePerKgForQty(a, refQty(a)) - getPricePerKgForQty(b, refQty(b)),
       );
     }
     if (sortMode === "price_desc") {
-      return [...list].sort(
+      return [...matched].sort(
         (a, b) => getPricePerKgForQty(b, refQty(b)) - getPricePerKgForQty(a, refQty(a)),
       );
     }
     if (sortMode === "name_asc") {
-      return [...list].sort((a, b) =>
+      return [...matched].sort((a, b) =>
         a.names[locale as "ru" | "uz" | "en"].localeCompare(
           b.names[locale as "ru" | "uz" | "en"],
           locale,
@@ -255,13 +287,13 @@ export function CatalogClient({
       );
     }
     if (sortMode === "smart" && profile.confidence > 0.15) {
-      return rankProductsSimple(list, {
+      return rankProductsSimple(matched, {
         profile,
         purpose: "catalog_smart_sort",
       });
     }
-    return list;
-  }, [f, deferredQuery, sortMode, locale, profile]);
+    return matched;
+  }, [matched, sortMode, locale, profile]);
 
   const activeFilters = useMemo(() => {
     const chips: { key: keyof FilterState; value: string; label: string }[] = [];
@@ -585,6 +617,31 @@ export function CatalogClient({
             ) : null}
           </p>
         </div>
+
+        {explainRankings && explainRankings.length > 0 ? (
+          <details className="mb-4 rounded-2xl border border-amber-500/25 bg-amber-950/20 p-4">
+            <summary className="cursor-pointer text-sm font-semibold text-amber-200">
+              {t("explain_title")}
+            </summary>
+            <p className="mt-1 text-xs text-stone-500">{t("explain_lead")}</p>
+            <ul className="mt-3 space-y-2 font-mono text-[11px] text-stone-400">
+              {explainRankings.map((row) => (
+                <li
+                  key={row.product.sku}
+                  className="rounded-lg border border-white/[0.06] bg-black/30 px-3 py-2"
+                >
+                  <span className="text-amber-300/90">{row.product.sku}</span>
+                  <span className="text-stone-500"> · {Math.round(row.score)}</span>
+                  {row.breakdown?.parts ? (
+                    <pre className="mt-1 whitespace-pre-wrap break-all text-[10px]">
+                      {JSON.stringify(row.breakdown.parts)}
+                    </pre>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </details>
+        ) : null}
 
         <AnimatePresence>
           {(activeFilters.length > 0 || query.trim()) && (

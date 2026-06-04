@@ -7,6 +7,7 @@ import { SectionReveal } from "@/components/ui/animated-reveal";
 import { buildAlternates, CATALOG_OG_IMAGE } from "@/lib/seo";
 import type { CategoryTab } from "@/types/product";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 type MetadataProps = { params: Promise<{ locale: string }> };
 
@@ -55,14 +56,16 @@ export default async function CatalogPage({ searchParams }: PageProps) {
       <SectionReveal>
         <CatalogInfoAccordion />
       </SectionReveal>
-      <CatalogClient
-        key={`${tab}-${shape}-${color}-${source}-${kind}`}
-        initialTab={tab}
-        initialShape={shape}
-        initialColor={color}
-        initialSource={source}
-        initialKind={kind}
-      />
+      <Suspense fallback={<div className="mt-8 h-40 animate-pulse rounded-3xl bg-white/[0.04]" aria-hidden />}>
+        <CatalogClient
+          key={`${tab}-${shape}-${color}-${source}-${kind}`}
+          initialTab={tab}
+          initialShape={shape}
+          initialColor={color}
+          initialSource={source}
+          initialKind={kind}
+        />
+      </Suspense>
     </div>
   );
 }

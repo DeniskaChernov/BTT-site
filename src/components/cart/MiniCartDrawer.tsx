@@ -3,6 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { getProductBySlug } from "@/data/products";
+import { getCartBulkInsight } from "@/lib/cart/cart-bulk-insight";
 import { BTT_Z } from "@/lib/layering";
 import { BTT_SPRING_SNAPPY } from "@/lib/motion";
 import { formatUzs, isPricedPerKg, lineItemTotalUz } from "@/lib/pricing";
@@ -12,10 +13,16 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ShoppingBag, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 
 export function MiniCartDrawer({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const { lines, subtotalUz } = useCart();
   const t = useTranslations("cart");
+  const tNav = useTranslations("nav");
+  const bulkHint = useMemo(() => {
+    const insight = getCartBulkInsight(lines);
+    return insight ? tNav("cart_bulk_hint", { kg: insight.kgToNext }) : null;
+  }, [lines, tNav]);
   const reduceMotion = useReducedMotion();
 
   return (
@@ -76,6 +83,9 @@ export function MiniCartDrawer({ open, onOpenChange }: { open: boolean; onOpenCh
                   )}
                 </div>
                 <div className="border-t border-white/[0.08] px-5 py-4">
+                  {bulkHint ? (
+                    <p className="mb-3 text-center text-xs font-medium text-amber-400/90">{bulkHint}</p>
+                  ) : null}
                   <div className="flex justify-between text-sm">
                     <span className="text-stone-400">{t("subtotal")}</span>
                     <span className="font-bold tabular-nums text-amber-300">{formatUzs(subtotalUz)}</span>

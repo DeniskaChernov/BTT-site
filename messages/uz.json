@@ -41,7 +41,16 @@
     "locale_switch": "Sayt tili",
     "kinetic_menu": "Menyu",
     "kinetic_close": "Yopish",
-    "cart_sr": "Savatcha: buyurtmada {count} ta pozitsiya"
+    "cart_sr": "Savatcha: buyurtmada {count} ta pozitsiya",
+    "cart_bulk_hint": "ulgurji uchun yana {kg} kg",
+    "mega_presets": "Vazifa bo'yicha"
+  },
+  "intent": {
+    "journey_label": "Rejim",
+    "journey_master": "Usta",
+    "journey_production": "Ulgurji",
+    "journey_knowledge": "O'rganmoqda",
+    "journey_auto": "Avto"
   },
   "common": {
     "from": "dan",
@@ -546,6 +555,8 @@
     "preset_semi": "Yarim trubka",
     "preset_stock": "Omborda",
     "sort_smart": "Tavsiya etiladi",
+    "explain_title": "Intent ranking (debug)",
+    "explain_lead": "sort=smart va ?explain=1 da tartib.",
     "card_price_from": "{price} {unit} dan · {moq}",
     "card_moq": "{min} kg dan",
     "card_moq_short": "{min} kg dan",

@@ -2,17 +2,23 @@
 
 import { useCart } from "@/contexts/CartContext";
 import { useIntent } from "@/contexts/IntentContext";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-/** Синхронизирует SKU корзины с IntentProfile для ранжирования и upsell. */
 export function IntentCartSync() {
   const { lines } = useCart();
-  const { syncCartSkus, ready } = useIntent();
+  const { ready, syncCartSkus, trackCartAdd } = useIntent();
+  const prevSkusRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     if (!ready) return;
-    syncCartSkus(lines.map((l) => l.sku));
-  }, [lines, ready, syncCartSkus]);
+    const skus = lines.map((l) => l.sku);
+    syncCartSkus(skus);
+    const prev = prevSkusRef.current;
+    for (const line of lines) {
+      if (!prev.has(line.sku)) trackCartAdd(line.sku, line.qtyKg);
+    }
+    prevSkusRef.current = new Set(skus);
+  }, [lines, ready, syncCartSkus, trackCartAdd]);
 
   return null;
 }

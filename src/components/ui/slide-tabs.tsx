@@ -14,6 +14,14 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import { CatalogMegaMenuPanel } from "@/components/layout/CatalogMegaMenuPanel";
+
+export type CatalogMegaMenuConfig = {
+  columns: { title: string; links: { href: string; label: string }[] }[];
+  presets: { href: string; label: string }[];
+  presetsTitle: string;
+  footer?: { href: string; label: string }[];
+};
 
 export type SlideTabItem = {
   id: string;
@@ -25,7 +33,8 @@ export type SlideTabItem = {
   linkAriaLabel?: string;
   /** Ссылки под пунктом (например, разделы каталога) — показ при наведении. */
   dropdown?: { href: string; label: string }[];
-  /** Перехват клика (например, mini-cart вместо перехода). */
+  megaMenu?: CatalogMegaMenuConfig;
+  badgeHint?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
@@ -102,6 +111,8 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
           badge={item.badge}
           linkAriaLabel={item.linkAriaLabel}
           dropdown={item.dropdown}
+          megaMenu={item.megaMenu}
+          badgeHint={item.badgeHint}
           onClick={item.onClick}
         >
           {item.label}
@@ -120,6 +131,8 @@ type SlideTabProps = {
   badge?: number;
   linkAriaLabel?: string;
   dropdown?: { href: string; label: string }[];
+  megaMenu?: CatalogMegaMenuConfig;
+  badgeHint?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
@@ -127,12 +140,25 @@ const DROPDOWN_CLOSE_MS = 220;
 
 const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
   (
-    { children, href, isActive, setPosition, badge, linkAriaLabel, dropdown, onClick },
+    {
+      children,
+      href,
+      isActive,
+      setPosition,
+      badge,
+      badgeHint,
+      linkAriaLabel,
+      dropdown,
+      megaMenu,
+      onClick,
+    },
     ref,
   ) => {
     const reduceMotion = useReducedMotion();
     const showBadge = typeof badge === "number" && badge > 0;
-    const hasDropdown = Array.isArray(dropdown) && dropdown.length > 0;
+    const hasMegaMenu = megaMenu != null && megaMenu.columns.length > 0;
+    const hasDropdown =
+      hasMegaMenu || (Array.isArray(dropdown) && dropdown.length > 0);
 
     const [mounted, setMounted] = useState(false);
     const [flyoutOpen, setFlyoutOpen] = useState(false);
@@ -211,12 +237,20 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
         ? createPortal(
             <div
               role="menu"
-              className="fixed z-[200] min-w-[12.5rem] max-w-[min(100vw-2rem,18rem)] pt-1"
+              className={cn(
+                "fixed z-[200] pt-1",
+                hasMegaMenu
+                  ? "max-w-[min(100vw-2rem,42rem)]"
+                  : "min-w-[12.5rem] max-w-[min(100vw-2rem,18rem)]",
+              )}
               style={{
                 top: flyoutPos.top,
                 left: Math.max(
                   8,
-                  Math.min(flyoutPos.left, window.innerWidth - 8 - 288),
+                  Math.min(
+                    flyoutPos.left,
+                    window.innerWidth - 8 - (hasMegaMenu ? 672 : 288),
+                  ),
                 ),
               }}
               onMouseEnter={() => {
@@ -225,17 +259,26 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
               }}
               onMouseLeave={scheduleCloseFlyout}
             >
-              <div className="rounded-2xl border border-white/[0.12] bg-gradient-to-b from-stone-900/98 to-stone-950/98 py-1.5 shadow-2xl shadow-black/60 ring-1 ring-white/[0.06] backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.08)]">
-                {(dropdown ?? []).map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    role="menuitem"
-                    className="btt-focus block px-4 py-2.5 text-left text-sm font-medium normal-case tracking-normal text-stone-200 outline-none transition-colors hover:bg-white/[0.06] hover:text-amber-100 motion-reduce:transition-none"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <div className="overflow-hidden rounded-2xl border border-white/[0.12] bg-gradient-to-b from-stone-900/98 to-stone-950/98 shadow-2xl shadow-black/60 ring-1 ring-white/[0.06] backdrop-blur-xl">
+                {hasMegaMenu && megaMenu ? (
+                  <CatalogMegaMenuPanel
+                    config={megaMenu}
+                    onNavigate={() => setFlyoutOpen(false)}
+                  />
+                ) : (
+                  <div className="py-1.5">
+                    {(dropdown ?? []).map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        role="menuitem"
+                        className="btt-focus block px-4 py-2.5 text-sm font-medium text-stone-200 transition hover:bg-white/[0.06] hover:text-amber-100"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>,
             document.body,
@@ -287,9 +330,15 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
                   reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY
                 }
                 className="pointer-events-none absolute -right-0.5 top-1 flex h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-full bg-gradient-to-b from-amber-500 to-orange-600 px-1 text-[0.625rem] font-bold leading-none text-white shadow-md shadow-amber-950/50 ring-1 ring-white/25 md:right-0.5 md:top-2 md:h-5 md:min-w-5 md:text-[0.65rem]"
+                title={badgeHint}
               >
                 {badge > 9 ? "9+" : badge}
               </motion.span>
+            ) : null}
+            {showBadge && badgeHint ? (
+              <span className="pointer-events-none absolute -bottom-4 left-1/2 hidden max-w-[7rem] -translate-x-1/2 truncate text-center text-[9px] font-medium text-amber-300/90 md:block">
+                {badgeHint}
+              </span>
             ) : null}
           </Link>
         </div>

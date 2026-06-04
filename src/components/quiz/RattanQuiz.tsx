@@ -6,10 +6,8 @@ import type { Locale } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
 import { useIntent } from "@/contexts/IntentContext";
 import { trackEvent } from "@/lib/analytics";
-import {
-  pickQuizRecommendations,
-  QUIZ_EXCLUSIVE_SKUS,
-} from "@/lib/quiz-recommendations";
+import { rankQuizRecommendations } from "@/lib/intent/rank-quiz";
+import { pickQuizRecommendations, QUIZ_EXCLUSIVE_SKUS } from "@/lib/quiz-recommendations";
 import {
   bttFieldClass,
   bttPrimaryButtonClass,
@@ -43,7 +41,7 @@ export function RattanQuiz() {
   const common = useTranslations("common");
   const locale = useLocale() as Locale;
   const { add } = useCart();
-  const { trackQuizComplete } = useIntent();
+  const { profile, ready, trackQuizComplete } = useIntent();
 
   const [step, setStep] = useState(0);
   const [segment, setSegment] = useState<Segment | null>(null);
@@ -122,14 +120,18 @@ export function RattanQuiz() {
     if (!productKind || !workGoal) return [];
     if (workGoal === "furniture" && !furnitureUse) return [];
     if (workGoal === "planter" && !planterPath) return [];
-    return pickQuizRecommendations(products, {
+    const ctx = {
       productKind,
       place: QUIZ_PLACE,
       workGoal,
       furnitureUse,
       planterPath,
-    });
-  }, [productKind, workGoal, furnitureUse, planterPath]);
+    };
+    if (!ready || profile.confidence < 0.1) {
+      return pickQuizRecommendations(products, ctx);
+    }
+    return rankQuizRecommendations(products, ctx, profile, 3);
+  }, [productKind, workGoal, furnitureUse, planterPath, profile, ready]);
 
   const start = () => {
     clearQuizPersisted();
