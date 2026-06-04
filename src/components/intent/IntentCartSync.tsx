@@ -7,17 +7,20 @@ import { useEffect, useRef } from "react";
 export function IntentCartSync() {
   const { lines } = useCart();
   const { ready, syncCartSkus, trackCartAdd } = useIntent();
-  const prevSkusRef = useRef<Set<string>>(new Set());
+  const prevQtyRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
     if (!ready) return;
     const skus = lines.map((l) => l.sku);
     syncCartSkus(skus);
-    const prev = prevSkusRef.current;
+    const prev = prevQtyRef.current;
     for (const line of lines) {
-      if (!prev.has(line.sku)) trackCartAdd(line.sku, line.qtyKg);
+      const was = prev.get(line.sku);
+      if (was === undefined || was !== line.qtyKg) {
+        trackCartAdd(line.sku, line.qtyKg);
+      }
     }
-    prevSkusRef.current = new Set(skus);
+    prevQtyRef.current = new Map(lines.map((l) => [l.sku, l.qtyKg]));
   }, [lines, ready, syncCartSkus, trackCartAdd]);
 
   return null;

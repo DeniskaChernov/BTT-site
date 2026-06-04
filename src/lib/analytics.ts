@@ -43,6 +43,8 @@ export const BTT_EVENTS = {
   CatalogFilterReset: "catalog_filter_reset",
   /** Изменение сортировки. payload: `{ mode }` */
   CatalogSortChange: "catalog_sort_change",
+  /** Добавление в корзину (дублирует dataLayer `add_to_cart` для GTM). payload: `{ sku, slug, qtyKg, source }` */
+  CartAdd: "add_to_cart",
   /** Клик по «Подобрать материал» в карточке каталога. payload: `{ sku, slug }` */
   CardPickClick: "card_pick_click",
   /** Клик по каналу связи на странице товара. payload: `{ channel, sku? }` */
@@ -75,6 +77,12 @@ export type BttEventPayloads = {
   [BTT_EVENTS.CatalogFilterApply]: { key: string; value: string };
   [BTT_EVENTS.CatalogFilterReset]: { source?: "sidebar" | "active_chips" };
   [BTT_EVENTS.CatalogSortChange]: { mode: string };
+  [BTT_EVENTS.CartAdd]: {
+    sku: string;
+    slug: string;
+    qtyKg: number;
+    source: "catalog_card" | "pdp" | "quiz";
+  };
   [BTT_EVENTS.CardPickClick]: { sku: string; slug: string };
   [BTT_EVENTS.PdpHelpClick]: {
     channel: "phone" | "whatsapp" | "telegram";

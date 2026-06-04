@@ -14,6 +14,11 @@ describe("journey orchestrator", () => {
     expect(catalogDefaultsForJourney("production")?.kind).toBe("semi");
   });
 
+  it("knowledge catalog defaults", () => {
+    expect(catalogDefaultsForJourney("knowledge")?.tab).toBe("material");
+    expect(catalogDefaultsForJourney("knowledge")?.stock).toBe("all");
+  });
+
   it("reorders segments", () => {
     const out = reorderByJourney(
       [{ id: "a" }, { id: "b" }],

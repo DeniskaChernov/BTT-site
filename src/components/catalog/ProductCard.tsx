@@ -96,6 +96,12 @@ export function ProductCard({ product }: Props) {
     e.preventDefault();
     e.stopPropagation();
     add(product, name, quickQty);
+    trackBttEvent(BTT_EVENTS.CartAdd, {
+      sku: product.sku,
+      slug: product.slug,
+      qtyKg: quickQty,
+      source: "catalog_card",
+    });
     trackEvent("add_to_cart", {
       sku: product.sku,
       value: lineItemTotalUz(product, quickQty),

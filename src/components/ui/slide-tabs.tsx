@@ -20,6 +20,8 @@ export type CatalogMegaMenuConfig = {
   columns: { title: string; links: { href: string; label: string }[] }[];
   presets: { href: string; label: string }[];
   presetsTitle: string;
+  recentTitle?: string;
+  recent?: { href: string; label: string }[];
   footer?: { href: string; label: string }[];
 };
 

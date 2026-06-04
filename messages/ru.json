@@ -43,7 +43,8 @@
     "kinetic_close": "Закрыть",
     "cart_sr": "Корзина: {count} позиций в заказе",
     "cart_bulk_hint": "−{kg} кг до опта",
-    "mega_presets": "По задаче"
+    "mega_presets": "По задаче",
+    "mega_recent": "Недавно смотрели"
   },
   "intent": {
     "journey_label": "Режим",
@@ -556,8 +557,9 @@
     "preset_semi": "Полутрубка",
     "preset_stock": "В наличии",
     "sort_smart": "Рекомендуем",
-    "explain_title": "Intent ranking (debug)",
-    "explain_lead": "Порядок при sort=smart и ?explain=1.",
+    "explain_title": "Отладка ранжирования",
+    "explain_lead": "Порядок карточек при сортировке «Рекомендуем» и параметре ?explain=1 в адресе.",
+    "sort_smart_weak": "Персональная сортировка включится после просмотра товаров, квиза или добавления в корзину. Сейчас показан обычный порядок.",
     "card_price_from": "от {price} {unit} · {moq}",
     "card_moq": "от {min} кг",
     "card_moq_short": "от {min} кг",

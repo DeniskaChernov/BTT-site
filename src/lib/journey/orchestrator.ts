@@ -15,6 +15,7 @@ export type CatalogJourneyDefaults = {
 export function catalogDefaultsForJourney(journey: JourneyType): CatalogJourneyDefaults | null {
   if (journey === "production") return { tab: "material", stock: "in_stock", kind: "semi" };
   if (journey === "master") return { tab: "material", stock: "in_stock", kind: "all" };
+  if (journey === "knowledge") return { tab: "material", stock: "all", kind: "all" };
   return null;
 }
 

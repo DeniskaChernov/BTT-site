@@ -27,7 +27,7 @@ import { ProductHelpPanel } from "@/components/product/ProductHelpPanel";
 import { ProductSpecsAndColors } from "@/components/product/ProductSpecsAndColors";
 import { ProductValueGrid } from "@/components/product/ProductValueGrid";
 import { BackButton } from "@/components/ui/BackButton";
-import { trackEvent } from "@/lib/analytics";
+import { BTT_EVENTS, trackBttEvent, trackEvent } from "@/lib/analytics";
 import { productGalleryImages } from "@/lib/product-media";
 import { MIN_PREORDER_QTY_KG } from "@/lib/orders-api";
 import { telegramBotStartUrl, telegramChannelUrl, telegramPaymentChatUrl } from "@/lib/telegram";
@@ -100,10 +100,17 @@ export function ProductDetail({ product }: Props) {
 
   const onAdd = () => {
     add(product, product.names[locale], qty);
+    trackBttEvent(BTT_EVENTS.CartAdd, {
+      sku: product.sku,
+      slug: product.slug,
+      qtyKg: qty,
+      source: "pdp",
+    });
     trackEvent("add_to_cart", {
       sku: product.sku,
       value: lineTotal,
       currency: "UZS",
+      qtyKg: qty,
     });
   };
 

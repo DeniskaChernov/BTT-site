@@ -43,7 +43,8 @@
     "kinetic_close": "Yopish",
     "cart_sr": "Savatcha: buyurtmada {count} ta pozitsiya",
     "cart_bulk_hint": "ulgurji uchun yana {kg} kg",
-    "mega_presets": "Vazifa bo'yicha"
+    "mega_presets": "Vazifa bo'yicha",
+    "mega_recent": "Yaqinda ko'rganlar"
   },
   "intent": {
     "journey_label": "Rejim",
@@ -555,8 +556,9 @@
     "preset_semi": "Yarim trubka",
     "preset_stock": "Omborda",
     "sort_smart": "Tavsiya etiladi",
-    "explain_title": "Intent ranking (debug)",
-    "explain_lead": "sort=smart va ?explain=1 da tartib.",
+    "explain_title": "Reytingni tekshirish",
+    "explain_lead": "«Tavsiya etiladi» va ?explain=1 bo'lganda kartochkalar tartibi.",
+    "sort_smart_weak": "Shaxsiy tartib mahsulotlarni ko'rish, test yoki savatdan keyin yoqiladi. Hozir oddiy tartib.",
     "card_price_from": "{price} {unit} dan · {moq}",
     "card_moq": "{min} kg dan",
     "card_moq_short": "{min} kg dan",

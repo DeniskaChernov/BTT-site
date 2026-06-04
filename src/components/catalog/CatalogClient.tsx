@@ -553,7 +553,7 @@ export function CatalogClient({
           <p className="text-sm font-medium text-stone-200">
             {t("skip_to_products")} · {t("results_count", { count: filtered.length })}
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 xl:hidden">
             {(
               [
                 ["furniture", t("preset_furniture")],
@@ -617,6 +617,12 @@ export function CatalogClient({
             ) : null}
           </p>
         </div>
+
+        {sortMode === "smart" && profile.confidence <= 0.15 ? (
+          <p className="mb-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-xs text-stone-500">
+            {t("sort_smart_weak")}
+          </p>
+        ) : null}
 
         {explainRankings && explainRankings.length > 0 ? (
           <details className="mb-4 rounded-2xl border border-amber-500/25 bg-amber-950/20 p-4">

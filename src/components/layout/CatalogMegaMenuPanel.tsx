@@ -31,6 +31,27 @@ export function CatalogMegaMenuPanel({ config, onNavigate }: Props) {
           </div>
         ))}
       </div>
+      {config.recent && config.recent.length > 0 ? (
+        <div className="mt-4 border-t border-white/[0.08] pt-4">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
+            {config.recentTitle}
+          </p>
+          <ul className="space-y-0.5">
+            {config.recent.map((r) => (
+              <li key={r.href}>
+                <Link
+                  href={r.href}
+                  role="menuitem"
+                  onClick={onNavigate}
+                  className="btt-focus block rounded-lg px-2 py-1.5 text-sm text-stone-300 transition hover:bg-white/[0.06] hover:text-amber-100"
+                >
+                  {r.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       {config.presets.length > 0 ? (
         <div className="mt-4 border-t border-white/[0.08] pt-4">
           <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
