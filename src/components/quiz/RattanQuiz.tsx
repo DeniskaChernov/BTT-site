@@ -121,7 +121,7 @@ export function RattanQuiz() {
       furnitureUse,
       planterPath,
     };
-    if (!ready || profile.confidence < 0.1) {
+    if (!ready) {
       return pickQuizRecommendations(products, ctx);
     }
     return rankQuizRecommendations(products, ctx, profile, 3);

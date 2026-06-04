@@ -44,14 +44,6 @@
     "cart_sr": "Cart: {count} items in your order",
     "cart_bulk_hint": "{kg} kg to wholesale tier",
     "mega_presets": "By task",
-    "mega_recent": "Recently viewed"
-  },
-  "intent": {
-    "journey_label": "Mode",
-    "journey_master": "Maker",
-    "journey_production": "Wholesale",
-    "journey_knowledge": "Learning",
-    "journey_auto": "Auto"
   },
   "common": {
     "from": "from",
@@ -280,8 +272,8 @@
     "related_lead": "More articles on the topic — skipping ones you have already read.",
     "recommended_products_title": "Recommended for this article",
     "recommended_products_lead": "Materials matched to this topic — add to cart straight from the product card.",
-    "for_you_title": "For you",
-    "for_you_lead": "Articles based on your interests and browsing."
+    "picks_title": "Worth reading",
+    "picks_lead": "Guides on rattan, planters, and wholesale."
   },
   "articleRattanThickness": {
     "meta_description": "How to pick artificial rattan thickness and profile for furniture: load zones, cross-section shape, color batching, and yield.",
@@ -558,10 +550,7 @@
     "preset_planter": "Planters",
     "preset_semi": "Semi-tube",
     "preset_stock": "In stock",
-    "sort_smart": "Recommended",
-    "explain_title": "Ranking debug",
-    "explain_lead": "Card order for Recommended sort with ?explain=1 in the URL.",
-    "sort_smart_weak": "Personalized order activates after you browse products, take the quiz, or add to cart. Showing default order for now.",
+    "sort_smart": "Default",
     "card_price_from": "from {price} {unit} · {moq}",
     "card_moq": "from {min} kg",
     "card_moq_short": "from {min} kg",
@@ -713,20 +702,18 @@
     "unit_kg": "kg",
     "unit_pcs": "pcs",
     "upsell_title": "Add to your order",
-    "upsell_lead": "Picked for your cart — excluding items already in the list.",
+    "upsell_lead": "Often ordered together with your selection.",
     "bulk_progress": "{qty} kg — {next} kg more to the next price tier ({pct}%)",
     "moq_title": "Check minimum order",
     "moq_below_min": "minimum {min} kg or pcs",
     "moq_wrong_step": "step {step} kg",
-    "quote_est_title": "Wholesale estimate",
-    "quote_est_lead": "For large batches request a quote — we apply tier pricing and lead times.",
-    "quote_est_material_kg": "Material in cart",
-    "quote_est_tier_hint": "Tier savings potential",
+    "quote_est_title": "Large batch?",
+    "quote_est_lead": "From 30 kg of rattan and repeat orders — we will prepare a quote.",
     "quote_est_cta": "Request quote",
-    "optimizer_title": "Next price tier",
-    "optimizer_lead": "Increase qty on a line to unlock a lower per-kg price.",
-    "optimizer_suggest": "up to {qty} kg (−{save})",
-    "optimizer_apply": "Apply"
+    "optimizer_title": "Price tier",
+    "optimizer_lead": "A higher qty per line lowers the per-kg price.",
+    "optimizer_suggest": "from {qty} kg — save about {save}",
+    "optimizer_apply": "Set {qty} kg"
   },
   "command": {
     "placeholder": "Search product, article, or section…",

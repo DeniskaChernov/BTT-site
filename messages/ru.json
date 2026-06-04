@@ -44,14 +44,6 @@
     "cart_sr": "Корзина: {count} позиций в заказе",
     "cart_bulk_hint": "−{kg} кг до опта",
     "mega_presets": "По задаче",
-    "mega_recent": "Недавно смотрели"
-  },
-  "intent": {
-    "journey_label": "Режим",
-    "journey_master": "Мастер",
-    "journey_production": "Опт",
-    "journey_knowledge": "Изучаю",
-    "journey_auto": "Авто"
   },
   "common": {
     "from": "от",
@@ -279,9 +271,9 @@
     "related_title": "Похожие материалы",
     "related_lead": "Ещё статьи по теме — без повторов уже прочитанного.",
     "recommended_products_title": "Рекомендуем к этой статье",
-    "recommended_products_lead": "Подборка материалов по теме — можно сразу добавить в корзину с карточки товара.",
-    "for_you_title": "Для вас",
-    "for_you_lead": "Статьи по вашим интересам и истории просмотров."
+    "recommended_products_lead": "Материалы по теме статьи — в корзину с карточки товара.",
+    "picks_title": "Полезно прочитать",
+    "picks_lead": "Материалы по ротангу, кашпо и закупкам."
   },
   "articleRattanThickness": {
     "meta_description": "Как подобрать толщину и профиль искусственного ротанга для мебели: нагрузка, форма сечения, партия цвета и расход.",
@@ -558,10 +550,7 @@
     "preset_planter": "Для кашпо",
     "preset_semi": "Полутрубка",
     "preset_stock": "В наличии",
-    "sort_smart": "Рекомендуем",
-    "explain_title": "Отладка ранжирования",
-    "explain_lead": "Порядок карточек при сортировке «Рекомендуем» и параметре ?explain=1 в адресе.",
-    "sort_smart_weak": "Персональная сортировка включится после просмотра товаров, квиза или добавления в корзину. Сейчас показан обычный порядок.",
+    "sort_smart": "По умолчанию",
     "card_price_from": "от {price} {unit} · {moq}",
     "card_moq": "от {min} кг",
     "card_moq_short": "от {min} кг",
@@ -713,20 +702,18 @@
     "unit_kg": "кг",
     "unit_pcs": "шт",
     "upsell_title": "Добавьте к заказу",
-    "upsell_lead": "Подборка под вашу корзину — без позиций, которые уже в списке.",
+    "upsell_lead": "Часто заказывают вместе с выбранными позициями.",
     "bulk_progress": "{qty} кг — до следующей ступени цены ещё {next} кг ({pct}%)",
     "moq_title": "Проверьте минимальный заказ",
     "moq_below_min": "минимум {min} кг или шт.",
     "moq_wrong_step": "шаг {step} кг",
-    "quote_est_title": "Ориентир по опту",
-    "quote_est_lead": "Для крупной партии запросите КП — учтём ступени цены и сроки.",
-    "quote_est_material_kg": "Материал в корзине",
-    "quote_est_tier_hint": "Потенциал на ступени",
+    "quote_est_title": "Крупная партия?",
+    "quote_est_lead": "От 30 кг нити и серийных заказов — подготовим коммерческое предложение.",
     "quote_est_cta": "Запросить КП",
-    "optimizer_title": "До следующей ступени цены",
-    "optimizer_lead": "Можно набрать объём по позиции и снизить цену за кг.",
-    "optimizer_suggest": "до {qty} кг (−{save})",
-    "optimizer_apply": "Применить"
+    "optimizer_title": "Ступень цены",
+    "optimizer_lead": "При большем объёме по позиции цена за кг ниже.",
+    "optimizer_suggest": "от {qty} кг — экономия около {save}",
+    "optimizer_apply": "Установить {qty} кг"
   },
   "command": {
     "placeholder": "Поиск товара, статьи или раздела…",

@@ -44,14 +44,6 @@
     "cart_sr": "Savatcha: buyurtmada {count} ta pozitsiya",
     "cart_bulk_hint": "ulgurji uchun yana {kg} kg",
     "mega_presets": "Vazifa bo'yicha",
-    "mega_recent": "Yaqinda ko'rganlar"
-  },
-  "intent": {
-    "journey_label": "Rejim",
-    "journey_master": "Usta",
-    "journey_production": "Ulgurji",
-    "journey_knowledge": "O'rganmoqda",
-    "journey_auto": "Avto"
   },
   "common": {
     "from": "dan",
@@ -280,8 +272,8 @@
     "related_lead": "Mavzu bo‘yicha yana ikki amaliy maqola — tez davom etish uchun.",
     "recommended_products_title": "Ushbu maqolaga tavsiya",
     "recommended_products_lead": "Mavzuga mos materiallar — tovar kartochkasidan savatchaga qo‘shish mumkin.",
-    "for_you_title": "Siz uchun",
-    "for_you_lead": "Qiziqishlar va ko‘rishlar bo‘yicha maqolalar."
+    "picks_title": "Foydali o'qishlar",
+    "picks_lead": "Rattan, kashpo va ulgurji haqida materiallar."
   },
   "articleRattanThickness": {
     "meta_description": "Mebel uchun sun'iy rattan qalinligi va profilini qanday tanlash: yuk, kesim shakli, rang partiyasi va sarfi.",
@@ -557,10 +549,7 @@
     "preset_planter": "Kashpo",
     "preset_semi": "Yarim trubka",
     "preset_stock": "Omborda",
-    "sort_smart": "Tavsiya etiladi",
-    "explain_title": "Reytingni tekshirish",
-    "explain_lead": "«Tavsiya etiladi» va ?explain=1 bo'lganda kartochkalar tartibi.",
-    "sort_smart_weak": "Shaxsiy tartib mahsulotlarni ko'rish, test yoki savatdan keyin yoqiladi. Hozir oddiy tartib.",
+    "sort_smart": "Standart",
     "card_price_from": "{price} {unit} dan · {moq}",
     "card_moq": "{min} kg dan",
     "card_moq_short": "{min} kg dan",
@@ -712,20 +701,18 @@
     "unit_kg": "kg",
     "unit_pcs": "dona",
     "upsell_title": "Buyurtmaga qo‘shing",
-    "upsell_lead": "Savatchangizga mos — ro‘yxatdagi pozitsiyalar qayta taklif qilinmaydi.",
+    "upsell_lead": "Tanlangan pozitsiyalar bilan ko‘pincha birga buyurtma qilinadi.",
     "bulk_progress": "{qty} kg — keyingi narx pog‘onasigacha yana {next} kg ({pct}%)",
     "moq_title": "Minimal buyurtmani tekshiring",
     "moq_below_min": "minimum {min} kg yoki dona",
     "moq_wrong_step": "qadam {step} kg",
-    "quote_est_title": "Ulgurji taxmini",
-    "quote_est_lead": "Yirik partiya uchun KP so‘rang — narx darajalari va muddatlar.",
-    "quote_est_material_kg": "Savatdagi material",
-    "quote_est_tier_hint": "Darajadan tejash",
+    "quote_est_title": "Yirik partiya?",
+    "quote_est_lead": "30 kg dan rattan va takroriy buyurtmalar uchun KP tayyorlaymiz.",
     "quote_est_cta": "KP so‘rash",
-    "optimizer_title": "Keyingi narx darajasi",
-    "optimizer_lead": "Pozitsiya hajmini oshiring — kg narxi arzonlashadi.",
-    "optimizer_suggest": "{qty} kg gacha (−{save})",
-    "optimizer_apply": "Qo‘llash"
+    "optimizer_title": "Narx darajasi",
+    "optimizer_lead": "Ko‘proq kg — kilosi arzonroq.",
+    "optimizer_suggest": "{qty} kg dan — taxminan {save} tejash",
+    "optimizer_apply": "{qty} kg qo‘yish"
   },
   "command": {
     "placeholder": "Tovar, maqola yoki bo‘lim qidirish…",

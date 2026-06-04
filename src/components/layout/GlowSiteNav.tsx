@@ -5,12 +5,10 @@ import { MiniCartDrawer } from "@/components/cart/MiniCartDrawer";
 import { NavAccountLink } from "@/components/layout/NavAccountLink";
 import { SlideTabs, type SlideTabItem } from "@/components/ui/slide-tabs";
 import { useCart } from "@/contexts/CartContext";
-import { useIntent } from "@/contexts/IntentContext";
-import { getProductBySku } from "@/data/products";
 import { getCartBulkInsight } from "@/lib/cart/cart-bulk-insight";
 import { usePathname } from "@/i18n/navigation";
 import { BTT_Z } from "@/lib/layering";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 function resolveActiveNavId(pathname: string): string | undefined {
@@ -29,10 +27,8 @@ function resolveActiveNavId(pathname: string): string | undefined {
 export function GlowSiteNav() {
   const t = useTranslations("nav");
   const tc = useTranslations("catalog");
-  const locale = useLocale() as "ru" | "en" | "uz";
   const pathname = usePathname();
   const { lines } = useCart();
-  const { profile, ready } = useIntent();
   const cartCount = lines.length;
   const [miniCartOpen, setMiniCartOpen] = useState(false);
 
@@ -48,18 +44,6 @@ export function GlowSiteNav() {
     ],
     [t],
   );
-
-  const recentCatalogLinks = useMemo(() => {
-    if (!ready || profile.viewedSkus.length === 0) return [];
-    return profile.viewedSkus
-      .slice(0, 4)
-      .map((v) => getProductBySku(v.sku))
-      .filter((p): p is NonNullable<typeof p> => p != null)
-      .map((p) => ({
-        href: `/product/${p.slug}`,
-        label: p.names[locale],
-      }));
-  }, [profile.viewedSkus, ready, locale]);
 
   const items: SlideTabItem[] = useMemo(
     () => [
@@ -97,8 +81,6 @@ export function GlowSiteNav() {
             },
           ],
           presetsTitle: t("mega_presets"),
-          recentTitle: t("mega_recent"),
-          recent: recentCatalogLinks,
           presets: [
             { href: "/catalog?tab=material&shape=half_round", label: tc("preset_furniture") },
             { href: "/catalog?tab=planter", label: tc("preset_planter") },
@@ -132,7 +114,7 @@ export function GlowSiteNav() {
             : undefined,
       },
     ],
-    [t, tc, cartCount, cartBulkHint, recentCatalogLinks, megaFooter],
+    [t, tc, cartCount, cartBulkHint, megaFooter],
   );
 
   return (

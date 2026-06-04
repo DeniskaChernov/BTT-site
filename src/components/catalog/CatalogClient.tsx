@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/catalog/ProductCard";
 import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { productMatchesQuery } from "@/lib/catalog/product-search";
-import { rankProducts, rankProductsSimple } from "@/lib/intent/rank-products";
+import { rankProductsSimple } from "@/lib/intent/rank-products";
 import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
 import { BTT_Z } from "@/lib/layering";
 import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
@@ -17,9 +17,8 @@ import {
 } from "@/lib/ui-classes";
 import clsx from "clsx";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Filter, Search, Sparkles } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
 import {
   useDeferredValue,
   useEffect,
@@ -107,8 +106,6 @@ export function CatalogClient({
   const t = useTranslations("catalog");
   const locale = useLocale();
   const { profile, trackCatalogFilters } = useIntent();
-  const searchParams = useSearchParams();
-  const explainMode = searchParams.get("explain") === "1";
   const color0 = parseInitialColor(initialColor);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -220,16 +217,6 @@ export function CatalogClient({
     });
   }, [f, deferredQuery]);
 
-  const explainRankings = useMemo(() => {
-    if (!explainMode || sortMode !== "smart") return null;
-    return rankProducts(matched, {
-      profile,
-      purpose: "catalog_smart_sort",
-      explain: true,
-      limit: 8,
-    });
-  }, [explainMode, sortMode, matched, profile]);
-
   const filtered = useMemo(() => {
     const refQty = (p: Product) => (isPricedPerKg(p) ? 5 : 1);
     if (sortMode === "price_asc") {
@@ -250,7 +237,7 @@ export function CatalogClient({
         ),
       );
     }
-    if (sortMode === "smart" && profile.confidence > 0.15) {
+    if (sortMode === "smart") {
       return rankProductsSimple(matched, {
         profile,
         purpose: "catalog_smart_sort",
@@ -576,42 +563,8 @@ export function CatalogClient({
             )}
           >
             {t("results_count", { count: filtered.length })}
-            {sortMode === "smart" && profile.confidence > 0.15 ? (
-              <Sparkles className="ml-1 inline h-3.5 w-3.5 text-amber-400" aria-hidden />
-            ) : null}
           </p>
         </div>
-
-        {sortMode === "smart" && profile.confidence <= 0.15 ? (
-          <p className="mb-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-xs text-stone-500">
-            {t("sort_smart_weak")}
-          </p>
-        ) : null}
-
-        {explainRankings && explainRankings.length > 0 ? (
-          <details className="mb-4 rounded-2xl border border-amber-500/25 bg-amber-950/20 p-4">
-            <summary className="cursor-pointer text-sm font-semibold text-amber-200">
-              {t("explain_title")}
-            </summary>
-            <p className="mt-1 text-xs text-stone-500">{t("explain_lead")}</p>
-            <ul className="mt-3 space-y-2 font-mono text-[11px] text-stone-400">
-              {explainRankings.map((row) => (
-                <li
-                  key={row.product.sku}
-                  className="rounded-lg border border-white/[0.06] bg-black/30 px-3 py-2"
-                >
-                  <span className="text-amber-300/90">{row.product.sku}</span>
-                  <span className="text-stone-500"> · {Math.round(row.score)}</span>
-                  {row.breakdown?.parts ? (
-                    <pre className="mt-1 whitespace-pre-wrap break-all text-[10px]">
-                      {JSON.stringify(row.breakdown.parts)}
-                    </pre>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          </details>
-        ) : null}
 
         <AnimatePresence>
           {(activeFilters.length > 0 || query.trim()) && (

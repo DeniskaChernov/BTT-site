@@ -6,8 +6,6 @@ import {
   lineItemTotalUz,
 } from "@/lib/pricing";
 import type { CartLine } from "@/contexts/CartContext";
-import type { IntentProfile } from "@/lib/intent/types";
-
 export type QuoteEstimate = {
   subtotalUz: number;
   potentialSaveUz: number;
@@ -36,10 +34,7 @@ function tierSaveAtNextMilestone(product: ReturnType<typeof getProductBySlug>, q
   return Math.round((perNow - perNext) * qty);
 }
 
-export function estimateCartQuote(
-  lines: CartLine[],
-  profile: IntentProfile,
-): QuoteEstimate {
+export function estimateCartQuote(lines: CartLine[]): QuoteEstimate {
   let subtotalUz = 0;
   let potentialSaveUz = 0;
   let materialKg = 0;
@@ -54,11 +49,7 @@ export function estimateCartQuote(
     }
   }
 
-  const suggestQuote =
-    profile.journey === "production" ||
-    profile.volumeIntent === "bulk" ||
-    materialKg >= 50 ||
-    lines.length >= 4;
+  const suggestQuote = materialKg >= 30 || lines.length >= 4;
 
   return {
     subtotalUz,

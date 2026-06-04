@@ -4,27 +4,29 @@ import { getPublishedArticles } from "@/data/articles";
 import { useIntent } from "@/contexts/IntentContext";
 import { Link } from "@/i18n/navigation";
 import { rankArticles } from "@/lib/intent/rank-articles";
+import { hasBehaviorSignals } from "@/lib/intent/signals";
 import { getArticleCoverPath } from "@/lib/article-cover";
 import { SITE_MEDIA } from "@/lib/site-media";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
+/** Тихая подборка статей — без «для вас» и упоминания профиля. */
 export function ArticlesForYouSection() {
   const t = useTranslations("articles");
   const { profile, ready } = useIntent();
 
   const picks = useMemo(() => {
-    if (!ready || profile.confidence <= 0.1) return [];
+    if (!ready || !hasBehaviorSignals(profile)) return [];
     return rankArticles(getPublishedArticles(), profile, undefined, 3);
   }, [profile, ready]);
 
   if (picks.length === 0) return null;
 
   return (
-    <section className="mt-10 rounded-[1.75rem] border border-amber-500/20 bg-gradient-to-b from-amber-950/25 to-transparent p-6 md:p-8">
-      <h2 className="text-xl font-bold text-stone-50">{t("for_you_title")}</h2>
-      <p className="mt-2 text-sm text-stone-400">{t("for_you_lead")}</p>
+    <section className="mt-10">
+      <h2 className="text-xl font-bold text-stone-50">{t("picks_title")}</h2>
+      <p className="mt-2 text-sm text-stone-500">{t("picks_lead")}</p>
       <ul className="mt-6 grid gap-4 sm:grid-cols-3">
         {picks.map((a) => (
           <li key={a.slug}>

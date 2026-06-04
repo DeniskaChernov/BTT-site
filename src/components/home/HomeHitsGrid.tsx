@@ -3,7 +3,6 @@
 import { StaggerHits } from "@/components/home/StaggerHits";
 import { useIntent } from "@/contexts/IntentContext";
 import { rankProductsSimple } from "@/lib/intent/rank-products";
-import { EMPTY_PROFILE } from "@/lib/intent/types";
 import type { Product } from "@/types/product";
 import { useMemo } from "react";
 
@@ -15,7 +14,7 @@ export function HomeHitsGrid({ fallback }: Props) {
   const hits = useMemo(() => {
     if (!ready || fallback.length === 0) return fallback;
     return rankProductsSimple(fallback, {
-      profile: profile.confidence > 0 ? profile : EMPTY_PROFILE,
+      profile,
       purpose: "home_hits",
       limit: 6,
     });
