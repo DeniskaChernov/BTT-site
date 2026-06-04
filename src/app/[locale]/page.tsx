@@ -1,5 +1,6 @@
 import { ArticlesTeaser } from "@/components/home/ArticlesTeaser";
 import { CommerceHero } from "@/components/commerce-hero";
+import { HomeNewsTicker } from "@/components/home/HomeNewsTicker";
 import { CollectiveSalesTeaser } from "@/components/home/CollectiveSalesTeaser";
 import { ExamplesSection } from "@/components/home/ExamplesSection";
 import { HeroPromisesStrip } from "@/components/home/HeroPromisesStrip";
@@ -20,6 +21,7 @@ export default async function HomePage() {
   return (
     <>
       <CommerceHero />
+      <HomeNewsTicker />
       <HeroPromisesStrip />
       <WhyBeneficialSection />
       <MaterialTrustStrip />

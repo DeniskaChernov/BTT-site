@@ -27,6 +27,16 @@ export type CrmOrderUpdatedPayload = CrmPayloadEnvelope & {
   order: CrmOrderJson;
 };
 
+export type CrmIntentSnapshot = {
+  journey: string;
+  confidence: number;
+  volumeIntent: string;
+  topics: string[];
+  cartSkus: string[];
+  viewedSkus: string[];
+  readArticles: string[];
+};
+
 export type CrmLeadSubmittedPayload = CrmPayloadEnvelope & {
   event: "lead.submitted";
   submittedAt: string;
@@ -34,6 +44,8 @@ export type CrmLeadSubmittedPayload = CrmPayloadEnvelope & {
   locale: string;
   fields: Record<string, string>;
   quiz?: Record<string, string>;
+  intentSnapshot?: CrmIntentSnapshot;
+  leadScore?: number;
   /** id строки в PostgreSQL, если лид сохранён в БД */
   leadId?: string;
 };

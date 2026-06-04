@@ -77,12 +77,25 @@ export function notifyCrmOrderUpdated(
 /**
  * Лид с сайта (контакты, опт, экспорт, квиз). Событие `lead.submitted`.
  */
+function leadScoreFromSnapshot(snapshot?: {
+  confidence: number;
+  cartSkus: string[];
+  readArticles: string[];
+}): number | undefined {
+  if (!snapshot) return undefined;
+  let score = Math.round(snapshot.confidence * 40);
+  score += Math.min(30, snapshot.cartSkus.length * 8);
+  score += Math.min(20, snapshot.readArticles.length * 5);
+  return Math.min(100, score);
+}
+
 export function notifyCrmLeadSubmitted(
   lead: {
     kind: string;
     locale: string;
     fields: Record<string, string>;
     quiz?: Record<string, string>;
+    intentSnapshot?: import("@/lib/crm/payloads").CrmIntentSnapshot;
     leadId?: string;
   },
   requestId?: string,
@@ -101,6 +114,10 @@ export function notifyCrmLeadSubmitted(
     ...(lead.leadId ? { leadId: lead.leadId } : {}),
     ...(lead.quiz && Object.keys(lead.quiz).length > 0
       ? { quiz: lead.quiz }
+      : {}),
+    ...(lead.intentSnapshot ? { intentSnapshot: lead.intentSnapshot } : {}),
+    ...(lead.intentSnapshot
+      ? { leadScore: leadScoreFromSnapshot(lead.intentSnapshot) }
       : {}),
   };
   sendCrmOutboundPayload(CRM_EVENT.LEAD_SUBMITTED, { ...payload }, {

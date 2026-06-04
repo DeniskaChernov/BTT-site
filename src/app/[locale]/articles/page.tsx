@@ -1,5 +1,5 @@
-import { ArticlesCardGrid } from "@/components/articles/ArticlesCardGrid";
 import { ArticlesForYouSection } from "@/components/articles/ArticlesForYouSection";
+import { ArticlesHub } from "@/components/articles/ArticlesHub";
 import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
 import { AnimatedReveal } from "@/components/ui/animated-reveal";
@@ -63,7 +63,7 @@ export default async function ArticlesPage() {
       </AnimatedReveal>
 
       <ArticlesForYouSection />
-      <ArticlesCardGrid />
+      <ArticlesHub />
 
       <p className="mt-12 text-center text-sm text-stone-500">{t("cta_all")}</p>
     </div>

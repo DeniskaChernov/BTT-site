@@ -1,5 +1,6 @@
 "use client";
 
+import { AdminInsightsStub } from "@/components/account/AdminInsightsStub";
 import { OrderHistory } from "@/components/account/OrderHistory";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { trackEvent } from "@/lib/analytics";
@@ -569,6 +570,7 @@ export function AccountForm() {
         </aside>
       </div>
 
+      <AdminInsightsStub />
       <OrderHistory profilePhone={phone} />
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { CartBulkHint } from "@/components/cart/CartBulkHint";
+import { CartCollectiveHint } from "@/components/cart/CartCollectiveHint";
 import { CartMoqWarnings } from "@/components/cart/CartMoqWarnings";
 import { CartOptimizerHint } from "@/components/cart/CartOptimizerHint";
 import { CartUpsell } from "@/components/cart/CartUpsell";
@@ -84,6 +85,7 @@ export function CartView() {
         <p className="mt-2 text-sm text-stone-500">{t("lines_count", { count: lines.length })}</p>
       </header>
       <CartMoqWarnings />
+      <CartCollectiveHint />
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
         <ul className="space-y-4">
           {lines.map((l) => {

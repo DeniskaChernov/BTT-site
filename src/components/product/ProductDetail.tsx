@@ -21,8 +21,10 @@ import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
 import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PdpExamplesAndPromises } from "@/components/product/PdpExamplesAndPromises";
 import { PdpTrustBar } from "@/components/product/PdpTrustBar";
+import { PdpCompareButton } from "@/components/product/PdpCompareButton";
 import { ProductPriceStory } from "@/components/product/ProductPriceStory";
 import { ProductRelatedSection } from "@/components/product/ProductRelatedSection";
+import { YieldCalculator } from "@/components/product/YieldCalculator";
 import { PdpWholesaleTeaser } from "@/components/product/PdpWholesaleTeaser";
 import { ProductHelpPanel } from "@/components/product/ProductHelpPanel";
 import { ProductSpecsAndColors } from "@/components/product/ProductSpecsAndColors";
@@ -52,7 +54,7 @@ export function ProductDetail({ product }: Props) {
   const perKg = isPricedPerKg(product);
   const isTwisted = isTwistedRattan(product);
   const [qty, setQty] = useState(perKg ? 5 : 1);
-  const [meters, setMeters] = useState(10);
+
   const [activeImg, setActiveImg] = useState(0);
   const thumbStripRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
@@ -73,11 +75,6 @@ export function ProductDetail({ product }: Props) {
     return Math.max(1, Math.round(value));
   };
 
-  const normalizeMeters = (value: number) => {
-    if (!Number.isFinite(value)) return 1;
-    return Math.max(1, value);
-  };
-
   useEffect(() => {
     trackViewSku(product.sku);
     trackEvent("view_pdp", {
@@ -96,7 +93,6 @@ export function ProductDetail({ product }: Props) {
 
   const ppk = useMemo(() => getPricePerKgForQty(product, qty), [product, qty]);
   const lineTotal = lineItemTotalUz(product, qty);
-  const kgEst = useMemo(() => Math.max(0.1, meters * 0.12), [meters]);
   const usdNote = t("usd_note");
 
   const onAdd = () => {
@@ -322,6 +318,7 @@ export function ProductDetail({ product }: Props) {
               </div>
             </div>
             <ProductPriceStory product={product} qty={qty} />
+            <PdpCompareButton sku={product.sku} />
           </div>
 
           {product.collective ? (
@@ -463,29 +460,7 @@ export function ProductDetail({ product }: Props) {
         </details>
 
         {perKg ? (
-          <div className="btt-glass rounded-2xl p-5">
-            <h2 className="font-semibold text-stone-100">{t("calc")}</h2>
-            <p className="mt-1 text-sm text-stone-500">{t("calc_hint")}</p>
-            <div className="mt-3 flex flex-wrap gap-4">
-              <label className="grid gap-1 text-sm">
-                {t("meters")}
-                <input
-                  type="number"
-                  min={1}
-                  value={meters}
-                  onChange={(e) => {
-                    if (e.target.value === "") return;
-                    setMeters(normalizeMeters(Number(e.target.value)));
-                  }}
-                  className={bttFieldCompactClass}
-                />
-              </label>
-              <div>
-                <p className="text-xs text-stone-500">{t("kg_est")}</p>
-                <p className="text-lg font-semibold text-stone-100">{kgEst.toFixed(1)} kg</p>
-              </div>
-            </div>
-          </div>
+          <YieldCalculator product={product} />
         ) : (
           <div className="btt-glass rounded-2xl p-5">
             <p className="text-sm leading-relaxed text-stone-400">{t("calc_planter_hint")}</p>

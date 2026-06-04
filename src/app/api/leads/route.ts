@@ -94,6 +94,7 @@ export async function POST(request: Request) {
       locale: validated.locale,
       fields: validated.fields,
       quiz: validated.quiz,
+      intentSnapshot: validated.intentSnapshot,
       leadId,
     },
     requestId,

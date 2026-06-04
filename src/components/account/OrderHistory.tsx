@@ -5,6 +5,7 @@ import { readOrderAccessToken } from "@/lib/order-access-client";
 import type { StoredOrder } from "@/lib/order-history";
 import { ORDERS_STORAGE_KEY, readOrders } from "@/lib/order-history";
 import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
+import { ReorderHints } from "@/components/account/ReorderHints";
 import { Link } from "@/i18n/navigation";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -366,7 +367,8 @@ export function OrderHistory({ profilePhone }: Props) {
               </button>
               {expanded && (
                 <div className="border-t border-white/[0.06] px-4 py-4 md:px-5 md:pb-5">
-                  <div className="mb-4 flex flex-wrap items-center gap-2">
+                  <ReorderHints order={order} />
+                  <div className="mb-4 mt-4 flex flex-wrap items-center gap-2">
                     <span
                       className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(order.status)}`}
                     >

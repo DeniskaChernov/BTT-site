@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
-import { productMatchesQuery } from "@/lib/catalog/product-search";
+import { buildProductSearchIndex, filterProductsByIndex } from "@/lib/catalog/search-index";
 import { rankProductsSimple } from "@/lib/intent/rank-products";
 import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
 import { BTT_Z } from "@/lib/layering";
@@ -52,15 +52,15 @@ const CATALOG_COLORS = [
 type CatalogColor = (typeof CATALOG_COLORS)[number];
 
 type CatalogClientProps = {
-  /** Из URL `?tab=` (ссылки с главной) */
+  /** ╨Ш╨╖ URL `?tab=` (╤Б╤Б╤Л╨╗╨║╨╕ ╤Б ╨│╨╗╨░╨▓╨╜╨╛╨╣) */
   initialTab?: CategoryTab;
-  /** Из URL `?shape=` */
+  /** ╨Ш╨╖ URL `?shape=` */
   initialShape?: "all" | Product["shape"];
-  /** Из URL `?color=` */
+  /** ╨Ш╨╖ URL `?color=` */
   initialColor?: string;
-  /** Из URL `?source=` */
+  /** ╨Ш╨╖ URL `?source=` */
   initialSource?: "all" | "pdf";
-  /** Из URL `?kind=` */
+  /** ╨Ш╨╖ URL `?kind=` */
   initialKind?: "all" | "regular" | "twisted" | "semi";
 };
 
@@ -196,9 +196,11 @@ export function CatalogClient({
     return () => window.removeEventListener("keydown", onKey);
   }, [mobileFiltersOpen]);
 
+  const searchIndex = useMemo(() => buildProductSearchIndex(products), []);
+
   const matched = useMemo(() => {
-    const q = deferredQuery.trim().toLowerCase();
-    return products.filter((p) => {
+    const q = deferredQuery.trim();
+    const base = products.filter((p) => {
       if (f.tab === "material" && p.category !== "material") return false;
       if (f.tab === "planter" && p.category !== "planter") return false;
       if (f.tab === "new" && p.category !== "new") return false;
@@ -212,10 +214,10 @@ export function CatalogClient({
       if (f.kind === "semi" && (!p.isBrochure || !p.sku.includes("RTN-ST-"))) return false;
       if (f.kind === "twisted" && !p.sku.includes("RTN-TW-")) return false;
       if (f.kind === "regular" && (p.sku.includes("RTN-TW-") || p.isBrochure)) return false;
-      if (q && !productMatchesQuery(p, q)) return false;
       return true;
     });
-  }, [f, deferredQuery]);
+    return q ? filterProductsByIndex(base, q, searchIndex) : base;
+  }, [f, deferredQuery, searchIndex]);
 
   const filtered = useMemo(() => {
     const refQty = (p: Product) => (isPricedPerKg(p) ? 5 : 1);
@@ -502,7 +504,7 @@ export function CatalogClient({
           style={{ ["--btt-z-sticky" as string]: BTT_Z.stickyBar }}
         >
           <p className="text-sm font-medium text-stone-200">
-            {t("skip_to_products")} · {t("results_count", { count: filtered.length })}
+            {t("skip_to_products")} ┬╖ {t("results_count", { count: filtered.length })}
           </p>
           <div className="flex flex-wrap gap-2 xl:hidden">
             {(
@@ -585,7 +587,7 @@ export function CatalogClient({
                   onClick={() => setQuery("")}
                   className="rounded-full border border-amber-500/35 bg-amber-500/10 px-3 py-1 text-xs text-amber-200 transition hover:bg-amber-500/20"
                 >
-                  {`"${query.trim()}" ×`}
+                  {`"${query.trim()}" ├Ч`}
                 </button>
               ) : null}
               {activeFilters.map((x) => (
@@ -599,7 +601,7 @@ export function CatalogClient({
                   }
                   className="rounded-full border border-amber-500/35 bg-amber-500/10 px-3 py-1 text-xs text-amber-200 transition hover:bg-amber-500/20"
                 >
-                  {x.label} ×
+                  {x.label} ├Ч
                 </button>
               ))}
               <button

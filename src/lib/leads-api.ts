@@ -89,11 +89,22 @@ function validateByKind(
   }
 }
 
+export type IntentLeadSnapshot = {
+  journey: string;
+  confidence: number;
+  volumeIntent: string;
+  topics: string[];
+  cartSkus: string[];
+  viewedSkus: string[];
+  readArticles: string[];
+};
+
 export type ValidatedLead = {
   kind: LeadKind;
   locale: string;
   fields: Record<string, string>;
   quiz?: Record<string, string>;
+  intentSnapshot?: IntentLeadSnapshot;
 };
 
 /** Возвращает ошибку строкой или валидированный лид. */
@@ -122,10 +133,36 @@ export function validateLeadBody(raw: unknown): ValidatedLead | string {
     quiz = quizParsed;
   }
 
+  let intentSnapshot: IntentLeadSnapshot | undefined;
+  const snap = b.intentSnapshot;
+  if (snap !== undefined && snap !== null) {
+    if (typeof snap !== "object") return "Invalid intentSnapshot";
+    const s = snap as Record<string, unknown>;
+    if (
+      typeof s.journey !== "string" ||
+      typeof s.confidence !== "number" ||
+      typeof s.volumeIntent !== "string"
+    ) {
+      return "Invalid intentSnapshot";
+    }
+    const arr = (v: unknown) =>
+      Array.isArray(v) ? v.filter((x): x is string => typeof x === "string").slice(0, 16) : [];
+    intentSnapshot = {
+      journey: s.journey.slice(0, 32),
+      confidence: Math.min(1, Math.max(0, s.confidence)),
+      volumeIntent: s.volumeIntent.slice(0, 16),
+      topics: arr(s.topics),
+      cartSkus: arr(s.cartSkus),
+      viewedSkus: arr(s.viewedSkus),
+      readArticles: arr(s.readArticles),
+    };
+  }
+
   return {
     kind: kind as LeadKind,
     locale,
     fields,
     ...(quiz ? { quiz } : {}),
+    ...(intentSnapshot ? { intentSnapshot } : {}),
   };
 }

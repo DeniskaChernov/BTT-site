@@ -1,6 +1,7 @@
 "use client";
 
-import { getPublishedArticles } from "@/data/articles";
+import type { ArticlesHubFilter } from "@/components/articles/ArticlesHubTabs";
+import { getPublishedArticles, getPublishedArticlesByKind } from "@/data/articles";
 import { Link } from "@/i18n/navigation";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { SITE_MEDIA } from "@/lib/site-media";
@@ -9,10 +10,11 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-export function ArticlesCardGrid() {
+export function ArticlesCardGrid({ filter = "all" }: { filter?: ArticlesHubFilter }) {
   const t = useTranslations("articles");
   const reduceMotion = useReducedMotion();
-  const published = getPublishedArticles();
+  const published =
+    filter === "all" ? getPublishedArticles() : getPublishedArticlesByKind(filter);
   const articleCoverBySlug: Record<string, string> = {
     "rattan-thickness-furniture": SITE_MEDIA.categoryCard("btt-cat-rattan"),
     "planters-outdoor-uv-drainage": SITE_MEDIA.categoryCard("btt-cat-planter"),

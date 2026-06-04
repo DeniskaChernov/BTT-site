@@ -1,0 +1,22 @@
+{
+  "rattan-thickness-furniture": {
+    "topics": ["rattan", "furniture"],
+    "recommends": ["RTN-HR-5-NAT", "RTN-ST-5-NAT"],
+    "kind": "guide"
+  },
+  "planters-outdoor-uv-drainage": {
+    "topics": ["planter"],
+    "recommends": [],
+    "kind": "guide"
+  },
+  "wholesale-horeca-timelines": {
+    "topics": ["wholesale"],
+    "recommends": [],
+    "kind": "article"
+  },
+  "what-is-artificial-rattan": {
+    "topics": ["rattan"],
+    "recommends": [],
+    "kind": "news"
+  }
+}

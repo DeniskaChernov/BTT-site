@@ -1,6 +1,8 @@
 "use client";
 
+import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
+import { intentProfileToLeadSnapshot } from "@/lib/intent/lead-snapshot";
 import type { LeadKind } from "@/lib/leads-api";
 import { BTT_EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -19,6 +21,7 @@ type Props = {
 
 export function LeadForm({ kind, className, children, source }: Props) {
   const locale = useLocale();
+  const { profile, ready } = useIntent();
   const t = useTranslations("leads");
   const formRef = useRef<HTMLFormElement>(null);
   const reduceMotion = useReducedMotion();
@@ -41,7 +44,12 @@ export function LeadForm({ kind, className, children, source }: Props) {
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind, locale, fields }),
+        body: JSON.stringify({
+          kind,
+          locale,
+          fields,
+          ...(ready ? { intentSnapshot: intentProfileToLeadSnapshot(profile) } : {}),
+        }),
       });
       if (res.status === 429) {
         setErrMsg(t("rate_limited"));

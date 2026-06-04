@@ -6,11 +6,14 @@ type ArticleCardKeys = {
   cardDescKey: "card_1_desc" | "card_2_desc" | "card_3_desc" | "card_4_desc";
 };
 
+export type ArticleContentKind = "guide" | "article" | "news";
+
 export type ArticleRecord = { slug: string } & ArticleCardKeys &
   (
     | {
         status: "published";
         publishedAt: string;
+        contentKind: ArticleContentKind;
         messageNamespace:
           | "articleRattanThickness"
           | "articlePlantersOutdoor"
@@ -25,6 +28,7 @@ export const ARTICLES: ArticleRecord[] = [
     slug: "rattan-thickness-furniture",
     status: "published",
     publishedAt: "2026-03-20",
+    contentKind: "guide",
     cardTitleKey: "card_1_title",
     cardDescKey: "card_1_desc",
     messageNamespace: "articleRattanThickness",
@@ -33,6 +37,7 @@ export const ARTICLES: ArticleRecord[] = [
     slug: "planters-outdoor-uv-drainage",
     status: "published",
     publishedAt: "2026-04-15",
+    contentKind: "guide",
     cardTitleKey: "card_2_title",
     cardDescKey: "card_2_desc",
     messageNamespace: "articlePlantersOutdoor",
@@ -41,6 +46,7 @@ export const ARTICLES: ArticleRecord[] = [
     slug: "wholesale-horeca-timelines",
     status: "published",
     publishedAt: "2026-04-16",
+    contentKind: "article",
     cardTitleKey: "card_3_title",
     cardDescKey: "card_3_desc",
     messageNamespace: "articleWholesaleTimelines",
@@ -49,6 +55,7 @@ export const ARTICLES: ArticleRecord[] = [
     slug: "what-is-artificial-rattan",
     status: "published",
     publishedAt: "2026-04-24",
+    contentKind: "news",
     cardTitleKey: "card_4_title",
     cardDescKey: "card_4_desc",
     messageNamespace: "articleWhatIsRattan",
@@ -68,4 +75,10 @@ export function getPublishedArticles() {
     (a): a is Extract<ArticleRecord, { status: "published" }> =>
       a.status === "published",
   ).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+}
+
+export function getPublishedArticlesByKind(kind: ArticleContentKind | "all") {
+  const all = getPublishedArticles();
+  if (kind === "all") return all;
+  return all.filter((a) => a.contentKind === kind);
 }

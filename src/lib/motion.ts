@@ -4,6 +4,12 @@
  */
 export const BTT_EASE = [0.22, 1, 0.36, 1] as const;
 
+export const BTT_DURATION = {
+  fast: 0.22,
+  base: 0.45,
+  slow: 0.65,
+} as const;
+
 export const BTT_SPRING_SNAPPY = {
   type: "spring" as const,
   stiffness: 420,
