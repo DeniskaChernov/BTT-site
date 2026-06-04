@@ -7,10 +7,6 @@ import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { productMatchesQuery } from "@/lib/catalog/product-search";
 import { rankProducts, rankProductsSimple } from "@/lib/intent/rank-products";
-import {
-  catalogDefaultsForJourney,
-  shouldApplyJourneyCatalogDefaults,
-} from "@/lib/journey/orchestrator";
 import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
 import { BTT_Z } from "@/lib/layering";
 import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
@@ -110,10 +106,9 @@ export function CatalogClient({
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
   const locale = useLocale();
-  const { profile, ready, trackCatalogFilters } = useIntent();
+  const { profile, trackCatalogFilters } = useIntent();
   const searchParams = useSearchParams();
   const explainMode = searchParams.get("explain") === "1";
-  const journeyDefaultsApplied = useRef(false);
   const color0 = parseInitialColor(initialColor);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -132,24 +127,6 @@ export function CatalogClient({
     kind: initialKind,
   }));
   const reduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (!ready || journeyDefaultsApplied.current) return;
-    const defaults = catalogDefaultsForJourney(profile.journey);
-    if (
-      !defaults ||
-      !shouldApplyJourneyCatalogDefaults(profile.journey, {
-        tab: initialTab,
-        shape: initialShape,
-        kind: initialKind,
-        source: initialSource,
-      })
-    ) {
-      return;
-    }
-    journeyDefaultsApplied.current = true;
-    setF((prev) => ({ ...prev, ...defaults }));
-  }, [ready, profile.journey, initialTab, initialShape, initialKind, initialSource]);
 
   useEffect(() => {
     if (!mobileFiltersOpen) return;

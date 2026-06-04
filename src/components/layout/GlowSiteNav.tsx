@@ -1,7 +1,6 @@
 "use client";
 
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
-import { JourneyPill } from "@/components/layout/JourneyPill";
 import { MiniCartDrawer } from "@/components/cart/MiniCartDrawer";
 import { NavAccountLink } from "@/components/layout/NavAccountLink";
 import { SlideTabs, type SlideTabItem } from "@/components/ui/slide-tabs";
@@ -42,26 +41,13 @@ export function GlowSiteNav() {
     return insight ? t("cart_bulk_hint", { kg: insight.kgToNext }) : undefined;
   }, [lines, t]);
 
-  const megaFooter = useMemo(() => {
-    if (profile.journey === "production") {
-      return [
-        { href: "/wholesale", label: t("wholesale") },
-        { href: "/export", label: t("export") },
-        { href: "/catalog?tab=material&kind=semi", label: tc("preset_semi") },
-      ];
-    }
-    if (profile.journey === "knowledge") {
-      return [
-        { href: "/articles", label: t("articles") },
-        { href: "/faq", label: t("faq") },
-        { href: "/#quiz", label: tc("preset_furniture") },
-      ];
-    }
-    return [
+  const megaFooter = useMemo(
+    () => [
       { href: "/wholesale", label: t("wholesale") },
       { href: "/export", label: t("export") },
-    ];
-  }, [profile.journey, t, tc]);
+    ],
+    [t],
+  );
 
   const recentCatalogLinks = useMemo(() => {
     if (!ready || profile.viewedSkus.length === 0) return [];
@@ -158,10 +144,7 @@ export function GlowSiteNav() {
         <div className="btt-container relative py-3.5">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-4">
             <div className="flex flex-wrap items-center justify-between gap-2 md:justify-start md:gap-3">
-              <div className="flex items-center gap-2">
-                <LanguageSwitcher />
-                <JourneyPill className="hidden sm:flex" />
-              </div>
+              <LanguageSwitcher />
               <NavAccountLink className="md:hidden" />
             </div>
             <div

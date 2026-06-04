@@ -6,7 +6,6 @@ import { Link } from "@/i18n/navigation";
 import { rankArticles } from "@/lib/intent/rank-articles";
 import { getArticleCoverPath } from "@/lib/article-cover";
 import { SITE_MEDIA } from "@/lib/site-media";
-import { withJourneyHref } from "@/lib/journey/href";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -30,7 +29,7 @@ export function ArticlesForYouSection() {
         {picks.map((a) => (
           <li key={a.slug}>
             <Link
-              href={withJourneyHref(`/articles/${a.slug}`, profile.journey)}
+              href={`/articles/${a.slug}`}
               className="btt-focus group block overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-amber-500/35"
             >
               <div className="relative aspect-[16/10]">

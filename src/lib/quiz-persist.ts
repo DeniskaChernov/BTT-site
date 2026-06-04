@@ -5,7 +5,6 @@ export const QUIZ_PERSIST_VERSION = 1 as const;
 export type QuizPersistedV1 = {
   v: typeof QUIZ_PERSIST_VERSION;
   step: number;
-  segment: "novice" | "master" | "wholesale" | null;
   workGoal: "furniture" | "planter" | null;
   furnitureUse: "seating" | "other" | null;
   planterPath: "ready" | "weave" | null;

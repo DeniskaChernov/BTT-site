@@ -9,10 +9,9 @@ import {
   recordQuizComplete,
   recordViewedSku,
   saveIntentProfile,
-  setJourney,
 } from "@/lib/intent/profile";
 import type { QuizIntentInput } from "@/lib/intent/profile";
-import type { FilterSnapshot, IntentProfile, JourneyType } from "@/lib/intent/types";
+import type { FilterSnapshot, IntentProfile } from "@/lib/intent/types";
 import { EMPTY_PROFILE } from "@/lib/intent/types";
 import {
   createContext,
@@ -26,7 +25,6 @@ import {
 type IntentCtx = {
   profile: IntentProfile;
   ready: boolean;
-  setJourneyType: (j: JourneyType) => void;
   trackViewSku: (sku: string) => void;
   trackArticleRead: (slug: string, depth: number) => void;
   trackCatalogFilters: (filters: FilterSnapshot) => void;
@@ -53,11 +51,6 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
       return next;
     });
   }, []);
-
-  const setJourneyType = useCallback(
-    (j: JourneyType) => updateProfile((prev) => setJourney(prev, j)),
-    [updateProfile],
-  );
 
   const trackViewSku = useCallback(
     (sku: string) => updateProfile((prev) => recordViewedSku(prev, sku)),
@@ -93,7 +86,6 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
     () => ({
       profile,
       ready,
-      setJourneyType,
       trackViewSku,
       trackArticleRead,
       trackCatalogFilters,
@@ -104,7 +96,6 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
     [
       profile,
       ready,
-      setJourneyType,
       trackViewSku,
       trackArticleRead,
       trackCatalogFilters,

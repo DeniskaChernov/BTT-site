@@ -46,11 +46,10 @@ describe("profile helpers", () => {
     expect(loadIntentProfile()).toMatchObject({ journey: "unknown" });
   });
 
-  it("maps wholesale quiz to production journey", async () => {
+  it("infers production from quiz bulk volume", async () => {
     const { recordQuizComplete } = await import("@/lib/intent/profile");
     const { EMPTY_PROFILE } = await import("@/lib/intent/types");
     const next = recordQuizComplete(EMPTY_PROFILE, {
-      segment: "wholesale",
       workGoal: "furniture",
       vol: "unknown",
     });

@@ -25,18 +25,16 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
-type Segment = "novice" | "master" | "wholesale";
 type WorkGoal = "furniture" | "planter";
 type FurnitureUse = "seating" | "other";
 type PlanterPath = "ready" | "weave";
 
-const RESULT_STEP = 6;
+const RESULT_STEP = 5;
 /** Для нитки нет разницы «улица/дом» в подборе — вопрос в квизе убран, в аналитике оставляем нейтральное значение. */
 const QUIZ_PLACE = "both" as const;
 
 export function RattanQuiz() {
   const t = useTranslations("quiz");
-  const ts = useTranslations("segments");
   const c = useTranslations("catalog");
   const common = useTranslations("common");
   const locale = useLocale() as Locale;
@@ -44,7 +42,6 @@ export function RattanQuiz() {
   const { profile, ready, trackQuizComplete } = useIntent();
 
   const [step, setStep] = useState(0);
-  const [segment, setSegment] = useState<Segment | null>(null);
   const [workGoal, setWorkGoal] = useState<WorkGoal | null>(null);
   const [furnitureUse, setFurnitureUse] = useState<FurnitureUse | null>(null);
   const [planterPath, setPlanterPath] = useState<PlanterPath | null>(null);
@@ -72,7 +69,6 @@ export function RattanQuiz() {
       return;
     }
     setStep(p.step);
-    setSegment(p.segment);
     setWorkGoal(p.workGoal);
     setFurnitureUse(p.furnitureUse);
     setPlanterPath(p.planterPath);
@@ -89,7 +85,6 @@ export function RattanQuiz() {
       saveQuizPersisted({
         v: 1,
         step,
-        segment,
         workGoal,
         furnitureUse,
         planterPath,
@@ -103,7 +98,6 @@ export function RattanQuiz() {
     return () => window.clearTimeout(t);
   }, [
     step,
-    segment,
     workGoal,
     furnitureUse,
     planterPath,
@@ -114,7 +108,7 @@ export function RattanQuiz() {
     contact,
   ]);
 
-  const totalSteps = 5;
+  const totalSteps = 4;
 
   const recommended = useMemo(() => {
     if (!productKind || !workGoal) return [];
@@ -136,7 +130,6 @@ export function RattanQuiz() {
   const start = () => {
     clearQuizPersisted();
     trackEvent("quiz_start", { source: "home_quiz" });
-    setSegment(null);
     setWorkGoal(null);
     setFurnitureUse(null);
     setPlanterPath(null);
@@ -155,9 +148,8 @@ export function RattanQuiz() {
 
   const onTime = (label: string) => {
     setWhen(label);
-    const needQuote = segment === "wholesale" || vol === "unknown";
+    const needQuote = vol === "unknown" || vol === "10";
     trackEvent("quiz_complete", {
-      segment,
       workGoal,
       furnitureUse,
       planterPath,
@@ -169,7 +161,6 @@ export function RattanQuiz() {
       recommendedCount: needQuote ? 0 : recommended.length,
     });
     trackQuizComplete({
-      segment,
       workGoal,
       furnitureUse,
       planterPath,
@@ -210,7 +201,6 @@ export function RattanQuiz() {
             company: contact.company.trim(),
           },
           quiz: {
-            segment: segment ?? "",
             workGoal: workGoal ?? "",
             furnitureUse: furnitureUse ?? "",
             planterPath: planterPath ?? "",
@@ -227,7 +217,6 @@ export function RattanQuiz() {
         return;
       }
       trackEvent("quote_submit", {
-        segment,
         workGoal,
         furnitureUse,
         planterPath,
@@ -333,38 +322,6 @@ export function RattanQuiz() {
       <AnimatePresence mode="wait">
         {step === 1 && (
           <motion.div
-            key="s1"
-            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
-            transition={{ duration: reduceMotion ? 0 : 0.2 }}
-            className="mt-8 grid gap-3 md:grid-cols-3"
-          >
-            <p className="md:col-span-3 text-sm font-medium">{t("q_segment")}</p>
-            {(
-              [
-                ["novice", "novice" as Segment],
-                ["master", "master" as Segment],
-                ["wholesale", "wholesale" as Segment],
-              ] as const
-            ).map(([key, val]) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => {
-                  setSegment(val);
-                  setStep(2);
-                }}
-                className={cn(bttQuizOptionClass, "px-4 py-4")}
-              >
-                {ts(key)}
-              </button>
-            ))}
-          </motion.div>
-        )}
-
-        {step === 2 && (
-          <motion.div
             key="s2"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
@@ -378,7 +335,7 @@ export function RattanQuiz() {
               onClick={() => {
                 setWorkGoal("furniture");
                 setPlanterPath(null);
-                setStep(3);
+                setStep(2);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
@@ -389,7 +346,7 @@ export function RattanQuiz() {
               onClick={() => {
                 setWorkGoal("planter");
                 setFurnitureUse(null);
-                setStep(3);
+                setStep(2);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
@@ -398,7 +355,7 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 3 && workGoal === "furniture" && (
+        {step === 2 && workGoal === "furniture" && (
           <motion.div
             key="s3f"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
@@ -414,7 +371,7 @@ export function RattanQuiz() {
                 setFurnitureUse("seating");
                 setPlanterPath(null);
                 setProductKind("material");
-                setStep(4);
+                setStep(3);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
@@ -426,7 +383,7 @@ export function RattanQuiz() {
                 setFurnitureUse("other");
                 setPlanterPath(null);
                 setProductKind("material");
-                setStep(4);
+                setStep(3);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
@@ -435,7 +392,7 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 3 && workGoal === "planter" && (
+        {step === 2 && workGoal === "planter" && (
           <motion.div
             key="s3p"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
@@ -451,7 +408,7 @@ export function RattanQuiz() {
                 setPlanterPath("ready");
                 setFurnitureUse(null);
                 setProductKind("planter");
-                setStep(4);
+                setStep(3);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
@@ -463,7 +420,7 @@ export function RattanQuiz() {
                 setPlanterPath("weave");
                 setFurnitureUse(null);
                 setProductKind("material");
-                setStep(4);
+                setStep(3);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-4")}
             >
@@ -472,7 +429,7 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 4 && (
+        {step === 3 && (
           <motion.div
             key="s4vol"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
@@ -494,7 +451,7 @@ export function RattanQuiz() {
                 type="button"
                 onClick={() => {
                   setVol(val);
-                  setStep(5);
+                  setStep(4);
                 }}
                 className={cn(bttQuizOptionClass, "px-4 py-3 text-sm")}
               >
@@ -505,7 +462,7 @@ export function RattanQuiz() {
               type="button"
               onClick={() => {
                 setVol("unknown");
-                setStep(5);
+                setStep(4);
               }}
               className={cn(bttQuizOptionClass, "px-4 py-3 text-sm md:col-span-2")}
             >
@@ -514,7 +471,7 @@ export function RattanQuiz() {
           </motion.div>
         )}
 
-        {step === 5 && (
+        {step === 4 && (
           <motion.div
             key="s5time"
             initial={reduceMotion ? false : { opacity: 0, x: 12 }}
