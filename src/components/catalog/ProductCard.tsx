@@ -9,6 +9,7 @@ import { productMainImage } from "@/lib/product-media";
 import {
   formatUzs,
   getPricePerKgForQty,
+  getQtyRules,
   isPricedPerKg,
   isTwistedRattan,
   lineItemTotalUz,
@@ -20,6 +21,7 @@ import { cn } from "@/lib/utils";
 import {
   ArrowRight,
   Check,
+  ChevronDown,
   HeartHandshake,
   Package,
   ShoppingBag,
@@ -33,12 +35,33 @@ type Props = {
   product: Product;
 };
 
-/** Подзаголовок-выгода: кашпо / тонкие нити (декор) / крупные жёсткие (мебель) / в остальных случаях — универсальный профиль. */
 function benefitKeyFor(product: Product): "furniture" | "planter" | "universal" | "decor" {
   if (product.category === "planter") return "planter";
   if (product.thicknessMm !== 0 && product.thicknessMm <= 4) return "decor";
   if (product.hardness === "rigid" && product.thicknessMm >= 6) return "furniture";
   return "universal";
+}
+
+function tierRows(product: Product, perKg: boolean, isTwisted: boolean, c: ReturnType<typeof useTranslations<"catalog">>) {
+  if (perKg && isTwisted) {
+    return [
+      [5, getPricePerKgForQty(product, 5), c("w5")],
+      [200, getPricePerKgForQty(product, 200), c("preorder_200")],
+      [400, getPricePerKgForQty(product, 400), c("preorder_400")],
+    ] as const;
+  }
+  if (perKg) {
+    return [
+      [5, getPricePerKgForQty(product, 5), c("w5")],
+      [200, getPricePerKgForQty(product, 200), c("preorder_200")],
+      [500, getPricePerKgForQty(product, 500), c("preorder_500")],
+    ] as const;
+  }
+  return [
+    [1, getPricePerKgForQty(product, 1), c("w12_piece")],
+    [3, getPricePerKgForQty(product, 3), c("w5_piece")],
+    [10, getPricePerKgForQty(product, 10), c("w10_piece")],
+  ] as const;
 }
 
 export function ProductCard({ product }: Props) {
@@ -53,9 +76,8 @@ export function ProductCard({ product }: Props) {
   const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
   const perKg = isPricedPerKg(product);
   const isTwisted = isTwistedRattan(product);
-  const [quickQty, setQuickQty] = useState<number>(
-    perKg ? 5 : 1,
-  );
+  const qtyRules = getQtyRules(product);
+  const [quickQty, setQuickQty] = useState<number>(perKg ? qtyRules.min : 1);
   const toastTimerRef = useRef<number | null>(null);
 
   const name = product.names[locale];
@@ -68,6 +90,7 @@ export function ProductCard({ product }: Props) {
   const benefitKey = benefitKeyFor(product);
   const benefitLabel = s(`card_benefit_${benefitKey}` as "card_benefit_furniture");
   const gauge = formatProfileGauge(product, locale);
+  const tiers = tierRows(product, perKg, isTwisted, c);
 
   const onAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -91,7 +114,7 @@ export function ProductCard({ product }: Props) {
   }, []);
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-all duration-300 ease-out hover:border-amber-500/30">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 ease-out hover:border-amber-500/30 hover:shadow-amber-950/10">
       <div
         className="pointer-events-none absolute inset-x-5 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
         aria-hidden
@@ -100,22 +123,21 @@ export function ProductCard({ product }: Props) {
         href={`/product/${product.slug}`}
         className="flex min-h-0 flex-1 flex-col outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]"
       >
-        <div className="relative aspect-square shrink-0 overflow-hidden bg-stone-950">
+        <div className="relative aspect-[4/5] shrink-0 overflow-hidden bg-stone-950 sm:aspect-square">
           <Image
             src={img}
             alt={name}
             fill
             sizes="(max-width:768px) 100vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition duration-300 group-hover:opacity-90" />
-          <div className="absolute bottom-4 left-4 right-4 flex translate-y-3 items-center justify-between opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 text-xs font-semibold text-stone-100 shadow-lg backdrop-blur-md">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+          <div className="absolute bottom-3 left-3 right-3 flex translate-y-2 items-center justify-between opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 text-xs font-semibold text-stone-100 backdrop-blur-md">
               {t("learn_more")}
               <ArrowRight className="h-3.5 w-3.5 text-amber-400" aria-hidden />
             </span>
           </div>
-          {/* Бейдж наличия */}
           <span
             className={cn(
               "absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-lg backdrop-blur-sm",
@@ -133,16 +155,16 @@ export function ProductCard({ product }: Props) {
             </span>
           ) : null}
           {product.collective && !product.isBrochure ? (
-            <span className="absolute right-3 top-3 rounded-full border border-amber-400/50 bg-amber-950/90 px-2.5 py-1 text-xs font-semibold text-amber-200 shadow-lg backdrop-blur-sm">
+            <span className="absolute right-3 top-12 rounded-full border border-amber-400/50 bg-amber-950/90 px-2.5 py-1 text-xs font-semibold text-amber-200 shadow-lg backdrop-blur-sm">
               {col("card_badge")}
             </span>
           ) : null}
         </div>
-        <div className="flex min-h-0 flex-1 flex-col p-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/90">
+        <div className="flex min-h-0 flex-1 flex-col p-4 sm:p-5">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-400/90">
             {benefitLabel}
           </p>
-          <h3 className="mt-1.5 line-clamp-2 min-h-[2.75rem] text-base font-semibold leading-snug text-stone-100 transition-colors duration-200 group-hover:text-amber-100/95">
+          <h3 className="mt-1 line-clamp-2 text-base font-semibold leading-snug text-stone-100 transition-colors duration-200 group-hover:text-amber-100/95">
             {name}
           </h3>
           <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -150,19 +172,15 @@ export function ProductCard({ product }: Props) {
               {gauge}
             </span>
             <span className="text-[11px] font-medium text-stone-500">{product.sku}</span>
+            {perKg ? (
+              <span className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] font-semibold text-stone-400">
+                {c("card_moq", { min: String(qtyRules.min) })}
+              </span>
+            ) : null}
           </div>
-          <p className="mt-2 line-clamp-2 min-h-[2.625rem] text-sm leading-relaxed text-stone-500">
-            {product.short[locale]}
-          </p>
-          {product.lowStock ? (
-            <p className="mt-2 inline-flex w-fit items-center rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-2.5 py-1 text-xs font-semibold text-white shadow-md ring-1 ring-white/20">
-              {t("low_stock")}
-            </p>
-          ) : null}
 
-          {/* Характеристики (буллеты) — не удаляем существующие параметры */}
           <ul className="mt-3 flex flex-wrap gap-1.5">
-            {product.bullets[locale].slice(0, 3).map((b) => (
+            {product.bullets[locale].slice(0, 2).map((b) => (
               <li
                 key={b}
                 className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-0.5 text-[11px] font-medium text-stone-400"
@@ -172,18 +190,16 @@ export function ProductCard({ product }: Props) {
             ))}
           </ul>
 
-          <div className="mt-auto pt-4">
-            <p className="text-[11px] font-medium uppercase tracking-wide text-stone-500">
-              {perKg ? t("from") : t("from")} · {perKg ? t("per_kg") : t("per_piece")}
+          <div className="mt-auto pt-3">
+            <p className="text-lg font-bold tabular-nums text-amber-400">
+              {c("card_price_from", {
+                price: formatUzs(ppk),
+                unit: perKg ? t("per_kg") : t("per_piece"),
+                moq: perKg
+                  ? c("card_moq_short", { min: String(qtyRules.min) })
+                  : c("card_moq_pcs"),
+              })}
             </p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-xl font-bold tabular-nums text-amber-400">
-                {formatUzs(ppk)}
-              </span>
-              <span className="text-xs text-stone-500">
-                {perKg ? t("per_kg") : t("per_piece")}
-              </span>
-            </div>
             <p className="mt-1 text-xs text-stone-500">
               {perKg
                 ? t("card_hint_line_kg", {
@@ -198,46 +214,37 @@ export function ProductCard({ product }: Props) {
           </div>
         </div>
       </Link>
-      <div className="mt-auto px-5 pb-5">
-        <div className="mb-3 flex gap-2">
-          {(
-            perKg && isTwisted
-                ? ([
-                    [5, c("w5")],
-                    [200, c("preorder_200")],
-                    [400, c("preorder_400")],
-                  ] as const)
-                : perKg
-                  ? ([
-                      [5, c("w5")],
-                      [200, c("preorder_200")],
-                      [500, c("preorder_500")],
-                    ] as const)
-                : ([
-                    [1, c("w12_piece")],
-                    [3, c("w5_piece")],
-                    [10, c("w10_piece")],
-                  ] as const)
-          ).map(([kg, label]) => (
-            <button
-              key={kg}
-              type="button"
-              onClick={() => setQuickQty(kg)}
-              className={cn(
-                "rounded-full border px-3 py-1 text-xs font-medium transition-all duration-200",
-                quickQty === kg
-                  ? "border-amber-400/70 bg-amber-500/15 text-amber-200 shadow-inner shadow-amber-900/30"
-                  : "border-white/15 text-stone-400 hover:border-amber-500/45 hover:text-stone-200",
-              )}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+      <div className="mt-auto px-4 pb-4 sm:px-5 sm:pb-5">
+        <details className="group/tier mb-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] open:bg-white/[0.04]">
+          <summary className="btt-focus flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-stone-300 [&::-webkit-details-marker]:hidden">
+            <span>{c("card_tier_details")}</span>
+            <ChevronDown className="h-4 w-4 text-stone-500 transition group-open/tier:rotate-180" aria-hidden />
+          </summary>
+          <div className="space-y-2 border-t border-white/[0.06] px-3 py-2">
+            {tiers.map(([qty, price, label]) => (
+              <button
+                key={qty}
+                type="button"
+                onClick={() => setQuickQty(qty)}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-xl border px-3 py-2 text-left text-xs transition",
+                  quickQty === qty
+                    ? "border-amber-400/50 bg-amber-500/10 text-amber-100"
+                    : "border-white/10 text-stone-400 hover:border-amber-500/30",
+                )}
+              >
+                <span>{label}</span>
+                <span className="font-semibold tabular-nums text-stone-100">
+                  {formatUzs(price)}
+                  {perKg ? ` / ${t("per_kg")}` : ` / ${t("per_piece")}`}
+                </span>
+              </button>
+            ))}
+          </div>
+        </details>
+
         {isOnOrderMaterial ? (
-          <p className="mb-3 text-xs leading-relaxed text-stone-500">
-            {c("preorder_min_note")}
-          </p>
+          <p className="mb-3 text-xs leading-relaxed text-stone-500">{c("preorder_min_note")}</p>
         ) : null}
         <button
           type="button"
@@ -294,8 +301,8 @@ export function ProductCard({ product }: Props) {
         ) : null}
         {toast ? (
           <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400">
-              <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
-              {tc("added_flash")}
+            <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
+            {tc("added_flash")}
           </p>
         ) : null}
       </div>

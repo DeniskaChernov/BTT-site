@@ -26,7 +26,7 @@
     "blog": "Blog",
     "catalog": "Katalog",
     "catalog_section_twisted": "Burilgan rotang",
-    "catalog_section_semi": "Yarim trubka · PDF artikullar",
+    "catalog_section_semi": "Yarim trubka",
     "catalog_section_rattan": "Sun'iy rotang",
     "catalog_section_planter": "Kashpo",
     "catalog_section_furniture": "Mebel",
@@ -267,7 +267,9 @@
     "card_4_title": "Sun'iy rattan nima",
     "card_4_desc": "Tarkibi, qo‘llanishi, afzalliklari va oddiy yoki burma profil; kartochkada o‘lcham, mm.",
     "related_title": "O‘xshash materiallar",
-    "related_lead": "Mavzu bo‘yicha yana ikki amaliy maqola — tez davom etish uchun."
+    "related_lead": "Mavzu bo‘yicha yana ikki amaliy maqola — tez davom etish uchun.",
+    "recommended_products_title": "Ushbu maqolaga tavsiya",
+    "recommended_products_lead": "Mavzuga mos materiallar — tovar kartochkasidan savatchaga qo‘shish mumkin."
   },
   "articleRattanThickness": {
     "meta_description": "Mebel uchun sun'iy rattan qalinligi va profilini qanday tanlash: yuk, kesim shakli, rang partiyasi va sarfi.",
@@ -423,19 +425,20 @@
     "insta_card_5_title": "To'qishni boshlash: birinchi qatlam fiksatsiyasi",
     "insta_card_5_desc": "Ishlab chiqarish bosqichi: asos tayyorlash, qadam ritmi va tortilish nazorati.",
     "insta_card_6_title": "Jo'natishdan oldin partiyani tayyorlash",
-    "insta_card_6_desc": "Toshkent va viloyatlarga yuborishdan oldin markirovka va to'liqlik tekshiruvi."
+    "insta_card_6_desc": "Toshkent va viloyatlarga yuborishdan oldin markirovka va to'liqlik tekshiruvi.",
+    "subtitle": "Yarim dumaloq, dumaloq, oval, tekis va burma rotang; karkaslar uchun yarim trubka. Toshkentda ishlab chiqarish, 18+ rang, 5 kg dan opt — 36 000 so‘m/kg dan. Bosh sahifada tanlov va bir necha daqiqada buyurtma."
   },
   "catalog": {
     "all": "Hammasi",
     "page_kicker": "Bententrade",
-    "intro": "Bententrade qatori: yarim dumaloq, dumaloq, oval, yassi va burama rattan; alohida katalogda — yarim trubka (G-profil) va PDF artikullar. Qo‘lda to‘qilgan kashpolar. Filtr: vazifa, mm, rang, shakl; UV, Respublika bo‘yicha jo‘natma. Kartochkada kg yoki dona narxi va tez savatcha.",
+    "intro": "Klassik va burama rattan, karkas uchun yarim trubka, qo'lda to'qilgan kashpo. Filtrlar va buyurtma kartochkada.",
     "title": "Katalog",
-    "meta_description": "Bententrade katalogi: klassik va burama rattan, PDF yarim trubka, kashpo. Mm va rang bo‘yicha filtr, kg narxi.",
+    "meta_description": "Bententrade katalogi: rattan, yarim trubka, kashpo.",
     "guide_title": "Qayerdan boshlash",
     "guide_classic": "Klassik rattan",
     "guide_classic_desc": "Yarim dumaloq, dumaloq, yassi — mebel va kashpo uchun asosiy qator.",
-    "guide_semi": "Yarim trubka · PDF",
-    "guide_semi_desc": "Katalog artikullari bo‘yicha G-profil — karkas va qattiq elementlar.",
+    "guide_semi": "Yarim trubka",
+    "guide_semi_desc": "Qattiq G-profil — karkaslar va yuk elementlari.",
     "guide_twisted": "Burama rattan",
     "guide_twisted_desc": "Aktsentli to‘qish va seriyalar uchun ifoda li faktura.",
     "guide_planter": "Kashpo",
@@ -454,8 +457,6 @@
     "filter_kind_regular": "Klassik",
     "filter_kind_semi": "Yarim trubka",
     "filter_kind_twisted": "Burama",
-    "filter_source": "Manba",
-    "filter_source_pdf": "PDF katalogdan",
     "filter_stock": "Mavjudlik",
     "filter_weight": "Buyurtma hajmi",
     "use_outdoor": "Ko‘cha",
@@ -493,11 +494,11 @@
     "preorder_collective_channel": "To‘plamlar kanali",
     "empty": "Filtr bo‘yicha yo‘q — tozalang yoki tanlashni oching",
     "empty_hint": "«Yarim trubka» yoki «Burama» filtrini olib tashlang yoki «Qayerdan boshlash» bo‘limidan tanlang.",
-    "brochure_kicker": "PDF-katalog",
-    "brochure_lead": "To‘liq katalog PDF: sahifada ko‘rish yoki bir marta bosib yuklab olish.",
-    "brochure_cta": "PDF-katalogni ochish",
+    "brochure_kicker": "To'liq katalog",
+    "brochure_lead": "Barcha profillar — ko'ring yoki yuklab oling.",
+    "brochure_cta": "Katalogni yuklab olish",
     "price_guide_kicker": "Narx orientiri",
-    "price_guide_title": "Avvalgi vitrina (Bententrade kodi)",
+    "price_guide_title": "Hajm bo'yicha narx yo'riqnomasi",
     "price_guide_lead": "Oddiy rattan (buramadan tashqari) bir rangli buyurtmada: 36 000 (100 kg gacha), 31 000 — 200 kg dan, 8 500 — 500 kg dan. Burama rattan: 39 600 (100 kg gacha), 34 600 — 200 kg dan, 32 100 — 400 kg dan.",
     "price_guide_label_rattan": "Oddiy rattan (buramadan tashqari)",
     "price_guide_value_rattan": "36 000 so'm/kg · 31 000 (200 kg dan) · 8 500 (500 kg dan)",
@@ -520,7 +521,7 @@
     "size_line_inner_d": "Ichki diametr",
     "size_line_height": "Balandlik",
     "price_guide_note": "Saytda rattan og'irligi 5 kg qadam bilan o'zgaradi. Buyurtma pozitsiyasi uchun minimum 5 kg.",
-    "search_placeholder": "Nomi, SKU yoki tavsif bo‘yicha qidirish",
+    "search_placeholder": "Nom yoki tavsif bo'yicha qidirish",
     "sort_label": "Saralash",
     "sort_popular": "Avval moslari",
     "sort_price_asc": "Avval arzonlari",
@@ -529,18 +530,39 @@
     "active_filters": "Faol filtrlar:",
     "filters_done": "Tayyor",
     "filters_close": "Yopish",
-    "loading_grid": "Katalog yangilanmoqda"
+    "loading_grid": "Katalog yangilanmoqda",
+    "intro_short": "Rattan, yarim trubka, kashpo — filtr va buyurtma kartochkada.",
+    "badge_profile_line": "Profil qatori",
+    "info_prices_title": "Narx va o'lchamlar",
+    "info_prices_lead": "Hajm bo'yicha yo'riqnoma",
+    "info_usecases_title": "Vazifa bo'yicha",
+    "info_usecases_lead": "Mebel, kashpo yoki universal profil",
+    "info_brochure_title": "To'liq katalog",
+    "info_brochure_lead": "Barcha profillarni ko'ring yoki yuklab oling",
+    "info_optional_badge": "Ma'lumot",
+    "skip_to_products": "Tovarlar",
+    "preset_furniture": "Mebel uchun",
+    "preset_planter": "Kashpo",
+    "preset_semi": "Yarim trubka",
+    "preset_stock": "Omborda",
+    "sort_smart": "Tavsiya etiladi",
+    "card_price_from": "{price} {unit} dan · {moq}",
+    "card_moq": "{min} kg dan",
+    "card_moq_short": "{min} kg dan",
+    "card_moq_pcs": "1 donadan",
+    "card_tier_details": "Hajm va narxlar",
+    "lead": "Toshkentdan sun’iy rotang va to‘qilgan kashpolar: 18 rang, bir nechta profil turi, O‘zbekiston bo‘ylab yetkazib berish. Katalog, to‘liq broshyura yoki bir necha bosishda rasmiylashtirish."
   },
   "catalogBrochure": {
-    "meta_title": "PDF katalog",
+    "meta_title": "Katalogni yuklab olish",
     "title": "Mahsulot katalogi",
-    "breadcrumb": "PDF-katalog",
+    "breadcrumb": "Katalogni yuklab olish",
     "lead": "Bententrade to‘liq oflayn katalogi: yarim trubka profillari, burama rattan, o‘lcham jadvallari va palitra — Toshkent ishlab chiqarishi bilan mos. Pastda ko‘ring yoki faylni yuklab oling.",
     "hint_inline": "Telefonda faylni yuklab, tizim ko‘ruvchisida ochish qulayroq bo‘lishi mumkin.",
-    "download": "PDF yuklab olish",
+    "download": "Faylni yuklab olish",
     "open_tab": "Yangi varaqda ochish",
-    "viewer_title": "Bententrade katalogi, PDF",
-    "footer_note": "Fayl: bententrade-catalog.pdf · chop etishda sahifa kengligiga moslang."
+    "viewer_title": "Bententrade katalogi",
+    "footer_note": "Chop etishda sahifa kengligiga moslang."
   },
   "product": {
     "specs": "Xususiyatlar",
@@ -658,7 +680,12 @@
     "increase_qty": "Miqdorni oshirish",
     "clear": "Savatchani tozalash",
     "clear_confirm": "Barcha pozitsiyalar o‘chirilsinmi?",
-    "added_flash": "Savatchaga qo‘shildi"
+    "added_flash": "Savatchaga qo‘shildi",
+    "mini_title": "Savatcha",
+    "mini_close": "Yopish",
+    "mini_checkout": "Savatchaga o'tish",
+    "unit_kg": "kg",
+    "unit_pcs": "dona"
   },
   "checkout": {
     "title": "Rasmiylashtirish",
@@ -793,7 +820,7 @@
     "ship": "Yetkazish",
     "min_weight": "Minimal og‘irlik",
     "q_twist": "Burama rattan oddiydan qayerda farq qiladi?",
-    "q_semi": "Yarim trubka nima va artikullarni qayerdan ko‘raman?",
+    "q_semi": "Yarim trubka nima?",
     "q_pdf": "To‘liq PDF katalog qayerda?",
     "pick": "Tanlash",
     "returns": "Qaytarish",
@@ -801,8 +828,8 @@
     "a_ship": "Respublika bo‘ylab standart zaxira uchun tasdiqdan keyin odatda 24–48 soat. Toshkent va yirik buyurtmalar bo‘yicha yetkazish — rasmiylashtirishda aniqlang. XL yoki maxsus kashpo — ishlab chiqarish jadvali bo‘yicha.",
     "a_min_weight": "Rattan ipi uchun klassik ulgurji minimum — 5 kg (bententrade.uz dagi kabi); katta hajmlarga chegirmalar. Katalogda har bir kartochkada og‘irlik va narx.",
     "a_twist": "Burama profil to‘qishda faktura va hajmni aniqroq beradi — premium seriyalar uchun tanlanadi. Polimer va UV qatlami bir oila; saytda alohida narx zanjiri va «Burama» filtri. Oddiy rattan (yarim dumaloq, dumaloq, oval, yassi) ko‘p vazifani yopadi.",
-    "a_semi": "Yarim trubka (G-profil, yarim dumaloq trubka) — karkas va to‘qish uchun kesim shakli. Rasmiy PDF dagi artikullar katalogda: «PDF katalogdan» filtri va «Oddiy» tur, yoki menyuda «Yarim trubka · PDF artikullar».",
-    "a_pdf": "Sayt menyusidagi «PDF katalog» bo‘limi — brauzerda ko‘rish va bententrade-catalog.pdf yuklab olish, to‘liq artikul va o‘lcham jadvali bilan.",
+    "a_semi": "Yarim trubka (G-profil) — karkas va to‘qish uchun kesim. Katalogda «Yarim trubka» filtri yoki menyu bandi orqali topasiz.",
+    "a_pdf": "Menyudagi «Katalogni yuklab olish» bo‘limi — brauzerda ko‘rish va to‘liq profil jadvalini yuklab olish.",
     "a_pick": "Bosh sahifa kvizi yoki mahsulot kartochkasi — menejer kutishsiz.",
     "a_returns": "Ochilmagan ruletka — kelishuv bo‘yicha 7 kun gacha. Individual buyurtmalar — alohida shartlar."
   },
@@ -834,7 +861,7 @@
     "col_shop": "Xaridorlar",
     "col_company": "Kompaniya",
     "col_docs": "Hujjatlar",
-    "pdf_catalog": "PDF-katalog"
+    "pdf_catalog": "Katalogni yuklab olish"
   },
   "quiz": {
     "open": "Tanlashni ochish",
@@ -946,5 +973,3 @@
     "policy": "Cookies siyosati"
   }
 }
-
-
