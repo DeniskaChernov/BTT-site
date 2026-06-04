@@ -23,6 +23,7 @@ export function ArticleEngagementBlocks({ slug }: Props) {
   const locale = useLocale() as Locale;
   const ta = useTranslations("articles");
   const tc = useTranslations("catalog");
+  const tCommon = useTranslations("common");
   const { profile, trackArticleRead } = useIntent();
 
   useEffect(() => {
@@ -79,8 +80,8 @@ export function ArticleEngagementBlocks({ slug }: Props) {
                   <p className="mt-1 text-xs tabular-nums text-amber-300">
                     {tc("card_price_from", {
                       price: formatUzs(getPricePerKgForQty(p, 5)),
-                      unit: locale === "en" ? "per kg" : "за кг",
-                      moq: "5 kg",
+                      unit: tCommon("per_kg"),
+                      moq: tc("card_moq_short", { min: "5" }),
                     })}
                   </p>
                 </div>

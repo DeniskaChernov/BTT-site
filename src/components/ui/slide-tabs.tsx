@@ -25,6 +25,8 @@ export type SlideTabItem = {
   linkAriaLabel?: string;
   /** Ссылки под пунктом (например, разделы каталога) — показ при наведении. */
   dropdown?: { href: string; label: string }[];
+  /** Перехват клика (например, mini-cart вместо перехода). */
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
 type SlideTabsProps = {
@@ -100,6 +102,7 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
           badge={item.badge}
           linkAriaLabel={item.linkAriaLabel}
           dropdown={item.dropdown}
+          onClick={item.onClick}
         >
           {item.label}
         </SlideTab>
@@ -117,13 +120,14 @@ type SlideTabProps = {
   badge?: number;
   linkAriaLabel?: string;
   dropdown?: { href: string; label: string }[];
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
 const DROPDOWN_CLOSE_MS = 220;
 
 const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
   (
-    { children, href, isActive, setPosition, badge, linkAriaLabel, dropdown },
+    { children, href, isActive, setPosition, badge, linkAriaLabel, dropdown, onClick },
     ref,
   ) => {
     const reduceMotion = useReducedMotion();
@@ -259,6 +263,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
         <div className="relative">
           <Link
             href={href}
+            onClick={onClick}
             aria-label={linkAriaLabel}
             aria-current={isActive ? "page" : undefined}
             aria-haspopup={hasDropdown ? "menu" : undefined}

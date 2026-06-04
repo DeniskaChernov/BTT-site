@@ -151,7 +151,7 @@ export function ProductCard({ product }: Props) {
           </span>
           {product.isBrochure ? (
             <span className="absolute right-3 top-3 rounded-full border border-sky-400/40 bg-sky-950/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-sky-100 shadow-lg backdrop-blur-sm">
-              PDF
+              {c("badge_profile_line")}
             </span>
           ) : null}
           {product.collective && !product.isBrochure ? (

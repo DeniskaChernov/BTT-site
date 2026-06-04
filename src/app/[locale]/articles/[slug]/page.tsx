@@ -1,10 +1,8 @@
-import { getPublishedArticles, getPublishedSlugs, getArticleBySlug } from "@/data/articles";
+import { ArticleEngagementBlocks } from "@/components/articles/ArticleEngagementBlocks";
+import { getPublishedSlugs, getArticleBySlug } from "@/data/articles";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
-import {
-  getArticleCoverAbsoluteUrl,
-  getArticleCoverPath,
-} from "@/lib/article-cover";
+import { getArticleCoverAbsoluteUrl } from "@/lib/article-cover";
 import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
 import { SITE_MEDIA } from "@/lib/site-media";
 import {
@@ -73,7 +71,6 @@ export default async function ArticleDetailPage({ params }: Props) {
     namespace: article.messageNamespace,
   });
   const ta = await getTranslations({ locale, namespace: "articles" });
-  const related = getPublishedArticles().filter((x) => x.slug !== slug).slice(0, 2);
 
   const articleImagesBySlug: Record<string, { src: string; alt: string; caption: string }[]> = {
     "rattan-thickness-furniture": [
@@ -240,40 +237,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           </Link>
         </div>
 
-        {related.length > 0 ? (
-          <section className="mt-12 border-t border-white/[0.08] pt-10">
-            <h2 className="text-xl font-semibold text-stone-100">{ta("related_title")}</h2>
-            <p className="mt-2 text-sm text-stone-500">{ta("related_lead")}</p>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              {related.map((x) => (
-                <Link
-                  key={x.slug}
-                  href={`/articles/${x.slug}`}
-                  className="btt-focus overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-amber-500/30"
-                >
-                  <div className="relative aspect-[16/10]">
-                    <Image
-                      src={
-                        getArticleCoverPath(x.slug) ??
-                        SITE_MEDIA.categoryCard("btt-cat-rattan")
-                      }
-                      alt={ta(x.cardTitleKey)}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                  </div>
-                  <div className="p-4">
-                    <p className="text-sm font-semibold text-stone-100">{ta(x.cardTitleKey)}</p>
-                    <p className="mt-1 text-xs text-stone-500">{ta(x.cardDescKey)}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        ) : null}
+        <ArticleEngagementBlocks slug={slug} />
       </div>
     </div>
   );

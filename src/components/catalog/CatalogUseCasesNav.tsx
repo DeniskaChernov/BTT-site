@@ -18,7 +18,9 @@ type UseCasePreset =
  * Продающая навигация над каталогом: три пресета под задачу (мебель / кашпо / универсальный).
  * Ведут на готовые связки фильтров, не ломая текущую `CatalogClient` логику.
  */
-export function CatalogUseCasesNav() {
+type Props = { embedded?: boolean };
+
+export function CatalogUseCasesNav({ embedded = false }: Props) {
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
 
@@ -52,17 +54,8 @@ export function CatalogUseCasesNav() {
     },
   ];
 
-  return (
-    <section aria-labelledby="catalog-use-cases-title" className="mt-8">
-      <div className="flex items-center justify-between gap-3">
-        <p
-          id="catalog-use-cases-title"
-          className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80"
-        >
-          {s("catalog_use_kicker")}
-        </p>
-      </div>
-      <ul className="mt-3 grid gap-3 sm:grid-cols-3">
+  const grid = (
+      <ul className={embedded ? "grid gap-3 sm:grid-cols-3" : "mt-3 grid gap-3 sm:grid-cols-3"}>
         {items.map((it, i) => (
           <motion.li
             key={it.title}
@@ -109,6 +102,21 @@ export function CatalogUseCasesNav() {
           </motion.li>
         ))}
       </ul>
+  );
+
+  if (embedded) return grid;
+
+  return (
+    <section aria-labelledby="catalog-use-cases-title" className="mt-8">
+      <div className="flex items-center justify-between gap-3">
+        <p
+          id="catalog-use-cases-title"
+          className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80"
+        >
+          {s("catalog_use_kicker")}
+        </p>
+      </div>
+      {grid}
     </section>
   );
 }

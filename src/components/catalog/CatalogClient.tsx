@@ -3,8 +3,12 @@
 import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
+import { useCart } from "@/contexts/CartContext";
+import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
+import { rankProductsSimple } from "@/lib/intent/rank-products";
 import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
+import { BTT_Z } from "@/lib/layering";
 import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
 import {
   bttFieldClass,
@@ -13,7 +17,7 @@ import {
 } from "@/lib/ui-classes";
 import clsx from "clsx";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Filter, Search } from "lucide-react";
+import { Filter, Search, Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   useDeferredValue,
@@ -35,7 +39,7 @@ type FilterState = {
   kind: "all" | "regular" | "twisted" | "semi";
 };
 
-type SortMode = "popular" | "price_asc" | "price_desc" | "name_asc";
+type SortMode = "smart" | "popular" | "price_asc" | "price_desc" | "name_asc";
 
 const CATALOG_COLORS = [
   "all",
@@ -101,10 +105,12 @@ export function CatalogClient({
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
   const locale = useLocale();
+  const { lines } = useCart();
+  const { profile, trackCatalogFilters, syncCartSkus } = useIntent();
   const color0 = parseInitialColor(initialColor);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
-  const [sortMode, setSortMode] = useState<SortMode>("popular");
+  const [sortMode, setSortMode] = useState<SortMode>("smart");
   const [isPending, startTransition] = useTransition();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const mobileSheetRef = useRef<HTMLDivElement | null>(null);
@@ -155,6 +161,19 @@ export function CatalogClient({
     }
     window.history.replaceState(window.history.state, "", `${next.pathname}${next.search}${next.hash}`);
   }, [f.tab, f.shape, f.color, f.source, f.kind]);
+
+  useEffect(() => {
+    trackCatalogFilters({
+      tab: f.tab,
+      kind: f.kind,
+      shape: f.shape,
+      stock: f.stock,
+    });
+  }, [f.tab, f.kind, f.shape, f.stock, trackCatalogFilters]);
+
+  useEffect(() => {
+    syncCartSkus(lines.map((l) => l.sku));
+  }, [lines, syncCartSkus]);
 
   useEffect(() => {
     if (!mobileFiltersOpen) return;
@@ -235,8 +254,14 @@ export function CatalogClient({
         ),
       );
     }
+    if (sortMode === "smart" && profile.confidence > 0.15) {
+      return rankProductsSimple(list, {
+        profile,
+        purpose: "catalog_smart_sort",
+      });
+    }
     return list;
-  }, [f, deferredQuery, sortMode, locale]);
+  }, [f, deferredQuery, sortMode, locale, profile]);
 
   const activeFilters = useMemo(() => {
     const chips: { key: keyof FilterState; value: string; label: string }[] = [];
@@ -281,13 +306,6 @@ export function CatalogClient({
         key: "stock",
         value: f.stock,
         label: f.stock === "in_stock" ? t("stock_in") : t("stock_order"),
-      });
-    }
-    if (f.source !== "all") {
-      chips.push({
-        key: "source",
-        value: f.source,
-        label: t("filter_source_pdf"),
       });
     }
     if (f.kind !== "all") {
@@ -435,14 +453,6 @@ export function CatalogClient({
       </div>
 
       <div>
-        <p className="text-sm font-medium text-stone-200">{t("filter_source")}</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {chip("source", "all", t("all"), f.source === "all")}
-          {chip("source", "pdf", t("filter_source_pdf"), f.source === "pdf")}
-        </div>
-      </div>
-
-      <div>
         <p className="text-sm font-medium text-stone-200">{t("filter_stock")}</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {chip("stock", "all", t("all"), f.stock === "all")}
@@ -464,8 +474,33 @@ export function CatalogClient({
   const showGridSkeleton = isPending && !mobileFiltersOpen;
   const searchLagging = query.trim() !== deferredQuery.trim();
 
+  const applyPreset = (preset: "furniture" | "planter" | "semi" | "stock") => {
+    startTransition(() => {
+      if (preset === "furniture") {
+        setF((s) => ({
+          ...s,
+          tab: "material",
+          kind: "regular",
+          shape: "half_round",
+          hardness: "rigid",
+        }));
+      } else if (preset === "planter") {
+        setF((s) => ({ ...s, tab: "planter", kind: "all", shape: "all" }));
+      } else if (preset === "semi") {
+        setF((s) => ({
+          ...s,
+          tab: "material",
+          source: "all",
+          kind: "semi",
+        }));
+      } else {
+        setF((s) => ({ ...s, stock: "in_stock" }));
+      }
+    });
+  };
+
   return (
-    <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]">
+    <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]" id="catalog-products">
       <motion.aside
         initial={reduceMotion ? false : { opacity: 0, x: -8 }}
         animate={{ opacity: 1, x: 0 }}
@@ -479,6 +514,34 @@ export function CatalogClient({
       </motion.aside>
 
       <div className="min-w-0 pb-[calc(5.25rem+env(safe-area-inset-bottom,0px))] lg:pb-0">
+        <div
+          className="sticky top-[calc(4.5rem+env(safe-area-inset-top,0px))] z-[var(--btt-z-sticky)] mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/[0.08] bg-[#070605]/80 px-4 py-3 backdrop-blur-lg"
+          style={{ ["--btt-z-sticky" as string]: BTT_Z.stickyBar }}
+        >
+          <p className="text-sm font-medium text-stone-200">
+            {t("skip_to_products")} · {t("results_count", { count: filtered.length })}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {(
+              [
+                ["furniture", t("preset_furniture")],
+                ["planter", t("preset_planter")],
+                ["semi", t("preset_semi")],
+                ["stock", t("preset_stock")],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => applyPreset(id)}
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-stone-300 transition hover:border-amber-500/35 hover:text-amber-100"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="mb-4 grid gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3 md:grid-cols-[1fr_auto_auto] md:items-center md:p-4">
           <label className="relative block">
             <Search
@@ -503,6 +566,7 @@ export function CatalogClient({
               }}
               className={clsx(bttSelectFieldClass, "min-w-[190px] py-2")}
             >
+              <option value="smart">{t("sort_smart")}</option>
               <option value="popular">{t("sort_popular")}</option>
               <option value="price_asc">{t("sort_price_asc")}</option>
               <option value="price_desc">{t("sort_price_desc")}</option>
@@ -516,6 +580,9 @@ export function CatalogClient({
             )}
           >
             {t("results_count", { count: filtered.length })}
+            {sortMode === "smart" && profile.confidence > 0.15 ? (
+              <Sparkles className="ml-1 inline h-3.5 w-3.5 text-amber-400" aria-hidden />
+            ) : null}
           </p>
         </div>
 

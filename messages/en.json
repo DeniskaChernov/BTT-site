@@ -688,6 +688,19 @@
     "unit_kg": "kg",
     "unit_pcs": "pcs"
   },
+  "command": {
+    "placeholder": "Search product, article, or section…",
+    "hint": "Type a name, SKU, or section",
+    "empty": "No results",
+    "brochure": "Download catalog",
+    "kind_product": "Product",
+    "kind_article": "Article",
+    "kind_page": "Section",
+    "article_1": "Rattan thickness for furniture",
+    "article_2": "Outdoor planters",
+    "article_3": "Wholesale and HoReCa",
+    "article_4": "What is artificial rattan"
+  },
   "checkout": {
     "title": "Checkout",
     "guest": "Continue as guest",

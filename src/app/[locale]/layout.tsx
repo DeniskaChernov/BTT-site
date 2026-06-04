@@ -1,5 +1,6 @@
 import { GtmScript } from "@/components/GtmScript";
 import { Providers } from "@/components/Providers";
+import { CommandPalette } from "@/components/layout/CommandPalette";
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { FloatingHelpWidget } from "@/components/layout/FloatingHelpWidget";
 import { Footer } from "@/components/layout/Footer";
@@ -153,6 +154,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             </a>
             <ScrollToHash />
             <GlowSiteNav />
+            <CommandPalette />
             <main id="main-content" className="min-h-[75vh]">
               {children}
             </main>

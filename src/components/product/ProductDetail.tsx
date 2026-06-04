@@ -3,6 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import type { Locale, Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
+import { useIntent } from "@/contexts/IntentContext";
 import {
   formatUzs,
   getPricePerKgForQty,
@@ -43,6 +44,7 @@ export function ProductDetail({ product, related }: Props) {
   const t = useTranslations("product");
   const c = useTranslations("common");
   const { add } = useCart();
+  const { trackViewSku } = useIntent();
   const router = useRouter();
   const isOnOrderMaterial = product.stock === "on_order" && product.category === "material";
   const perKg = isPricedPerKg(product);
@@ -75,13 +77,14 @@ export function ProductDetail({ product, related }: Props) {
   };
 
   useEffect(() => {
+    trackViewSku(product.sku);
     trackEvent("view_pdp", {
       sku: product.sku,
       slug: product.slug,
       value: product.priceUz.t12,
       currency: "UZS",
     });
-  }, [product.sku, product.slug, product.priceUz.t12]);
+  }, [product.sku, product.slug, product.priceUz.t12, trackViewSku]);
 
   const images = useMemo(() => productGalleryImages(product), [product]);
 

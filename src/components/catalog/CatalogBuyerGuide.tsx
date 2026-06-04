@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { FileDown, Layers, Sparkles, Wind } from "lucide-react";
+import { Layers, Sparkles, Wind } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 const LINKS = [
@@ -11,8 +11,8 @@ const LINKS = [
     descKey: "guide_classic_desc" as const,
   },
   {
-    href: "/catalog?tab=material&source=pdf&kind=semi",
-    icon: FileDown,
+    href: "/catalog?tab=material&kind=semi",
+    icon: Layers,
     labelKey: "guide_semi" as const,
     descKey: "guide_semi_desc" as const,
   },

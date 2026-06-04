@@ -18,3 +18,7 @@ export const BTT_SPRING_SOFT = {
 
 /** Стандартная задержка стаггера для сеток карточек */
 export const bttStaggerDelay = (index: number, step = 0.06) => index * step;
+
+export function bttCollapseTransition(reduceMotion?: boolean | null) {
+  return reduceMotion ? { duration: 0 } : { duration: 0.28, ease: [...BTT_EASE] };
+}

@@ -687,6 +687,19 @@
     "unit_kg": "kg",
     "unit_pcs": "dona"
   },
+  "command": {
+    "placeholder": "Tovar, maqola yoki bo‘lim qidirish…",
+    "hint": "Nomi, artikul yoki bo‘limni yozing",
+    "empty": "Topilmadi",
+    "brochure": "Katalogni yuklab olish",
+    "kind_product": "Tovar",
+    "kind_article": "Maqola",
+    "kind_page": "Bo‘lim",
+    "article_1": "Mebel uchun rotang qalinligi",
+    "article_2": "Kochadagi kashpolar",
+    "article_3": "Opt va HoReCa",
+    "article_4": "Sun’iy rotang nima"
+  },
   "checkout": {
     "title": "Rasmiylashtirish",
     "guest": "Mehmon sifatida",
