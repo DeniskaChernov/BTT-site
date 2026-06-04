@@ -1,4 +1,4 @@
-import { StaggerHits } from "@/components/home/StaggerHits";
+import { HomeHitsGrid } from "@/components/home/HomeHitsGrid";
 import { products } from "@/data/products";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
@@ -42,7 +42,7 @@ export async function HomeHits() {
           </div>
         </div>
 
-        <StaggerHits products={hits} />
+        <HomeHitsGrid fallback={hits} />
       </div>
     </section>
   );

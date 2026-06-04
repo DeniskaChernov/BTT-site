@@ -1,5 +1,7 @@
 "use client";
 
+import { CartBulkHint } from "@/components/cart/CartBulkHint";
+import { CartUpsell } from "@/components/cart/CartUpsell";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
@@ -101,6 +103,7 @@ export function CartView() {
                   {l.name}
                 </Link>
                 <p className="text-xs text-stone-500">{l.sku}</p>
+                <CartBulkHint line={l} />
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <label className="text-sm text-stone-400">
@@ -178,6 +181,7 @@ export function CartView() {
           </button>
         </aside>
       </div>
+      <CartUpsell />
     </div>
   );
 }

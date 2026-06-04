@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { products } from "@/data/products";
 import type { Locale } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
+import { useIntent } from "@/contexts/IntentContext";
 import { trackEvent } from "@/lib/analytics";
 import {
   pickQuizRecommendations,
@@ -42,6 +43,7 @@ export function RattanQuiz() {
   const common = useTranslations("common");
   const locale = useLocale() as Locale;
   const { add } = useCart();
+  const { trackQuizComplete } = useIntent();
 
   const [step, setStep] = useState(0);
   const [segment, setSegment] = useState<Segment | null>(null);
@@ -163,6 +165,14 @@ export function RattanQuiz() {
       when: label,
       needQuote,
       recommendedCount: needQuote ? 0 : recommended.length,
+    });
+    trackQuizComplete({
+      segment,
+      workGoal,
+      furnitureUse,
+      planterPath,
+      productKind,
+      vol,
     });
     if (needQuote) {
       setEndMode("quote");

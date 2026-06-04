@@ -45,6 +45,19 @@ describe("profile helpers", () => {
     const { loadIntentProfile } = await import("@/lib/intent/profile");
     expect(loadIntentProfile()).toMatchObject({ journey: "unknown" });
   });
+
+  it("maps wholesale quiz to production journey", async () => {
+    const { recordQuizComplete } = await import("@/lib/intent/profile");
+    const { EMPTY_PROFILE } = await import("@/lib/intent/types");
+    const next = recordQuizComplete(EMPTY_PROFILE, {
+      segment: "wholesale",
+      workGoal: "furniture",
+      vol: "unknown",
+    });
+    expect(next.journey).toBe("production");
+    expect(next.topics).toContain("wholesale");
+    expect(next.volumeIntent).toBe("bulk");
+  });
 });
 
 describe("rankArticles", () => {

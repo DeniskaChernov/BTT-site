@@ -685,7 +685,10 @@
     "mini_close": "Yopish",
     "mini_checkout": "Savatchaga o'tish",
     "unit_kg": "kg",
-    "unit_pcs": "dona"
+    "unit_pcs": "dona",
+    "upsell_title": "Buyurtmaga qo‘shing",
+    "upsell_lead": "Savatchangizga mos — ro‘yxatdagi pozitsiyalar qayta taklif qilinmaydi.",
+    "bulk_progress": "{qty} kg — keyingi narx pog‘onasigacha yana {next} kg ({pct}%)"
   },
   "command": {
     "placeholder": "Tovar, maqola yoki bo‘lim qidirish…",

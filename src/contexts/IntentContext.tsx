@@ -5,10 +5,12 @@ import {
   mergeProfile,
   recordArticleRead,
   recordCatalogFilters,
+  recordQuizComplete,
   recordViewedSku,
   saveIntentProfile,
   setJourney,
 } from "@/lib/intent/profile";
+import type { QuizIntentInput } from "@/lib/intent/profile";
 import type { FilterSnapshot, IntentProfile, JourneyType } from "@/lib/intent/types";
 import { EMPTY_PROFILE } from "@/lib/intent/types";
 import {
@@ -27,6 +29,7 @@ type IntentCtx = {
   trackViewSku: (sku: string) => void;
   trackArticleRead: (slug: string, depth: number) => void;
   trackCatalogFilters: (filters: FilterSnapshot) => void;
+  trackQuizComplete: (input: QuizIntentInput) => void;
   syncCartSkus: (skus: string[]) => void;
 };
 
@@ -69,6 +72,11 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
     [updateProfile],
   );
 
+  const trackQuizComplete = useCallback(
+    (input: QuizIntentInput) => updateProfile((prev) => recordQuizComplete(prev, input)),
+    [updateProfile],
+  );
+
   const syncCartSkus = useCallback(
     (skus: string[]) => updateProfile((prev) => mergeProfile(prev, { cartSkus: skus })),
     [updateProfile],
@@ -82,9 +90,19 @@ export function IntentProvider({ children }: { children: React.ReactNode }) {
       trackViewSku,
       trackArticleRead,
       trackCatalogFilters,
+      trackQuizComplete,
       syncCartSkus,
     }),
-    [profile, ready, setJourneyType, trackViewSku, trackArticleRead, trackCatalogFilters, syncCartSkus],
+    [
+      profile,
+      ready,
+      setJourneyType,
+      trackViewSku,
+      trackArticleRead,
+      trackCatalogFilters,
+      trackQuizComplete,
+      syncCartSkus,
+    ],
   );
 
   return <IntentContext.Provider value={value}>{children}</IntentContext.Provider>;

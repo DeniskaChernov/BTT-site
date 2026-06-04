@@ -1,5 +1,5 @@
 import { ProductDetail } from "@/components/product/ProductDetail";
-import { getProductBySlug, getRelated, products } from "@/data/products";
+import { getProductBySlug, products } from "@/data/products";
 import { getPricePerKgForQty, isTwistedRattan } from "@/lib/pricing";
 import { productMainImage } from "@/lib/product-media";
 import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
@@ -128,7 +128,7 @@ export default async function ProductPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ProductDetail product={product} related={getRelated(slug)} />
+      <ProductDetail product={product} />
     </>
   );
 }

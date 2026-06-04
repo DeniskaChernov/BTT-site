@@ -21,13 +21,14 @@ import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
 import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PdpExamplesAndPromises } from "@/components/product/PdpExamplesAndPromises";
 import { PdpTrustBar } from "@/components/product/PdpTrustBar";
+import { ProductRelatedSection } from "@/components/product/ProductRelatedSection";
 import { PdpWholesaleTeaser } from "@/components/product/PdpWholesaleTeaser";
 import { ProductHelpPanel } from "@/components/product/ProductHelpPanel";
 import { ProductSpecsAndColors } from "@/components/product/ProductSpecsAndColors";
 import { ProductValueGrid } from "@/components/product/ProductValueGrid";
 import { BackButton } from "@/components/ui/BackButton";
 import { trackEvent } from "@/lib/analytics";
-import { productGalleryImages, productMainImage } from "@/lib/product-media";
+import { productGalleryImages } from "@/lib/product-media";
 import { MIN_PREORDER_QTY_KG } from "@/lib/orders-api";
 import { telegramBotStartUrl, telegramChannelUrl, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useRouter } from "@/i18n/navigation";
@@ -37,9 +38,9 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type Props = { product: Product; related: Product[] };
+type Props = { product: Product };
 
-export function ProductDetail({ product, related }: Props) {
+export function ProductDetail({ product }: Props) {
   const locale = useLocale() as Locale;
   const t = useTranslations("product");
   const c = useTranslations("common");
@@ -499,35 +500,7 @@ export function ProductDetail({ product, related }: Props) {
 
       <PdpTrustBar />
 
-      <div className="mt-16">
-        <h2 className="text-xl font-bold text-stone-100">{t("cross")}</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {related.map((p) => (
-            <div key={p.sku} className="h-full min-h-0">
-              <Link
-                href={`/product/${p.slug}`}
-                className="group btt-focus flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-sm outline-none transition duration-300 hover:-translate-y-1 hover:border-amber-500/35 hover:shadow-xl hover:shadow-amber-950/20 motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-sm"
-              >
-                <div className="relative aspect-square shrink-0 overflow-hidden">
-                  <Image
-                    src={productMainImage(p)}
-                    alt={p.names[locale]}
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                    sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 20vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition group-hover:opacity-100 motion-reduce:transition-none" />
-                </div>
-                <div className="flex min-h-0 flex-1 flex-col p-3">
-                  <p className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-stone-200 transition group-hover:text-amber-100/95 motion-reduce:transition-none">
-                    {p.names[locale]}
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
+      <ProductRelatedSection product={product} />
 
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden">
         <div className="btt-container flex items-center justify-between gap-3">

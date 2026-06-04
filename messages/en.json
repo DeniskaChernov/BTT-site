@@ -686,7 +686,10 @@
     "mini_close": "Close",
     "mini_checkout": "Open full cart",
     "unit_kg": "kg",
-    "unit_pcs": "pcs"
+    "unit_pcs": "pcs",
+    "upsell_title": "Add to your order",
+    "upsell_lead": "Picked for your cart — excluding items already in the list.",
+    "bulk_progress": "{qty} kg — {next} kg more to the next price tier ({pct}%)"
   },
   "command": {
     "placeholder": "Search product, article, or section…",

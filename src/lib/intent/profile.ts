@@ -156,3 +156,47 @@ export function viewedSkuPenalty(profile: IntentProfile, sku: string, now = Date
 export function setJourney(profile: IntentProfile, journey: JourneyType): IntentProfile {
   return mergeProfile(profile, { journey });
 }
+
+export type QuizIntentInput = {
+  segment: "novice" | "master" | "wholesale" | null;
+  workGoal: "furniture" | "planter" | null;
+  furnitureUse?: "seating" | "other" | null;
+  planterPath?: "ready" | "weave" | null;
+  productKind?: "material" | "planter" | null;
+  vol?: "12" | "5" | "10" | "unknown" | null;
+};
+
+function journeyFromQuiz(segment: QuizIntentInput["segment"]): JourneyType {
+  if (segment === "wholesale") return "production";
+  if (segment === "master" || segment === "novice") return "master";
+  return "unknown";
+}
+
+function topicsFromQuiz(input: QuizIntentInput): TopicTag[] {
+  const topics: TopicTag[] = ["rattan"];
+  if (input.workGoal === "furniture") topics.push("furniture");
+  if (input.workGoal === "planter") topics.push("planter");
+  if (input.planterPath === "weave" || input.productKind === "material") topics.push("semi_tube");
+  if (input.planterPath === "ready" || input.productKind === "planter") topics.push("planter");
+  if (input.segment === "wholesale") topics.push("wholesale");
+  return topics;
+}
+
+function volumeFromQuiz(input: QuizIntentInput): IntentProfile["volumeIntent"] {
+  if (input.vol === "10" || input.vol === "unknown") return "bulk";
+  if (input.segment === "wholesale") return "bulk";
+  if (input.vol === "5" || input.vol === "12") return "retail";
+  return "unknown";
+}
+
+export function recordQuizComplete(
+  profile: IntentProfile,
+  input: QuizIntentInput,
+): IntentProfile {
+  const journey = journeyFromQuiz(input.segment);
+  return mergeProfile(profile, {
+    journey: profile.journey === "unknown" ? journey : profile.journey,
+    topics: clampTopics([...profile.topics, ...topicsFromQuiz(input)]),
+    volumeIntent: volumeFromQuiz(input),
+  });
+}
