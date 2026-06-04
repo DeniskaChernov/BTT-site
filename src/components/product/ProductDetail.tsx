@@ -201,15 +201,17 @@ export function ProductDetail({ product, related }: Props) {
               ) : null}
             </div>
           ) : null}
-          <div className="mt-8">
-            <h2 className="text-sm font-semibold text-stone-200">{t("videos")}</h2>
-            <div className="mt-2 rounded-2xl border border-dashed border-white/12 bg-white/[0.02] px-4 py-6 text-center sm:px-5 sm:py-7">
-              <p className="text-sm font-medium text-stone-300">{t("videos_soon_title")}</p>
-              <p className="mx-auto mt-1.5 max-w-md text-xs text-stone-500 sm:text-sm">
-                {t("videos_soon_body")}
-              </p>
+          {!product.isBrochure ? (
+            <div className="mt-8">
+              <h2 className="text-sm font-semibold text-stone-200">{t("videos")}</h2>
+              <div className="mt-2 rounded-2xl border border-dashed border-white/12 bg-white/[0.02] px-4 py-6 text-center sm:px-5 sm:py-7">
+                <p className="text-sm font-medium text-stone-300">{t("videos_soon_title")}</p>
+                <p className="mx-auto mt-1.5 max-w-md text-xs text-stone-500 sm:text-sm">
+                  {t("videos_soon_body")}
+                </p>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
 
         <div className="min-w-0 rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-transparent p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] md:p-6">
@@ -479,12 +481,14 @@ export function ProductDetail({ product, related }: Props) {
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
-        <div>
-          <h2 className="text-base font-semibold text-stone-100">{t("reviews")}</h2>
-          <p className="mt-1 text-xs text-stone-500">{t("review_sample_label")}</p>
-          <p className="mt-2 text-sm text-stone-400">{t("review_sample")}</p>
-        </div>
-        <div>
+        {!product.isBrochure ? (
+          <div>
+            <h2 className="text-base font-semibold text-stone-100">{t("reviews")}</h2>
+            <p className="mt-1 text-xs text-stone-500">{t("review_sample_label")}</p>
+            <p className="mt-2 text-sm text-stone-400">{t("review_sample")}</p>
+          </div>
+        ) : null}
+        <div className={product.isBrochure ? "md:col-span-2" : undefined}>
           <h2 className="text-base font-semibold text-stone-100">{t("delivery")}</h2>
           <p className="mt-2 text-sm text-stone-400">{t("delivery_text")}</p>
         </div>

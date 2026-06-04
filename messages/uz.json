@@ -430,6 +430,16 @@
     "page_kicker": "Bententrade",
     "intro": "Bententrade qatori: yarim dumaloq, dumaloq, oval, yassi va burama rattan; alohida katalogda — yarim trubka (G-profil) va PDF artikullar. Qo‘lda to‘qilgan kashpolar. Filtr: vazifa, mm, rang, shakl; UV, Respublika bo‘yicha jo‘natma. Kartochkada kg yoki dona narxi va tez savatcha.",
     "title": "Katalog",
+    "meta_description": "Bententrade katalogi: klassik va burama rattan, PDF yarim trubka, kashpo. Mm va rang bo‘yicha filtr, kg narxi.",
+    "guide_title": "Qayerdan boshlash",
+    "guide_classic": "Klassik rattan",
+    "guide_classic_desc": "Yarim dumaloq, dumaloq, yassi — mebel va kashpo uchun asosiy qator.",
+    "guide_semi": "Yarim trubka · PDF",
+    "guide_semi_desc": "Katalog artikullari bo‘yicha G-profil — karkas va qattiq elementlar.",
+    "guide_twisted": "Burama rattan",
+    "guide_twisted_desc": "Aktsentli to‘qish va seriyalar uchun ifoda li faktura.",
+    "guide_planter": "Kashpo",
+    "guide_planter_desc": "Terrasa, fasad va interyer uchun to‘qima kashpolar.",
     "tabs_material": "Material",
     "tabs_planter": "Kashpo",
     "tabs_new": "Yangiliklar",
@@ -441,7 +451,8 @@
     "filter_shape": "Profil shakli",
     "filter_hardness": "Qattiqlik",
     "filter_kind": "Rattan turi",
-    "filter_kind_regular": "Oddiy",
+    "filter_kind_regular": "Klassik",
+    "filter_kind_semi": "Yarim trubka",
     "filter_kind_twisted": "Burama",
     "filter_source": "Manba",
     "filter_source_pdf": "PDF katalogdan",
@@ -481,6 +492,7 @@
     "preorder_collective_bot": "Kollektiv bot",
     "preorder_collective_channel": "To‘plamlar kanali",
     "empty": "Filtr bo‘yicha yo‘q — tozalang yoki tanlashni oching",
+    "empty_hint": "«Yarim trubka» yoki «Burama» filtrini olib tashlang yoki «Qayerdan boshlash» bo‘limidan tanlang.",
     "brochure_kicker": "PDF-katalog",
     "brochure_lead": "To‘liq katalog PDF: sahifada ko‘rish yoki bir marta bosib yuklab olish.",
     "brochure_cta": "PDF-katalogni ochish",
@@ -925,6 +937,13 @@
     "order_tracking_open": "Trekni ochish",
     "order_help": "Buyurtma bo‘yicha maslahat kerakmi?",
     "order_help_link": "Menejer bilan bog‘lanish"
+  },
+  "consent": {
+    "title": "Cookies va analitika",
+    "body": "Savat, til va asosiy analitika uchun cookies ishlatamiz — vitrinani yaxshilash uchun.",
+    "accept": "Qabul qilish",
+    "decline": "Faqat zaruriy",
+    "policy": "Cookies siyosati"
   }
 }
 

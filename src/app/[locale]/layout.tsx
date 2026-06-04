@@ -1,11 +1,12 @@
 import { GtmScript } from "@/components/GtmScript";
 import { Providers } from "@/components/Providers";
+import { CookieConsent } from "@/components/layout/CookieConsent";
 import { FloatingHelpWidget } from "@/components/layout/FloatingHelpWidget";
 import { Footer } from "@/components/layout/Footer";
 import { GlowSiteNav } from "@/components/layout/GlowSiteNav";
 import { ScrollToHash } from "@/components/layout/ScrollToHash";
 import { routing } from "@/i18n/routing";
-import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
+import { buildAlternates, DEFAULT_OG_IMAGE, SITE_ORIGIN } from "@/lib/seo";
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
@@ -86,11 +87,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       siteName: "Bententrade",
       url: alternates.canonical,
+      images: [DEFAULT_OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: t("site"),
       description: t("home_desc"),
+      images: [DEFAULT_OG_IMAGE.url],
     },
     robots: {
       index: true,
@@ -163,6 +166,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             />
             <FloatingHelpWidget />
             <Footer />
+            <CookieConsent />
           </Providers>
         </NextIntlClientProvider>
       </body>

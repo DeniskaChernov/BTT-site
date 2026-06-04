@@ -9,7 +9,7 @@ import {
   bttSecondaryAmberButtonClass,
   bttSecondaryNeutralButtonClass,
 } from "@/lib/ui-classes";
-import { buildAlternates } from "@/lib/seo";
+import { buildAlternates, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
@@ -27,8 +27,18 @@ export async function generateMetadata({ params }: MetadataProps) {
     title,
     description,
     alternates,
-    openGraph: { title, description, url: alternates.canonical },
-    twitter: { title, description },
+    openGraph: {
+      title,
+      description,
+      url: alternates.canonical,
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [DEFAULT_OG_IMAGE.url],
+    },
   };
 }
 

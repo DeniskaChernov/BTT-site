@@ -1,3 +1,4 @@
+import { CatalogBuyerGuide } from "@/components/catalog/CatalogBuyerGuide";
 import { CatalogClient } from "@/components/catalog/CatalogClient";
 import { CatalogPriceGuide } from "@/components/catalog/CatalogPriceGuide";
 import { CatalogUseCasesNav } from "@/components/catalog/CatalogUseCasesNav";
@@ -5,7 +6,7 @@ import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
-import { buildAlternates } from "@/lib/seo";
+import { buildAlternates, CATALOG_OG_IMAGE } from "@/lib/seo";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import type { CategoryTab } from "@/types/product";
@@ -21,13 +22,23 @@ export async function generateMetadata({ params }: MetadataProps) {
   const t = await getTranslations({ locale, namespace: "catalog" });
   const alternates = buildAlternates(locale, "/catalog");
   const title = t("title");
-  const description = t("intro");
+  const description = t("meta_description");
   return {
     title,
     description,
     alternates,
-    openGraph: { title, description, url: alternates.canonical },
-    twitter: { title, description },
+    openGraph: {
+      title,
+      description,
+      url: alternates.canonical,
+      images: [CATALOG_OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [CATALOG_OG_IMAGE.url],
+    },
   };
 }
 
@@ -53,7 +64,10 @@ export default async function CatalogPage({ searchParams }: PageProps) {
       ? (sp.color as (typeof COLORS)[number])
       : "all";
   const source = sp.source === "pdf" ? "pdf" : "all";
-  const kind = sp.kind === "twisted" || sp.kind === "regular" ? sp.kind : "all";
+  const kind =
+    sp.kind === "twisted" || sp.kind === "regular" || sp.kind === "semi"
+      ? sp.kind
+      : "all";
 
   return (
     <div className="btt-container py-12 md:py-16">
@@ -63,6 +77,11 @@ export default async function CatalogPage({ searchParams }: PageProps) {
         lead={t("intro")}
         backFallbackHref="/"
       />
+
+      <SectionReveal className="mt-8">
+        <p className="mb-4 text-sm font-semibold text-stone-200">{t("guide_title")}</p>
+        <CatalogBuyerGuide />
+      </SectionReveal>
 
       <SectionReveal className="mt-8">
         <CatalogPriceGuide />

@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/types/product";
 import type { Product } from "@/types/product";
 import { useCart } from "@/contexts/CartContext";
+import { formatProfileGauge } from "@/lib/profile-size";
 import { productMainImage } from "@/lib/product-media";
 import {
   formatUzs,
@@ -66,6 +67,7 @@ export function ProductCard({ product }: Props) {
   const collectiveChannelUrl = telegramChannelUrl();
   const benefitKey = benefitKeyFor(product);
   const benefitLabel = s(`card_benefit_${benefitKey}` as "card_benefit_furniture");
+  const gauge = formatProfileGauge(product, locale);
 
   const onAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -125,11 +127,16 @@ export function ProductCard({ product }: Props) {
             <Package className="h-3 w-3" aria-hidden />
             {product.stock === "in_stock" ? c("stock_in") : c("stock_order")}
           </span>
-          {product.collective && (
+          {product.isBrochure ? (
+            <span className="absolute right-3 top-3 rounded-full border border-sky-400/40 bg-sky-950/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-sky-100 shadow-lg backdrop-blur-sm">
+              PDF
+            </span>
+          ) : null}
+          {product.collective && !product.isBrochure ? (
             <span className="absolute right-3 top-3 rounded-full border border-amber-400/50 bg-amber-950/90 px-2.5 py-1 text-xs font-semibold text-amber-200 shadow-lg backdrop-blur-sm">
               {col("card_badge")}
             </span>
-          )}
+          ) : null}
         </div>
         <div className="flex min-h-0 flex-1 flex-col p-5">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/90">
@@ -138,6 +145,12 @@ export function ProductCard({ product }: Props) {
           <h3 className="mt-1.5 line-clamp-2 min-h-[2.75rem] text-base font-semibold leading-snug text-stone-100 transition-colors duration-200 group-hover:text-amber-100/95">
             {name}
           </h3>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center rounded-full border border-amber-500/25 bg-amber-950/30 px-2.5 py-0.5 text-[11px] font-semibold tabular-nums text-amber-200/95">
+              {gauge}
+            </span>
+            <span className="text-[11px] font-medium text-stone-500">{product.sku}</span>
+          </div>
           <p className="mt-2 line-clamp-2 min-h-[2.625rem] text-sm leading-relaxed text-stone-500">
             {product.short[locale]}
           </p>
@@ -160,7 +173,10 @@ export function ProductCard({ product }: Props) {
           </ul>
 
           <div className="mt-auto pt-4">
-            <div className="flex items-baseline gap-2">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-stone-500">
+              {perKg ? t("from") : t("from")} · {perKg ? t("per_kg") : t("per_piece")}
+            </p>
+            <div className="mt-1 flex items-baseline gap-2">
               <span className="text-xl font-bold tabular-nums text-amber-400">
                 {formatUzs(ppk)}
               </span>

@@ -1,5 +1,6 @@
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { getProductBySlug, getRelated, products } from "@/data/products";
+import { getPricePerKgForQty, isTwistedRattan } from "@/lib/pricing";
 import { productMainImage } from "@/lib/product-media";
 import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
 import type { Locale } from "@/types/product";
@@ -97,17 +98,19 @@ export default async function ProductPage({ params }: Props) {
     ],
   };
 
+  const bulkQty = isTwistedRattan(product) ? 400 : 500;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.names[locale as Locale],
     sku: product.sku,
     description: product.short[locale as Locale],
+    brand: { "@type": "Brand", name: "Bententrade" },
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "UZS",
-      lowPrice: product.priceUz.t10,
-      highPrice: product.priceUz.t12,
+      lowPrice: getPricePerKgForQty(product, bulkQty),
+      highPrice: getPricePerKgForQty(product, 5),
       offerCount: 3,
       availability: product.stock === "in_stock" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
     },

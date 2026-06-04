@@ -134,3 +134,16 @@ export function trackEvent(
     }
   }
 }
+
+/** Google Consent Mode v2 — вызывается из CookieConsent после выбора пользователя. */
+export function updateAnalyticsConsent(granted: boolean): void {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "consent_update",
+    analytics_storage: granted ? "granted" : "denied",
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+  });
+}

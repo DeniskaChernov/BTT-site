@@ -4,6 +4,20 @@ export const SITE_ORIGIN = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://bententrade.uz"
 ).replace(/\/$/, "");
 
+export const DEFAULT_OG_IMAGE = {
+  url: `${SITE_ORIGIN}/og-default.png`,
+  width: 1200,
+  height: 630,
+  alt: "Bententrade — искусственный ротанг и кашпо",
+};
+
+export const CATALOG_OG_IMAGE = {
+  url: `${SITE_ORIGIN}/media/catalog/rattan-hero.png`,
+  width: 1200,
+  height: 630,
+  alt: "Каталог искусственного ротанга Bententrade",
+};
+
 export function localizedPath(locale: string, path = "/"): string {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
   const normalizedPath = cleanPath === "/" ? "" : cleanPath;

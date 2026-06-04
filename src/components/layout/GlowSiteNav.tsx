@@ -18,7 +18,7 @@ function resolveActiveNavId(pathname: string): string | undefined {
     return "articles";
   if (normalized.startsWith("/wholesale") || normalized.startsWith("/export"))
     return "catalog";
-  if (normalized.startsWith("/faq")) return undefined;
+  if (normalized.startsWith("/faq")) return "contacts";
   if (normalized.startsWith("/contacts")) return "contacts";
   if (normalized.startsWith("/checkout") || normalized.startsWith("/cart"))
     return "cart";
@@ -57,7 +57,7 @@ export function GlowSiteNav() {
             label: t("catalog_section_twisted"),
           },
           {
-            href: "/catalog?tab=material&source=pdf&kind=regular",
+            href: "/catalog?tab=material&source=pdf&kind=semi",
             label: t("catalog_section_semi"),
           },
           {

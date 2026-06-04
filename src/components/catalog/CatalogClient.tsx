@@ -32,7 +32,7 @@ type FilterState = {
   hardness: "all" | string;
   stock: "all" | "in_stock" | "on_order";
   source: "all" | "pdf";
-  kind: "all" | "regular" | "twisted";
+  kind: "all" | "regular" | "twisted" | "semi";
 };
 
 type SortMode = "popular" | "price_asc" | "price_desc" | "name_asc";
@@ -57,7 +57,7 @@ type CatalogClientProps = {
   /** Из URL `?source=` */
   initialSource?: "all" | "pdf";
   /** Из URL `?kind=` */
-  initialKind?: "all" | "regular" | "twisted";
+  initialKind?: "all" | "regular" | "twisted" | "semi";
 };
 
 function CatalogSkeletonGrid({ label }: { label: string }) {
@@ -195,8 +195,9 @@ export function CatalogClient({
       if (f.hardness !== "all" && p.hardness !== f.hardness) return false;
       if (f.stock !== "all" && p.stock !== f.stock) return false;
       if (f.source === "pdf" && !p.isBrochure) return false;
+      if (f.kind === "semi" && (!p.isBrochure || !p.sku.includes("RTN-ST-"))) return false;
       if (f.kind === "twisted" && !p.sku.includes("RTN-TW-")) return false;
-      if (f.kind === "regular" && p.sku.includes("RTN-TW-")) return false;
+      if (f.kind === "regular" && (p.sku.includes("RTN-TW-") || p.isBrochure)) return false;
       if (q) {
         const bag = [
           p.sku,
@@ -290,11 +291,13 @@ export function CatalogClient({
       });
     }
     if (f.kind !== "all") {
-      chips.push({
-        key: "kind",
-        value: f.kind,
-        label: f.kind === "twisted" ? t("filter_kind_twisted") : t("filter_kind_regular"),
-      });
+      const kindLabel =
+        f.kind === "twisted"
+          ? t("filter_kind_twisted")
+          : f.kind === "semi"
+            ? t("filter_kind_semi")
+            : t("filter_kind_regular");
+      chips.push({ key: "kind", value: f.kind, label: kindLabel });
     }
     return chips;
   }, [f, t]);
@@ -426,6 +429,7 @@ export function CatalogClient({
         <div className="mt-2 flex flex-wrap gap-2">
           {chip("kind", "all", t("all"), f.kind === "all")}
           {chip("kind", "regular", t("filter_kind_regular"), f.kind === "regular")}
+          {chip("kind", "semi", t("filter_kind_semi"), f.kind === "semi")}
           {chip("kind", "twisted", t("filter_kind_twisted"), f.kind === "twisted")}
         </div>
       </div>
@@ -564,9 +568,17 @@ export function CatalogClient({
         {showGridSkeleton ? (
           <CatalogSkeletonGrid label={t("loading_grid")} />
         ) : filtered.length === 0 ? (
-          <p className="text-sm text-stone-500">
-            {t("empty")}
-          </p>
+          <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.02] px-6 py-12 text-center">
+            <p className="text-base font-medium text-stone-300">{t("empty")}</p>
+            <p className="mx-auto mt-2 max-w-md text-sm text-stone-500">{t("empty_hint")}</p>
+            <button
+              type="button"
+              onClick={() => resetFilters("active_chips")}
+              className="btt-focus mt-6 rounded-full border border-amber-500/35 bg-amber-950/30 px-5 py-2.5 text-sm font-semibold text-amber-200 hover:bg-amber-950/50"
+            >
+              {t("reset")}
+            </button>
+          </div>
         ) : (
           <div
             className={clsx(

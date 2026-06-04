@@ -1,16 +1,11 @@
 import Script from "next/script";
 
 type Props = {
-  /** Идентификатор контейнера GTM, например GTM-XXXXXXX */
   gtmId: string;
 };
 
 const GTM_ID_RE = /^GTM-[A-Z0-9]+$/;
 
-/**
- * Подключает Google Tag Manager при заданном `NEXT_PUBLIC_GTM_ID`.
- * События из `trackEvent` попадают в тот же `dataLayer`.
- */
 export function GtmScript({ gtmId }: Props) {
   const id = gtmId.trim();
   if (!GTM_ID_RE.test(id)) return null;
@@ -19,6 +14,17 @@ export function GtmScript({ gtmId }: Props) {
 
   return (
     <>
+      <Script id="gtm-consent-default" strategy="afterInteractive">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  analytics_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  wait_for_update: 500
+});`}
+      </Script>
       <noscript>
         <iframe
           title="Google Tag Manager"

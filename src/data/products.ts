@@ -702,5 +702,25 @@ export function getProductBySlug(slug: string) {
 }
 
 export function getRelated(currentSlug: string, limit = 4) {
-  return products.filter((p) => p.slug !== currentSlug).slice(0, limit);
+  const current = getProductBySlug(currentSlug);
+  if (!current) {
+    return products.filter((p) => p.slug !== currentSlug).slice(0, limit);
+  }
+  const score = (p: Product) => {
+    let s = 0;
+    if (p.category === current.category) s += 3;
+    if (p.shape === current.shape) s += 2;
+    if (p.colorKey === current.colorKey) s += 1;
+    if (Boolean(p.isBrochure) === Boolean(current.isBrochure)) s += 1;
+    if (current.isBrochure && p.isBrochure) {
+      const curFamily = current.sku.split("-").slice(0, 2).join("-");
+      if (curFamily === p.sku.split("-").slice(0, 2).join("-")) s += 2;
+    }
+    if (Math.abs(p.thicknessMm - current.thicknessMm) <= 2) s += 1;
+    return s;
+  };
+  return products
+    .filter((p) => p.slug !== currentSlug)
+    .sort((a, b) => score(b) - score(a) || a.slug.localeCompare(b.slug))
+    .slice(0, limit);
 }
