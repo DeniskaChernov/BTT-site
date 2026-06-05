@@ -27,7 +27,7 @@ export function MaterialTrustStrip() {
             >
               {t("strip_title")}
             </h2>
-            <p className="mt-2 text-sm text-stone-500 md:text-base">{t("strip_sub")}</p>
+            <p className="sr-only">{t("strip_sub")}</p>
           </div>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {keys.map((key, i) => {

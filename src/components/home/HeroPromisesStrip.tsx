@@ -33,7 +33,7 @@ export function HeroPromisesStrip() {
 
   return (
     <section
-      className="relative -mt-6 pb-10 md:-mt-10 md:pb-16"
+      className="relative py-10 md:py-14"
       aria-labelledby="home-promises-title"
     >
       <div className="btt-container">
@@ -59,9 +59,7 @@ export function HeroPromisesStrip() {
             >
               {s("promises_title")}
             </h2>
-            <p className="mt-3 text-pretty text-sm leading-relaxed text-stone-400 md:text-base">
-              {s("promises_sub")}
-            </p>
+            <p className="sr-only">{s("promises_sub")}</p>
           </div>
 
           <ul className="mt-8 grid gap-4 sm:grid-cols-3">

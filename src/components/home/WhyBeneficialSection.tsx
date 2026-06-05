@@ -31,9 +31,7 @@ export function WhyBeneficialSection() {
           >
             {s("benefits_title")}
           </h2>
-          <p className="mt-3 text-pretty text-base leading-relaxed text-stone-400 md:text-lg">
-            {s("benefits_sub")}
-          </p>
+          <p className="sr-only">{s("benefits_sub")}</p>
         </div>
 
         <div className="mt-10 grid grid-cols-1 auto-rows-fr gap-4 md:mt-12 md:grid-cols-2">

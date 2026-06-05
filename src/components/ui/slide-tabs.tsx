@@ -337,11 +337,6 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
                 {badge > 9 ? "9+" : badge}
               </motion.span>
             ) : null}
-            {showBadge && badgeHint ? (
-              <span className="pointer-events-none absolute -bottom-4 left-1/2 hidden max-w-[7rem] -translate-x-1/2 truncate text-center text-[9px] font-medium text-amber-300/90 md:block">
-                {badgeHint}
-              </span>
-            ) : null}
           </Link>
         </div>
         {flyoutPanel}
