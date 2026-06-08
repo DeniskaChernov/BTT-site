@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
-import { BTT_SPRING_SNAPPY } from "@/lib/motion";
+import { BTT_SPRING_GENTLE, BTT_SPRING_SNAPPY } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   forwardRef,
@@ -358,7 +358,7 @@ function SlideCursor({ position }: { position: CursorPosition }) {
         opacity: position.opacity,
       }}
       transition={
-        reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY
+        reduceMotion ? { duration: 0 } : BTT_SPRING_GENTLE
       }
       className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-gradient-to-b from-amber-500/25 via-white/[0.12] to-orange-950/30 shadow-[0_0_24px_rgba(245,158,11,0.12)] ring-1 ring-white/10"
     />

@@ -13,7 +13,7 @@ import {
 import { rankProductsSimple } from "@/lib/intent/rank-products";
 import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
 import { BTT_Z } from "@/lib/layering";
-import { BTT_EASE, BTT_SPRING_SNAPPY } from "@/lib/motion";
+import { BTT_EASE, bttDrawerSpring, bttOverlayFade } from "@/lib/motion";
 import {
   bttFieldClass,
   bttSelectFieldClass,
@@ -690,7 +690,7 @@ export function CatalogClient({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: reduceMotion ? 0.12 : 0.2 }}
+              transition={bttOverlayFade(reduceMotion)}
               aria-label={t("filters_close")}
               className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[3px] lg:hidden"
               onClick={() => setMobileFiltersOpen(false)}
@@ -704,11 +704,7 @@ export function CatalogClient({
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={
-                reduceMotion
-                  ? { duration: 0.2, ease: "easeInOut" }
-                  : BTT_SPRING_SNAPPY
-              }
+              transition={bttDrawerSpring(reduceMotion)}
               className="fixed inset-x-0 bottom-0 z-[51] max-h-[88vh] overflow-y-auto rounded-t-3xl border border-white/10 bg-[#0c0a09] px-5 pt-4 pb-[max(2rem,calc(1rem+env(safe-area-inset-bottom,0px)))] shadow-[0_-24px_64px_rgba(0,0,0,0.55)] lg:hidden"
             >
               <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />

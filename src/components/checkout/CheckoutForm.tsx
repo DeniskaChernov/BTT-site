@@ -9,8 +9,10 @@ import { appendOrder } from "@/lib/order-history";
 import { saveOrderAccessToken } from "@/lib/order-access-client";
 import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import { readLocalProfile } from "@/lib/local-profile";
+import { BTT_EASE } from "@/lib/motion";
 import {
   bttFieldClass,
+  bttMobileCommerceBarClass,
   bttPillButtonActiveClass,
   bttPillButtonInactiveClass,
   bttPrimaryButtonClass,
@@ -22,9 +24,11 @@ import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { appendTelegramPrefillText, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useSearchParams } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
 export function CheckoutForm() {
+  const reduceMotion = useReducedMotion();
   const t = useTranslations("checkout");
   const tc = useTranslations("cart");
   const c = useTranslations("common");
@@ -191,7 +195,14 @@ export function CheckoutForm() {
     return (
       <div className="btt-container max-w-lg py-16">
         <PageBackNav fallbackHref="/catalog" />
-        <div className="btt-glass-strong rounded-3xl p-8 text-center">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 12, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={
+            reduceMotion ? { duration: 0 } : { duration: 0.5, ease: BTT_EASE }
+          }
+          className="btt-glass-strong rounded-3xl p-8 text-center"
+        >
           <p className="text-lg font-semibold text-emerald-400">{t("success_title")}</p>
           <p className="mt-3 text-sm leading-relaxed text-stone-400">{t("success_lead")}</p>
           {createdOrderId ? (
@@ -255,16 +266,20 @@ export function CheckoutForm() {
               {t("view_orders")}
             </Link>
           </p>
-        </div>
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="btt-container py-10">
+    <div className="btt-container pb-28 py-8 md:py-10 lg:pb-10">
       <PageBackNav fallbackHref="/cart" />
-      <div className="mt-2 grid gap-10 lg:grid-cols-[1fr_380px]">
-        <form onSubmit={onPay} className="btt-glass space-y-6 rounded-3xl p-6 md:p-8">
+      <div className="mt-2 grid gap-8 lg:grid-cols-[1fr_380px] lg:gap-10">
+        <form
+          id="checkout-form"
+          onSubmit={onPay}
+          className="btt-glass space-y-6 rounded-3xl p-5 sm:p-6 md:p-8"
+        >
           <div>
             <h1 className="text-2xl font-bold text-stone-50 md:text-3xl">{t("title")}</h1>
             <p className="mt-1 text-sm text-stone-400">{t("guest")}</p>
@@ -366,7 +381,7 @@ export function CheckoutForm() {
             aria-busy={submitting}
             className={cn(
               bttPrimaryButtonClass,
-              "btt-focus px-8 py-3.5 active:scale-[0.99]",
+              "btt-focus hidden w-full justify-center px-8 py-3.5 active:scale-[0.99] lg:inline-flex",
               bttTapReduceClass,
               submitting && "pointer-events-none opacity-70",
             )}
@@ -375,7 +390,7 @@ export function CheckoutForm() {
           </button>
         </form>
 
-        <aside className="btt-glass-strong h-fit rounded-3xl p-6">
+        <aside className="btt-glass-strong order-first h-fit rounded-3xl p-5 sm:p-6 lg:order-none">
           <p className="text-sm font-semibold text-stone-300">{t("summary")}</p>
           <ul className="mt-4 space-y-3 text-sm text-stone-400">
             {lines.map((l) => (
@@ -392,6 +407,31 @@ export function CheckoutForm() {
           </p>
           <p className="mt-1 text-xs text-stone-500">{t("summary_note")}</p>
         </aside>
+      </div>
+
+      <div className={bttMobileCommerceBarClass}>
+        <div className="btt-container flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs text-stone-500">{t("summary")}</p>
+            <p className="truncate text-lg font-bold tabular-nums text-amber-400">
+              {formatUzs(subtotalUz)}
+            </p>
+          </div>
+          <button
+            type="submit"
+            form="checkout-form"
+            disabled={submitting}
+            aria-busy={submitting}
+            className={cn(
+              bttPrimaryButtonClass,
+              "btt-focus shrink-0 px-5 active:scale-[0.99]",
+              bttTapReduceClass,
+              submitting && "pointer-events-none opacity-70",
+            )}
+          >
+            {submitting ? c("loading") : t("place_order")}
+          </button>
+        </div>
       </div>
     </div>
   );

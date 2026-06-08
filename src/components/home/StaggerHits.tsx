@@ -2,6 +2,7 @@
 
 import { ProductCard } from "@/components/catalog/ProductCard";
 import type { Product } from "@/types/product";
+import { BTT_EASE, BTT_STAGGER } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
 
 type Props = { products: Product[] };
@@ -17,8 +18,8 @@ export function StaggerHits({ products }: Props) {
         hidden: {},
         show: {
           transition: {
-            staggerChildren: reduceMotion ? 0 : 0.06,
-            delayChildren: reduceMotion ? 0 : 0.05,
+            staggerChildren: reduceMotion ? 0 : BTT_STAGGER.step,
+            delayChildren: reduceMotion ? 0 : BTT_STAGGER.delayChildren,
           },
         },
       }}
@@ -31,13 +32,13 @@ export function StaggerHits({ products }: Props) {
           variants={{
             hidden: {
               opacity: reduceMotion ? 1 : 0,
-              y: reduceMotion ? 0 : 16,
+              y: reduceMotion ? 0 : 12,
             },
             show: { opacity: 1, y: 0 },
           }}
           transition={{
-            duration: reduceMotion ? 0 : 0.4,
-            ease: [0.22, 1, 0.36, 1],
+            duration: reduceMotion ? 0 : BTT_STAGGER.itemDuration,
+            ease: BTT_EASE,
           }}
         >
           <ProductCard product={p} />

@@ -53,7 +53,7 @@
     "low_stock": "Осталось мало — уточняйте партию",
     "currency_uzs": "UZS",
     "currency_usd": "USD",
-    "total_to_pay": "Ориентировочный итог с доставкой",
+    "total_to_pay": "Ориентировочная сумма",
     "no_register": "Без регистрации",
     "buy": "Купить",
     "add_cart": "В корзину",
@@ -777,19 +777,6 @@
     "journey_production": "Опт",
     "journey_knowledge": "Изучаю",
     "journey_auto": "Авто"
-  },
-  "command": {
-    "placeholder": "Поиск товара, статьи или раздела…",
-    "hint": "Введите название, код позиции или раздел",
-    "empty": "Ничего не найдено",
-    "brochure": "Скачать каталог",
-    "kind_product": "Товар",
-    "kind_article": "Статья",
-    "kind_page": "Раздел",
-    "article_1": "Толщина ротанга под мебель",
-    "article_2": "Кашпо для улицы",
-    "article_3": "Опт и HoReCa",
-    "article_4": "Что такое искусственный ротанг"
   },
   "command": {
     "placeholder": "Поиск товара, статьи или раздела…",

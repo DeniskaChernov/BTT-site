@@ -71,6 +71,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      transitionTimingFunction: {
+        btt: "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
       keyframes: {
         "fade-up": {
           "0%": { opacity: "0", transform: "translateY(20px)" },
@@ -100,7 +103,7 @@ export default {
       },
       animation: {
         "fade-up": "fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards",
-        "fade-in": "fade-in 0.5s ease-out forwards",
+        "fade-in": "fade-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "scale-in": "scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         float: "float 5s ease-in-out infinite",
         shimmer: "shimmer 3s linear infinite",

@@ -11,8 +11,10 @@ import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { getProductBySlug } from "@/data/products";
 import { formatUzs, getQtyRules, isPricedPerKg } from "@/lib/pricing";
+import { BTT_EASE } from "@/lib/motion";
 import {
   bttFieldStepperInputClass,
+  bttMobileCommerceBarClass,
   bttPrimaryButtonClass,
   bttTapReduceClass,
 } from "@/lib/ui-classes";
@@ -39,11 +41,11 @@ export function CartView() {
           <PageBackNav fallbackHref="/" className="mb-0" />
         </div>
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: reduceMotion ? 0 : 0.45,
-            ease: [0.22, 1, 0.36, 1],
+            duration: reduceMotion ? 0 : 0.48,
+            ease: BTT_EASE,
           }}
           className="mx-auto flex max-w-md flex-col items-center"
         >
@@ -66,7 +68,7 @@ export function CartView() {
             </Link>
             <Link
               href="/"
-              className="btt-focus inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-white/25 hover:bg-white/[0.08] motion-reduce:transition-none"
+              className="btt-focus inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-6 py-3 text-sm font-semibold text-stone-200 transition-[color,background-color,border-color] duration-300 ease-btt hover:border-white/25 hover:bg-white/[0.08] motion-reduce:transition-none"
             >
               <Home className="h-4 w-4" aria-hidden />
               {t("empty_home")}
@@ -78,7 +80,7 @@ export function CartView() {
   }
 
   return (
-    <div className="btt-container py-10 md:py-14">
+    <div className="btt-container pb-28 py-8 md:py-14 lg:pb-14">
       <PageBackNav fallbackHref="/" />
       <header className="max-w-3xl">
         <h1 className="text-3xl font-bold text-stone-50 md:text-4xl">{t("title")}</h1>
@@ -99,7 +101,7 @@ export function CartView() {
               initial={reduceMotion ? false : { opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.25 }}
-              className="btt-glass btt-interactive-lift grid grid-cols-1 gap-4 border-white/[0.06] p-5 sm:grid-cols-[1fr_auto_auto] sm:items-center"
+              className="btt-glass btt-interactive-lift grid grid-cols-1 gap-4 border-white/[0.06] p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center sm:p-5"
             >
               <div>
                 <Link
@@ -111,15 +113,15 @@ export function CartView() {
                 <p className="text-xs text-stone-500">{l.sku}</p>
                 <CartBulkHint line={l} />
               </div>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center justify-between gap-3 sm:justify-start">
                 <label className="text-sm text-stone-400">
                   {perKg ? t("qty_kg") : t("qty_pcs")}
-                  <div className="ml-2 inline-flex items-center overflow-hidden rounded-xl border border-white/15 bg-white/[0.05]">
+                  <div className="ml-0 mt-1.5 inline-flex items-center overflow-hidden rounded-xl border border-white/15 bg-white/[0.05] sm:ml-2 sm:mt-0">
                     <button
                       type="button"
                       onClick={() => updateQty(l.sku, l.qtyKg - step)}
                       aria-label={t("decrease_qty")}
-                      className="px-2 py-1.5 text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
+                      className="flex min-h-11 min-w-11 items-center justify-center text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
                     >
                       -
                     </button>
@@ -141,7 +143,7 @@ export function CartView() {
                       type="button"
                       onClick={() => updateQty(l.sku, l.qtyKg + step)}
                       aria-label={t("increase_qty")}
-                      className="px-2 py-1.5 text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
+                      className="flex min-h-11 min-w-11 items-center justify-center text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
                     >
                       +
                     </button>
@@ -150,7 +152,7 @@ export function CartView() {
                 <button
                   type="button"
                   onClick={() => remove(l.sku)}
-                  className="rounded-full px-2 text-lg text-stone-500 hover:bg-white/[0.06]"
+                  className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-lg text-stone-500 hover:bg-white/[0.06]"
                   aria-label={t("remove_line")}
                 >
                   ×
@@ -163,7 +165,7 @@ export function CartView() {
             );
           })}
         </ul>
-        <aside className="btt-glass-strong h-fit rounded-3xl p-6 ring-1 ring-amber-500/10">
+        <aside className="btt-glass-strong order-first h-fit rounded-3xl p-5 ring-1 ring-amber-500/10 sm:p-6 lg:order-none">
           <p className="text-sm font-medium text-stone-400">{t("subtotal")}</p>
           <p className="mt-2 text-3xl font-bold tabular-nums text-stone-50">
             {formatUzs(subtotalUz)}
@@ -172,7 +174,7 @@ export function CartView() {
             href="/checkout"
             className={cn(
               bttPrimaryButtonClass,
-              "btt-focus mt-8 flex w-full justify-center py-3.5 transition active:scale-[0.99]",
+              "btt-focus mt-8 hidden w-full justify-center py-3.5 transition active:scale-[0.99] lg:flex",
               bttTapReduceClass,
             )}
           >
@@ -190,6 +192,27 @@ export function CartView() {
       </div>
       <CartOptimizerHint />
       <CartUpsell />
+
+      <div className={bttMobileCommerceBarClass}>
+        <div className="btt-container flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs text-stone-500">{t("subtotal")}</p>
+            <p className="truncate text-lg font-bold tabular-nums text-amber-400">
+              {formatUzs(subtotalUz)}
+            </p>
+          </div>
+          <Link
+            href="/checkout"
+            className={cn(
+              bttPrimaryButtonClass,
+              "btt-focus shrink-0 px-5 active:scale-[0.99]",
+              bttTapReduceClass,
+            )}
+          >
+            {t("to_checkout")}
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

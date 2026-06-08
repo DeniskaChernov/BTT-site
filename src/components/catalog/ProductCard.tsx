@@ -29,6 +29,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
+import { BTT_EASE } from "@/lib/motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
@@ -65,6 +67,7 @@ function tierRows(product: Product, perKg: boolean, isTwisted: boolean, c: Retur
 }
 
 export function ProductCard({ product }: Props) {
+  const reduceMotion = useReducedMotion();
   const locale = useLocale() as Locale;
   const t = useTranslations("common");
   const col = useTranslations("collective");
@@ -120,7 +123,7 @@ export function ProductCard({ product }: Props) {
   }, []);
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 ease-out hover:border-amber-500/30 hover:shadow-amber-950/10">
+    <article className="btt-card-surface group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl">
       <div
         className="pointer-events-none absolute inset-x-5 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
         aria-hidden
@@ -135,10 +138,10 @@ export function ProductCard({ product }: Props) {
             alt={name}
             fill
             sizes="(max-width:768px) 100vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            className="object-cover transition-transform duration-700 ease-btt group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-          <div className="absolute bottom-3 left-3 right-3 flex translate-y-2 items-center justify-between opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100">
+          <div className="absolute bottom-3 left-3 right-3 flex translate-y-2 items-center justify-between opacity-0 transition-all duration-500 ease-btt group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/45 px-3 py-1.5 text-xs font-semibold text-stone-100 backdrop-blur-md">
               {t("learn_more")}
               <ArrowRight className="h-3.5 w-3.5 text-amber-400" aria-hidden />
@@ -305,12 +308,23 @@ export function ProductCard({ product }: Props) {
             </div>
           </div>
         ) : null}
-        {toast ? (
-          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400">
-            <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
-            {tc("added_flash")}
-          </p>
-        ) : null}
+        <AnimatePresence>
+          {toast ? (
+            <motion.p
+              key="added"
+              initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+              transition={
+                reduceMotion ? { duration: 0 } : { duration: 0.28, ease: BTT_EASE }
+              }
+              className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs font-medium text-emerald-400"
+            >
+              <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
+              {tc("added_flash")}
+            </motion.p>
+          ) : null}
+        </AnimatePresence>
       </div>
     </article>
   );

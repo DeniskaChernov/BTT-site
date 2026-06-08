@@ -5,7 +5,7 @@ import { useCart } from "@/contexts/CartContext";
 import { getProductBySlug } from "@/data/products";
 import { getCartBulkInsight } from "@/lib/cart/cart-bulk-insight";
 import { BTT_Z } from "@/lib/layering";
-import { BTT_SPRING_SNAPPY } from "@/lib/motion";
+import { bttDrawerSpring, bttOverlayFade } from "@/lib/motion";
 import { formatUzs, isPricedPerKg, lineItemTotalUz } from "@/lib/pricing";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,7 @@ export function MiniCartDrawer({ open, onOpenChange }: { open: boolean; onOpenCh
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={bttOverlayFade(reduceMotion)}
                 className="fixed inset-0 bg-black/60 backdrop-blur-[2px]"
                 style={{ zIndex: BTT_Z.drawerBackdrop }}
                 onClick={() => onOpenChange(false)}
@@ -47,7 +48,7 @@ export function MiniCartDrawer({ open, onOpenChange }: { open: boolean; onOpenCh
                 initial={reduceMotion ? false : { x: "100%" }}
                 animate={{ x: 0 }}
                 exit={reduceMotion ? undefined : { x: "100%" }}
-                transition={reduceMotion ? { duration: 0.2 } : BTT_SPRING_SNAPPY}
+                transition={bttDrawerSpring(reduceMotion)}
                 className="fixed inset-y-0 right-0 flex w-full max-w-md flex-col border-l border-white/10 bg-[#0a0908]/95 backdrop-blur-xl"
                 style={{ zIndex: BTT_Z.miniCart }}
               >

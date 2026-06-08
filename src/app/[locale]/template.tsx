@@ -1,6 +1,6 @@
 "use client";
 
-import { BTT_DURATION, BTT_EASE } from "@/lib/motion";
+import { bttPageTransition } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
@@ -13,9 +13,9 @@ export default function LocaleTemplate({ children }: { children: React.ReactNode
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0.92, y: 6 }}
+      initial={{ opacity: 0.97, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: BTT_DURATION.base * 0.78, ease: [...BTT_EASE] }}
+      transition={bttPageTransition(reduceMotion)}
     >
       {children}
     </motion.div>

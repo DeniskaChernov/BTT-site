@@ -16,7 +16,7 @@ export function Skeleton({ className, ...rest }: SkeletonProps) {
       role="status"
       aria-hidden={rest["aria-label"] ? undefined : true}
       className={cn(
-        "animate-pulse rounded-lg bg-stone-800/70 motion-reduce:animate-none",
+        "rounded-lg bg-stone-800/70 btt-skeleton-pulse motion-reduce:animate-none",
         className,
       )}
       {...rest}

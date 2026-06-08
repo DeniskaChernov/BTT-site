@@ -53,7 +53,7 @@
     "low_stock": "Low stock — confirm batch",
     "currency_uzs": "UZS",
     "currency_usd": "USD",
-    "total_to_pay": "Estimated total incl. delivery",
+    "total_to_pay": "Estimated subtotal",
     "no_register": "No sign-up required",
     "buy": "Buy",
     "add_cart": "Add to cart",
@@ -665,7 +665,7 @@
     "price_story_next": "· at {kg} kg — next tier",
     "qty": "Qty, kg",
     "qty_piece": "Qty, pcs",
-    "pdp_lead": "Quality artificial rattan without overpayments—convenient to work with and consistent in results.",
+    "pdp_lead": "Quality artificial rattan from the manufacturer. Delivery and final total are confirmed by your manager after you place the order.",
     "pdp_order_now": "Place order",
     "pdp_value_section_title": "Tasks, benefits, and properties",
     "pdp_value_tasks": "Tasks",
@@ -736,7 +736,7 @@
   "cart": {
     "title": "Cart",
     "empty": "Your cart is empty",
-    "empty_lead": "Add items from the catalog — thread per kg, planters per piece; totals are clear before checkout.",
+    "empty_lead": "Add items from the catalog — rattan per kg, planters per piece. You’ll see an estimated subtotal before placing your order.",
     "empty_catalog": "Browse catalog",
     "empty_home": "Home",
     "lines_count": "Items: {count}",
@@ -779,19 +779,6 @@
     "journey_production": "Wholesale",
     "journey_knowledge": "Learning",
     "journey_auto": "Auto"
-  },
-  "command": {
-    "placeholder": "Search product, article, or section…",
-    "hint": "Type a name, SKU, or section",
-    "empty": "No results",
-    "brochure": "Download catalog",
-    "kind_product": "Product",
-    "kind_article": "Article",
-    "kind_page": "Section",
-    "article_1": "Rattan thickness for furniture",
-    "article_2": "Outdoor planters",
-    "article_3": "Wholesale and HoReCa",
-    "article_4": "What is artificial rattan"
   },
   "command": {
     "placeholder": "Search product, article, or section…",

@@ -8,7 +8,11 @@ type Variant = "single" | "split" | "articleIndex" | "articleSlug" | "cart";
  */
 export function RouteLoadingShell({ variant = "single" }: { variant?: Variant }) {
   return (
-    <div className="btt-container py-12 md:py-16" aria-busy aria-live="polite">
+    <div
+      className="btt-container animate-fade-in py-12 motion-reduce:animate-none md:py-16"
+      aria-busy
+      aria-live="polite"
+    >
       <Skeleton className="h-4 w-24" />
       <Skeleton className="mt-4 h-9 w-2/3 max-w-xl md:h-11" />
       <Skeleton className="mt-3 h-4 w-full max-w-2xl" />

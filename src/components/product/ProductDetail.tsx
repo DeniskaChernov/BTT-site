@@ -13,6 +13,7 @@ import {
 } from "@/lib/pricing";
 import {
   bttFieldCompactClass,
+  bttMobileCommerceBarClass,
   bttPrimaryButtonClass,
   bttTapReduceClass,
 } from "@/lib/ui-classes";
@@ -486,28 +487,44 @@ export function ProductDetail({ product }: Props) {
 
       <ProductRelatedSection product={product} compact />
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/90 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden">
+      <div className={bttMobileCommerceBarClass}>
         <div className="btt-container flex items-center justify-between gap-3">
-          <div>
+          <div className="min-w-0 shrink">
             <p className="text-xs text-stone-500">
               {perKg ? c("per_kg") : c("per_piece")}
             </p>
-            <p className="text-lg font-bold tabular-nums text-amber-400">{formatUzs(ppk)}</p>
+            <p className="truncate text-lg font-bold tabular-nums text-amber-400">
+              {formatUzs(ppk)}
+            </p>
           </div>
-          <button
-            type="button"
-            onClick={onAdd}
-            disabled={belowPreorderMin}
-            className={cn(
-              bttPrimaryButtonClass,
-              "btt-focus inline-flex items-center gap-2 px-5 active:scale-[0.98]",
-              bttTapReduceClass,
-              belowPreorderMin && "pointer-events-none opacity-60",
-            )}
-          >
-            <ShoppingBag className="h-4 w-4" aria-hidden />
-            {c("add_cart")}
-          </button>
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={orderNow}
+              disabled={belowPreorderMin}
+              className={cn(
+                bttPrimaryButtonClass,
+                "btt-focus inline-flex items-center gap-1.5 px-4 text-xs sm:px-5 sm:text-sm",
+                bttTapReduceClass,
+                belowPreorderMin && "pointer-events-none opacity-60",
+              )}
+            >
+              <ShoppingBag className="h-4 w-4" aria-hidden />
+              {t("pdp_order_now")}
+            </button>
+            <button
+              type="button"
+              onClick={onAdd}
+              disabled={belowPreorderMin}
+              className={cn(
+                "btt-focus inline-flex min-h-11 items-center justify-center rounded-full border border-amber-500/45 bg-transparent px-4 text-xs font-semibold text-amber-100 transition hover:bg-amber-500/10 sm:px-5 sm:text-sm",
+                bttTapReduceClass,
+                belowPreorderMin && "pointer-events-none opacity-60",
+              )}
+            >
+              {c("add_cart")}
+            </button>
+          </div>
         </div>
       </div>
     </div>

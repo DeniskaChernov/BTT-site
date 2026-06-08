@@ -139,11 +139,23 @@
 
   /* Интерактив: фокус и «живые» карточки */
   .btt-interactive-lift {
-    @apply transition-[transform,box-shadow,border-color] duration-300 ease-out;
+    @apply transition-[transform,box-shadow,border-color] duration-500 ease-btt motion-reduce:transition-none;
   }
   .btt-interactive-lift:hover {
-    @apply -translate-y-0.5 shadow-lg shadow-amber-950/20;
+    @apply -translate-y-0.5 shadow-lg shadow-amber-950/20 motion-reduce:translate-y-0;
   }
+
+  .btt-card-surface {
+    @apply transition-[transform,box-shadow,border-color,background-color] duration-500 ease-btt motion-reduce:transition-none;
+  }
+  .btt-card-surface:hover {
+    @apply -translate-y-0.5 border-amber-500/25 shadow-lg shadow-amber-950/15 motion-reduce:translate-y-0;
+  }
+
+  .btt-transition-smooth {
+    @apply transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ease-btt motion-reduce:transition-none;
+  }
+
   .btt-focus {
     @apply outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--btt-bg)];
   }
@@ -177,5 +189,21 @@
   50% {
     opacity: 0.8;
     transform: scale(1.02);
+  }
+}
+
+@keyframes btt-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btt-skeleton-pulse {
+    animation: btt-skeleton-pulse 2.4s ease-in-out infinite;
   }
 }
