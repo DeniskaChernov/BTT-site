@@ -117,30 +117,41 @@ export function GlowSiteNav() {
     [t, tc, cartCount, cartBulkHint, megaFooter],
   );
 
+  const navMenu = (
+    <div
+      className="min-w-0 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      role="navigation"
+      aria-label={t("kinetic_menu")}
+    >
+      <div className="flex min-w-min justify-center">
+        <SlideTabs items={items} activeId={resolveActiveNavId(pathname)} />
+      </div>
+    </div>
+  );
+
   return (
     <>
       <header
-        className="relative sticky top-0 pt-[env(safe-area-inset-top,0px)]"
+        className="sticky top-0 border-b border-white/[0.06] bg-[#070605]/92 pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl supports-[backdrop-filter]:bg-[#070605]/78"
         style={{ zIndex: BTT_Z.nav }}
       >
-        <div className="btt-container relative py-3.5">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 md:justify-start md:gap-3">
+        <div className="btt-container">
+          <div className="hidden items-center gap-3 py-3 md:flex lg:gap-4">
+            <div className="shrink-0">
               <LanguageSwitcher />
-              <NavAccountLink className="md:hidden" />
             </div>
-            <div
-              className="min-w-0 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              role="navigation"
-              aria-label={t("kinetic_menu")}
-            >
-              <div className="flex min-w-min justify-center">
-                <SlideTabs items={items} activeId={resolveActiveNavId(pathname)} />
-              </div>
-            </div>
-            <div className="hidden justify-end md:flex">
+            <div className="min-w-0 flex-1">{navMenu}</div>
+            <div className="shrink-0">
               <NavAccountLink />
             </div>
+          </div>
+
+          <div className="flex flex-col gap-2.5 py-3 md:hidden">
+            <div className="flex items-center justify-between gap-2">
+              <LanguageSwitcher />
+              <NavAccountLink />
+            </div>
+            {navMenu}
           </div>
         </div>
       </header>

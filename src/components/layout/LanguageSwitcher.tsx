@@ -23,7 +23,7 @@ export function LanguageSwitcher() {
   return (
     <LayoutGroup id="site-locale">
       <div
-        className="flex items-center rounded-full border border-white/[0.12] bg-white/[0.06] p-0.5 shadow-none backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+        className="flex h-10 items-center rounded-full border border-white/[0.12] bg-white/[0.06] p-0.5 shadow-none backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)]"
         role="group"
         aria-label={t("locale_switch")}
       >

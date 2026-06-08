@@ -97,7 +97,7 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
         syncToIndex(selectedIndex);
       }}
       className={cn(
-        "relative mx-auto flex w-max min-w-0 max-w-full flex-nowrap items-stretch overflow-visible rounded-full border border-white/[0.12] bg-white/[0.06] p-1 shadow-none backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+        "relative mx-auto flex h-10 w-max min-w-0 max-w-full flex-nowrap items-center overflow-visible rounded-full border border-white/[0.12] bg-white/[0.06] p-1 shadow-none backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)]",
         className,
       )}
     >
@@ -314,8 +314,8 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
             aria-haspopup={hasDropdown ? "menu" : undefined}
             aria-expanded={hasDropdown ? flyoutOpen : undefined}
             className={cn(
-              "relative block cursor-pointer whitespace-nowrap px-3 py-1.5 text-xs font-medium uppercase tracking-wide outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none md:px-5 md:py-3 md:text-base",
-              showBadge && "pr-6 md:pr-8",
+              "relative flex h-8 cursor-pointer items-center whitespace-nowrap px-3 text-[11px] font-medium uppercase tracking-wide outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none sm:px-3.5 sm:text-xs md:px-4",
+              showBadge && "pr-6 sm:pr-7",
               isActive
                 ? "text-stone-50"
                 : "text-stone-400 hover:text-stone-100",
@@ -331,7 +331,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
                 transition={
                   reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY
                 }
-                className="pointer-events-none absolute -right-0.5 top-1 flex h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-full bg-gradient-to-b from-amber-500 to-orange-600 px-1 text-[0.625rem] font-bold leading-none text-white shadow-md shadow-amber-950/50 ring-1 ring-white/25 md:right-0.5 md:top-2 md:h-5 md:min-w-5 md:text-[0.65rem]"
+                className="pointer-events-none absolute -right-0.5 top-1/2 flex h-[1.125rem] min-w-[1.125rem] -translate-y-1/2 items-center justify-center rounded-full bg-gradient-to-b from-amber-500 to-orange-600 px-1 text-[0.625rem] font-bold leading-none text-white shadow-md shadow-amber-950/50 ring-1 ring-white/25 sm:right-0 sm:h-5 sm:min-w-5 sm:text-[0.65rem]"
                 title={badgeHint}
               >
                 {badge > 9 ? "9+" : badge}
