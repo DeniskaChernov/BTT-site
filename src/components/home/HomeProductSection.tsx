@@ -1,5 +1,3 @@
-"use client";
-
 import { HomeHitsGrid } from "@/components/home/HomeHitsGrid";
 import { Link } from "@/i18n/navigation";
 import type { RankPurpose } from "@/lib/intent/types";

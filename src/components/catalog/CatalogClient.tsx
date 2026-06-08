@@ -5,7 +5,11 @@ import { products } from "@/data/products";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { useIntent } from "@/contexts/IntentContext";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
-import { buildProductSearchIndex, filterProductsByIndex } from "@/lib/catalog/search-index";
+import {
+  type SearchIndexEntry,
+  buildProductSearchIndex,
+  filterProductsByIndex,
+} from "@/lib/catalog/search-index";
 import { rankProductsSimple } from "@/lib/intent/rank-products";
 import { getPricePerKgForQty, isPricedPerKg } from "@/lib/pricing";
 import { BTT_Z } from "@/lib/layering";
@@ -105,12 +109,13 @@ export function CatalogClient({
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
   const locale = useLocale();
-  const { profile, trackCatalogFilters } = useIntent();
+  const { profile, ready, trackCatalogFilters } = useIntent();
   const color0 = parseInitialColor(initialColor);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const [sortMode, setSortMode] = useState<SortMode>("smart");
   const [isPending, startTransition] = useTransition();
+  const [bootstrapping, setBootstrapping] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const mobileSheetRef = useRef<HTMLDivElement | null>(null);
   const [f, setF] = useState<FilterState>(() => ({
@@ -124,6 +129,12 @@ export function CatalogClient({
     kind: initialKind,
   }));
   const reduceMotion = useReducedMotion();
+
+  // Bootstrapping mode: skip heavy filtering/sorting on the very first render
+  // to speed up initial DOMContentLoaded.
+  useEffect(() => {
+    setBootstrapping(false);
+  }, []);
 
   useEffect(() => {
     if (!mobileFiltersOpen) return;
@@ -196,9 +207,18 @@ export function CatalogClient({
     return () => window.removeEventListener("keydown", onKey);
   }, [mobileFiltersOpen]);
 
-  const searchIndex = useMemo(() => buildProductSearchIndex(products), []);
+  const [searchIndex, setSearchIndex] = useState<SearchIndexEntry[] | null>(
+    null,
+  );
+
+  // Building the search index can be expensive (string blobs for all products).
+  // Move it out of the initial render to improve DOMContentLoaded timing.
+  useEffect(() => {
+    setSearchIndex(buildProductSearchIndex(products));
+  }, []);
 
   const matched = useMemo(() => {
+    if (bootstrapping) return [];
     const q = deferredQuery.trim();
     const base = products.filter((p) => {
       if (f.tab === "material" && p.category !== "material") return false;
@@ -216,8 +236,11 @@ export function CatalogClient({
       if (f.kind === "regular" && (p.sku.includes("RTN-TW-") || p.isBrochure)) return false;
       return true;
     });
-    return q ? filterProductsByIndex(base, q, searchIndex) : base;
-  }, [f, deferredQuery, searchIndex]);
+    if (!q) return base;
+    // If the search index is not ready yet, fall back to the base filtered list.
+    if (!searchIndex) return base;
+    return filterProductsByIndex(base, q, searchIndex);
+  }, [f, deferredQuery, searchIndex, bootstrapping]);
 
   const filtered = useMemo(() => {
     const refQty = (p: Product) => (isPricedPerKg(p) ? 5 : 1);
@@ -240,13 +263,15 @@ export function CatalogClient({
       );
     }
     if (sortMode === "smart") {
+      // Avoid expensive ranking on the initial render before intent profile is ready.
+      if (!ready) return matched;
       return rankProductsSimple(matched, {
         profile,
         purpose: "catalog_smart_sort",
       });
     }
     return matched;
-  }, [matched, sortMode, locale, profile]);
+  }, [matched, sortMode, locale, profile, ready]);
 
   const activeFilters = useMemo(() => {
     const chips: { key: keyof FilterState; value: string; label: string }[] = [];
@@ -456,7 +481,7 @@ export function CatalogClient({
     </>
   );
 
-  const showGridSkeleton = isPending && !mobileFiltersOpen;
+  const showGridSkeleton = (bootstrapping || isPending) && !mobileFiltersOpen;
   const searchLagging = query.trim() !== deferredQuery.trim();
 
   const applyPreset = (preset: "furniture" | "planter" | "semi" | "stock") => {

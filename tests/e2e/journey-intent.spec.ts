@@ -6,7 +6,7 @@ test("master path: catalog → product → cart", async ({ page }) => {
   await page.locator('a[href*="/product/"]').first().click();
   await expect(page).toHaveURL(/\/product\//);
   await page.goto("/ru/cart");
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByText(/Корзина пуста/)).toBeVisible();
 });
 
 test("knowledge path: articles → article", async ({ page }) => {
