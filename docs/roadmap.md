@@ -20,8 +20,8 @@
 | Адаптив checkout / cart / PDP (sticky CTA) | ✅ |
 | EN/UZ quality pass (checkout, cart, PDP) | 🟡 |
 | Lighthouse baseline | 🔴 |
-| E2E checkout flow (ru/en/uz) | 🟡 |
-| Push + проверка прода | 🟡 |
+| E2E checkout flow (ru/en/uz) | ✅ |
+| Push + проверка прода | ✅ |
 
 ---
 

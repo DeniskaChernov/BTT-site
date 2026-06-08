@@ -810,6 +810,8 @@
     "error_validation": "Buyurtma berilmadi — ma’lumotlarni tekshiring va qayta urinib ko‘ring",
     "error_min_preorder": "«Buyurtma bilan» material uchun minimum — 100 kg. Kamroq kerak bo‘lsa, Telegramdagi kollektiv buyurtmadan foydalaning.",
     "pickup_no_address": "Olib ketishda manzil shart emas",
+    "phone_placeholder": "+998 90 123 45 67",
+    "phone_placeholder": "+998 90 123 45 67",
     "place_order": "Buyurtma berish",
     "success_title": "Buyurtma uchun rahmat",
     "success_lead": "Menejerimiz buyurtmani tasdiqlash va tafsilotlarni aniqlash uchun siz bilan bog‘lanadi.",

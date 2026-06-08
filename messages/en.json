@@ -79,7 +79,7 @@
   },
   "hero": {
     "title": "Artificial rattan that stands sun and water",
-    "subtitle": "Half-round, round, oval, flat, and twisted rattan; semi-tube for frames. Made in Tashkent, 18+ colors, wholesale from 5 kg — from 36,000 UZS/kg. Quiz on the home page and checkout in minutes.",
+    "subtitle": "Half-round, round, oval, flat, and twisted rattan; semi-tube for frames. Made in Tashkent, 18+ colors, wholesale from 5 kg — from 36,000 UZS/kg. Quiz on the home page — place an order in minutes.",
     "alt_title": "Artificial rattan & planters. Pick & buy fast.",
     "cta_buy": "Buy now",
     "cta_pick": "Find my rattan",
@@ -474,7 +474,7 @@
     "insta_card_5_desc": "Production moment: base prep, step rhythm, and consistent tension control.",
     "insta_card_6_title": "Batch prep before dispatch",
     "insta_card_6_desc": "Completeness and labeling checks before shipping in Tashkent and other regions.",
-    "subtitle": "Half-round, round, oval, flat, and twisted rattan; semi-tube for frames. Made in Tashkent, 18+ colors, wholesale from 5 kg — from 36,000 UZS/kg. Quiz on the home page and checkout in minutes.",
+    "subtitle": "Half-round, round, oval, flat, and twisted rattan; semi-tube for frames. Made in Tashkent, 18+ colors, wholesale from 5 kg — from 36,000 UZS/kg. Quiz on the home page — place an order in minutes.",
     "segment_sub": "From half-round and flat to twisted and semi-tube — catalog for makers, wholesale for production, or the guided matcher in minutes."
   },
   "catalog": {
@@ -811,6 +811,7 @@
     "error_validation": "Could not place the order — check your details and try again",
     "error_min_preorder": "Made-to-order material starts at 100 kg per line. For smaller amounts, use the Telegram group-buy flow.",
     "pickup_no_address": "Address is not required for pickup",
+    "phone_placeholder": "+998 90 123 45 67",
     "place_order": "Place order",
     "success_title": "Thank you for your order",
     "success_lead": "Our manager will contact you to confirm the order and details.",

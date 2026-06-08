@@ -320,6 +320,7 @@ export function CheckoutForm() {
                   setPhone(e.target.value);
                 }}
                 autoComplete="tel"
+                placeholder={t("phone_placeholder")}
                 className={bttFieldClass}
               />
             </label>
