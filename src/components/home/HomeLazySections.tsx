@@ -2,6 +2,20 @@
 
 import dynamic from "next/dynamic";
 
+const ExamplesSection = dynamic(
+  () =>
+    import("@/components/home/ExamplesSection").then((m) => m.ExamplesSection),
+  { ssr: true },
+);
+
+const TrustCountersSection = dynamic(
+  () =>
+    import("@/components/home/TrustCountersSection").then(
+      (m) => m.TrustCountersSection,
+    ),
+  { ssr: true },
+);
+
 const CollectiveSalesTeaser = dynamic(
   () =>
     import("@/components/home/CollectiveSalesTeaser").then(
@@ -34,6 +48,14 @@ const SocialProofSection = dynamic(
     import("@/components/home/SocialProofSection").then((m) => m.SocialProofSection),
   { ssr: true },
 );
+
+export function HomeExamplesLazy() {
+  return <ExamplesSection />;
+}
+
+export function HomeTrustLazy() {
+  return <TrustCountersSection />;
+}
 
 /** Нижние секции главной — отдельные чанки для более быстрого LCP. */
 export function HomeLazySections() {

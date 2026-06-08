@@ -152,6 +152,12 @@
     @apply -translate-y-0.5 border-amber-500/25 shadow-lg shadow-amber-950/15 motion-reduce:translate-y-0;
   }
 
+  /** Длинные списки каталога — отложенный layout/paint вне viewport */
+  .btt-catalog-grid-item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
+  }
+
   .btt-transition-smooth {
     @apply transition-[color,background-color,border-color,opacity,transform,box-shadow] duration-300 ease-btt motion-reduce:transition-none;
   }

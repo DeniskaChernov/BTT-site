@@ -1,11 +1,13 @@
 import { CommerceHero } from "@/components/commerce-hero";
-import { ExamplesSection } from "@/components/home/ExamplesSection";
 import { HeroPromisesStrip } from "@/components/home/HeroPromisesStrip";
-import { HomeLazySections } from "@/components/home/HomeLazySections";
+import {
+  HomeExamplesLazy,
+  HomeLazySections,
+  HomeTrustLazy,
+} from "@/components/home/HomeLazySections";
 import { HomeMerchandising } from "@/components/home/HomeMerchandising";
 import { HomeNewsTicker } from "@/components/home/HomeNewsTicker";
 import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
-import { TrustCountersSection } from "@/components/home/TrustCountersSection";
 import { WhyBeneficialSection } from "@/components/home/WhyBeneficialSection";
 import { RattanQuizLazy } from "@/components/quiz/RattanQuizLazy";
 import { SectionReveal } from "@/components/ui/animated-reveal";
@@ -21,9 +23,9 @@ export default async function HomePage() {
       <HomeNewsTicker />
       <WhyBeneficialSection />
       <MaterialTrustStrip />
-      <ExamplesSection />
+      <HomeExamplesLazy />
       <HomeMerchandising />
-      <TrustCountersSection />
+      <HomeTrustLazy />
       <section id="quiz" className="relative scroll-mt-24 py-10 md:py-14">
         <div className="btt-container">
           <SectionReveal>

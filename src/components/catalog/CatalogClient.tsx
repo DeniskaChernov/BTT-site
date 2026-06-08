@@ -661,7 +661,7 @@ export function CatalogClient({
             )}
           >
             {filtered.map((p: Product) => (
-              <div key={p.sku} className="h-full min-h-0">
+              <div key={p.sku} className="btt-catalog-grid-item h-full min-h-0">
                 <ProductCard product={p} />
               </div>
             ))}
