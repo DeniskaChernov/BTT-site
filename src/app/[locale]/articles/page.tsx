@@ -4,10 +4,7 @@ import { MicroTrustStrip } from "@/components/home/MicroTrustStrip";
 import { PageHero } from "@/components/layout/PageHero";
 import { AnimatedReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
-import {
-  bttSecondaryAmberButtonClass,
-  bttSecondaryNeutralButtonClass,
-} from "@/lib/ui-classes";
+import { bttSecondaryAmberButtonClass } from "@/lib/ui-classes";
 import { buildAlternates } from "@/lib/seo";
 import { getTranslations } from "next-intl/server";
 
@@ -43,16 +40,7 @@ export default async function ArticlesPage() {
       >
         <p className="max-w-2xl text-pretty text-sm text-stone-500 md:text-base">{t("intro")}</p>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/"
-            className={bttSecondaryAmberButtonClass}
-          >
-            {t("cta_quiz")}
-          </Link>
-          <Link
-            href="/catalog"
-            className={bttSecondaryNeutralButtonClass}
-          >
+          <Link href="/catalog" className={bttSecondaryAmberButtonClass}>
             {t("cta_catalog")}
           </Link>
         </div>

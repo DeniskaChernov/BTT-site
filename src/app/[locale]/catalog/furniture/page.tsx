@@ -1,5 +1,7 @@
+import { CatalogDivisionsNav } from "@/components/catalog/CatalogDivisionsNav";
 import { CatalogFurnitureSection } from "@/components/catalog/CatalogFurnitureSection";
 import { PageBackNav } from "@/components/layout/PageBackNav";
+import { SectionReveal } from "@/components/ui/animated-reveal";
 import { buildAlternates, SITE_ORIGIN } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -36,10 +38,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function CatalogFurniturePage() {
+export default async function CatalogFurniturePage() {
+  const t = await getTranslations("catalog");
+
   return (
     <div className="btt-container py-12 md:py-16">
       <PageBackNav fallbackHref="/catalog" />
+      <SectionReveal className="mt-6">
+        <p className="mb-4 text-sm font-semibold text-stone-200">{t("divisions_title")}</p>
+        <CatalogDivisionsNav active="furniture" />
+      </SectionReveal>
       <CatalogFurnitureSection />
     </div>
   );

@@ -1,4 +1,4 @@
-import { CatalogBuyerGuide } from "@/components/catalog/CatalogBuyerGuide";
+import { CatalogDivisionsNav } from "@/components/catalog/CatalogDivisionsNav";
 import { CatalogClient } from "@/components/catalog/CatalogClient";
 import { CatalogInfoAccordion } from "@/components/catalog/CatalogInfoAccordion";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
@@ -40,6 +40,7 @@ export default async function CatalogPage({ searchParams }: PageProps) {
   const sp = await searchParams;
 
   const tab = TABS.includes(sp.tab as CategoryTab) ? (sp.tab as CategoryTab) : "material";
+  const division = tab === "planter" ? "planter" : "general";
   const shape = SHAPES.includes(sp.shape as (typeof SHAPES)[number]) ? (sp.shape as (typeof SHAPES)[number]) : "all";
   const color = sp.color && (COLORS as readonly string[]).includes(sp.color) ? (sp.color as (typeof COLORS)[number]) : "all";
   const source = sp.source === "pdf" ? "pdf" : "all";
@@ -50,8 +51,8 @@ export default async function CatalogPage({ searchParams }: PageProps) {
       <Breadcrumbs className="mb-6" items={[{ label: tNav("home"), href: "/" }, { label: t("title") }]} />
       <PageHero kicker={t("page_kicker")} title={t("title")} lead={t("intro_short")} backFallbackHref="/" />
       <SectionReveal className="mt-8">
-        <p className="mb-4 text-sm font-semibold text-stone-200">{t("guide_title")}</p>
-        <CatalogBuyerGuide />
+        <p className="mb-4 text-sm font-semibold text-stone-200">{t("divisions_title")}</p>
+        <CatalogDivisionsNav active={division} />
       </SectionReveal>
       <SectionReveal>
         <CatalogInfoAccordion />

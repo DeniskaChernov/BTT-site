@@ -176,7 +176,7 @@ export function CommerceHero() {
                   </motion.span>
                 </Link>
                 <Link
-                  href="/#quiz"
+                  href="/catalog"
                   onClick={() =>
                     trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
                   }

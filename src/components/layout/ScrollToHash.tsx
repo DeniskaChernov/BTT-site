@@ -3,7 +3,7 @@
 import { usePathname } from "@/i18n/navigation";
 import { useEffect } from "react";
 
-const SCROLL_ANCHORS = new Set(["hits", "quiz"]);
+const SCROLL_ANCHORS = new Set(["hits"]);
 
 /**
  * На главной: при заходе с `/#hits`, `/#quiz` или смене hash — плавный скролл к секции.

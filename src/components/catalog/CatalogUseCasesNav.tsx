@@ -8,114 +8,102 @@ import {
 } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
-import { Armchair, ArrowUpRight, Flower2, Shuffle } from "lucide-react";
+import { Armchair, ArrowUpRight, Flower2, Layers } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-type UseCasePreset =
+type DivisionPreset =
   BttEventPayloads[typeof BTT_EVENTS.CatalogUsecaseClick]["preset"];
 
-/**
- * Продающая навигация над каталогом: три пресета под задачу (мебель / кашпо / универсальный).
- * Ведут на готовые связки фильтров, не ломая текущую `CatalogClient` логику.
- */
 type Props = { embedded?: boolean };
 
+/** Три раздела каталога: общее / кашпо / мебель. */
 export function CatalogUseCasesNav({ embedded = false }: Props) {
-  const s = useTranslations("sales");
+  const t = useTranslations("catalog");
   const reduceMotion = useReducedMotion();
 
   const items: {
-    id: UseCasePreset;
+    id: DivisionPreset;
     title: string;
     desc: string;
     href: string;
-    icon: typeof Armchair;
+    icon: typeof Layers;
   }[] = [
     {
       id: "furniture",
-      title: s("catalog_use_furniture"),
-      desc: s("catalog_use_furniture_desc"),
+      title: t("division_general"),
+      desc: t("division_general_desc"),
       href: "/catalog?tab=material",
-      icon: Armchair,
+      icon: Layers,
     },
     {
       id: "planter",
-      title: s("catalog_use_planter"),
-      desc: s("catalog_use_planter_desc"),
+      title: t("division_planter"),
+      desc: t("division_planter_desc"),
       href: "/catalog?tab=planter",
       icon: Flower2,
     },
     {
       id: "universal",
-      title: s("catalog_use_universal"),
-      desc: s("catalog_use_universal_desc"),
-      href: "/catalog?tab=material&shape=half_round",
-      icon: Shuffle,
+      title: t("division_furniture"),
+      desc: t("division_furniture_desc"),
+      href: "/catalog/furniture",
+      icon: Armchair,
     },
   ];
 
   const grid = (
-      <ul className={embedded ? "grid gap-3 sm:grid-cols-3" : "mt-3 grid gap-3 sm:grid-cols-3"}>
-        {items.map((it, i) => (
-          <motion.li
-            key={it.title}
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-6%" }}
-            transition={{
-              duration: reduceMotion ? 0 : 0.4,
-              delay: reduceMotion ? 0 : bttStaggerDelay(i, 0.06),
-              ease: [...BTT_EASE],
-            }}
-            whileHover={
-              reduceMotion
-                ? undefined
-                : { y: -3, transition: { duration: 0.2, ease: [...BTT_EASE] } }
+    <ul className={embedded ? "grid gap-3 sm:grid-cols-3" : "mt-3 grid gap-3 sm:grid-cols-3"}>
+      {items.map((it, i) => (
+        <motion.li
+          key={it.href}
+          initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-6%" }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.4,
+            delay: reduceMotion ? 0 : bttStaggerDelay(i, 0.06),
+            ease: [...BTT_EASE],
+          }}
+          whileHover={
+            reduceMotion
+              ? undefined
+              : { y: -3, transition: { duration: 0.2, ease: [...BTT_EASE] } }
+          }
+          className="min-w-0"
+        >
+          <Link
+            href={it.href}
+            onClick={() =>
+              trackBttEvent(BTT_EVENTS.CatalogUsecaseClick, {
+                preset: it.id,
+              })
             }
-            className="min-w-0"
+            className="btt-focus group flex h-full min-h-[5.5rem] flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition hover:border-amber-500/35 hover:bg-amber-950/20"
           >
-            <Link
-              href={it.href}
-              onClick={() =>
-                trackBttEvent(BTT_EVENTS.CatalogUsecaseClick, {
-                  preset: it.id,
-                })
-              }
-              className="group btt-focus relative flex h-full items-start gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 shadow-inner shadow-black/10 transition-colors duration-200 hover:border-amber-500/35 hover:bg-white/[0.06] motion-reduce:transition-none md:p-5"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300 ring-1 ring-white/[0.06] transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
-                <it.icon className="h-5 w-5" aria-hidden />
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-stone-100 md:text-base">
-                  {it.title}
-                </p>
-                <p className="mt-1 text-xs leading-relaxed text-stone-400 md:text-sm">
-                  {it.desc}
-                </p>
-              </div>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-100">
+              <it.icon className="h-4 w-4 shrink-0 text-amber-400/90" aria-hidden />
+              {it.title}
               <ArrowUpRight
-                className="mt-0.5 h-4 w-4 text-stone-500 transition-colors duration-200 group-hover:text-amber-300"
+                className="ml-auto h-3.5 w-3.5 text-stone-600 transition group-hover:text-amber-400/80 motion-reduce:transition-none"
                 aria-hidden
               />
-            </Link>
-          </motion.li>
-        ))}
-      </ul>
+            </span>
+            <span className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-stone-500 group-hover:text-stone-400">
+              {it.desc}
+            </span>
+          </Link>
+        </motion.li>
+      ))}
+    </ul>
   );
 
   if (embedded) return grid;
 
   return (
-    <section aria-labelledby="catalog-use-cases-title" className="mt-8">
-      <div className="flex items-center justify-between gap-3">
-        <p
-          id="catalog-use-cases-title"
-          className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80"
-        >
-          {s("catalog_use_kicker")}
-        </p>
-      </div>
+    <section className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 md:p-5">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+        {t("divisions_title")}
+      </p>
       {grid}
     </section>
   );
