@@ -321,8 +321,12 @@ export function CheckoutForm() {
                 }}
                 autoComplete="tel"
                 placeholder={t("phone_placeholder")}
+                aria-describedby="checkout-phone-hint"
                 className={bttFieldClass}
               />
+              <span id="checkout-phone-hint" className="text-xs text-stone-500">
+                {t("phone_hint")}
+              </span>
             </label>
           </div>
           <label className="grid gap-1 text-sm text-stone-300">

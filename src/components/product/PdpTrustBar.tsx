@@ -24,7 +24,7 @@ function TrustItem({ children, Icon, i }: LiProps) {
       transition={{
         duration: reduceMotion ? 0 : 0.3,
         delay: reduceMotion ? 0 : bttStaggerDelay(i, 0.04),
-        ease: [...BTT_EASE],
+        ease: BTT_EASE,
       }}
       className="flex min-w-0 items-start gap-2.5 text-stone-300 md:flex-col md:items-center md:text-center"
     >

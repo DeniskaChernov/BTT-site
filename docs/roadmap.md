@@ -18,11 +18,12 @@
 | Шапка: выравнивание | ✅ |
 | Плавные анимации и переходы | ✅ |
 | Адаптив checkout / cart / PDP (sticky CTA) | ✅ |
-| EN/UZ quality pass (checkout, cart, PDP) | 🟡 |
+| EN/UZ quality pass (checkout, cart, PDP, wholesale) | 🟡 |
 | Phone mask UZ (+998) on checkout/profile | ✅ |
 | Home below-fold lazy chunks | ✅ |
-| Lighthouse baseline | 🔴 |
+| Lighthouse baseline doc | ✅ |
 | E2E checkout flow (ru/en/uz) | ✅ |
+| E2E viewports 390/768/1280 | ✅ |
 | Push + проверка прода | ✅ |
 
 ---
