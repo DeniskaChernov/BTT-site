@@ -795,7 +795,7 @@
   },
   "checkout": {
     "title": "Checkout",
-    "guest": "Continue without an account",
+    "guest": "Continue without signing in",
     "login_hint": "Save your phone and address in the profile — we’ll prefill them at checkout.",
     "shipping": "Delivery or pickup",
     "ship_courier": "Courier",
@@ -893,7 +893,7 @@
   "contacts": {
     "kicker": "Bententrade",
     "title": "Contacts",
-    "lead": "Phone and Telegram as on bententrade.uz. Tashkent production, delivery across Uzbekistan. Forms for feedback and B2B.",
+    "lead": "Phone and Telegram to reach your manager. Production in Tashkent, delivery across Uzbekistan. Feedback and B2B request forms.",
     "meta_description": "Bententrade: Tashkent, +998 77 104 44 22, Telegram @bententradeuz, Mon–Sat hours.",
     "showroom": "Showroom",
     "channels": "Messengers & phone",
@@ -1002,7 +1002,7 @@
     "quote_send_error": "Couldn't send the request. Try again or use the contact page."
   },
   "account": {
-    "sub": "Account: orders and quiz leads are stored in the database and linked to your sign-in. Without sign-in, only local checkout autofill in this browser.",
+    "sub": "Your account: order requests and quiz leads are stored when you sign in. Without sign-in, only checkout autofill in this browser.",
     "session_loading": "Checking session…",
     "signed_in_as": "Signed in as",
     "name_label": "Name / company",

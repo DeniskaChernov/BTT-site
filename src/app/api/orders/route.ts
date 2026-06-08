@@ -3,6 +3,7 @@ import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
 import { getSessionUser } from "@/lib/auth-session";
 import { notifyCrmOrderCreated } from "@/lib/crm-webhook";
 import { notifyCustomerOrderEvent } from "@/lib/customer-notify";
+import { notifyManagerNewOrder } from "@/lib/telegram-notify";
 import { prisma } from "@/lib/db";
 import { log } from "@/lib/logger";
 import { issueOrderHistoryToken, verifyOrderHistoryToken } from "@/lib/order-access";
@@ -120,6 +121,7 @@ export async function POST(request: Request) {
     });
 
     notifyCrmOrderCreated(order, requestId);
+    notifyManagerNewOrder(order, requestId);
     notifyCustomerOrderEvent(
       {
         reason: "order_created",

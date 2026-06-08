@@ -18,7 +18,7 @@
 | Шапка: выравнивание | ✅ |
 | Плавные анимации и переходы | ✅ |
 | Адаптив checkout / cart / PDP (sticky CTA) | ✅ |
-| EN/UZ quality pass (checkout, cart, PDP, wholesale) | 🟡 |
+| EN/UZ quality pass (checkout, cart, PDP, wholesale, account, contacts) | 🟡 |
 | Phone mask UZ (+998) on checkout/profile | ✅ |
 | Home below-fold lazy chunks | ✅ |
 | Lighthouse baseline doc | ✅ |
@@ -54,7 +54,8 @@
 ## Backlog
 
 - Админка статусов заказа
-- Telegram/Email менеджеру при новом заказе
+- ~~Telegram менеджеру при новом заказе~~ ✅ (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_MANAGER_CHAT_ID`)
+- Email менеджеру при новом заказе
 - Фильтры-чипы на главной
 - Лента этапов заказа для клиента
 - Checkout: маска телефона
