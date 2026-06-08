@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { isMeaningfulPhone, normalizePhone } from "./phone";
+import { formatPhoneInput, isMeaningfulPhone, normalizePhone } from "./phone";
 
 describe("normalizePhone", () => {
   it("trims and collapses spaces", () => {
     expect(normalizePhone("  +998 90  123  45 67  ")).toBe("+998 90 123 45 67");
+  });
+});
+
+describe("formatPhoneInput", () => {
+  it("formats partial and full UZ numbers", () => {
+    expect(formatPhoneInput("")).toBe("");
+    expect(formatPhoneInput("90")).toBe("+998 90");
+    expect(formatPhoneInput("901234567")).toBe("+998 90 123 45 67");
+    expect(formatPhoneInput("+998901234567")).toBe("+998 90 123 45 67");
   });
 });
 

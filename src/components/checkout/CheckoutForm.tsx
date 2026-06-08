@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { appendOrder } from "@/lib/order-history";
 import { saveOrderAccessToken } from "@/lib/order-access-client";
-import { isMeaningfulPhone, normalizePhone } from "@/lib/phone";
+import { formatPhoneInput, isMeaningfulPhone, normalizePhone } from "@/lib/phone";
 import { readLocalProfile } from "@/lib/local-profile";
 import { BTT_EASE } from "@/lib/motion";
 import {
@@ -317,7 +317,7 @@ export function CheckoutForm() {
                 value={phone}
                 onChange={(e) => {
                   setErr(null);
-                  setPhone(e.target.value);
+                  setPhone(formatPhoneInput(e.target.value));
                 }}
                 autoComplete="tel"
                 placeholder={t("phone_placeholder")}

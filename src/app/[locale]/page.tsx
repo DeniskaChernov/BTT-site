@@ -1,14 +1,10 @@
-import { ArticlesTeaser } from "@/components/home/ArticlesTeaser";
 import { CommerceHero } from "@/components/commerce-hero";
-import { HomeNewsTicker } from "@/components/home/HomeNewsTicker";
-import { CollectiveSalesTeaser } from "@/components/home/CollectiveSalesTeaser";
 import { ExamplesSection } from "@/components/home/ExamplesSection";
 import { HeroPromisesStrip } from "@/components/home/HeroPromisesStrip";
+import { HomeLazySections } from "@/components/home/HomeLazySections";
 import { HomeMerchandising } from "@/components/home/HomeMerchandising";
-import { InstagramHighlightsSection } from "@/components/home/InstagramHighlightsSection";
-import { LeadCaptureSection } from "@/components/home/LeadCaptureSection";
+import { HomeNewsTicker } from "@/components/home/HomeNewsTicker";
 import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
-import { SocialProofSection } from "@/components/home/SocialProofSection";
 import { TrustCountersSection } from "@/components/home/TrustCountersSection";
 import { WhyBeneficialSection } from "@/components/home/WhyBeneficialSection";
 import { RattanQuizLazy } from "@/components/quiz/RattanQuizLazy";
@@ -48,11 +44,7 @@ export default async function HomePage() {
           </SectionReveal>
         </div>
       </section>
-      <CollectiveSalesTeaser />
-      <InstagramHighlightsSection />
-      <ArticlesTeaser />
-      <LeadCaptureSection />
-      <SocialProofSection />
+      <HomeLazySections />
     </>
   );
 }

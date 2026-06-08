@@ -19,6 +19,8 @@
 | Плавные анимации и переходы | ✅ |
 | Адаптив checkout / cart / PDP (sticky CTA) | ✅ |
 | EN/UZ quality pass (checkout, cart, PDP) | 🟡 |
+| Phone mask UZ (+998) on checkout/profile | ✅ |
+| Home below-fold lazy chunks | ✅ |
 | Lighthouse baseline | 🔴 |
 | E2E checkout flow (ru/en/uz) | ✅ |
 | Push + проверка прода | ✅ |

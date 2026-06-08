@@ -7,7 +7,7 @@ import { trackEvent } from "@/lib/analytics";
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
 import { readLocalProfile, writeLocalProfile } from "@/lib/local-profile";
-import { normalizePhone } from "@/lib/phone";
+import { formatPhoneInput, normalizePhone } from "@/lib/phone";
 import { bttFieldClass, bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
@@ -282,7 +282,7 @@ export function AccountForm() {
                 <input
                   className={bttFieldClass}
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(formatPhoneInput(e.target.value))}
                   type="tel"
                   name="phone"
                   autoComplete="tel"
@@ -430,7 +430,7 @@ export function AccountForm() {
                     <input
                       className={bttFieldClass}
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => setPhone(formatPhoneInput(e.target.value))}
                       type="tel"
                       autoComplete="tel"
                       inputMode="tel"
@@ -473,7 +473,7 @@ export function AccountForm() {
                   <input
                     className={bttFieldClass}
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => setPhone(formatPhoneInput(e.target.value))}
                     placeholder={t("ph_phone")}
                     type="tel"
                     name="phone"
