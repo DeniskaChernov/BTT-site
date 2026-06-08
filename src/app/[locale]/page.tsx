@@ -4,7 +4,7 @@ import { HomeNewsTicker } from "@/components/home/HomeNewsTicker";
 import { CollectiveSalesTeaser } from "@/components/home/CollectiveSalesTeaser";
 import { ExamplesSection } from "@/components/home/ExamplesSection";
 import { HeroPromisesStrip } from "@/components/home/HeroPromisesStrip";
-import { HomeHits } from "@/components/home/HomeHits";
+import { HomeMerchandising } from "@/components/home/HomeMerchandising";
 import { InstagramHighlightsSection } from "@/components/home/InstagramHighlightsSection";
 import { LeadCaptureSection } from "@/components/home/LeadCaptureSection";
 import { MaterialTrustStrip } from "@/components/home/MaterialTrustStrip";
@@ -26,7 +26,7 @@ export default async function HomePage() {
       <WhyBeneficialSection />
       <MaterialTrustStrip />
       <ExamplesSection />
-      <HomeHits />
+      <HomeMerchandising />
       <TrustCountersSection />
       <section id="quiz" className="relative scroll-mt-24 py-10 md:py-14">
         <div className="btt-container">

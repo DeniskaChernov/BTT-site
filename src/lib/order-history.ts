@@ -16,7 +16,14 @@ export type StoredOrder = {
   createdAt: string;
   updatedAt?: string;
   totalUz: number;
-  status?: "NEW" | "CONFIRMED" | "PACKING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
+  status?:
+    | "NEW"
+    | "CONFIRMED"
+    | "PRODUCTION"
+    | "PACKING"
+    | "SHIPPED"
+    | "DELIVERED"
+    | "CANCELLED";
   statusUpdatedAt?: string;
   statusNote?: string;
   paymentStatus?: "PENDING" | "REQUIRES_ACTION" | "PAID" | "FAILED" | "REFUNDED" | "PARTIALLY_REFUNDED";

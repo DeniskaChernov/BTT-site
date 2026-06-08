@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  normalizeOrderStatus,
+  orderFulfillmentType,
+  orderStatusChain,
+} from "@/lib/order-fulfillment";
 import { formatUzs } from "@/lib/pricing";
 import { readOrderAccessToken } from "@/lib/order-access-client";
 import type { StoredOrder } from "@/lib/order-history";
@@ -202,36 +207,11 @@ export function OrderHistory({ profilePhone }: Props) {
     });
   }, [localOrders, remoteOrders]);
 
-  const payKey = (pay: string) => {
-    const map = {
-      telegram: "pay_telegram",
-      uzcard: "pay_uzcard",
-      humo: "pay_humo",
-      payme: "pay_payme",
-      click: "pay_click",
-      invoice: "pay_invoice",
-      cod: "pay_cod",
-    } as const;
-    const k = map[pay as keyof typeof map];
-    return k ? tch(k) : pay;
-  };
+  const statusText = (order: StoredOrder) =>
+    t(`status_${normalizeOrderStatus(order.status).toLowerCase()}`);
 
-  const orderStatus = (
-    s: StoredOrder["status"],
-  ): "NEW" | "CONFIRMED" | "PACKING" | "SHIPPED" | "DELIVERED" | "CANCELLED" =>
-    s === "CONFIRMED" ||
-    s === "PACKING" ||
-    s === "SHIPPED" ||
-    s === "DELIVERED" ||
-    s === "CANCELLED"
-      ? s
-      : "NEW";
-
-  const statusText = (s: StoredOrder["status"]) =>
-    t(`status_${orderStatus(s).toLowerCase()}`);
-
-  const statusTone = (s: StoredOrder["status"]) => {
-    switch (orderStatus(s)) {
+  const statusTone = (order: StoredOrder) => {
+    switch (normalizeOrderStatus(order.status)) {
       case "DELIVERED":
         return "border-emerald-500/35 bg-emerald-500/10 text-emerald-300";
       case "CANCELLED":
@@ -240,32 +220,14 @@ export function OrderHistory({ profilePhone }: Props) {
         return "border-sky-500/35 bg-sky-500/10 text-sky-300";
       case "PACKING":
         return "border-amber-500/35 bg-amber-500/10 text-amber-300";
+      case "PRODUCTION":
+        return "border-orange-500/35 bg-orange-500/10 text-orange-300";
       case "CONFIRMED":
         return "border-violet-500/35 bg-violet-500/10 text-violet-300";
       default:
         return "border-white/20 bg-white/[0.04] text-stone-300";
     }
   };
-
-  const paymentStatus = (
-    s: StoredOrder["paymentStatus"],
-  ):
-    | "PENDING"
-    | "REQUIRES_ACTION"
-    | "PAID"
-    | "FAILED"
-    | "REFUNDED"
-    | "PARTIALLY_REFUNDED" =>
-    s === "REQUIRES_ACTION" ||
-    s === "PAID" ||
-    s === "FAILED" ||
-    s === "REFUNDED" ||
-    s === "PARTIALLY_REFUNDED"
-      ? s
-      : "PENDING";
-
-  const paymentStatusText = (s: StoredOrder["paymentStatus"]) =>
-    t(`payment_${paymentStatus(s).toLowerCase()}`);
 
   const phoneForHistory = normalizePhone(profilePhone);
 
@@ -351,9 +313,9 @@ export function OrderHistory({ profilePhone }: Props) {
                 </div>
                 <div className="flex shrink-0 items-center gap-3">
                   <span
-                    className={`hidden rounded-full border px-2.5 py-1 text-xs font-semibold md:inline-flex ${statusTone(order.status)}`}
+                    className={`hidden rounded-full border px-2.5 py-1 text-xs font-semibold md:inline-flex ${statusTone(order)}`}
                   >
-                    {statusText(order.status)}
+                    {statusText(order)}
                   </span>
                   <span className="text-lg font-bold tabular-nums text-amber-400">
                     {formatUzs(order.totalUz)}
@@ -370,14 +332,37 @@ export function OrderHistory({ profilePhone }: Props) {
                   <ReorderHints order={order} />
                   <div className="mb-4 mt-4 flex flex-wrap items-center gap-2">
                     <span
-                      className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(order.status)}`}
+                      className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(order)}`}
                     >
-                      {statusText(order.status)}
+                      {statusText(order)}
                     </span>
                     {order.statusNote ? (
                       <span className="text-xs text-stone-400">{order.statusNote}</span>
                     ) : null}
                   </div>
+                  <ol className="mb-4 flex flex-wrap gap-2 text-xs text-stone-500">
+                    {orderStatusChain(orderFulfillmentType(order)).map((step) => {
+                      const current = normalizeOrderStatus(order.status);
+                      const chain = orderStatusChain(orderFulfillmentType(order));
+                      const active = step === current;
+                      const passed =
+                        chain.indexOf(step) < chain.indexOf(current);
+                      return (
+                        <li
+                          key={step}
+                          className={`rounded-full border px-2.5 py-1 ${
+                            active
+                              ? "border-amber-400/50 bg-amber-500/10 text-amber-100"
+                              : passed
+                                ? "border-white/15 bg-white/[0.04] text-stone-300"
+                                : "border-white/10 text-stone-600"
+                          }`}
+                        >
+                          {t(`status_${step.toLowerCase()}`)}
+                        </li>
+                      );
+                    })}
+                  </ol>
                   <dl className="grid gap-2 text-sm text-stone-400 sm:grid-cols-2">
                     <div>
                       <dt className="text-xs uppercase tracking-wide text-stone-600">
@@ -391,13 +376,7 @@ export function OrderHistory({ profilePhone }: Props) {
                       <dt className="text-xs uppercase tracking-wide text-stone-600">
                         {t("order_pay")}
                       </dt>
-                      <dd className="text-stone-300">
-                        {payKey(order.pay)}
-                        <span className="text-stone-500">
-                          {" · "}
-                          {paymentStatusText(order.paymentStatus)}
-                        </span>
-                      </dd>
+                      <dd className="text-stone-300">{t("order_pay_manager")}</dd>
                     </div>
                     <div className="sm:col-span-2">
                       <dt className="text-xs uppercase tracking-wide text-stone-600">

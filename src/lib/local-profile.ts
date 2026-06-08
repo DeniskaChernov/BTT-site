@@ -8,9 +8,10 @@ export const LEGACY_PROFILE_PHONE_KEY = "btt-profile-phone";
 export type LocalProfile = {
   email: string;
   phone: string;
+  address: string;
 };
 
-const empty: LocalProfile = { email: "", phone: "" };
+const empty: LocalProfile = { email: "", phone: "", address: "" };
 
 export function readLocalProfile(): LocalProfile {
   if (typeof window === "undefined") return empty;
@@ -23,11 +24,12 @@ export function readLocalProfile(): LocalProfile {
         return {
           email: typeof o.email === "string" ? o.email : "",
           phone: typeof o.phone === "string" ? o.phone : "",
+          address: typeof o.address === "string" ? o.address : "",
         };
       }
     }
     const legacy = localStorage.getItem(LEGACY_PROFILE_PHONE_KEY);
-    if (legacy) return { email: "", phone: legacy };
+    if (legacy) return { email: "", phone: legacy, address: "" };
   } catch {
     /* ignore */
   }
@@ -42,6 +44,7 @@ export function writeLocalProfile(profile: LocalProfile): void {
       JSON.stringify({
         email: profile.email.trim(),
         phone: normalizePhone(profile.phone),
+        address: profile.address.trim(),
       })
     );
     localStorage.removeItem(LEGACY_PROFILE_PHONE_KEY);

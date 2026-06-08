@@ -33,6 +33,7 @@ export function AccountForm() {
   );
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [name, setName] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [regPassword, setRegPassword] = useState("");
@@ -58,12 +59,14 @@ export function AccountForm() {
           writeLocalProfile({
             email: d.user.email,
             phone: d.user.phone ?? "",
+            address: readLocalProfile().address,
           });
         } else {
           setSession(null);
           const p = readLocalProfile();
           setEmail(p.email);
           setPhone(p.phone);
+          setAddress(p.address);
           setName("");
         }
       })
@@ -73,6 +76,7 @@ export function AccountForm() {
         const p = readLocalProfile();
         setEmail(p.email);
         setPhone(p.phone);
+        setAddress(p.address);
       });
     return () => {
       cancel = true;
@@ -91,7 +95,11 @@ export function AccountForm() {
   const saveLocal = () => {
     const emailTrim = email.trim();
     const phoneNorm = normalizePhone(phone);
-    writeLocalProfile({ email: emailTrim, phone: phoneNorm });
+    writeLocalProfile({
+      email: emailTrim,
+      phone: phoneNorm,
+      address: address.trim(),
+    });
     setEmail(emailTrim);
     setPhone(phoneNorm);
     trackEvent("profile_save", {
@@ -130,6 +138,7 @@ export function AccountForm() {
       writeLocalProfile({
         email: data.user.email,
         phone: data.user.phone ?? "",
+        address: address.trim(),
       });
       setProfileFlash(true);
       trackEvent("profile_server_save", {});
@@ -168,6 +177,7 @@ export function AccountForm() {
       writeLocalProfile({
         email: data.user.email,
         phone: data.user.phone ?? "",
+        address: readLocalProfile().address,
       });
       setLoginPassword("");
       trackEvent("auth_login", {});
@@ -210,6 +220,7 @@ export function AccountForm() {
       writeLocalProfile({
         email: data.user.email,
         phone: data.user.phone ?? "",
+        address: address.trim(),
       });
       trackEvent("auth_register", {});
     } finally {
@@ -229,6 +240,7 @@ export function AccountForm() {
     const p = readLocalProfile();
     setEmail(p.email);
     setPhone(p.phone);
+    setAddress(p.address);
     setName("");
     trackEvent("auth_logout", {});
   };
@@ -467,6 +479,15 @@ export function AccountForm() {
                     name="phone"
                     autoComplete="tel"
                     inputMode="tel"
+                  />
+                </label>
+                <label className="grid gap-1 text-sm text-stone-300">
+                  {t("address_label")}
+                  <input
+                    className={bttFieldClass}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    autoComplete="street-address"
                   />
                 </label>
                 <button

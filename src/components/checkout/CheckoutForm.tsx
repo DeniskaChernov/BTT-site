@@ -16,7 +16,6 @@ import {
   bttPrimaryButtonClass,
   bttTapReduceClass,
 } from "@/lib/ui-classes";
-import type { OrderPayMethod } from "@/lib/orders-api";
 import { cartHasInvalidPreorder } from "@/lib/cart-preorder";
 import { cn } from "@/lib/utils";
 import { PageBackNav } from "@/components/layout/PageBackNav";
@@ -33,13 +32,11 @@ export function CheckoutForm() {
   const { lines, subtotalUz, lineTotalUz, clear } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const oneClick = searchParams.get("one_click") === "1";
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [ship, setShip] = useState<"courier" | "pickup">("courier");
-  const [pay, setPay] = useState<OrderPayMethod>("telegram");
   const [done, setDone] = useState(false);
   const [createdOrderId, setCreatedOrderId] = useState<string | null>(null);
   /** false — заказ ушёл только в localStorage (сеть или сервер без БД) */
@@ -48,8 +45,9 @@ export function CheckoutForm() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const { phone: savedPhone, email } = readLocalProfile();
+    const { phone: savedPhone, email, address: savedAddress } = readLocalProfile();
     setPhone((p) => p || savedPhone);
+    setAddress((a) => a || savedAddress);
     if (email?.includes("@")) {
       const local = email.split("@")[0]?.trim();
       if (local) setName((n) => n || local);
@@ -58,7 +56,7 @@ export function CheckoutForm() {
 
   const utm = useMemo(
     () => readUtmFromSearch(searchParams.toString()),
-    [searchParams]
+    [searchParams],
   );
 
   const telegramPayUrl = useMemo(() => telegramPaymentChatUrl(), []);
@@ -93,7 +91,6 @@ export function CheckoutForm() {
     try {
       trackEvent("start_checkout", {
         lines: lines.map((l) => l.sku),
-        pay,
         ship,
       });
 
@@ -115,7 +112,7 @@ export function CheckoutForm() {
           qtyKg: l.qtyKg,
           lineTotalUz: lineTotalUz(l),
         })),
-        pay,
+        pay: "invoice" as const,
         ship,
         customerName: name.trim(),
         phone: normalizePhone(phone),
@@ -153,7 +150,7 @@ export function CheckoutForm() {
           return;
         } else if (res.status === 400) {
           const payload = (await res.json().catch(() => null)) as { error?: string } | null;
-          if (payload?.error === "Minimum preorder quantity is 5 kg") {
+          if (payload?.error === "Minimum preorder quantity is 100 kg") {
             setErr(t("error_min_preorder"));
             return;
           }
@@ -195,7 +192,8 @@ export function CheckoutForm() {
       <div className="btt-container max-w-lg py-16">
         <PageBackNav fallbackHref="/catalog" />
         <div className="btt-glass-strong rounded-3xl p-8 text-center">
-          <p className="text-lg font-semibold text-emerald-400">{t("success")}</p>
+          <p className="text-lg font-semibold text-emerald-400">{t("success_title")}</p>
+          <p className="mt-3 text-sm leading-relaxed text-stone-400">{t("success_lead")}</p>
           {createdOrderId ? (
             <p className="mt-3 text-sm font-medium text-stone-300">
               {t("success_order_ref", { id: createdOrderId })}
@@ -206,10 +204,8 @@ export function CheckoutForm() {
               {t("success_local_only")}
             </p>
           )}
-          {pay === "telegram" ? (
-            <p className="mt-4 text-sm leading-relaxed text-stone-400">{t("success_telegram_lead")}</p>
-          ) : null}
-          {pay === "telegram" && telegramPayUrl ? (
+          <p className="mt-4 text-sm leading-relaxed text-stone-400">{t("success_telegram_lead")}</p>
+          {telegramPayUrl ? (
             <a
               href={
                 createdOrderId
@@ -229,7 +225,7 @@ export function CheckoutForm() {
             >
               {t("open_telegram")}
             </a>
-          ) : pay === "telegram" && !telegramPayUrl ? (
+          ) : (
             <p className="mt-4 text-sm text-stone-500">
               {t("telegram_config_hint")}{" "}
               <Link
@@ -239,8 +235,7 @@ export function CheckoutForm() {
                 {nav("contacts")}
               </Link>
             </p>
-          ) : null}
-          <p className="mt-4 text-xs text-stone-500">{t("payment_interim_note")}</p>
+          )}
           <button
             type="button"
             onClick={() => router.push("/catalog")}
@@ -269,165 +264,134 @@ export function CheckoutForm() {
     <div className="btt-container py-10">
       <PageBackNav fallbackHref="/cart" />
       <div className="mt-2 grid gap-10 lg:grid-cols-[1fr_380px]">
-      <form onSubmit={onPay} className="btt-glass space-y-6 rounded-3xl p-6 md:p-8">
-        <div>
-          <h1 className="text-2xl font-bold text-stone-50 md:text-3xl">{t("title")}</h1>
-          <p className="mt-1 text-sm text-stone-400">{t("guest")}</p>
-          <p className="mt-1 text-xs text-stone-500">{t("login_hint")}</p>
-          {oneClick && (
-            <p className="mt-2 rounded-2xl border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-sm text-amber-100">
-              {t("one_click_title")}: {t("one_click_hint")}
-            </p>
-          )}
-          {err ? (
-            <p className="mt-4 rounded-2xl border border-red-500/35 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert">
-              {err}
-            </p>
-          ) : null}
-        </div>
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className="grid gap-1 text-sm text-stone-300">
-            {c("name")}
-            <input
-              required
-              value={name}
-              onChange={(e) => {
-                setErr(null);
-                setName(e.target.value);
-              }}
-              autoComplete="name"
-              className={bttFieldClass}
-            />
-          </label>
-          <label className="grid gap-1 text-sm text-stone-300">
-            {c("phone")}
-            <input
-              required
-              type="tel"
-              inputMode="tel"
-              value={phone}
-              onChange={(e) => {
-                setErr(null);
-                setPhone(e.target.value);
-              }}
-              autoComplete="tel"
-              className={bttFieldClass}
-            />
-          </label>
-        </div>
-        <label className="grid gap-1 text-sm text-stone-300">
-          {c("address")}
-          <input
-            value={address}
-            onChange={(e) => {
-              setErr(null);
-              setAddress(e.target.value);
-            }}
-            autoComplete="street-address"
-            disabled={ship === "pickup"}
-            placeholder={ship === "pickup" ? t("pickup_no_address") : undefined}
-            className={bttFieldClass}
-          />
-        </label>
-
-        <div>
-          <p className="text-sm font-medium text-stone-200">{t("shipping")}</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setErr(null);
-                setShip("courier");
-              }}
-              className={
-                ship === "courier"
-                  ? bttPillButtonActiveClass
-                  : bttPillButtonInactiveClass
-              }
-            >
-              {t("ship_courier")}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setErr(null);
-                setShip("pickup");
-              }}
-              className={
-                ship === "pickup"
-                  ? bttPillButtonActiveClass
-                  : bttPillButtonInactiveClass
-              }
-            >
-              {t("ship_pickup")}
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <p className="text-sm font-medium text-stone-200">{t("pay_method")}</p>
-          <p className="mt-1 text-xs text-stone-500">{t("pay_methods_note")}</p>
-          <div className="mt-2 grid gap-2 sm:grid-cols-2">
-            {(
-              [
-                ["pay_telegram", "telegram"],
-                ["pay_invoice", "invoice"],
-              ] as const
-            ).map(([key, id]) => (
-              <label
-                key={id}
-                className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-sm text-stone-300 transition focus-within:ring-2 focus-within:ring-amber-500/30 ${
-                  pay === id
-                    ? "border-amber-500/50 bg-amber-500/10"
-                    : "border-white/10 hover:border-white/20"
-                }`}
+        <form onSubmit={onPay} className="btt-glass space-y-6 rounded-3xl p-6 md:p-8">
+          <div>
+            <h1 className="text-2xl font-bold text-stone-50 md:text-3xl">{t("title")}</h1>
+            <p className="mt-1 text-sm text-stone-400">{t("guest")}</p>
+            <p className="mt-1 text-xs text-stone-500">{t("login_hint")}</p>
+            {err ? (
+              <p
+                className="mt-4 rounded-2xl border border-red-500/35 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+                role="alert"
               >
-                <input
-                  type="radio"
-                  name="pay"
-                  checked={pay === id}
-                  onChange={() => setPay(id)}
-                />
-                {t(key)}
-              </label>
-            ))}
+                {err}
+              </p>
+            ) : null}
           </div>
-          <p className="mt-2 text-xs text-stone-500">{t("delivery_note")}</p>
-        </div>
 
-        <button
-          type="submit"
-          disabled={submitting}
-          aria-busy={submitting}
-          className={cn(
-            bttPrimaryButtonClass,
-            "btt-focus px-8 py-3.5 active:scale-[0.99]",
-            bttTapReduceClass,
-            submitting && "pointer-events-none opacity-70",
-          )}
-        >
-          {submitting ? c("loading") : t("place_order")}
-        </button>
-      </form>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className="grid gap-1 text-sm text-stone-300">
+              {c("name")}
+              <input
+                required
+                value={name}
+                onChange={(e) => {
+                  setErr(null);
+                  setName(e.target.value);
+                }}
+                autoComplete="name"
+                className={bttFieldClass}
+              />
+            </label>
+            <label className="grid gap-1 text-sm text-stone-300">
+              {c("phone")}
+              <input
+                required
+                type="tel"
+                inputMode="tel"
+                value={phone}
+                onChange={(e) => {
+                  setErr(null);
+                  setPhone(e.target.value);
+                }}
+                autoComplete="tel"
+                className={bttFieldClass}
+              />
+            </label>
+          </div>
+          <label className="grid gap-1 text-sm text-stone-300">
+            {c("address")}
+            <input
+              value={address}
+              onChange={(e) => {
+                setErr(null);
+                setAddress(e.target.value);
+              }}
+              autoComplete="street-address"
+              disabled={ship === "pickup"}
+              placeholder={ship === "pickup" ? t("pickup_no_address") : undefined}
+              className={bttFieldClass}
+            />
+          </label>
 
-      <aside className="btt-glass-strong h-fit rounded-3xl p-6">
-        <p className="text-sm font-semibold text-stone-300">{t("summary")}</p>
-        <ul className="mt-4 space-y-3 text-sm text-stone-400">
-          {lines.map((l) => (
-            <li key={l.sku} className="flex justify-between gap-2">
-              <span className="line-clamp-2 text-stone-200">{l.name}</span>
-              <span className="shrink-0 text-stone-500">
-                {l.qtyKg} {tc("qty_kg")}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 text-2xl font-bold tabular-nums text-amber-400">
-          {formatUzs(subtotalUz)}
-        </p>
-        <p className="mt-1 text-xs text-stone-500">{c("total_to_pay")}</p>
-      </aside>
+          <div>
+            <p className="text-sm font-medium text-stone-200">{t("shipping")}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setErr(null);
+                  setShip("courier");
+                }}
+                className={
+                  ship === "courier"
+                    ? bttPillButtonActiveClass
+                    : bttPillButtonInactiveClass
+                }
+              >
+                {t("ship_courier")}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setErr(null);
+                  setShip("pickup");
+                }}
+                className={
+                  ship === "pickup"
+                    ? bttPillButtonActiveClass
+                    : bttPillButtonInactiveClass
+                }
+              >
+                {t("ship_pickup")}
+              </button>
+            </div>
+          </div>
+
+          <p className="text-xs text-stone-500">{t("delivery_note")}</p>
+
+          <button
+            type="submit"
+            disabled={submitting}
+            aria-busy={submitting}
+            className={cn(
+              bttPrimaryButtonClass,
+              "btt-focus px-8 py-3.5 active:scale-[0.99]",
+              bttTapReduceClass,
+              submitting && "pointer-events-none opacity-70",
+            )}
+          >
+            {submitting ? c("loading") : t("place_order")}
+          </button>
+        </form>
+
+        <aside className="btt-glass-strong h-fit rounded-3xl p-6">
+          <p className="text-sm font-semibold text-stone-300">{t("summary")}</p>
+          <ul className="mt-4 space-y-3 text-sm text-stone-400">
+            {lines.map((l) => (
+              <li key={l.sku} className="flex justify-between gap-2">
+                <span className="line-clamp-2 text-stone-200">{l.name}</span>
+                <span className="shrink-0 text-stone-500">
+                  {l.qtyKg} {tc("qty_kg")}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-2xl font-bold tabular-nums text-amber-400">
+            {formatUzs(subtotalUz)}
+          </p>
+          <p className="mt-1 text-xs text-stone-500">{t("summary_note")}</p>
+        </aside>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { getProductBySlug } from "@/data/products";
-import { MIN_PREORDER_QTY_KG } from "@/lib/orders-api";
+import { MIN_PREORDER_QTY_KG } from "@/lib/pricing";
 
 type LineLike = { slug: string; qtyKg: number };
 

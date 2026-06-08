@@ -32,7 +32,7 @@ import { ProductValueGrid } from "@/components/product/ProductValueGrid";
 import { BackButton } from "@/components/ui/BackButton";
 import { BTT_EVENTS, trackBttEvent, trackEvent } from "@/lib/analytics";
 import { productGalleryImages } from "@/lib/product-media";
-import { MIN_PREORDER_QTY_KG } from "@/lib/orders-api";
+import { MIN_PREORDER_QTY_KG } from "@/lib/pricing";
 import { telegramBotStartUrl, telegramChannelUrl, telegramPaymentChatUrl } from "@/lib/telegram";
 import { useRouter } from "@/i18n/navigation";
 import { motion, useReducedMotion } from "framer-motion";
@@ -111,10 +111,10 @@ export function ProductDetail({ product }: Props) {
     });
   };
 
-  const oneClick = () => {
+  const orderNow = () => {
     add(product, product.names[locale], qty);
-    trackEvent("start_checkout", { from: "one_click_pdp", sku: product.sku });
-    router.push("/checkout?one_click=1");
+    trackEvent("start_checkout", { from: "pdp_order_now", sku: product.sku });
+    router.push("/checkout");
   };
 
   const scrollThumbs = (dir: -1 | 1) => {
@@ -334,7 +334,7 @@ export function ProductDetail({ product }: Props) {
               <span>{perKg ? t("qty") : t("qty_piece")}</span>
               <input
                 type="number"
-                min={perKg ? 5 : 1}
+                min={perKg ? (isOnOrderMaterial ? MIN_PREORDER_QTY_KG : 5) : 1}
                 step={perKg ? 5 : 1}
                 value={qty}
                 onChange={(e) => {
@@ -349,7 +349,7 @@ export function ProductDetail({ product }: Props) {
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <motion.button
               type="button"
-              onClick={oneClick}
+              onClick={orderNow}
               disabled={belowPreorderMin}
               className={cn(
                 bttPrimaryButtonClass,
@@ -360,7 +360,7 @@ export function ProductDetail({ product }: Props) {
               whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             >
               <ShoppingBag className="h-4 w-4" aria-hidden />
-              {isOnOrderMaterial ? t("preorder_cta") : t("pdp_buy_now")}
+              {t("pdp_order_now")}
             </motion.button>
             <motion.button
               type="button"

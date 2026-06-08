@@ -1,5 +1,5 @@
 import { products } from "@/data/products";
-import { lineItemTotalUz } from "@/lib/pricing";
+import { computeCartPricing, lineItemTotalUz } from "@/lib/pricing";
 import { describe, expect, it } from "vitest";
 import {
   validateCreateOrderBody,
@@ -108,7 +108,7 @@ describe("validateOrderAgainstCatalog", () => {
     expect(validateOrderAgainstCatalog(b)).toBe("Invalid product");
   });
 
-  it("rejects on-order material below 5kg", () => {
+  it("rejects on-order material below 100kg", () => {
     const onOrder = products.find(
       (p) => p.stock === "on_order" && p.category === "material",
     );
@@ -128,17 +128,27 @@ describe("validateOrderAgainstCatalog", () => {
       ],
       totalUz: lineItemTotalUz(onOrder, lowQty),
     });
-    expect(validateOrderAgainstCatalog(b)).toBe("Minimum preorder quantity is 5 kg");
+    expect(validateOrderAgainstCatalog(b)).toBe("Minimum preorder quantity is 100 kg");
   });
 
   it("sums multiple lines against totalUz", () => {
-    const slug = products[0]!.slug;
-    const a = lineForProduct(slug, 1);
-    const bLine = lineForProduct(slug, 2.5);
-    const body = validBody({
-      lines: [a, bLine],
-      totalUz: a.lineTotalUz + bLine.lineTotalUz,
-    });
+    const p1 = products.find((p) => p.slug === "rattan-hal-round-natural-5")!;
+    const p2 = products.find((p) => p.slug === "rattan-flat-natural-8")!;
+    const input = [
+      { sku: p1.sku, slug: p1.slug, qtyKg: 150, name: p1.names.ru },
+      { sku: p2.sku, slug: p2.slug, qtyKg: 100, name: p2.names.ru },
+    ];
+    const priced = computeCartPricing(
+      input.map((l) => ({ sku: l.sku, slug: l.slug, qtyKg: l.qtyKg })),
+    );
+    const lines = input.map((l) => ({
+      sku: l.sku,
+      slug: l.slug,
+      name: l.name,
+      qtyKg: l.qtyKg,
+      lineTotalUz: priced.lineTotals.get(l.sku)!,
+    }));
+    const body = validBody({ lines, totalUz: priced.subtotalUz });
     expect(validateOrderAgainstCatalog(body)).toBe(true);
   });
 });

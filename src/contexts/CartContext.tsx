@@ -1,7 +1,7 @@
 "use client";
 
 import { getProductBySlug } from "@/data/products";
-import { lineItemTotalUz, normalizeLineQty } from "@/lib/pricing";
+import { computeCartPricing, normalizeLineQty } from "@/lib/pricing";
 import type { Product } from "@/types/product";
 import {
   createContext,
@@ -100,16 +100,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [lines, ready]);
 
-  const lineTotalUz = useCallback((line: CartLine) => {
-    const p = getProductBySlug(line.slug);
-    if (!p) return 0;
-    return lineItemTotalUz(p, line.qtyKg);
-  }, []);
-
-  const subtotalUz = useMemo(
-    () => lines.reduce((s, l) => s + lineTotalUz(l), 0),
-    [lines, lineTotalUz]
+  const pricing = useMemo(
+    () =>
+      computeCartPricing(
+        lines.map((l) => ({ sku: l.sku, slug: l.slug, qtyKg: l.qtyKg })),
+      ),
+    [lines],
   );
+
+  const lineTotalUz = useCallback(
+    (line: CartLine) => pricing.lineTotals.get(line.sku) ?? 0,
+    [pricing],
+  );
+
+  const subtotalUz = pricing.subtotalUz;
 
   const add = useCallback(
     (product: Product, localeName: string, qtyKg: number) => {

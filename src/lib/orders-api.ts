@@ -7,13 +7,17 @@
  */
 
 import { getProductBySlug } from "@/data/products";
-import { lineItemTotalUz, normalizeLineQty } from "@/lib/pricing";
+import {
+  computeCartPricing,
+  MIN_PREORDER_QTY_KG,
+  normalizeLineQty,
+} from "@/lib/pricing";
 
 export const MAX_ORDER_LINES = 60;
 export const MAX_TOTAL_UZ = 500_000_000;
 export const MAX_QTY_KG = 5_000;
 export const MAX_LINE_TOTAL_UZ = 200_000_000;
-export const MIN_PREORDER_QTY_KG = 5;
+export { MIN_PREORDER_QTY_KG } from "@/lib/pricing";
 export const MAX_PHONE_CHARS = 48;
 export const MAX_NAME_CHARS = 200;
 export const MAX_ADDRESS_CHARS = 600;
@@ -116,6 +120,13 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
     if (!isValidQtyKg(l.qtyKg)) return "Invalid line";
     const p = getProductBySlug(l.slug);
     if (!p) return "Invalid line";
+    if (
+      p.stock === "on_order" &&
+      p.category === "material" &&
+      l.qtyKg < MIN_PREORDER_QTY_KG
+    ) {
+      return `Minimum preorder quantity is ${MIN_PREORDER_QTY_KG} kg`;
+    }
     if (normalizeLineQty(p, l.qtyKg) !== l.qtyKg) return "Invalid line";
     if (l.lineTotalUz < 0 || l.lineTotalUz > MAX_LINE_TOTAL_UZ) return "Invalid line";
     if (
@@ -150,22 +161,34 @@ export function validateCreateOrderBody(raw: unknown): CreateOrderBody | string 
  * Должно совпадать с логикой `CartContext` / `lineItemTotalUz`.
  */
 export function validateOrderAgainstCatalog(data: CreateOrderBody): true | string {
-  let sumLineTotals = 0;
   for (const line of data.lines) {
     const p = getProductBySlug(line.slug);
     if (!p) return "Invalid product";
     if (p.sku !== line.sku) return "SKU mismatch";
-    if (p.stock === "on_order" && p.category === "material" && line.qtyKg < MIN_PREORDER_QTY_KG) {
-      return "Minimum preorder quantity is 5 kg";
+    if (
+      p.stock === "on_order" &&
+      p.category === "material" &&
+      line.qtyKg < MIN_PREORDER_QTY_KG
+    ) {
+      return `Minimum preorder quantity is ${MIN_PREORDER_QTY_KG} kg`;
     }
-    const expected = lineItemTotalUz(p, line.qtyKg);
+  }
+
+  const { lineTotals, subtotalUz } = computeCartPricing(
+    data.lines.map((l) => ({ sku: l.sku, slug: l.slug, qtyKg: l.qtyKg })),
+  );
+
+  for (const line of data.lines) {
+    const expected = lineTotals.get(line.sku);
+    if (expected === undefined) return "Invalid product";
     if (Math.abs(expected - line.lineTotalUz) > LINE_TOTAL_UZ_EPS) {
       return "Line total mismatch";
     }
-    sumLineTotals += line.lineTotalUz;
   }
-  if (Math.abs(sumLineTotals - data.totalUz) > ORDER_TOTAL_UZ_EPS) {
+
+  if (Math.abs(subtotalUz - data.totalUz) > ORDER_TOTAL_UZ_EPS) {
     return "Order total mismatch";
   }
+
   return true;
 }

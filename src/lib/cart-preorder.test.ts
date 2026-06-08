@@ -7,7 +7,7 @@ describe("cartHasInvalidPreorder", () => {
     expect(cartHasInvalidPreorder([])).toBe(false);
   });
 
-  it("returns true when on_order material is below 5 kg", () => {
+  it("returns true when on_order material is below 100 kg", () => {
     const p = products.find((x) => x.stock === "on_order" && x.category === "material");
     if (!p) throw new Error("fixture: need on_order material");
     expect(
@@ -15,11 +15,11 @@ describe("cartHasInvalidPreorder", () => {
     ).toBe(true);
   });
 
-  it("returns false at exactly 5 kg for on_order material", () => {
+  it("returns false at exactly 100 kg for on_order material", () => {
     const p = products.find((x) => x.stock === "on_order" && x.category === "material");
     if (!p) throw new Error("fixture: need on_order material");
     expect(
-      cartHasInvalidPreorder([{ slug: p.slug, qtyKg: 5 }]),
+      cartHasInvalidPreorder([{ slug: p.slug, qtyKg: 100 }]),
     ).toBe(false);
   });
 });
