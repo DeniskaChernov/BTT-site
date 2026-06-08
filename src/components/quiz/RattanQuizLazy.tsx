@@ -30,6 +30,11 @@ function QuizSkeleton() {
   );
 }
 
-export function RattanQuizLazy() {
-  return <RattanQuiz />;
+type RattanQuizLazyProps = {
+  /** На главной — сразу первый вопрос, без лишнего клика «Открыть». */
+  autoStart?: boolean;
+};
+
+export function RattanQuizLazy({ autoStart = false }: RattanQuizLazyProps) {
+  return <RattanQuiz autoStart={autoStart} />;
 }

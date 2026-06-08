@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { AnimatedReveal } from "@/components/ui/animated-reveal";
 import { Link } from "@/i18n/navigation";
 import { bttFooterLinkClass } from "@/lib/ui-classes";
@@ -18,15 +19,8 @@ export async function Footer() {
       <div className="btt-container grid gap-12 pt-16 pb-[calc(4rem+env(safe-area-inset-bottom,0px))] md:grid-cols-2 lg:grid-cols-4">
         <AnimatedReveal className="min-w-0" delay={0}>
         <div>
-          <div className="flex items-center gap-3 font-semibold text-stone-100">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-600 to-orange-700 text-sm font-bold text-white shadow-lg">
-              BT
-            </span>
-            <div className="flex flex-col">
-              <span className="text-lg leading-none">Bententrade</span>
-              <span className="mt-1 text-[11px] font-medium text-stone-500">{t("logo_sub")}</span>
-            </div>
-          </div>
+          <BrandLogo variant="footer" />
+          <p className="mt-2 text-[11px] font-medium text-stone-500">{t("logo_sub")}</p>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-stone-500">
             {t("rights")}
           </p>
@@ -53,10 +47,7 @@ export async function Footer() {
           >
             {n("cart")}
           </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/checkout"
-          >
+          <Link className={bttFooterLinkClass} href="/cart">
             {cart("to_checkout")}
           </Link>
           <Link

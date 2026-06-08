@@ -20,13 +20,7 @@ export default async function HomePage() {
     <>
       <CommerceHero />
       <HeroPromisesStrip />
-      <HomeNewsTicker />
-      <WhyBeneficialSection />
-      <MaterialTrustStrip />
-      <HomeExamplesLazy />
-      <HomeMerchandising />
-      <HomeTrustLazy />
-      <section id="quiz" className="relative scroll-mt-24 py-10 md:py-14">
+      <section id="quiz" className="relative scroll-mt-24 py-8 md:py-12">
         <div className="btt-container">
           <SectionReveal>
             <div className="rounded-[1.75rem] border border-white/[0.07] bg-gradient-to-b from-white/[0.04] to-transparent p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] md:p-10">
@@ -39,13 +33,19 @@ export default async function HomePage() {
                 </h2>
                 <p className="mt-3 text-pretty text-stone-400 md:text-lg">{t("quiz_sub")}</p>
               </div>
-              <div className="mx-auto mt-10 flex w-full max-w-2xl justify-center md:mt-12">
-                <RattanQuizLazy />
+              <div className="mx-auto mt-8 flex w-full max-w-2xl justify-center md:mt-10">
+                <RattanQuizLazy autoStart />
               </div>
             </div>
           </SectionReveal>
         </div>
       </section>
+      <HomeNewsTicker />
+      <WhyBeneficialSection />
+      <MaterialTrustStrip />
+      <HomeExamplesLazy />
+      <HomeMerchandising />
+      <HomeTrustLazy />
       <HomeLazySections />
     </>
   );

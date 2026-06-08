@@ -97,7 +97,7 @@ export function SlideTabs({ items, activeId, className }: SlideTabsProps) {
         syncToIndex(selectedIndex);
       }}
       className={cn(
-        "relative mx-auto flex h-10 w-max min-w-0 max-w-full flex-nowrap items-center overflow-visible rounded-full border border-white/[0.12] bg-white/[0.06] p-1 shadow-none backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+        "relative mx-auto flex h-10 w-max min-w-0 max-w-full flex-nowrap items-center overflow-hidden rounded-full border border-white/[0.12] bg-white/[0.06] p-1 shadow-none backdrop-blur-xl [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.08)]",
         className,
       )}
     >
@@ -290,7 +290,11 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
     return (
       <li
         ref={setLiRef}
-        className={cn("relative z-10 shrink-0", hasDropdown && "z-[45]")}
+        className={cn(
+          "relative z-10 shrink-0",
+          hasDropdown && "z-[45]",
+          showBadge && "mr-0.5",
+        )}
         onMouseEnter={(e) => {
           const el = e.currentTarget;
           const { width } = el.getBoundingClientRect();
@@ -315,29 +319,27 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
             aria-expanded={hasDropdown ? flyoutOpen : undefined}
             className={cn(
               "relative flex h-8 cursor-pointer items-center whitespace-nowrap px-3 text-[11px] font-medium uppercase tracking-wide outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none sm:px-3.5 sm:text-xs md:px-4",
-              showBadge && "pr-6 sm:pr-7",
+              showBadge && "pr-2 sm:pr-2.5",
               isActive
-                ? "text-stone-50"
+                ? "font-semibold text-stone-50"
                 : "text-stone-400 hover:text-stone-100",
             )}
           >
             {children}
-            {showBadge ? (
-              <motion.span
-                key={badge}
-                layout={!reduceMotion}
-                initial={reduceMotion ? false : { scale: 0.75, opacity: 0.6 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={
-                  reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY
-                }
-                className="pointer-events-none absolute -right-0.5 top-1/2 flex h-[1.125rem] min-w-[1.125rem] -translate-y-1/2 items-center justify-center rounded-full bg-gradient-to-b from-amber-500 to-orange-600 px-1 text-[0.625rem] font-bold leading-none text-white shadow-md shadow-amber-950/50 ring-1 ring-white/25 sm:right-0 sm:h-5 sm:min-w-5 sm:text-[0.65rem]"
-                title={badgeHint}
-              >
-                {badge > 9 ? "9+" : badge}
-              </motion.span>
-            ) : null}
           </Link>
+          {showBadge ? (
+            <motion.span
+              key={badge}
+              layout={!reduceMotion}
+              initial={reduceMotion ? false : { scale: 0.75, opacity: 0.6 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY}
+              className="pointer-events-none absolute -right-1 -top-1 z-20 flex h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-full bg-gradient-to-b from-amber-500 to-orange-600 px-1 text-[0.625rem] font-bold leading-none text-white shadow-sm shadow-amber-950/40 ring-2 ring-[#070605] sm:h-5 sm:min-w-5 sm:text-[0.65rem]"
+              title={badgeHint}
+            >
+              {badge > 9 ? "9+" : badge}
+            </motion.span>
+          ) : null}
         </div>
         {flyoutPanel}
       </li>
@@ -360,7 +362,7 @@ function SlideCursor({ position }: { position: CursorPosition }) {
       transition={
         reduceMotion ? { duration: 0 } : BTT_SPRING_GENTLE
       }
-      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-gradient-to-b from-amber-500/25 via-white/[0.12] to-orange-950/30 shadow-[0_0_24px_rgba(245,158,11,0.12)] ring-1 ring-white/10"
+      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-amber-500/18 ring-1 ring-amber-500/22"
     />
   );
 }

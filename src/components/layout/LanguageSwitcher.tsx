@@ -48,7 +48,7 @@ export function LanguageSwitcher() {
                 <motion.span
                   layoutId="btt-locale-pill"
                   aria-hidden
-                  className="absolute inset-0 rounded-full bg-gradient-to-b from-amber-500/25 to-white/[0.08] shadow-sm ring-1 ring-amber-500/25"
+                  className="absolute inset-0 rounded-full bg-amber-500/20 ring-1 ring-amber-500/30"
                   transition={
                     reduceMotion ? { duration: 0 } : BTT_SPRING_SOFT
                   }

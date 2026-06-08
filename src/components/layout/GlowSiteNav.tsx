@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MiniCartDrawer } from "@/components/cart/MiniCartDrawer";
 import { NavAccountLink } from "@/components/layout/NavAccountLink";
@@ -136,20 +137,28 @@ export function GlowSiteNav() {
         style={{ zIndex: BTT_Z.nav }}
       >
         <div className="btt-container">
-          <div className="hidden items-center gap-3 py-3 md:flex lg:gap-4">
-            <div className="shrink-0">
+          <div className="hidden h-16 items-center md:grid md:grid-cols-[auto_auto_minmax(0,1fr)_auto] md:gap-3 lg:gap-4">
+            <div className="flex h-10 items-center justify-self-start">
+              <BrandLogo />
+            </div>
+            <div className="flex h-10 items-center justify-self-start">
               <LanguageSwitcher />
             </div>
-            <div className="min-w-0 flex-1">{navMenu}</div>
-            <div className="shrink-0">
+            <div className="flex h-10 min-w-0 items-center justify-center">
+              {navMenu}
+            </div>
+            <div className="flex h-10 items-center justify-self-end">
               <NavAccountLink />
             </div>
           </div>
 
           <div className="flex flex-col gap-2.5 py-3 md:hidden">
             <div className="flex items-center justify-between gap-2">
-              <LanguageSwitcher />
-              <NavAccountLink />
+              <BrandLogo />
+              <div className="flex items-center gap-2">
+                <LanguageSwitcher />
+                <NavAccountLink />
+              </div>
             </div>
             {navMenu}
           </div>

@@ -2,32 +2,28 @@
 
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { motion, useReducedMotion } from "framer-motion";
-import { Camera, Repeat, Users2, Weight } from "lucide-react";
+import { Building2, Camera, CalendarDays, Users2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-/**
- * Блок доверия: нейтральные плейсхолдеры для клиентов/объёмов/повторов +
- * отсылка на реальные фото. Цифры заменяются на фактические после передачи данных.
- */
 export function TrustCountersSection() {
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
 
   const counters = [
     {
-      value: "350+",
-      label: s("trust_clients_label"),
+      value: s("trust_companies_value"),
+      label: s("trust_companies_label"),
+      Icon: Building2,
+    },
+    {
+      value: s("trust_buyers_value"),
+      label: s("trust_buyers_label"),
       Icon: Users2,
     },
     {
-      value: "5-900 кг",
-      label: s("trust_volume_label"),
-      Icon: Weight,
-    },
-    {
-      value: "72%",
-      label: s("trust_repeat_label"),
-      Icon: Repeat,
+      value: s("trust_years_value"),
+      label: s("trust_years_label"),
+      Icon: CalendarDays,
     },
   ];
 
