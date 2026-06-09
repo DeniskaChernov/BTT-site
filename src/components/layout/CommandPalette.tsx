@@ -38,6 +38,7 @@ export function CommandPalette() {
       contacts: tNav("contacts"),
       faq: tNav("faq"),
       cart: tNav("cart"),
+      compare: tNav("compare"),
     }),
     [t, tNav],
   );

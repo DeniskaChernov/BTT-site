@@ -18,7 +18,7 @@
 | Шапка: выравнивание | ✅ |
 | Плавные анимации и переходы | ✅ |
 | Адаптив checkout / cart / PDP (sticky CTA) | ✅ |
-| EN/UZ quality pass (checkout, cart, PDP, wholesale, account, contacts) | 🟡 |
+| EN/UZ quality pass (checkout, cart, PDP, wholesale, account, contacts) | ✅ |
 | Phone mask UZ (+998) on checkout/profile | ✅ |
 | Home below-fold lazy chunks | ✅ |
 | Lighthouse baseline doc | ✅ |
@@ -33,9 +33,9 @@
 | Задача | Статус |
 |--------|--------|
 | Lazy-load тяжёлых секций главной (Examples, Trust, нижний блок) | ✅ |
-| Оптимизация изображений / LCP | 🔴 |
-| Адаптив: safe-area, hit-area, без горизонтального скролла | 🟡 |
-| EN/UZ v2 по всем страницам | 🟡 |
+| Оптимизация изображений / LCP | 🟡 |
+| Адаптив: safe-area, hit-area, без горизонтального скролла | ✅ |
+| EN/UZ v2 по всем страницам | ✅ |
 | Контроль текстов «оплата сразу» | 🟡 |
 | content-visibility на сетке каталога | ✅ |
 | Каталог: разделы Общее / Кашпо / Мебель | ✅ |
@@ -47,10 +47,10 @@
 
 | Задача | Статус |
 |--------|--------|
-| Метрики воронки | 🔴 |
-| Continuous QA чек-лист | 🔴 |
+| Метрики воронки | 🟡 |
+| Continuous QA чек-лист | ✅ |
 | E2E на viewport 390/768/1024 | 🔴 |
-| Мониторинг `/api/orders` | 🔴 |
+| Мониторинг `/api/health?deep=1` | 🟡 |
 
 ---
 

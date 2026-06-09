@@ -14,6 +14,7 @@ import {
 import {
   bttFieldCompactClass,
   bttMobileCommerceBarClass,
+  bttMobilePageBottomClass,
   bttPrimaryButtonClass,
   bttTapReduceClass,
 } from "@/lib/ui-classes";
@@ -31,7 +32,7 @@ import { ProductHelpPanel } from "@/components/product/ProductHelpPanel";
 import { ProductSpecsAndColors } from "@/components/product/ProductSpecsAndColors";
 import { ProductValueGrid } from "@/components/product/ProductValueGrid";
 import { BackButton } from "@/components/ui/BackButton";
-import { BTT_EVENTS, trackBttEvent, trackEvent } from "@/lib/analytics";
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { productGalleryImages } from "@/lib/product-media";
 import { MIN_PREORDER_QTY_KG } from "@/lib/pricing";
 import { telegramBotStartUrl, telegramChannelUrl, telegramPaymentChatUrl } from "@/lib/telegram";
@@ -78,7 +79,7 @@ export function ProductDetail({ product }: Props) {
 
   useEffect(() => {
     trackViewSku(product.sku);
-    trackEvent("view_pdp", {
+    trackBttEvent(BTT_EVENTS.ViewPdp, {
       sku: product.sku,
       slug: product.slug,
       value: product.priceUz.t12,
@@ -103,18 +104,17 @@ export function ProductDetail({ product }: Props) {
       slug: product.slug,
       qtyKg: qty,
       source: "pdp",
-    });
-    trackEvent("add_to_cart", {
-      sku: product.sku,
       value: lineTotal,
       currency: "UZS",
-      qtyKg: qty,
     });
   };
 
   const orderNow = () => {
     add(product, product.names[locale], qty);
-    trackEvent("start_checkout", { from: "pdp_order_now", sku: product.sku });
+    trackBttEvent(BTT_EVENTS.StartCheckout, {
+      from: "pdp_order_now",
+      sku: product.sku,
+    });
     router.push("/checkout");
   };
 
@@ -127,7 +127,7 @@ export function ProductDetail({ product }: Props) {
   const catalogFallback = `/catalog?tab=${product.category}`;
 
   return (
-    <div className="btt-container py-10 pb-28 lg:pb-10">
+    <div className={cn("btt-container py-10", bttMobilePageBottomClass)}>
       <div className="mb-6">
         <BackButton fallbackHref={catalogFallback} />
       </div>
@@ -218,6 +218,20 @@ export function ProductDetail({ product }: Props) {
                 <p className="mx-auto mt-1.5 max-w-md text-xs text-stone-500 sm:text-sm">
                   {t("videos_soon_body")}
                 </p>
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                  <Link
+                    href="/articles"
+                    className="btt-focus inline-flex min-h-11 items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-xs font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15 sm:text-sm"
+                  >
+                    {t("videos_soon_cta_articles")}
+                  </Link>
+                  <Link
+                    href="/catalog"
+                    className="btt-focus inline-flex min-h-11 items-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold text-stone-200 transition hover:border-white/25 sm:text-sm"
+                  >
+                    {t("videos_soon_cta_catalog")}
+                  </Link>
+                </div>
               </div>
             </div>
           ) : null}

@@ -52,6 +52,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -59,7 +60,7 @@
     }
   }
   body {
-    @apply min-h-screen text-[var(--btt-foreground)] antialiased;
+    @apply min-h-screen overflow-x-clip text-[var(--btt-foreground)] antialiased;
     font-feature-settings: "ss01" on, "cv02" on;
     background-color: hsl(var(--background));
     background-image:

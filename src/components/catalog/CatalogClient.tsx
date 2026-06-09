@@ -660,9 +660,9 @@ export function CatalogClient({
               searchLagging && "opacity-60 transition-opacity duration-200",
             )}
           >
-            {filtered.map((p: Product) => (
+            {filtered.map((p: Product, index: number) => (
               <div key={p.sku} className="btt-catalog-grid-item h-full min-h-0">
-                <ProductCard product={p} />
+                <ProductCard product={p} priority={index < 6} />
               </div>
             ))}
           </div>

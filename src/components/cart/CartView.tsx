@@ -15,6 +15,7 @@ import { BTT_EASE } from "@/lib/motion";
 import {
   bttFieldStepperInputClass,
   bttMobileCommerceBarClass,
+  bttMobilePageBottomClass,
   bttPrimaryButtonClass,
   bttTapReduceClass,
 } from "@/lib/ui-classes";
@@ -80,7 +81,7 @@ export function CartView() {
   }
 
   return (
-    <div className="btt-container pb-28 py-8 md:py-14 lg:pb-14">
+    <div className={cn("btt-container py-8 md:py-14 lg:pb-14", bttMobilePageBottomClass)}>
       <PageBackNav fallbackHref="/" />
       <header className="max-w-3xl">
         <h1 className="text-3xl font-bold text-stone-50 md:text-4xl">{t("title")}</h1>

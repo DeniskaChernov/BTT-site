@@ -8,6 +8,7 @@ const locales = ["ru", "uz", "en"] as const;
 const staticPaths: { path: string; priority: number; changeFrequency: "weekly" | "monthly" }[] = [
   { path: "", priority: 1, changeFrequency: "weekly" },
   { path: "/catalog", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/compare", priority: 0.5, changeFrequency: "monthly" },
   { path: "/catalog/brochure", priority: 0.7, changeFrequency: "monthly" },
   { path: "/catalog/furniture", priority: 0.45, changeFrequency: "monthly" },
   { path: "/wholesale", priority: 0.7, changeFrequency: "monthly" },

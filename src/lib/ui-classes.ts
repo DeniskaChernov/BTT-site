@@ -36,6 +36,10 @@ export const bttFieldStepperInputClass =
 export const bttMobileCommerceBarClass =
   "fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/92 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden";
 
+/** Отступ снизу под fixed commerce bar (cart, checkout, PDP). */
+export const bttMobilePageBottomClass =
+  "pb-[calc(7rem+env(safe-area-inset-bottom,0px))] lg:pb-14";
+
 /** Дополняйте к `active:scale-*` на кнопках — при reduced motion без сжатия */
 export const bttTapReduceClass = "motion-reduce:active:scale-100";
 

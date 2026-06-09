@@ -15,7 +15,7 @@ import {
   lineItemTotalUz,
 } from "@/lib/pricing";
 import { telegramBotStartUrl, telegramChannelUrl } from "@/lib/telegram";
-import { BTT_EVENTS, trackBttEvent, trackEvent } from "@/lib/analytics";
+import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { bttPrimaryButtonClass, bttTapReduceClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import {
@@ -35,6 +35,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Props = {
   product: Product;
+  priority?: boolean;
 };
 
 function benefitKeyFor(product: Product): "furniture" | "planter" | "universal" | "decor" {
@@ -66,7 +67,7 @@ function tierRows(product: Product, perKg: boolean, isTwisted: boolean, c: Retur
   ] as const;
 }
 
-export function ProductCard({ product }: Props) {
+export function ProductCard({ product, priority = false }: Props) {
   const reduceMotion = useReducedMotion();
   const locale = useLocale() as Locale;
   const t = useTranslations("common");
@@ -104,12 +105,8 @@ export function ProductCard({ product }: Props) {
       slug: product.slug,
       qtyKg: quickQty,
       source: "catalog_card",
-    });
-    trackEvent("add_to_cart", {
-      sku: product.sku,
       value: lineItemTotalUz(product, quickQty),
       currency: "UZS",
-      qtyKg: quickQty,
     });
     setToast(true);
     if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
@@ -137,6 +134,7 @@ export function ProductCard({ product }: Props) {
             src={img}
             alt={name}
             fill
+            priority={priority}
             sizes="(max-width:768px) 100vw, 33vw"
             className="object-cover transition-transform duration-700 ease-btt group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
@@ -268,7 +266,7 @@ export function ProductCard({ product }: Props) {
           {isOnOrderMaterial ? c("preorder_cta") : t("add_cart")}
         </button>
         <Link
-          href="/#quiz"
+          href="/catalog"
           onClick={() =>
             trackBttEvent(BTT_EVENTS.CardPickClick, {
               sku: product.sku,

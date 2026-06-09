@@ -12,7 +12,7 @@ export const DEFAULT_OG_IMAGE = {
 };
 
 export const CATALOG_OG_IMAGE = {
-  url: `${SITE_ORIGIN}/media/catalog/rattan-hero.png`,
+  url: `${SITE_ORIGIN}/media/catalog/rattan-hero.webp`,
   width: 1200,
   height: 630,
   alt: "Каталог искусственного ротанга Bententrade",

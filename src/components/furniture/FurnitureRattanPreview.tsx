@@ -8,7 +8,7 @@ import { useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Suspense, useLayoutEffect, useState } from "react";
 
-const STATIC_FALLBACK = "/media/catalog/furniture-chair-hero.png";
+const STATIC_FALLBACK = "/media/catalog/furniture-chair-hero.webp";
 
 type Props = {
   className?: string;

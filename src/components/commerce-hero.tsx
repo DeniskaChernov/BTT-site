@@ -32,15 +32,15 @@ const HERO_CATEGORIES: {
   {
     href: "/catalog/rattan",
     messageKey: "card_rattan",
-    imageSrc: "/media/catalog/rattan-hero.png",
+    imageSrc: "/media/catalog/rattan-hero.webp",
     imageFit: "contain",
     imageInsetClass: "inset-3 sm:inset-4",
   },
-  { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.png" },
+  { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.webp" },
   {
     href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
-    imageSrc: "/media/catalog/twisted-rattan-hero.png",
+    imageSrc: "/media/catalog/twisted-rattan-hero.webp",
     imageFit: "contain",
     imageInsetClass: "inset-3 sm:inset-4",
     blendScreen: true,
@@ -48,7 +48,7 @@ const HERO_CATEGORIES: {
   {
     href: "/catalog/furniture",
     messageKey: "card_fourth",
-    imageSrc: "/media/catalog/furniture-chair-hero.png",
+    imageSrc: "/media/catalog/furniture-chair-hero.webp",
     blendScreen: true,
   },
 ];

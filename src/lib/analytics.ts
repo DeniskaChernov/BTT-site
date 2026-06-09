@@ -57,6 +57,12 @@ export const BTT_EVENTS = {
   LeadSubmit: "lead_submit",
   /** Ошибка отправки заявки через LeadForm. payload: `{ kind, source?, reason }` */
   LeadError: "lead_error",
+  /** Отправка формы checkout. payload: `{ lines, ship }` */
+  StartCheckout: "start_checkout",
+  /** Успешное создание заявки на заказ. payload: `{ value, currency, sku, utm? }` */
+  OrderSubmit: "purchase",
+  /** Просмотр PDP. payload: `{ sku, slug, value?, currency? }` */
+  ViewPdp: "view_pdp",
 } as const;
 
 export type BttEventName = (typeof BTT_EVENTS)[keyof typeof BTT_EVENTS];
@@ -81,7 +87,9 @@ export type BttEventPayloads = {
     sku: string;
     slug: string;
     qtyKg: number;
-    source: "catalog_card" | "pdp" | "quiz";
+    source: "catalog_card" | "pdp" | "catalog";
+    value?: number;
+    currency?: string;
   };
   [BTT_EVENTS.CardPickClick]: { sku: string; slug: string };
   [BTT_EVENTS.PdpHelpClick]: {
@@ -94,6 +102,24 @@ export type BttEventPayloads = {
   };
   [BTT_EVENTS.LeadSubmit]: { kind: string; source?: string };
   [BTT_EVENTS.LeadError]: { kind: string; source?: string; reason: string };
+  [BTT_EVENTS.StartCheckout]: {
+    lines?: string[];
+    ship?: string;
+    from?: string;
+    sku?: string;
+  };
+  [BTT_EVENTS.OrderSubmit]: {
+    value: number;
+    currency: string;
+    sku: string[];
+    utm?: Record<string, string>;
+  };
+  [BTT_EVENTS.ViewPdp]: {
+    sku: string;
+    slug: string;
+    value?: number;
+    currency?: string;
+  };
 };
 
 /**
@@ -107,28 +133,7 @@ export function trackBttEvent<K extends BttEventName>(
   trackEvent(event, payload as AnalyticsPayload);
 }
 
-/**
- * Пушит событие в `window.dataLayer` (GTM).
- *
- * Квиз на главной (воронка):
- * - `quiz_start` — нажата кнопка входа в подбор
- * - `quiz_complete` — пройдены все шаги (`needQuote`, `recommendedCount` в payload)
- * - `quiz_result_view` — показ блока с SKU (если не ушли в заявку КП)
- * - `quiz_add_to_cart` — добавление из карточки подбора (`sku`, `kg`, …)
- * - `quiz_checkout` — переход по «1-клик» на оформление
- * - `quote_submit` — отправка лида из ветки КП
- *
- * CTR «подбор → корзина»: `quiz_add_to_cart` / `quiz_complete`, где `needQuote === false`
- * (в GTM — фильтр по полю в объекте dataLayer). Альтернатива: отношение к `quiz_result_view`.
- *
- * Воронка продаж (новые CTA): см. `BTT_EVENTS` и `trackBttEvent` — предпочтительный путь
- * для типобезопасного трекинга новых точек.
- *
- * Продакт-события PDP/корзины/чекаута (сохраняются без изменений):
- * - `view_pdp` — `{ sku, slug, value, currency }`
- * - `add_to_cart` — `{ sku, value, currency, qtyKg? }`
- * - `start_checkout` — `{ from, sku? }`
- */
+/** Пушит событие в `window.dataLayer` (GTM). См. `docs/analytics-funnel.md`. */
 export function trackEvent(
   event: string,
   payload?: AnalyticsPayload,

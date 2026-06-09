@@ -66,7 +66,6 @@ export async function POST(request: Request) {
           kind: validated.kind,
           locale: validated.locale,
           fields: validated.fields,
-          quiz: validated.quiz ?? undefined,
           ...(sessionUser ? { userId: sessionUser.id } : {}),
         },
       });
@@ -93,7 +92,6 @@ export async function POST(request: Request) {
       kind: validated.kind,
       locale: validated.locale,
       fields: validated.fields,
-      quiz: validated.quiz,
       intentSnapshot: validated.intentSnapshot,
       leadId,
     },
