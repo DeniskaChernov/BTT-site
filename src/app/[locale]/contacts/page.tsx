@@ -52,7 +52,7 @@ export default async function ContactsPage() {
           <div className="mt-3 flex flex-col gap-2 text-sm">
             <a
               href="tel:+998771044422"
-              className="btt-focus w-fit font-medium text-amber-400/95 underline-offset-4 transition hover:text-amber-300 hover:underline"
+              className="btt-focus w-fit font-medium text-stone-200/95 underline-offset-4 transition hover:text-stone-100 hover:underline"
             >
               {t("phone_display")}
             </a>
@@ -60,7 +60,7 @@ export default async function ContactsPage() {
               href="https://t.me/BenTenTrade"
               target="_blank"
               rel="noopener noreferrer"
-              className="btt-focus w-fit text-amber-400/90 underline-offset-4 transition hover:text-amber-300 hover:underline"
+              className="btt-focus w-fit text-stone-200/90 underline-offset-4 transition hover:text-stone-100 hover:underline"
             >
               {t("telegram_display")}
             </a>

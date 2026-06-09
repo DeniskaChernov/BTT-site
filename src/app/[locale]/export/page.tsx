@@ -56,7 +56,7 @@ export default async function ExportPage() {
           lead={t("lead")}
           backFallbackHref="/"
         >
-          <p className="max-w-2xl text-sm font-medium text-amber-400/95 md:text-base">
+          <p className="max-w-2xl text-sm font-medium text-stone-200/95 md:text-base">
             {t("quote_checkout")}
           </p>
           <div className="flex flex-wrap gap-3">

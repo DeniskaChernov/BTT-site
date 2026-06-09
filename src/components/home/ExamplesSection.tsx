@@ -70,7 +70,7 @@ export function ExamplesSection() {
           transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
           className="mx-auto max-w-3xl text-center"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-400/80">
             {s("examples_kicker")}
           </p>
           <h2
@@ -108,7 +108,7 @@ export function ExamplesSection() {
                 onClick={() =>
                   trackBttEvent(BTT_EVENTS.ExampleCardClick, { type: it.id })
                 }
-                className="group btt-focus relative block h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-colors duration-300 hover:border-amber-500/35 motion-reduce:transition-none"
+                className="group btt-focus relative block h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-colors duration-300 hover:border-white/20 motion-reduce:transition-none"
               >
                 <div
                   className="pointer-events-none absolute inset-x-4 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
@@ -130,7 +130,7 @@ export function ExamplesSection() {
                     {it.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-stone-400">{it.desc}</p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-amber-300 transition-all duration-200 group-hover:gap-2 motion-reduce:group-hover:gap-1.5">
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-stone-100 transition-all duration-200 group-hover:gap-2 motion-reduce:group-hover:gap-1.5">
                     {s("segment_master_cta")}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </span>

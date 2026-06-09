@@ -34,7 +34,7 @@ export default function GlobalError({
           <button
             type="button"
             onClick={() => reset()}
-            className="mt-8 rounded-full border border-amber-500/40 bg-amber-500/15 px-6 py-2.5 text-sm font-semibold text-amber-100"
+            className="mt-8 rounded-full border border-white/20 bg-white/[0.06] px-6 py-2.5 text-sm font-semibold text-stone-100"
           >
             Повторить / Retry / Qayta urinish
           </button>

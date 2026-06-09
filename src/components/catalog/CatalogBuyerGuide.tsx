@@ -46,11 +46,11 @@ export async function CatalogBuyerGuide() {
             href={item.href}
             className={cn(
               "btt-focus group flex min-h-[5.5rem] flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition",
-              "hover:border-amber-500/35 hover:bg-amber-950/20",
+              "hover:border-white/20 hover:bg-white/[0.05]",
             )}
           >
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-100">
-              <Icon className="h-4 w-4 shrink-0 text-amber-400/90" aria-hidden />
+              <Icon className="h-4 w-4 shrink-0 text-stone-200/90" aria-hidden />
               {t(item.labelKey)}
             </span>
             <span className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-stone-500 group-hover:text-stone-400">

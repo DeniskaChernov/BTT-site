@@ -89,7 +89,7 @@ export default async function WholesalePage() {
                 key={i}
                 className="btt-glass flex h-full min-h-0 flex-col rounded-2xl border border-white/[0.07] p-5 md:rounded-3xl md:p-6"
               >
-                <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-amber-200/95 md:min-h-[2.75rem] md:text-base">
+                <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-stone-200/95 md:min-h-[2.75rem] md:text-base">
                   {t(`benefit_${i}_title`)}
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-stone-400">{t(`benefit_${i}_body`)}</p>

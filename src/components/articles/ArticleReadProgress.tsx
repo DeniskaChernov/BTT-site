@@ -23,7 +23,7 @@ export function ArticleReadProgress() {
       aria-hidden
     >
       <div
-        className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-[width] duration-150 ease-out motion-reduce:transition-none"
+        className="h-full bg-gradient-to-r from-white/16 to-white/8 transition-[width] duration-150 ease-out motion-reduce:transition-none"
         style={{ width: `${Math.round(progress * 100)}%` }}
       />
     </div>

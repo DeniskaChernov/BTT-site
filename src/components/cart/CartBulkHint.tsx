@@ -16,7 +16,7 @@ export function CartBulkHint({ line }: Props) {
   if (!milestone) return null;
 
   return (
-    <p className="mt-2 text-xs text-amber-200/80">
+    <p className="mt-2 text-xs text-stone-200/80">
       {t("bulk_progress", {
         qty: line.qtyKg,
         next: milestone.nextQty,

@@ -25,7 +25,7 @@ export function PageHero({
   return (
     <header className={cn(className)}>
       {backFallbackHref ? <PageBackNav fallbackHref={backFallbackHref} /> : null}
-      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/90">
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-300/90">
         {kicker}
       </p>
       <h1

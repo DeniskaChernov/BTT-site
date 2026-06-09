@@ -40,7 +40,7 @@ export default async function CatalogBrochurePage() {
         <nav className="text-sm text-stone-500">
           <Link
             href="/catalog"
-            className="btt-focus rounded-sm text-stone-500 outline-none transition hover:text-amber-400 motion-reduce:transition-none"
+            className="btt-focus rounded-sm text-stone-500 outline-none transition hover:text-stone-200 motion-reduce:transition-none"
           >
             {tc("title")}
           </Link>
@@ -50,11 +50,11 @@ export default async function CatalogBrochurePage() {
 
         <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-400/80">
               Bententrade
             </p>
             <h1 className="mt-2 flex items-center gap-3 text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">
-              <FileText className="h-9 w-9 shrink-0 text-amber-500/90" aria-hidden />
+              <FileText className="h-9 w-9 shrink-0 text-stone-300/90" aria-hidden />
               {t("title")}
             </h1>
             <p className="mt-4 text-lg text-stone-400">{t("lead")}</p>
@@ -77,7 +77,7 @@ export default async function CatalogBrochurePage() {
               href={PDF_HREF}
               target="_blank"
               rel="noopener noreferrer"
-              className="btt-focus inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/40 motion-reduce:transition-none"
+              className="btt-focus inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-stone-200 transition hover:border-white/20 motion-reduce:transition-none"
             >
               <ExternalLink className="h-4 w-4" aria-hidden />
               {t("open_tab")}

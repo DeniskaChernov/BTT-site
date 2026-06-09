@@ -14,12 +14,12 @@ export function ReorderHints({ order }: Props) {
   if (hints.length === 0) return null;
 
   return (
-    <div className="mt-4 rounded-xl border border-amber-500/20 bg-amber-950/20 p-3 text-sm">
-      <p className="font-semibold text-amber-200/95">{t("reorder_title")}</p>
+    <div className="mt-4 rounded-xl border border-white/15 bg-white/[0.04]/20 p-3 text-sm">
+      <p className="font-semibold text-stone-200/95">{t("reorder_title")}</p>
       <ul className="mt-2 space-y-2 text-stone-400">
         {hints.map((h) => (
           <li key={h.sku}>
-            <Link href={`/product/${h.slug}`} className="text-amber-300 hover:text-amber-200">
+            <Link href={`/product/${h.slug}`} className="text-stone-100 hover:text-stone-200">
               {h.name}
             </Link>
             {" · "}
@@ -32,7 +32,7 @@ export function ReorderHints({ order }: Props) {
           </li>
         ))}
       </ul>
-      <Link href="/catalog" className="mt-3 inline-block text-xs font-semibold text-amber-400 hover:text-amber-300">
+      <Link href="/catalog" className="mt-3 inline-block text-xs font-semibold text-stone-200 hover:text-stone-100">
         {t("reorder_cta")}
       </Link>
     </div>

@@ -41,7 +41,7 @@ export function ProductRelatedSection({ product, compact = false }: Props) {
             <li key={p.sku}>
               <Link
                 href={`/product/${p.slug}`}
-                className="btt-focus flex items-center justify-between gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm transition hover:border-amber-500/30"
+                className="btt-focus flex items-center justify-between gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm transition hover:border-white/18"
               >
                 <span className="font-medium text-stone-100">{p.names[locale]}</span>
                 <span className="shrink-0 text-xs text-stone-500">{p.sku}</span>

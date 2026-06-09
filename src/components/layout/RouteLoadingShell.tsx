@@ -57,7 +57,7 @@ export function RouteLoadingShell({ variant = "single" }: { variant?: Variant })
             <Skeleton className="h-5 w-36" />
             <Skeleton className="mt-4 h-9 w-44" />
             <Skeleton className="mt-6 h-12 w-full rounded-full" />
-            <Skeleton className="mt-3 h-12 w-full rounded-full bg-amber-950/30" />
+            <Skeleton className="mt-3 h-12 w-full rounded-full bg-white/[0.04]/30" />
           </div>
         </div>
       ) : null}

@@ -45,7 +45,7 @@ export function InstagramHighlightsSection() {
           transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
           className="mx-auto max-w-3xl text-center"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-400/80">
             {t("insta_kicker")}
           </p>
           <h2 className="mt-3 text-2xl font-bold tracking-tight text-stone-50 md:text-3xl">
@@ -65,10 +65,10 @@ export function InstagramHighlightsSection() {
                 type="button"
                 onClick={() => setTab(x.id)}
                 className={cn(
-                  "rounded-full border px-3.5 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] md:text-sm",
+                  "rounded-full border px-3.5 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] md:text-sm",
                   active
-                    ? "border-amber-400/60 bg-amber-500/15 text-amber-100"
-                    : "border-white/12 bg-white/[0.04] text-stone-300 hover:border-amber-500/30 hover:bg-white/[0.06]",
+                    ? "border-white/28 bg-white/[0.06] text-stone-100"
+                    : "border-white/12 bg-white/[0.04] text-stone-300 hover:border-white/18 hover:bg-white/[0.06]",
                 )}
               >
                 {x.label}
@@ -130,7 +130,7 @@ export function InstagramHighlightsSection() {
                     <p className="mt-2 text-sm leading-relaxed text-stone-400">
                       {t(card.descKey)}
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-amber-300">
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-stone-100">
                       {t("insta_cta_profile")}
                       <ExternalLink className="h-3.5 w-3.5" />
                     </span>
@@ -146,7 +146,7 @@ export function InstagramHighlightsSection() {
             href="https://www.instagram.com/bententrade/"
             target="_blank"
             rel="noopener noreferrer"
-            className="btt-focus inline-flex items-center gap-2 rounded-full border border-amber-500/35 bg-amber-500/10 px-5 py-2.5 text-sm font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15 motion-reduce:transition-none"
+            className="btt-focus inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.05] px-5 py-2.5 text-sm font-semibold text-stone-100 transition hover:border-white/28 hover:bg-white/[0.06] motion-reduce:transition-none"
           >
             <Camera className="h-4 w-4" />
             {t("insta_cta_profile")}

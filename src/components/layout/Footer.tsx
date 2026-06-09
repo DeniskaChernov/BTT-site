@@ -15,7 +15,7 @@ export async function Footer() {
 
   return (
     <footer className="relative mt-24 border-t border-white/[0.08] bg-gradient-to-b from-transparent to-black/40">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/25 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
       <div className="btt-container grid gap-12 pt-16 pb-[calc(4rem+env(safe-area-inset-bottom,0px))] md:grid-cols-2 lg:grid-cols-4">
         <AnimatedReveal className="min-w-0" delay={0}>
         <div>

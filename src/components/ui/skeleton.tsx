@@ -59,7 +59,7 @@ export function SkeletonCard({ className }: { className?: string }) {
         <Skeleton className="h-4 w-3/4" />
         <Skeleton className="h-4 w-full" />
         <Skeleton className="mt-auto h-9 w-28 rounded-full" />
-        <Skeleton className="h-10 w-full rounded-full bg-amber-950/40" />
+        <Skeleton className="h-10 w-full rounded-full bg-white/[0.04]/40" />
       </div>
     </div>
   );

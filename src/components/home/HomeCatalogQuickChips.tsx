@@ -31,7 +31,7 @@ export function HomeCatalogQuickChips() {
                 value: key,
               })
             }
-            className="btt-focus rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-stone-200 transition hover:border-amber-500/40 hover:bg-amber-950/25 hover:text-amber-50"
+            className="btt-focus rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-stone-200 transition hover:border-white/20 hover:bg-white/[0.06] hover:text-stone-50"
           >
             {t(`quick_chip_${key}`)}
           </Link>

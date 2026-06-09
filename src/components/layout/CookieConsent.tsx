@@ -56,7 +56,7 @@ export function CookieConsent() {
             </p>
             <p id="btt-consent-body" className="mt-1.5 text-sm leading-relaxed text-stone-400">
               {t("body")}{" "}
-              <Link href="/cookies" className="text-amber-400/90 underline-offset-2 hover:underline">
+              <Link href="/cookies" className="text-stone-200/90 underline-offset-2 hover:underline">
                 {t("policy")}
               </Link>
             </p>
@@ -72,7 +72,7 @@ export function CookieConsent() {
             <button
               type="button"
               onClick={() => choose("granted")}
-              className="btt-focus rounded-full bg-gradient-to-r from-amber-600 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-950/40"
+              className="btt-focus rounded-full bg-gradient-to-r from-white/20 to-white/8 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/40"
             >
               {t("accept")}
             </button>

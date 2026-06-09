@@ -274,7 +274,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
                         key={item.href}
                         href={item.href}
                         role="menuitem"
-                        className="btt-focus block px-4 py-2.5 text-sm font-medium text-stone-200 transition hover:bg-white/[0.06] hover:text-amber-100"
+                        className="btt-focus block px-4 py-2.5 text-sm font-medium text-stone-200 transition hover:bg-white/[0.06] hover:text-stone-50"
                       >
                         {item.label}
                       </Link>
@@ -318,7 +318,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
             aria-haspopup={hasDropdown ? "menu" : undefined}
             aria-expanded={hasDropdown ? flyoutOpen : undefined}
             className={cn(
-              "relative flex h-8 cursor-pointer items-center whitespace-nowrap px-3 text-[11px] font-medium uppercase tracking-[0.12em] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none sm:px-3.5 sm:text-xs md:px-4",
+              "relative flex h-8 cursor-pointer items-center whitespace-nowrap px-3 text-[11px] font-medium uppercase tracking-[0.12em] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none sm:px-3.5 sm:text-xs md:px-4",
               showBadge && "pr-3 sm:pr-3.5",
               isActive
                 ? "text-stone-50"
@@ -334,7 +334,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
               initial={reduceMotion ? false : { scale: 0.75, opacity: 0.6 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY}
-              className="pointer-events-none absolute -right-1 -top-1 z-20 flex h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-full bg-gradient-to-b from-amber-500 to-orange-600 px-1 text-[0.625rem] font-bold leading-none text-white shadow-sm shadow-amber-950/40 ring-2 ring-[#070605] sm:h-5 sm:min-w-5 sm:text-[0.65rem]"
+              className="pointer-events-none absolute -right-1 -top-1 z-20 flex h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-full bg-gradient-to-b from-white/18 to-white/8 px-1 text-[0.625rem] font-bold leading-none text-white shadow-sm shadow-black/40 ring-2 ring-[#070605] sm:h-5 sm:min-w-5 sm:text-[0.65rem]"
               title={badgeHint}
             >
               {badge > 9 ? "9+" : badge}

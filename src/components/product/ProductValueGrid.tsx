@@ -42,7 +42,7 @@ function ValueCol({ kicker, children, delay }: ColProps) {
         className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
         aria-hidden
       />
-      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500/85">
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400/85">
         {kicker}
       </p>
       <div className="mt-3 min-h-0 text-sm text-stone-300">{children}</div>
@@ -117,7 +117,7 @@ export function ProductValueGrid({ product }: Props) {
           <ul className="space-y-2.5">
             {fitItems.map(({ label, Icon }) => (
               <li key={label} className="flex gap-2.5 text-left">
-                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-amber-400/90" aria-hidden />
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-stone-200/90" aria-hidden />
                 <span className="leading-snug text-stone-200">{label}</span>
               </li>
             ))}
@@ -131,7 +131,7 @@ export function ProductValueGrid({ product }: Props) {
           <ul className="space-y-2">
             {gains.map(({ label, Icon }) => (
               <li key={label} className="flex items-start gap-2.5 text-left">
-                <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-400/80" aria-hidden />
+                <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-stone-200/80" aria-hidden />
                 <span className="leading-snug">{label}</span>
               </li>
             ))}
@@ -145,7 +145,7 @@ export function ProductValueGrid({ product }: Props) {
           <ul className="space-y-2.5">
             {practical.map(({ t: line, Icon }) => (
               <li key={line} className="flex gap-2.5 text-left">
-                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-amber-400/90" aria-hidden />
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-stone-200/90" aria-hidden />
                 <span className="leading-snug">{line}</span>
               </li>
             ))}
@@ -158,7 +158,7 @@ export function ProductValueGrid({ product }: Props) {
         >
           <p className="flex gap-2.5 text-pretty text-left leading-relaxed text-stone-200">
             <HelpCircle
-              className="mt-0.5 h-4 w-4 shrink-0 text-amber-400/90"
+              className="mt-0.5 h-4 w-4 shrink-0 text-stone-200/90"
               aria-hidden
             />
             {whenToChoose}
@@ -172,7 +172,7 @@ export function ProductValueGrid({ product }: Props) {
           <ul className="space-y-2.5">
             {matAdv.map(({ t: line, Icon }) => (
               <li key={line} className="flex gap-2.5 text-left">
-                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-amber-400/90" aria-hidden />
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-stone-200/90" aria-hidden />
                 <span className="leading-snug">{line}</span>
               </li>
             ))}

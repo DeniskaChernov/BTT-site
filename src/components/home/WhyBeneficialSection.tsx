@@ -22,7 +22,7 @@ export function WhyBeneficialSection() {
     >
       <div className="btt-container">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-400/80">
             {s("benefits_kicker")}
           </p>
           <h2
@@ -40,9 +40,9 @@ export function WhyBeneficialSection() {
             return (
               <article
                 key={it.title}
-                className="group relative flex h-full gap-4 overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-white/[0.04] to-transparent p-6 shadow-xl backdrop-blur-xl transition-colors duration-300 hover:border-amber-500/35 motion-reduce:hover:translate-y-0 md:p-7"
+                className="group relative flex h-full gap-4 overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-white/[0.04] to-transparent p-6 shadow-xl backdrop-blur-xl transition-colors duration-300 hover:border-white/20 motion-reduce:hover:translate-y-0 md:p-7"
               >
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300 ring-1 ring-white/[0.06] transition-transform duration-300 group-hover:scale-105 motion-reduce:group-hover:scale-100">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-white/[0.08] to-black/25 text-stone-100 ring-1 ring-white/[0.06] transition-transform duration-300 group-hover:scale-105 motion-reduce:group-hover:scale-100">
                   <Icon className="h-5 w-5" aria-hidden />
                 </span>
                 <div className="min-w-0">
@@ -53,7 +53,7 @@ export function WhyBeneficialSection() {
                     {it.body}
                   </p>
                 </div>
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/25 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
               </article>
             );
           })}

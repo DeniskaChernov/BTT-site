@@ -37,7 +37,7 @@ export default function LocaleError({ error, reset }: Props) {
           type="button"
           onClick={() => reset()}
           className={cn(
-            "btt-focus mt-8 rounded-full border border-amber-500/40 bg-amber-500/15 px-6 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-amber-500/25 active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100",
+            "btt-focus mt-8 rounded-full border border-white/20 bg-white/[0.06] px-6 py-2.5 text-sm font-semibold text-stone-100 transition hover:bg-white/[0.08] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100",
             bttTapReduceClass,
           )}
         >

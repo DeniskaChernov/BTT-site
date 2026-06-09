@@ -19,7 +19,7 @@ export function CatalogPriceGuide({ embedded = false }: Props) {
     <>
       {!embedded ? (
         <>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/90">{t("price_guide_kicker")}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-300/90">{t("price_guide_kicker")}</p>
           <h2 className="mt-2 text-lg font-semibold text-stone-100 md:text-xl">{t("price_guide_title")}</h2>
           <p className="mt-2 max-w-2xl text-sm text-stone-400">{t("price_guide_lead")}</p>
         </>

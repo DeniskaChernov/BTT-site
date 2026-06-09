@@ -37,7 +37,7 @@ export function CompareTable() {
     return (
       <p className="mt-8 text-stone-500">
         {t("empty")}{" "}
-        <Link href="/catalog" className="text-amber-400 hover:text-amber-300">
+        <Link href="/catalog" className="text-stone-200 hover:text-stone-100">
           {t("empty_cta")}
         </Link>
       </p>
@@ -74,7 +74,7 @@ export function CompareTable() {
                 <div className="relative mb-2 aspect-square w-24 overflow-hidden rounded-xl">
                   <Image src={productMainImage(p)} alt={p.names[locale]} fill className="object-cover" sizes="96px" />
                 </div>
-                <Link href={`/product/${p.slug}`} className="font-semibold text-amber-300 hover:text-amber-200">
+                <Link href={`/product/${p.slug}`} className="font-semibold text-stone-100 hover:text-stone-200">
                   {p.names[locale]}
                 </Link>
                 <button

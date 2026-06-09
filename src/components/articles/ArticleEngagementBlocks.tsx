@@ -64,7 +64,7 @@ export function ArticleEngagementBlocks({ slug }: Props) {
               <Link
                 key={p.sku}
                 href={`/product/${p.slug}?from=article:${slug}`}
-                className="btt-focus overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-amber-500/30"
+                className="btt-focus overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-white/18"
               >
                 <div className="relative aspect-square">
                   <Image
@@ -77,7 +77,7 @@ export function ArticleEngagementBlocks({ slug }: Props) {
                 </div>
                 <div className="p-3">
                   <p className="text-sm font-semibold text-stone-100">{p.names[locale]}</p>
-                  <p className="mt-1 text-xs tabular-nums text-amber-300">
+                  <p className="mt-1 text-xs tabular-nums text-stone-100">
                     {tc("card_price_from", {
                       price: formatUzs(getPricePerKgForQty(p, 5)),
                       unit: tCommon("per_kg"),
@@ -100,7 +100,7 @@ export function ArticleEngagementBlocks({ slug }: Props) {
               <Link
                 key={x.slug}
                 href={`/articles/${x.slug}`}
-                className="btt-focus overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-amber-500/30"
+                className="btt-focus overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-white/18"
               >
                 <div className="relative aspect-[16/10]">
                   <Image

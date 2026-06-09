@@ -41,7 +41,7 @@ export function PdpExamplesAndPromises() {
             <li key={ex.id}>
               <Link
                 href={ex.href}
-                className="btt-focus group block overflow-hidden rounded-xl border border-white/[0.08] transition hover:border-amber-500/35"
+                className="btt-focus group block overflow-hidden rounded-xl border border-white/[0.08] transition hover:border-white/20"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -62,7 +62,7 @@ export function PdpExamplesAndPromises() {
         </ul>
         <Link
           href="/#examples"
-          className="btt-focus mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-amber-400 transition hover:text-amber-300"
+          className="btt-focus mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-200 transition hover:text-stone-100"
         >
           {p("pdp_examples_more")}
           <ArrowUpRight className="h-4 w-4" aria-hidden />
@@ -70,10 +70,10 @@ export function PdpExamplesAndPromises() {
       </div>
 
       <div
-        className="rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-950/20 to-stone-950/60 p-5 md:p-6"
+        className="rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.04] to-stone-950/60 p-5 md:p-6"
         aria-labelledby="pdp-promises-title"
       >
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-500/90">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-stone-300/90">
           {p("pdp_promises_kicker")}
         </p>
         <h2 id="pdp-promises-title" className="mt-1 text-base font-semibold text-stone-100">
@@ -96,7 +96,7 @@ export function PdpExamplesAndPromises() {
                 className="flex gap-3"
               >
                 <span
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-amber-500/25 bg-black/20 text-amber-300"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/18 bg-black/20 text-stone-100"
                   aria-hidden
                 >
                   <Icon className="h-4 w-4" />

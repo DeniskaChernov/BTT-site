@@ -47,7 +47,7 @@ export function OrderStatusTimeline({ order }: Props) {
             {!isLast ? (
               <span
                 className={`absolute left-[0.4375rem] top-5 h-[calc(100%-0.25rem)] w-px ${
-                  state === "done" ? "bg-amber-500/50" : "bg-white/10"
+                  state === "done" ? "bg-white/15/50" : "bg-white/10"
                 }`}
                 aria-hidden
               />
@@ -55,9 +55,9 @@ export function OrderStatusTimeline({ order }: Props) {
             <span
               className={`relative z-[1] mt-0.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 ${
                 state === "current"
-                  ? "border-amber-400 bg-amber-500/30"
+                  ? "border-white/25 bg-white/15/30"
                   : state === "done"
-                    ? "border-amber-500/60 bg-amber-500/50"
+                    ? "border-white/20/60 bg-white/15/50"
                     : "border-white/20 bg-white/[0.04]"
               }`}
               aria-hidden
@@ -66,7 +66,7 @@ export function OrderStatusTimeline({ order }: Props) {
               <p
                 className={`text-sm font-medium ${
                   state === "current"
-                    ? "text-amber-100"
+                    ? "text-stone-100"
                     : state === "done"
                       ? "text-stone-300"
                       : "text-stone-600"

@@ -41,7 +41,7 @@ export function YieldCalculator({ product }: Props) {
         />
       </label>
       <p className="mt-3 text-sm text-stone-300">
-        {t("kg_est")}: <span className="font-semibold text-amber-200">{kgEst}</span> ·{" "}
+        {t("kg_est")}: <span className="font-semibold text-stone-200">{kgEst}</span> ·{" "}
         {formatUzs(lineEst)} ({tc("per_kg")})
       </p>
     </div>

@@ -216,9 +216,9 @@ export function OrderHistory({ profilePhone }: Props) {
       case "SHIPPED":
         return "border-sky-500/35 bg-sky-500/10 text-sky-300";
       case "PACKING":
-        return "border-amber-500/35 bg-amber-500/10 text-amber-300";
+        return "border-white/20 bg-white/[0.05] text-stone-100";
       case "PRODUCTION":
-        return "border-orange-500/35 bg-orange-500/10 text-orange-300";
+        return "border-sky-500/35 bg-sky-500/10 text-sky-300";
       case "CONFIRMED":
         return "border-violet-500/35 bg-violet-500/10 text-violet-300";
       default:
@@ -260,11 +260,11 @@ export function OrderHistory({ profilePhone }: Props) {
       <section className="mt-12 border-t border-white/[0.08] pt-12">
         <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
         {remoteRateLimited ? (
-          <p className="mt-3 text-sm text-amber-400/95">{t("orders_rate_limited")}</p>
+          <p className="mt-3 text-sm text-stone-200/95">{t("orders_rate_limited")}</p>
         ) : remoteDenied ? (
-          <p className="mt-3 text-sm text-amber-400/95">{t("orders_verify_needed")}</p>
+          <p className="mt-3 text-sm text-stone-200/95">{t("orders_verify_needed")}</p>
         ) : remoteError ? (
-          <p className="mt-3 text-sm text-amber-400/95">{t("orders_server_error")}</p>
+          <p className="mt-3 text-sm text-stone-200/95">{t("orders_server_error")}</p>
         ) : (
           <p className="mt-3 text-sm text-stone-500">{t("orders_empty")}</p>
         )}
@@ -277,11 +277,11 @@ export function OrderHistory({ profilePhone }: Props) {
     <section className="mt-12 border-t border-white/[0.08] pt-12">
       <h2 className="text-xl font-bold text-stone-50 md:text-2xl">{t("orders_title")}</h2>
       {remoteRateLimited ? (
-        <p className="mt-2 text-xs text-amber-500/90">{t("orders_rate_limited")}</p>
+        <p className="mt-2 text-xs text-stone-300/90">{t("orders_rate_limited")}</p>
       ) : remoteDenied ? (
-        <p className="mt-2 text-xs text-amber-500/90">{t("orders_verify_needed")}</p>
+        <p className="mt-2 text-xs text-stone-300/90">{t("orders_verify_needed")}</p>
       ) : remoteError ? (
-        <p className="mt-2 text-xs text-amber-500/90">{t("orders_server_error")}</p>
+        <p className="mt-2 text-xs text-stone-300/90">{t("orders_server_error")}</p>
       ) : null}
       <p className="mt-1 text-xs text-stone-600">{t("orders_local_hint")}</p>
       <ul className="mt-6 space-y-4">
@@ -296,7 +296,7 @@ export function OrderHistory({ profilePhone }: Props) {
                 className="btt-focus flex w-full items-start justify-between gap-4 p-4 text-left transition hover:bg-white/[0.03] md:p-5"
               >
                 <div>
-                  <p className="font-mono text-xs text-amber-500/90">{order.id.slice(0, 13)}…</p>
+                  <p className="font-mono text-xs text-stone-300/90">{order.id.slice(0, 13)}…</p>
                   <p className="mt-1 text-sm text-stone-400">
                     {formatWhen(order.createdAt, locale)}
                   </p>
@@ -314,7 +314,7 @@ export function OrderHistory({ profilePhone }: Props) {
                   >
                     {statusText(order)}
                   </span>
-                  <span className="text-lg font-bold tabular-nums text-amber-400">
+                  <span className="text-lg font-bold tabular-nums text-stone-200">
                     {formatUzs(order.totalUz)}
                   </span>
                   {expanded ? (
@@ -376,7 +376,7 @@ export function OrderHistory({ profilePhone }: Props) {
                                 href={order.trackingUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btt-focus rounded-sm text-amber-400 underline-offset-4 outline-none hover:underline"
+                                className="btt-focus rounded-sm text-stone-200 underline-offset-4 outline-none hover:underline"
                               >
                                 {t("order_tracking_open")}
                               </a>
@@ -402,7 +402,7 @@ export function OrderHistory({ profilePhone }: Props) {
                                 href={order.paymentUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btt-focus rounded-sm text-amber-400 underline-offset-4 outline-none hover:underline"
+                                className="btt-focus rounded-sm text-stone-200 underline-offset-4 outline-none hover:underline"
                               >
                                 {t("order_payment_open")}
                               </a>
@@ -420,14 +420,14 @@ export function OrderHistory({ profilePhone }: Props) {
                       >
                         <Link
                           href={`/product/${line.slug}`}
-                          className="btt-focus min-w-0 flex-1 rounded-sm text-stone-200 outline-none hover:text-amber-400"
+                          className="btt-focus min-w-0 flex-1 rounded-sm text-stone-200 outline-none hover:text-stone-200"
                         >
                           {line.name}
                         </Link>
                         <span className="text-stone-500">
                           {line.qtyKg} {tc("qty_kg")}
                         </span>
-                        <span className="tabular-nums text-amber-400/90">
+                        <span className="tabular-nums text-stone-200/90">
                           {formatUzs(line.lineTotalUz)}
                         </span>
                       </li>
@@ -441,7 +441,7 @@ export function OrderHistory({ profilePhone }: Props) {
                     {t("order_help")}{" "}
                     <Link
                       href="/contacts"
-                      className="btt-focus rounded-sm text-amber-400 underline-offset-4 outline-none hover:underline"
+                      className="btt-focus rounded-sm text-stone-200 underline-offset-4 outline-none hover:underline"
                     >
                       {t("order_help_link")}
                     </Link>

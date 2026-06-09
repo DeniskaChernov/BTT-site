@@ -19,10 +19,10 @@ const PALETTE = [
 ] as const;
 
 const SWATCH: Record<string, string> = {
-  natural: "from-amber-100/90 to-amber-600/50",
+  natural: "from-stone-200/90 to-stone-500/50",
   black: "from-stone-800 to-stone-950",
   white: "from-stone-100 to-stone-300",
-  brown: "from-amber-900/90 to-amber-950/80",
+  brown: "from-stone-700/90 to-stone-900/80",
   grey: "from-stone-400/90 to-stone-600/90",
 };
 
@@ -167,8 +167,8 @@ export function ProductSpecsAndColors({ product }: Props) {
                   <span
                     className={`relative h-10 w-10 overflow-hidden rounded-full border-2 bg-gradient-to-br p-0.5 shadow-md transition ${
                       active
-                        ? "border-amber-500 ring-2 ring-amber-500/30"
-                        : "border-white/10 hover:border-amber-500/40"
+                        ? "border-white/20 ring-2 ring-white/20"
+                        : "border-white/10 hover:border-white/20"
                     }`}
                     title={c(`color_${key}` as "color_natural")}
                   >
@@ -180,7 +180,7 @@ export function ProductSpecsAndColors({ product }: Props) {
                   </span>
                   <span
                     className={`max-w-[4.5rem] text-center text-[10px] font-medium leading-tight ${
-                      active ? "text-amber-200" : "text-stone-500"
+                      active ? "text-stone-200" : "text-stone-500"
                     }`}
                   >
                     {c(`color_${key}` as "color_natural")}
@@ -199,7 +199,7 @@ export function ProductSpecsAndColors({ product }: Props) {
                   key={item.title}
                   className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3"
                 >
-                  <p className="text-sm font-semibold text-amber-200">
+                  <p className="text-sm font-semibold text-stone-200">
                     {c(item.title as "size_planter_puffy_10_title")}
                   </p>
                   <ul className="mt-2 space-y-1.5 text-xs text-stone-300">

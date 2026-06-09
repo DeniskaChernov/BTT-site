@@ -29,7 +29,7 @@ export function CartOptimizerHint() {
             <button
               type="button"
               onClick={() => updateQty(h.sku, h.suggestQty)}
-              className="rounded-full border border-amber-500/40 px-3 py-1 font-semibold text-amber-200 transition hover:bg-amber-500/10"
+              className="rounded-full border border-white/20 px-3 py-1 font-semibold text-stone-200 transition hover:bg-white/[0.05]"
             >
               {t("optimizer_apply")}
             </button>

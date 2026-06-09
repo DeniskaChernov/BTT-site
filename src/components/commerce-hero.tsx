@@ -70,11 +70,11 @@ export function CommerceHero() {
     <section className="relative overflow-hidden">
       <div className="btt-mesh btt-grid-bg absolute inset-0 opacity-[0.85]" aria-hidden />
       <div
-        className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-amber-600/12 blur-[100px]"
+        className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-white/[0.04] blur-[100px]"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-32 bottom-0 h-72 w-72 rounded-full bg-orange-950/40 blur-[90px]"
+        className="pointer-events-none absolute -right-32 bottom-0 h-72 w-72 rounded-full bg-black/30 blur-[90px]"
         aria-hidden
       />
 
@@ -117,9 +117,9 @@ export function CommerceHero() {
                 className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_55%,transparent_35%,rgba(0,0,0,0.55)_100%)]"
                 aria-hidden
               />
-              {/* Лёгкая amber-подсветка внизу под CTA — совпадает с зоной тёплого света на новом фоне. */}
+              {/* Мягкая стеклянная подсветка под CTA. */}
               <div
-                className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_95%,rgba(180,83,9,0.28),transparent_55%)]"
+                className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_95%,rgba(255,255,255,0.08),transparent_55%)]"
                 aria-hidden
               />
             </div>
@@ -133,7 +133,7 @@ export function CommerceHero() {
                   delay: reduceMotion ? 0 : 0.05,
                   ease: [...BTT_EASE],
                 }}
-                className="inline-flex items-center rounded-full border border-white/15 bg-black/45 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-amber-100/95 backdrop-blur-md sm:text-[11px]"
+                className="inline-flex items-center rounded-full border border-white/15 bg-black/45 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-stone-200/95 backdrop-blur-md sm:text-[11px]"
               >
                 {s("hero_kicker")}
               </motion.p>
@@ -148,7 +148,7 @@ export function CommerceHero() {
                 }}
                 className="mt-8 max-w-4xl text-balance text-3xl font-bold leading-[1.15] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.55)] md:text-5xl lg:text-[3.25rem]"
               >
-                <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
+                <span className="bg-gradient-to-r from-white via-stone-200 to-stone-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
                   {s("hero_title_accent")}
                 </span>
                 <br />
@@ -214,7 +214,7 @@ export function CommerceHero() {
               >
                 <Link
                   href={cat.href}
-                  className="group btt-focus relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-5 pb-6 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.03] outline-none transition hover:-translate-y-0.5 hover:border-amber-500/35 motion-reduce:transition-none sm:min-h-[320px]"
+                  className="group btt-focus relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-5 pb-6 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.03] outline-none transition hover:-translate-y-0.5 hover:border-white/20 motion-reduce:transition-none sm:min-h-[320px]"
                 >
                   <div
                     className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-40"
@@ -251,7 +251,7 @@ export function CommerceHero() {
                   </div>
 
                   <span
-                    className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#121212] text-neutral-100 shadow-lg transition group-hover:border-amber-500/40 group-hover:text-amber-200 motion-reduce:transition-none"
+                    className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#121212] text-neutral-100 shadow-lg transition group-hover:border-white/20 group-hover:text-stone-200 motion-reduce:transition-none"
                     aria-hidden
                   >
                     <ArrowUpRight className="h-4 w-4" />

@@ -40,12 +40,12 @@ export function BackButton({ fallbackHref, className }: Props) {
       type="button"
       onClick={onBack}
       className={cn(
-        "btt-focus group inline-flex items-center gap-1.5 rounded-lg py-1.5 text-left text-sm font-medium text-stone-400 transition-colors duration-200 hover:text-amber-200",
+        "btt-focus group inline-flex items-center gap-1.5 rounded-lg py-1.5 text-left text-sm font-medium text-stone-400 transition-colors duration-200 hover:text-stone-200",
         bttTapReduceClass,
         className,
       )}
     >
-      <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-stone-300 transition group-hover:border-amber-500/30 group-hover:bg-white/[0.08] group-hover:text-amber-200">
+      <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-stone-300 transition group-hover:border-white/18 group-hover:bg-white/[0.08] group-hover:text-stone-200">
         <ChevronLeft className="h-4 w-4" aria-hidden />
       </span>
       <span>{t("back")}</span>

@@ -20,7 +20,7 @@ export function PdpCompareButton({ sku }: Props) {
       <button
         type="button"
         onClick={() => setActive(toggleCompareSku(sku).includes(sku))}
-        className="text-sm font-medium text-stone-400 transition hover:text-amber-300"
+        className="text-sm font-medium text-stone-400 transition hover:text-stone-100"
       >
         {active ? t("in_compare") : t("add_compare")}
       </button>

@@ -45,7 +45,7 @@ export function CollapsibleSection({
           <span className="flex flex-wrap items-center gap-2">
             <span className="text-sm font-semibold text-stone-100 md:text-base">{title}</span>
             {badge ? (
-              <span className="rounded-full border border-amber-500/30 bg-amber-950/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-200/90">
+              <span className="rounded-full border border-white/18 bg-white/[0.04]/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-stone-200/90">
                 {badge}
               </span>
             ) : null}
@@ -54,7 +54,7 @@ export function CollapsibleSection({
         </span>
         <ChevronDown
           className={cn(
-            "mt-0.5 h-5 w-5 shrink-0 text-amber-400/80 transition-transform duration-300",
+            "mt-0.5 h-5 w-5 shrink-0 text-stone-200/80 transition-transform duration-300",
             open && "rotate-180",
           )}
           aria-hidden

@@ -78,13 +78,13 @@ export function CatalogUseCasesNav({ embedded = false }: Props) {
                 preset: it.id,
               })
             }
-            className="btt-focus group flex h-full min-h-[5.5rem] flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition hover:border-amber-500/35 hover:bg-amber-950/20"
+            className="btt-focus group flex h-full min-h-[5.5rem] flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition hover:border-white/20 hover:bg-white/[0.05]"
           >
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-100">
-              <it.icon className="h-4 w-4 shrink-0 text-amber-400/90" aria-hidden />
+              <it.icon className="h-4 w-4 shrink-0 text-stone-200/90" aria-hidden />
               {it.title}
               <ArrowUpRight
-                className="ml-auto h-3.5 w-3.5 text-stone-600 transition group-hover:text-amber-400/80 motion-reduce:transition-none"
+                className="ml-auto h-3.5 w-3.5 text-stone-600 transition group-hover:text-stone-200/80 motion-reduce:transition-none"
                 aria-hidden
               />
             </span>
@@ -101,7 +101,7 @@ export function CatalogUseCasesNav({ embedded = false }: Props) {
 
   return (
     <section className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 md:p-5">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-400/80">
         {t("divisions_title")}
       </p>
       {grid}

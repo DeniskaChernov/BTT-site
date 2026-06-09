@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { CategoryTab, Product } from "@/types/product";
 import { products } from "@/data/products";
@@ -56,15 +56,15 @@ const CATALOG_COLORS = [
 type CatalogColor = (typeof CATALOG_COLORS)[number];
 
 type CatalogClientProps = {
-  /** ╨Ш╨╖ URL `?tab=` (╤Б╤Б╤Л╨╗╨║╨╕ ╤Б ╨│╨╗╨░╨▓╨╜╨╛╨╣) */
+  /** �ئ� URL `?tab=` (T�T�T˦����� T� �����-�-�-�-��) */
   initialTab?: CategoryTab;
-  /** ╨Ш╨╖ URL `?shape=` */
+  /** �ئ� URL `?shape=` */
   initialShape?: "all" | Product["shape"];
-  /** ╨Ш╨╖ URL `?color=` */
+  /** �ئ� URL `?color=` */
   initialColor?: string;
-  /** ╨Ш╨╖ URL `?source=` */
+  /** �ئ� URL `?source=` */
   initialSource?: "all" | "pdf";
-  /** ╨Ш╨╖ URL `?kind=` */
+  /** �ئ� URL `?kind=` */
   initialKind?: "all" | "regular" | "twisted" | "semi";
   initialStock?: "all" | "in_stock" | "on_order";
 };
@@ -86,7 +86,7 @@ function CatalogSkeletonGrid({ label }: { label: string }) {
             <div className="h-4 w-[75%] animate-pulse rounded bg-stone-800/80" />
             <div className="h-4 w-full animate-pulse rounded bg-stone-800/60" />
             <div className="mt-auto h-9 w-28 animate-pulse rounded-full bg-stone-800/70" />
-            <div className="h-10 w-full animate-pulse rounded-full bg-amber-950/40" />
+            <div className="h-10 w-full animate-pulse rounded-full bg-white/[0.04]/40" />
           </div>
         </div>
       ))}
@@ -358,11 +358,11 @@ export function CatalogClient({
       }
       className={clsx(
         "rounded-full border px-3 py-1.5 text-xs font-medium transition duration-200 will-change-transform",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605]",
         active
-          ? "border-amber-400/60 bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-950/40 ring-1 ring-amber-400/30"
+          ? "border-white/28 bg-gradient-to-r from-white/20 to-white/8 text-white shadow-md shadow-black/40 ring-1 ring-white/20"
           : clsx(
-              "border-white/10 bg-white/[0.04] text-stone-300 hover:border-amber-500/35 hover:bg-white/[0.07] active:scale-95",
+              "border-white/10 bg-white/[0.04] text-stone-300 hover:border-white/20 hover:bg-white/[0.07] active:scale-95",
               bttTapReduceClass,
             ),
         active && "scale-[1.02]",
@@ -392,7 +392,7 @@ export function CatalogClient({
   const filtersContent = (
     <>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-amber-500/80">
+        <p className="text-xs font-semibold uppercase tracking-wider text-stone-400/80">
           {t("filters")}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -476,7 +476,7 @@ export function CatalogClient({
       <button
         type="button"
         onClick={() => resetFilters("sidebar")}
-        className="text-sm font-semibold text-amber-400 underline underline-offset-4 hover:text-amber-300"
+        className="text-sm font-semibold text-stone-200 underline underline-offset-4 hover:text-stone-100"
       >
         {t("reset")}
       </button>
@@ -531,7 +531,7 @@ export function CatalogClient({
           style={{ ["--btt-z-sticky" as string]: BTT_Z.stickyBar }}
         >
           <p className="text-sm font-medium text-stone-200">
-            {t("skip_to_products")} ┬╖ {t("results_count", { count: filtered.length })}
+            {t("skip_to_products")} T� {t("results_count", { count: filtered.length })}
           </p>
           <div className="flex flex-wrap gap-2 xl:hidden">
             {(
@@ -546,7 +546,7 @@ export function CatalogClient({
                 key={id}
                 type="button"
                 onClick={() => applyPreset(id)}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-stone-300 transition hover:border-amber-500/35 hover:text-amber-100"
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-stone-300 transition hover:border-white/20 hover:text-stone-50"
               >
                 {label}
               </button>
@@ -612,9 +612,9 @@ export function CatalogClient({
                 <button
                   type="button"
                   onClick={() => setQuery("")}
-                  className="rounded-full border border-amber-500/35 bg-amber-500/10 px-3 py-1 text-xs text-amber-200 transition hover:bg-amber-500/20"
+                  className="rounded-full border border-white/20 bg-white/[0.05] px-3 py-1 text-xs text-stone-200 transition hover:bg-white/[0.08]"
                 >
-                  {`"${query.trim()}" ├Ч`}
+                  {`"${query.trim()}" +�`}
                 </button>
               ) : null}
               {activeFilters.map((x) => (
@@ -626,9 +626,9 @@ export function CatalogClient({
                       setF((s) => ({ ...s, [x.key]: "all" } as FilterState));
                     })
                   }
-                  className="rounded-full border border-amber-500/35 bg-amber-500/10 px-3 py-1 text-xs text-amber-200 transition hover:bg-amber-500/20"
+                  className="rounded-full border border-white/20 bg-white/[0.05] px-3 py-1 text-xs text-stone-200 transition hover:bg-white/[0.08]"
                 >
-                  {x.label} ├Ч
+                  {x.label} +�
                 </button>
               ))}
               <button
@@ -650,7 +650,7 @@ export function CatalogClient({
             <button
               type="button"
               onClick={() => resetFilters("active_chips")}
-              className="btt-focus mt-6 rounded-full border border-amber-500/35 bg-amber-950/30 px-5 py-2.5 text-sm font-semibold text-amber-200 hover:bg-amber-950/50"
+              className="btt-focus mt-6 rounded-full border border-white/20 bg-white/[0.04]/30 px-5 py-2.5 text-sm font-semibold text-stone-200 hover:bg-white/[0.04]/50"
             >
               {t("reset")}
             </button>
@@ -674,7 +674,7 @@ export function CatalogClient({
       <button
         type="button"
         className={clsx(
-          "btt-focus fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-600 to-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_36px_-6px_rgba(245,158,11,0.38),0_6px_20px_rgba(0,0,0,0.45)] ring-1 ring-white/20 transition active:scale-[0.97] lg:hidden",
+          "btt-focus fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/20 bg-gradient-to-r from-white/20 to-white/8 px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_36px_-6px_rgba(245,158,11,0.38),0_6px_20px_rgba(0,0,0,0.45)] ring-1 ring-white/20 transition active:scale-[0.97] lg:hidden",
           bttTapReduceClass,
         )}
         onClick={() => setMobileFiltersOpen(true)}
@@ -720,7 +720,7 @@ export function CatalogClient({
                 <button
                   type="button"
                   onClick={() => setMobileFiltersOpen(false)}
-                  className="btt-focus rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-stone-200 transition hover:border-amber-500/40 hover:text-amber-100"
+                  className="btt-focus rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-stone-200 transition hover:border-white/20 hover:text-stone-50"
                 >
                   {t("filters_close")}
                 </button>
@@ -729,7 +729,7 @@ export function CatalogClient({
               <button
                 type="button"
                 onClick={() => setMobileFiltersOpen(false)}
-                className="btt-focus mt-5 w-full rounded-full border border-amber-500/45 bg-gradient-to-r from-amber-600 to-orange-600 py-3 text-sm font-semibold text-white shadow-md shadow-amber-950/40"
+                className="btt-focus mt-5 w-full rounded-full border border-white/22 bg-gradient-to-r from-white/20 to-white/8 py-3 text-sm font-semibold text-white shadow-md shadow-black/40"
               >
                 {t("filters_done")}
               </button>

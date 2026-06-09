@@ -55,15 +55,15 @@ export async function CatalogDivisionsNav({ active }: Props) {
             className={cn(
               "btt-focus group flex min-h-[6.5rem] flex-col rounded-2xl border p-4 transition duration-300 ease-btt",
               isActive
-                ? "border-amber-500/45 bg-amber-950/25 shadow-[inset_0_1px_0_0_rgba(251,191,36,0.12)]"
-                : "border-white/[0.08] bg-white/[0.02] hover:border-amber-500/30 hover:bg-amber-950/15",
+                ? "border-white/22 bg-white/[0.04]/25 shadow-[inset_0_1px_0_0_rgba(251,191,36,0.12)]"
+                : "border-white/[0.08] bg-white/[0.02] hover:border-white/18 hover:bg-white/[0.04]",
             )}
           >
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-100">
               <Icon
                 className={cn(
                   "h-4 w-4 shrink-0",
-                  isActive ? "text-amber-300" : "text-amber-400/90",
+                  isActive ? "text-stone-100" : "text-stone-200/90",
                 )}
                 aria-hidden
               />

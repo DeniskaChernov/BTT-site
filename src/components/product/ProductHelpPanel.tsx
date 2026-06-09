@@ -33,17 +33,17 @@ export function ProductHelpPanel({ telegramUrl, sku, className }: Props) {
       viewport={{ once: true, margin: "-6%" }}
       transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
       className={cn(
-        "mt-10 overflow-hidden rounded-3xl border border-amber-500/25 bg-gradient-to-br from-amber-950/40 via-stone-950/90 to-orange-950/25 p-6 shadow-[0_20px_60px_-24px_rgba(245,158,11,0.35)] md:p-7",
+        "mt-10 overflow-hidden rounded-3xl border border-white/18 bg-gradient-to-br from-white/[0.06] via-stone-950/90 to-black/18 p-6 shadow-[0_20px_60px_-24px_rgba(0,0,0,0.4)] md:p-7",
         className,
       )}
       aria-labelledby="product-help-title"
     >
       <div className="flex items-start gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-amber-500/35 bg-amber-500/10 text-amber-300 shadow-lg shadow-amber-900/20">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/20 bg-white/[0.05] text-stone-100 shadow-lg shadow-black/20">
           <HeartHandshake className="h-5 w-5" aria-hidden />
         </span>
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-400/90">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-200/90">
             {s("help_kicker")}
           </p>
           <h2
@@ -66,7 +66,7 @@ export function ProductHelpPanel({ telegramUrl, sku, className }: Props) {
           }
           whileHover={reduceMotion ? undefined : { scale: 1.02 }}
           whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-          className="btt-focus inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/30 transition-[filter] duration-200 hover:brightness-110"
+          className="btt-focus inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-white/18 to-white/8 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/30 transition-[filter] duration-200 hover:brightness-110"
         >
           <Phone className="h-4 w-4" aria-hidden />
           {s("help_call")} {PHONE_DISPLAY}

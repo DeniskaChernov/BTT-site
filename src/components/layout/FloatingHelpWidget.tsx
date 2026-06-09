@@ -71,11 +71,11 @@ export function FloatingHelpWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.96 }}
             transition={reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY}
-            className="pointer-events-auto w-[min(88vw,18rem)] overflow-hidden rounded-3xl border border-amber-500/25 bg-[#0c0a09]/95 p-4 shadow-[0_24px_64px_-12px_rgba(245,158,11,0.3)] backdrop-blur-xl"
+            className="pointer-events-auto w-[min(88vw,18rem)] overflow-hidden rounded-3xl border border-white/18 bg-[#0c0a09]/95 p-4 shadow-[0_24px_64px_-12px_rgba(245,158,11,0.3)] backdrop-blur-xl"
           >
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-400/90">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-200/90">
                   {s("help_kicker")}
                 </p>
                 <p className="mt-1 text-sm font-semibold text-stone-100">
@@ -104,7 +104,7 @@ export function FloatingHelpWidget() {
                     })
                   }
                   whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                  className="btt-focus flex items-center gap-3 rounded-2xl border border-amber-500/35 bg-gradient-to-r from-amber-600 to-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-900/30 transition hover:brightness-110"
+                  className="btt-focus flex items-center gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-white/20 to-white/8 px-3.5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/30 transition hover:brightness-110"
                 >
                   <Phone className="h-4 w-4 shrink-0" aria-hidden />
                   <span className="truncate">
@@ -178,7 +178,7 @@ export function FloatingHelpWidget() {
           "btt-focus pointer-events-auto relative flex h-14 w-14 items-center justify-center rounded-full shadow-[0_18px_40px_-10px_rgba(245,158,11,0.5),0_8px_20px_rgba(0,0,0,0.4)] ring-1 ring-white/20 transition-[background] duration-200",
           open
             ? "bg-stone-900/95 ring-white/25"
-            : "bg-gradient-to-br from-amber-500 to-orange-600 hover:brightness-110",
+            : "bg-gradient-to-br from-white/18 to-white/8 hover:brightness-110",
         )}
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -210,7 +210,7 @@ export function FloatingHelpWidget() {
         {!open ? (
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full bg-amber-500/40 opacity-70 blur-md animate-ping motion-reduce:animate-none"
+            className="pointer-events-none absolute inset-0 rounded-full bg-white/15/40 opacity-70 blur-md animate-ping motion-reduce:animate-none"
             style={{ animationDuration: "2.6s" }}
           />
         ) : null}
