@@ -35,7 +35,7 @@ export function LanguageSwitcher() {
               href={pathname}
               locale={loc}
               className={cn(
-                "btt-focus relative rounded-full px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none md:px-2.5 md:text-xs",
+                "btt-focus relative rounded-full px-2 py-1.5 text-[11px] font-medium uppercase tracking-[0.12em] outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none md:px-2.5 md:text-xs",
                 active
                   ? "text-stone-50"
                   : cn(

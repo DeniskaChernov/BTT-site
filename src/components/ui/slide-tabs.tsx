@@ -293,7 +293,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
         className={cn(
           "relative z-10 shrink-0",
           hasDropdown && "z-[45]",
-          showBadge && "mr-0.5",
+          showBadge && "mr-1.5",
         )}
         onMouseEnter={(e) => {
           const el = e.currentTarget;
@@ -318,11 +318,11 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
             aria-haspopup={hasDropdown ? "menu" : undefined}
             aria-expanded={hasDropdown ? flyoutOpen : undefined}
             className={cn(
-              "relative flex h-8 cursor-pointer items-center whitespace-nowrap px-3 text-[11px] font-medium uppercase tracking-wide outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none sm:px-3.5 sm:text-xs md:px-4",
-              showBadge && "pr-2 sm:pr-2.5",
+              "relative flex h-8 cursor-pointer items-center whitespace-nowrap px-3 text-[11px] font-medium uppercase tracking-[0.12em] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070605] motion-reduce:transition-none sm:px-3.5 sm:text-xs md:px-4",
+              showBadge && "pr-3 sm:pr-3.5",
               isActive
-                ? "font-semibold text-stone-50"
-                : "text-stone-400 hover:text-stone-100",
+                ? "text-stone-50"
+                : "text-stone-400 hover:text-stone-200",
             )}
           >
             {children}
@@ -362,7 +362,7 @@ function SlideCursor({ position }: { position: CursorPosition }) {
       transition={
         reduceMotion ? { duration: 0 } : BTT_SPRING_GENTLE
       }
-      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-amber-500/18 ring-1 ring-amber-500/22"
+      className="pointer-events-none absolute top-1 bottom-1 z-0 rounded-full bg-white/[0.08]"
     />
   );
 }
