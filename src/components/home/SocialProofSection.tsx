@@ -126,7 +126,7 @@ export function SocialProofSection() {
         transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
         className="mx-auto mb-8 max-w-2xl text-center md:mb-10"
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-400/80">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
           {t("proof_section_kicker")}
         </p>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-stone-50 md:text-3xl">
@@ -193,15 +193,15 @@ export function SocialProofSection() {
             }
             className="group relative overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-white/[0.07] to-transparent p-8 shadow-xl backdrop-blur-2xl motion-reduce:hover:translate-y-0"
           >
-            <Quote className="absolute right-6 top-6 h-16 w-16 text-stone-300/10 transition group-hover:text-stone-300/20" />
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-stone-300/90">
+            <Quote className="absolute right-6 top-6 h-16 w-16 text-amber-500/10 transition group-hover:text-amber-500/20" />
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-amber-500/90">
               {b.title}
             </h2>
             <p className="relative mt-4 text-base leading-relaxed text-stone-300">
               {b.quote}
             </p>
             <p className="relative mt-4 text-xs text-stone-500">{b.meta}</p>
-            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 transition group-hover:opacity-100" />
+            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent opacity-0 transition group-hover:opacity-100" />
           </motion.div>
           );
         })}
@@ -211,7 +211,7 @@ export function SocialProofSection() {
           type="button"
           aria-label="Previous review"
           onClick={prev}
-          className="rounded-full border border-white/15 bg-white/[0.03] p-2 text-stone-300 transition hover:border-white/20 hover:text-stone-50"
+          className="rounded-full border border-white/15 bg-white/[0.03] p-2 text-stone-300 transition hover:border-amber-500/40 hover:text-amber-100"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -222,7 +222,7 @@ export function SocialProofSection() {
           type="button"
           aria-label="Next review"
           onClick={next}
-          className="rounded-full border border-white/15 bg-white/[0.03] p-2 text-stone-300 transition hover:border-white/20 hover:text-stone-50"
+          className="rounded-full border border-white/15 bg-white/[0.03] p-2 text-stone-300 transition hover:border-amber-500/40 hover:text-amber-100"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

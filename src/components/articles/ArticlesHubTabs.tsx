@@ -28,7 +28,7 @@ export function ArticlesHubTabs({ value, onChange }: Props) {
           className={cn(
             "rounded-full border px-4 py-2 text-sm font-medium transition",
             value === tab
-              ? "border-white/20 bg-white/[0.06] text-stone-100"
+              ? "border-amber-500/40 bg-amber-500/15 text-amber-100"
               : "border-white/10 bg-white/[0.03] text-stone-400 hover:border-white/20 hover:text-stone-200",
           )}
         >

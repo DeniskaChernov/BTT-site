@@ -26,21 +26,21 @@ export function CollectiveSalesTeaser() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-8%" }}
           transition={{ duration: reduceMotion ? 0 : 0.55, ease: [...BTT_EASE] }}
-          className="relative overflow-hidden rounded-[1.75rem] border border-white/18 bg-gradient-to-br from-white/[0.06] via-stone-950/90 to-black/20 p-6 shadow-[0_20px_60px_-24px_rgba(0,0,0,0.4)] md:p-10"
+          className="relative overflow-hidden rounded-[1.75rem] border border-amber-500/25 bg-gradient-to-br from-amber-950/40 via-stone-950/90 to-orange-950/30 p-6 shadow-[0_20px_60px_-24px_rgba(245,158,11,0.35)] md:p-10"
         >
           <div
-            className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/[0.06] blur-3xl"
+            className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-amber-500/15 blur-3xl"
             aria-hidden
           />
 
           <div className="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between md:gap-10">
             <div className="max-w-2xl">
               <div className="flex items-start gap-4">
-                <span className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/20 bg-white/[0.05] text-stone-100 shadow-lg shadow-black/20">
+                <span className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-amber-500/35 bg-amber-500/10 text-amber-300 shadow-lg shadow-amber-900/20">
                   <Users className="h-6 w-6" aria-hidden />
                 </span>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-200/90">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-400/90">
                     {s("collective_kicker")}
                   </p>
                   <h2

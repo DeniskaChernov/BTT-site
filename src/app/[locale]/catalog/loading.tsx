@@ -20,7 +20,7 @@ export default function CatalogLoading() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-3xl border border-white/12 bg-white/[0.04] p-6 md:p-8">
+      <div className="mt-8 rounded-3xl border border-amber-500/15 bg-amber-950/20 p-6 md:p-8">
         <Skeleton className="h-3.5 w-28" />
         <Skeleton className="mt-3 h-4 w-full max-w-xl" />
         <Skeleton className="mt-5 h-11 w-48 rounded-full" />

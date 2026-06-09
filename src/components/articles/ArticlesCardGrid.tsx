@@ -40,7 +40,7 @@ export function ArticlesCardGrid({ filter = "all" }: { filter?: ArticlesHubFilte
               ? undefined
               : { y: -4, transition: { duration: 0.22, ease: [...BTT_EASE] } }
           }
-          className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md transition-shadow duration-300 hover:border-white/18 hover:shadow-[0_20px_48px_-12px_rgba(0,0,0,0.45)] [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.06)] motion-reduce:hover:translate-y-0"
+          className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md transition-shadow duration-300 hover:border-amber-500/25 hover:shadow-[0_20px_48px_-12px_rgba(0,0,0,0.45)] [box-shadow:inset_0_1px_0_0_rgba(255,255,255,0.06)] motion-reduce:hover:translate-y-0"
         >
           <div className="relative aspect-[16/10] overflow-hidden bg-stone-950">
             <Image
@@ -65,7 +65,7 @@ export function ArticlesCardGrid({ filter = "all" }: { filter?: ArticlesHubFilte
           </p>
           <Link
             href={`/articles/${a.slug}`}
-            className="btt-focus mt-auto inline-flex items-center gap-1.5 rounded-sm pt-6 text-sm font-semibold text-stone-200 transition hover:gap-2 hover:text-stone-100 motion-reduce:transition-none motion-reduce:hover:gap-1.5"
+            className="btt-focus mt-auto inline-flex items-center gap-1.5 rounded-sm pt-6 text-sm font-semibold text-amber-400 transition hover:gap-2 hover:text-amber-300 motion-reduce:transition-none motion-reduce:hover:gap-1.5"
           >
             {t("read_article")}
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />

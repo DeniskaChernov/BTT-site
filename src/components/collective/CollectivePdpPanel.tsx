@@ -67,13 +67,13 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
 
   return (
     <div
-      className="mt-8 overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/[0.08] via-stone-950/90 to-black/25 p-5 shadow-[0_0_40px_rgba(255,255,255,0.04)]"
+      className="mt-8 overflow-hidden rounded-3xl border border-amber-500/35 bg-gradient-to-br from-amber-950/50 via-stone-950/90 to-orange-950/40 p-5 shadow-[0_0_40px_rgba(245,158,11,0.12)]"
       role="region"
       aria-labelledby="collective-pdp-title"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-stone-200/90">
+          <p className="text-xs font-semibold uppercase tracking-wider text-amber-400/90">
             {t("pdp_kicker")}
           </p>
           <h2 id="collective-pdp-title" className="mt-1 text-lg font-bold text-stone-50">
@@ -93,14 +93,14 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
             {formatUzs(retail)}
           </p>
           <p className="mt-3 text-xs text-stone-500">{t("collective_label")}</p>
-          <p className="mt-1 text-2xl font-bold tabular-nums text-stone-100">
+          <p className="mt-1 text-2xl font-bold tabular-nums text-amber-300">
             {formatUzs(collectivePrice)}
           </p>
           <p className="mt-1 text-xs text-stone-500">{c("per_kg")}</p>
         </div>
         <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
           <div className="flex items-center gap-2 text-sm font-medium text-stone-200">
-            <TrendingUp className="h-4 w-4 text-stone-200" aria-hidden />
+            <TrendingUp className="h-4 w-4 text-amber-400" aria-hidden />
             {t("progress_label")}
           </div>
           <div
@@ -112,7 +112,7 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
             aria-label={t("progress_aria", { pct: progressPct })}
           >
             <div
-              className="h-full rounded-full bg-gradient-to-r from-white/16 to-white/8 transition-[width] duration-500"
+              className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-[width] duration-500"
               style={{ width: `${progressPct}%` }}
             />
           </div>
@@ -123,14 +123,14 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
               pct: progressPct,
             })}
           </p>
-          <p className="mt-1 text-xs text-stone-200/90">
+          <p className="mt-1 text-xs text-amber-200/90">
             {t("remaining_kg", { kg: remainingKg.toLocaleString(locale) })}
           </p>
         </div>
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-stone-300">
-        <Clock className="h-4 w-4 shrink-0 text-stone-200/90" aria-hidden />
+        <Clock className="h-4 w-4 shrink-0 text-amber-400/90" aria-hidden />
         {countdown.ended ? (
           <span>{t("deadline_ended")}</span>
         ) : (
@@ -157,7 +157,7 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={onCta}
-            className="btt-focus inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-white/18 to-white/8 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-black/30 sm:w-auto"
+            className="btt-focus btt-glass-cta inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 sm:w-auto"
             whileHover={reduceMotion ? undefined : { scale: 1.02 }}
             whileTap={reduceMotion ? undefined : { scale: 0.98 }}
           >
@@ -165,7 +165,7 @@ export function CollectivePdpPanel({ product, collective, locale }: Props) {
             {t("join_bot")}
           </motion.a>
         ) : (
-          <p className="text-sm text-stone-200/80">{t("bot_env_hint")}</p>
+          <p className="text-sm text-amber-200/80">{t("bot_env_hint")}</p>
         )}
       </div>
       <p className={cn("mt-3 text-xs text-stone-600", botUrl && "md:max-w-xl")}>

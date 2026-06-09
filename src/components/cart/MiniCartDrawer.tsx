@@ -54,7 +54,7 @@ export function MiniCartDrawer({ open, onOpenChange }: { open: boolean; onOpenCh
               >
                 <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
                   <Dialog.Title className="flex items-center gap-2 text-base font-semibold text-stone-100">
-                    <ShoppingBag className="h-5 w-5 text-stone-200" aria-hidden />
+                    <ShoppingBag className="h-5 w-5 text-amber-400" aria-hidden />
                     {t("mini_title")}
                   </Dialog.Title>
                   <Dialog.Close className="btt-focus rounded-full border border-white/15 p-2 text-stone-300">
@@ -71,7 +71,7 @@ export function MiniCartDrawer({ open, onOpenChange }: { open: boolean; onOpenCh
                         const perKg = p ? isPricedPerKg(p) : true;
                         return (
                           <li key={line.sku} className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-3">
-                            <Link href={`/product/${line.slug}`} onClick={() => onOpenChange(false)} className="text-sm font-semibold text-stone-100 hover:text-stone-100">
+                            <Link href={`/product/${line.slug}`} onClick={() => onOpenChange(false)} className="text-sm font-semibold text-stone-100 hover:text-amber-300">
                               {line.name}
                             </Link>
                             <p className="mt-1 text-xs text-stone-500">
@@ -85,11 +85,11 @@ export function MiniCartDrawer({ open, onOpenChange }: { open: boolean; onOpenCh
                 </div>
                 <div className="border-t border-white/[0.08] px-5 py-4">
                   {bulkHint ? (
-                    <p className="mb-3 text-center text-xs font-medium text-stone-200/90">{bulkHint}</p>
+                    <p className="mb-3 text-center text-xs font-medium text-amber-400/90">{bulkHint}</p>
                   ) : null}
                   <div className="flex justify-between text-sm">
                     <span className="text-stone-400">{t("subtotal")}</span>
-                    <span className="font-bold tabular-nums text-stone-100">{formatUzs(subtotalUz)}</span>
+                    <span className="font-bold tabular-nums text-amber-300">{formatUzs(subtotalUz)}</span>
                   </div>
                   <Link href="/cart" onClick={() => onOpenChange(false)} className={cn(bttPrimaryButtonClass, "btt-focus mt-4 flex w-full justify-center py-3")}>
                     {t("mini_checkout")}

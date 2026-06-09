@@ -41,7 +41,7 @@ export default async function CompanyDetailsPage() {
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <AnimatedReveal className="h-full min-h-0" delay={0}>
           <article className="btt-glass flex h-full flex-col rounded-3xl p-6 md:p-8">
-            <div className="flex items-center gap-3 text-stone-200/90">
+            <div className="flex items-center gap-3 text-amber-400/90">
               <Building2 className="h-5 w-5 shrink-0" aria-hidden />
               <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
                 {t("card_legal_title")}
@@ -54,7 +54,7 @@ export default async function CompanyDetailsPage() {
 
         <AnimatedReveal className="h-full min-h-0" delay={0.06}>
           <article className="btt-glass-strong flex h-full flex-col rounded-3xl p-6 md:p-8">
-            <div className="flex items-center gap-3 text-stone-200/90">
+            <div className="flex items-center gap-3 text-amber-400/90">
               <Mail className="h-5 w-5 shrink-0" aria-hidden />
               <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
                 {t("card_contact_title")}
@@ -69,7 +69,7 @@ export default async function CompanyDetailsPage() {
                 <dd className="mt-1">
                   <a
                     href={`mailto:${t("email_value")}`}
-                    className="btt-focus font-medium text-stone-200/95 underline-offset-4 outline-none hover:text-stone-100 hover:underline"
+                    className="btt-focus font-medium text-amber-400/95 underline-offset-4 outline-none hover:text-amber-300 hover:underline"
                   >
                     {t("email_value")}
                   </a>
@@ -82,7 +82,7 @@ export default async function CompanyDetailsPage() {
                 <dd className="mt-1">
                   <a
                     href={`tel:${t("phone_value").replace(/\s/g, "")}`}
-                    className="btt-focus inline-flex items-center gap-2 font-medium text-stone-200/95 underline-offset-4 outline-none hover:text-stone-100 hover:underline"
+                    className="btt-focus inline-flex items-center gap-2 font-medium text-amber-400/95 underline-offset-4 outline-none hover:text-amber-300 hover:underline"
                   >
                     <Phone className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
                     {t("phone_value")}
@@ -95,7 +95,7 @@ export default async function CompanyDetailsPage() {
 
         <AnimatedReveal className="md:col-span-2" delay={0.1}>
           <article className="btt-glass rounded-3xl p-6 md:p-8">
-            <div className="flex items-center gap-3 text-stone-200/90">
+            <div className="flex items-center gap-3 text-amber-400/90">
               <Landmark className="h-5 w-5 shrink-0" aria-hidden />
               <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
                 {t("card_bank_title")}
@@ -106,8 +106,8 @@ export default async function CompanyDetailsPage() {
         </AnimatedReveal>
 
         <AnimatedReveal className="md:col-span-2" delay={0.14}>
-          <article className="rounded-3xl border border-white/15 bg-gradient-to-br from-white/[0.05] to-transparent p-6 md:p-8">
-            <div className="flex items-center gap-3 text-stone-200/90">
+          <article className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-950/30 to-transparent p-6 md:p-8">
+            <div className="flex items-center gap-3 text-amber-400/90">
               <FileText className="h-5 w-5 shrink-0" aria-hidden />
               <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
                 {t("card_docs_title")}

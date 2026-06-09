@@ -21,7 +21,7 @@ export function QuoteEstimatorPanel() {
       <p className="text-sm font-semibold text-stone-100">{t("quote_est_title")}</p>
       <p className="mt-1 text-xs leading-relaxed text-stone-500">{t("quote_est_lead")}</p>
       <p className="mt-3 text-sm tabular-nums text-stone-300">
-        {t("subtotal")}: <span className="font-semibold text-stone-100">{formatUzs(subtotalUz)}</span>
+        {t("subtotal")}: <span className="font-semibold text-amber-300">{formatUzs(subtotalUz)}</span>
       </p>
       <Link
         href="/wholesale#lead"

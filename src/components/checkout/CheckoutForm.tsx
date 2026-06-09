@@ -210,7 +210,7 @@ export function CheckoutForm() {
             </p>
           ) : null}
           {!savedToServer && (
-            <p className="mt-3 rounded-2xl border border-white/18 bg-white/[0.05] px-4 py-3 text-sm text-stone-100">
+            <p className="mt-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
               {t("success_local_only")}
             </p>
           )}
@@ -240,7 +240,7 @@ export function CheckoutForm() {
               {t("telegram_config_hint")}{" "}
               <Link
                 href="/contacts"
-                className="btt-focus rounded-sm font-medium text-stone-200 underline-offset-4 outline-none hover:underline"
+                className="btt-focus rounded-sm font-medium text-amber-400 underline-offset-4 outline-none hover:underline"
               >
                 {nav("contacts")}
               </Link>
@@ -260,7 +260,7 @@ export function CheckoutForm() {
           <p className="mt-6">
             <Link
               href="/account"
-              className="btt-focus rounded-sm text-sm font-medium text-stone-200/95 underline-offset-4 outline-none transition hover:text-stone-100 hover:underline motion-reduce:transition-none"
+              className="btt-focus rounded-sm text-sm font-medium text-amber-400/95 underline-offset-4 outline-none transition hover:text-amber-300 hover:underline motion-reduce:transition-none"
             >
               {t("view_orders")}
             </Link>
@@ -406,7 +406,7 @@ export function CheckoutForm() {
               </li>
             ))}
           </ul>
-          <p className="mt-6 text-2xl font-bold tabular-nums text-stone-200">
+          <p className="mt-6 text-2xl font-bold tabular-nums text-amber-400">
             {formatUzs(subtotalUz)}
           </p>
           <p className="mt-1 text-xs text-stone-500">{t("summary_note")}</p>
@@ -417,7 +417,7 @@ export function CheckoutForm() {
         <div className="btt-container flex items-center justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs text-stone-500">{t("summary")}</p>
-            <p className="truncate text-lg font-bold tabular-nums text-stone-200">
+            <p className="truncate text-lg font-bold tabular-nums text-amber-400">
               {formatUzs(subtotalUz)}
             </p>
           </div>

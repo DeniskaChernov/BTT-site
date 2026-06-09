@@ -107,7 +107,7 @@ export function CartView() {
               <div>
                 <Link
                   href={`/product/${l.slug}`}
-                  className="btt-focus rounded-sm font-semibold text-stone-100 transition hover:text-stone-200 motion-reduce:transition-none"
+                  className="btt-focus rounded-sm font-semibold text-stone-100 transition hover:text-amber-400 motion-reduce:transition-none"
                 >
                   {l.name}
                 </Link>
@@ -122,7 +122,7 @@ export function CartView() {
                       type="button"
                       onClick={() => updateQty(l.sku, l.qtyKg - step)}
                       aria-label={t("decrease_qty")}
-                      className="flex min-h-11 min-w-11 items-center justify-center text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
+                      className="flex min-h-11 min-w-11 items-center justify-center text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
                     >
                       -
                     </button>
@@ -144,7 +144,7 @@ export function CartView() {
                       type="button"
                       onClick={() => updateQty(l.sku, l.qtyKg + step)}
                       aria-label={t("increase_qty")}
-                      className="flex min-h-11 min-w-11 items-center justify-center text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
+                      className="flex min-h-11 min-w-11 items-center justify-center text-stone-300 transition hover:bg-white/[0.08] hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
                     >
                       +
                     </button>
@@ -159,14 +159,14 @@ export function CartView() {
                   ×
                 </button>
               </div>
-              <p className="text-lg font-semibold tabular-nums text-stone-200 sm:text-right">
+              <p className="text-lg font-semibold tabular-nums text-amber-400 sm:text-right">
                 {formatUzs(lineTotalUz(l))}
               </p>
             </motion.li>
             );
           })}
         </ul>
-        <aside className="btt-glass-strong order-first h-fit rounded-3xl p-5 ring-1 ring-white/8 sm:p-6 lg:order-none">
+        <aside className="btt-glass-strong order-first h-fit rounded-3xl p-5 ring-1 ring-amber-500/10 sm:p-6 lg:order-none">
           <p className="text-sm font-medium text-stone-400">{t("subtotal")}</p>
           <p className="mt-2 text-3xl font-bold tabular-nums text-stone-50">
             {formatUzs(subtotalUz)}
@@ -198,7 +198,7 @@ export function CartView() {
         <div className="btt-container flex items-center justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs text-stone-500">{t("subtotal")}</p>
-            <p className="truncate text-lg font-bold tabular-nums text-stone-200">
+            <p className="truncate text-lg font-bold tabular-nums text-amber-400">
               {formatUzs(subtotalUz)}
             </p>
           </div>

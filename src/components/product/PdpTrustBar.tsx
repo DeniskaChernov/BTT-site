@@ -29,7 +29,7 @@ function TrustItem({ children, Icon, i }: LiProps) {
       className="flex min-w-0 items-start gap-2.5 text-stone-300 md:flex-col md:items-center md:text-center"
     >
       <span
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/18 bg-white/15/5 text-stone-100"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-amber-500/25 bg-amber-500/5 text-amber-300"
         aria-hidden
       >
         <Icon className="h-4 w-4" />

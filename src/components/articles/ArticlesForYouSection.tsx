@@ -32,7 +32,7 @@ export function ArticlesForYouSection() {
           <li key={a.slug}>
             <Link
               href={`/articles/${a.slug}`}
-              className="btt-focus group block overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-white/20"
+              className="btt-focus group block overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] transition hover:border-amber-500/35"
             >
               <div className="relative aspect-[16/10]">
                 <Image

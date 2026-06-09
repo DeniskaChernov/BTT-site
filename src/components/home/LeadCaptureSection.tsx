@@ -33,20 +33,20 @@ export function LeadCaptureSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-8%" }}
           transition={{ duration: reduceMotion ? 0 : 0.55, ease: [...BTT_EASE] }}
-          className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-gradient-to-br from-white/[0.06] via-stone-950/80 to-black/20 p-6 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.35)] md:p-10"
+          className="relative overflow-hidden rounded-[2rem] border border-amber-500/20 bg-gradient-to-br from-amber-950/40 via-stone-950/80 to-orange-950/30 p-6 shadow-[0_24px_60px_-20px_rgba(245,158,11,0.3)] md:p-10"
         >
           <div
-            className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-white/[0.06] blur-3xl"
+            className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-amber-500/15 blur-3xl"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute -bottom-24 -left-20 h-60 w-60 rounded-full bg-black/20 blur-3xl"
+            className="pointer-events-none absolute -bottom-24 -left-20 h-60 w-60 rounded-full bg-orange-900/20 blur-3xl"
             aria-hidden
           />
 
           <div className="relative grid gap-8 lg:grid-cols-[1fr_minmax(0,460px)] lg:items-start lg:gap-12">
             <div className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-200/90">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-400/90">
                 {s("lead_kicker")}
               </p>
               <h2
@@ -58,7 +58,7 @@ export function LeadCaptureSection() {
               <p className="mt-3 text-pretty text-sm leading-relaxed text-stone-300 md:text-base">
                 {s("lead_sub")}
               </p>
-              <p className="mt-5 flex items-center gap-2 text-xs text-stone-200/80 md:text-sm">
+              <p className="mt-5 flex items-center gap-2 text-xs text-amber-200/80 md:text-sm">
                 <ShieldCheck className="h-4 w-4" aria-hidden />
                 {s("lead_privacy")}
               </p>

@@ -14,7 +14,7 @@ export function CatalogFurnitureSection() {
   return (
     <div className="space-y-8">
       <header className="max-w-3xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-400/80">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
           {t("furniture_stub_kicker")}
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">

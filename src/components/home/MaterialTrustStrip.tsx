@@ -18,7 +18,7 @@ export function MaterialTrustStrip() {
       <div className="btt-container">
         <div className="rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] md:p-8">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-stone-400/80">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
               {t("strip_kicker")}
             </p>
             <h2
@@ -35,9 +35,9 @@ export function MaterialTrustStrip() {
             return (
               <li
                 key={key}
-                className="group flex h-full min-h-0 gap-3 rounded-2xl border border-white/[0.06] bg-black/20 p-4 transition-colors duration-200 hover:border-white/20 hover:bg-black/35 motion-reduce:hover:translate-y-0"
+                className="group flex h-full min-h-0 gap-3 rounded-2xl border border-white/[0.06] bg-black/20 p-4 transition-colors duration-200 hover:border-amber-500/35 hover:bg-black/35 motion-reduce:hover:translate-y-0"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-white/[0.08] to-black/25 text-stone-100 ring-1 ring-white/[0.06] transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300 ring-1 ring-white/[0.06] transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
                   <Icon className="h-5 w-5" aria-hidden />
                 </span>
                 <span className="text-sm leading-snug text-stone-300">{t(key)}</span>

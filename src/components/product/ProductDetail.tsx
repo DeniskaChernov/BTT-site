@@ -17,6 +17,7 @@ import {
   bttMobilePageBottomClass,
   bttPrimaryButtonClass,
   bttTapReduceClass,
+  bttWarmGlassBadgeClass,
 } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { CollectivePdpPanel } from "@/components/collective/CollectivePdpPanel";
@@ -143,7 +144,7 @@ export function ProductDetail({ product }: Props) {
                 "absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold shadow-lg backdrop-blur-sm",
                 product.stock === "in_stock"
                   ? "border-emerald-400/50 bg-emerald-900/60 text-emerald-100"
-                  : "border-white/28 bg-white/[0.04]/70 text-stone-100",
+                  : "border-amber-400/50 bg-amber-950/70 text-amber-100",
               )}
             >
               <Package className="h-3 w-3" aria-hidden />
@@ -165,7 +166,7 @@ export function ProductDetail({ product }: Props) {
                   type="button"
                   aria-label={t("gallery_prev")}
                   onClick={() => scrollThumbs(-1)}
-                  className="btt-focus hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 text-stone-300 transition hover:border-white/20 sm:flex"
+                  className="btt-focus hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 text-stone-300 transition hover:border-amber-500/35 sm:flex"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
@@ -184,7 +185,7 @@ export function ProductDetail({ product }: Props) {
                     className={cn(
                       "relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition duration-200 sm:h-20 sm:w-20",
                       activeImg === i
-                        ? "border-white/25 opacity-100 shadow-lg shadow-black/30 ring-2 ring-white/22"
+                        ? "border-amber-400 opacity-100 shadow-lg shadow-amber-900/30 ring-2 ring-amber-500/35"
                         : "border-transparent opacity-70 hover:opacity-100 hover:ring-1 hover:ring-white/20",
                     )}
                   >
@@ -203,7 +204,7 @@ export function ProductDetail({ product }: Props) {
                   type="button"
                   aria-label={t("gallery_next")}
                   onClick={() => scrollThumbs(1)}
-                  className="btt-focus hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 text-stone-300 transition hover:border-white/20 sm:flex"
+                  className="btt-focus hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 text-stone-300 transition hover:border-amber-500/35 sm:flex"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
@@ -221,7 +222,7 @@ export function ProductDetail({ product }: Props) {
                 <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
                   <Link
                     href="/articles"
-                    className="btt-focus inline-flex min-h-11 items-center rounded-full border border-white/20 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-stone-100 transition hover:border-white/28 hover:bg-white/[0.06] sm:text-sm"
+                    className="btt-focus inline-flex min-h-11 items-center rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-xs font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15 sm:text-sm"
                   >
                     {t("videos_soon_cta_articles")}
                   </Link>
@@ -238,13 +239,13 @@ export function ProductDetail({ product }: Props) {
         </div>
 
         <div className="min-w-0 rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-transparent p-5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] md:p-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-stone-400/80">
+          <p className="text-xs font-semibold uppercase tracking-wider text-amber-500/80">
             {t("sku")}: {product.sku}
           </p>
           <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-stone-50 sm:text-3xl md:text-4xl">
             {product.names[locale]}
           </h1>
-          <p className="mt-2 text-pretty text-sm font-medium text-stone-200/95 md:text-base">
+          <p className="mt-2 text-pretty text-sm font-medium text-amber-200/95 md:text-base">
             {t("pdp_lead")}
           </p>
           <p className="mt-3 text-pretty text-sm text-stone-400 md:text-[15px]">
@@ -256,13 +257,13 @@ export function ProductDetail({ product }: Props) {
           </div>
 
           {product.lowStock ? (
-            <p className="mt-3 text-sm font-medium text-stone-200">{c("low_stock")}</p>
+            <p className="mt-3 text-sm font-medium text-amber-400">{c("low_stock")}</p>
           ) : null}
 
           <ul className="mt-5 max-w-prose space-y-1.5 text-sm text-stone-300">
             {product.bullets[locale].slice(0, 5).map((b) => (
               <li key={b} className="flex gap-2">
-                <span className="text-stone-300/90">✓</span>
+                <span className="text-amber-500/90">✓</span>
                 <span className="leading-relaxed">{b}</span>
               </li>
             ))}
@@ -274,7 +275,7 @@ export function ProductDetail({ product }: Props) {
                 <p className="text-xs text-stone-500">
                   {perKg ? c("per_kg") : c("per_piece")}
                 </p>
-                <p className="text-2xl font-bold tabular-nums text-stone-100 md:text-3xl">
+                <p className="text-2xl font-bold tabular-nums text-amber-300 md:text-3xl">
                   {formatUzs(ppk)}
                 </p>
                 <p className="text-xs text-stone-500">
@@ -306,8 +307,13 @@ export function ProductDetail({ product }: Props) {
                   {formatUzs(getPricePerKgForQty(product, perKg ? 5 : 1))}
                 </p>
               </div>
-              <div className="relative rounded-xl border-2 border-white/25 bg-gradient-to-b from-white/[0.06] to-stone-950/80 p-2 text-center shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
-                <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-white/18 to-white/8 px-1.5 py-0.5 text-[8px] font-bold uppercase text-white">
+              <div className="relative rounded-xl border-2 border-amber-500/55 bg-gradient-to-b from-amber-950/40 to-stone-950/80 p-2 text-center shadow-[0_8px_24px_rgba(245,158,11,0.1)]">
+                <span
+                  className={cn(
+                    bttWarmGlassBadgeClass,
+                    "absolute -top-1.5 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-0.5 text-[8px] font-bold uppercase",
+                  )}
+                >
                   {t("ladder_anchor_badge")}
                 </span>
                 <p className="text-[10px] text-stone-400">
@@ -315,7 +321,7 @@ export function ProductDetail({ product }: Props) {
                     ? t("ladder_200")
                     : t("ladder_5_piece")}
                 </p>
-                <p className="mt-0.5 text-xs font-bold tabular-nums text-stone-200">
+                <p className="mt-0.5 text-xs font-bold tabular-nums text-amber-200">
                   {formatUzs(getPricePerKgForQty(product, perKg ? 200 : 3))}
                 </p>
               </div>
@@ -382,7 +388,7 @@ export function ProductDetail({ product }: Props) {
               onClick={onAdd}
               disabled={belowPreorderMin}
               className={cn(
-                "btt-focus order-2 inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/22 bg-transparent px-6 py-3 text-sm font-semibold text-stone-100 transition hover:bg-white/[0.05] sm:order-none sm:min-w-[9rem] sm:flex-none",
+                "btt-focus order-2 inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-amber-500/45 bg-transparent px-6 py-3 text-sm font-semibold text-amber-100 transition hover:bg-amber-500/10 sm:order-none sm:min-w-[9rem] sm:flex-none",
                 bttTapReduceClass,
                 belowPreorderMin && "pointer-events-none opacity-60",
               )}
@@ -394,29 +400,29 @@ export function ProductDetail({ product }: Props) {
             <Link
               href="/catalog"
               className={cn(
-                "btt-focus order-3 inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.02] px-5 py-3 text-sm font-semibold text-stone-200 transition hover:border-white/20 hover:bg-white/[0.05] sm:order-none sm:min-w-[10rem] sm:flex-none",
+                "btt-focus order-3 inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.02] px-5 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/40 hover:bg-white/[0.05] sm:order-none sm:min-w-[10rem] sm:flex-none",
                 bttTapReduceClass,
               )}
             >
-              <HelpCircle className="h-4 w-4 text-stone-100/90" aria-hidden />
+              <HelpCircle className="h-4 w-4 text-amber-300/90" aria-hidden />
               {c("pick_2m")}
             </Link>
           </div>
 
           {isOnOrderMaterial ? (
-            <div className="mt-4 rounded-2xl border border-white/18 bg-white/[0.05] p-4 text-sm text-stone-100">
+            <div className="mt-4 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 text-sm text-amber-100">
               <p>{t("preorder_min_note")}</p>
               {belowPreorderMin ? (
-                <p className="mt-2 text-xs text-stone-200/90">{t("preorder_min_error")}</p>
+                <p className="mt-2 text-xs text-amber-200/90">{t("preorder_min_error")}</p>
               ) : null}
-              <p className="mt-3 text-xs text-stone-200/90">{t("preorder_collective_hint")}</p>
+              <p className="mt-3 text-xs text-amber-200/90">{t("preorder_collective_hint")}</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {collectiveBotUrl ? (
                   <a
                     href={collectiveBotUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btt-focus inline-flex items-center gap-1 rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-stone-100 outline-none hover:bg-white/[0.05]"
+                    className="btt-focus inline-flex items-center gap-1 rounded-full border border-amber-300/40 px-3 py-1.5 text-xs font-medium text-amber-100 outline-none hover:bg-amber-500/10"
                   >
                     <Users className="h-3.5 w-3.5" aria-hidden />
                     {t("preorder_collective_bot")}
@@ -454,19 +460,19 @@ export function ProductDetail({ product }: Props) {
       <PdpExamplesAndPromises />
 
       <div className="mt-10 grid gap-8 lg:grid-cols-2">
-        <details className="group rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent open:border-white/18">
+        <details className="group rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent open:border-amber-500/30">
           <summary className="btt-focus cursor-pointer list-none rounded-2xl px-5 py-4 text-sm font-semibold text-stone-100 outline-none transition marker:content-none [&::-webkit-details-marker]:hidden">
             <span className="flex items-center justify-between gap-3">
               {t("material_title")}
               <ChevronDown
-                className="h-4 w-4 shrink-0 text-stone-300/75 motion-safe:transition-transform group-open:rotate-180 motion-reduce:group-open:rotate-0"
+                className="h-4 w-4 shrink-0 text-amber-500/75 motion-safe:transition-transform group-open:rotate-180 motion-reduce:group-open:rotate-0"
                 aria-hidden
               />
             </span>
           </summary>
           <div className="border-t border-white/[0.06] px-5 pb-5 pt-0">
             <p className="pt-4 text-sm leading-relaxed text-stone-400">{t("material_intro")}</p>
-            <ul className="mt-4 list-disc space-y-2 pl-4 text-sm text-stone-400 marker:text-stone-300/60">
+            <ul className="mt-4 list-disc space-y-2 pl-4 text-sm text-stone-400 marker:text-amber-500/60">
               <li>{t("material_b1")}</li>
               <li>{t("material_b2")}</li>
               <li>{t("material_b3")}</li>
@@ -507,7 +513,7 @@ export function ProductDetail({ product }: Props) {
             <p className="text-xs text-stone-500">
               {perKg ? c("per_kg") : c("per_piece")}
             </p>
-            <p className="truncate text-lg font-bold tabular-nums text-stone-200">
+            <p className="truncate text-lg font-bold tabular-nums text-amber-400">
               {formatUzs(ppk)}
             </p>
           </div>
@@ -531,7 +537,7 @@ export function ProductDetail({ product }: Props) {
               onClick={onAdd}
               disabled={belowPreorderMin}
               className={cn(
-                "btt-focus inline-flex min-h-11 items-center justify-center rounded-full border border-white/22 bg-transparent px-4 text-xs font-semibold text-stone-100 transition hover:bg-white/[0.05] sm:px-5 sm:text-sm",
+                "btt-focus inline-flex min-h-11 items-center justify-center rounded-full border border-amber-500/45 bg-transparent px-4 text-xs font-semibold text-amber-100 transition hover:bg-amber-500/10 sm:px-5 sm:text-sm",
                 bttTapReduceClass,
                 belowPreorderMin && "pointer-events-none opacity-60",
               )}

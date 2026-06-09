@@ -133,7 +133,7 @@ export function GlowSiteNav() {
   return (
     <>
       <header
-        className="sticky top-0 border-b border-white/[0.1] bg-[#050506]/65 pt-[env(safe-area-inset-top,0px)] shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset] backdrop-blur-2xl supports-[backdrop-filter]:bg-[#050506]/55"
+        className="sticky top-0 border-b border-white/[0.06] bg-[#070605]/92 pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl supports-[backdrop-filter]:bg-[#070605]/78"
         style={{ zIndex: BTT_Z.nav }}
       >
         <div className="btt-container">

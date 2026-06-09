@@ -34,7 +34,7 @@ export function LegalDocView({ doc, locale, backHref = "/" }: Props) {
       <div className="mx-auto max-w-3xl">
         <PageBackNav fallbackHref={backHref} />
 
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-400/85">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/85">
           {kicker}
         </p>
         <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">
@@ -57,7 +57,7 @@ export function LegalDocView({ doc, locale, backHref = "/" }: Props) {
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="btt-focus text-stone-200/90 underline-offset-4 outline-none transition hover:text-stone-100 hover:underline"
+                  className="btt-focus text-amber-400/90 underline-offset-4 outline-none transition hover:text-amber-300 hover:underline"
                 >
                   {pickLocaleValue(section.title, l)}
                 </a>
@@ -98,14 +98,14 @@ export function LegalDocView({ doc, locale, backHref = "/" }: Props) {
 
         <aside className="mt-12 space-y-6 border-t border-white/[0.08] pt-10">
           <p className="text-sm leading-relaxed text-stone-400">{contact}</p>
-          <p className="border-l-2 border-white/20 pl-4 text-sm leading-relaxed text-stone-300">
+          <p className="border-l-2 border-amber-500/40 pl-4 text-sm leading-relaxed text-stone-300">
             {legalNotice}
           </p>
           <div className="flex flex-wrap gap-3 text-sm">
             {doc.slug !== "privacy" ? (
               <Link
                 href="/privacy"
-                className="btt-focus text-stone-200/90 underline-offset-4 outline-none hover:text-stone-100 hover:underline"
+                className="btt-focus text-amber-400/90 underline-offset-4 outline-none hover:text-amber-300 hover:underline"
               >
                 {l === "ru"
                   ? "Политика конфиденциальности"
@@ -117,7 +117,7 @@ export function LegalDocView({ doc, locale, backHref = "/" }: Props) {
             {doc.slug !== "cookies" ? (
               <Link
                 href="/cookies"
-                className="btt-focus text-stone-200/90 underline-offset-4 outline-none hover:text-stone-100 hover:underline"
+                className="btt-focus text-amber-400/90 underline-offset-4 outline-none hover:text-amber-300 hover:underline"
               >
                 {l === "ru"
                   ? "Политика cookies"
@@ -129,14 +129,14 @@ export function LegalDocView({ doc, locale, backHref = "/" }: Props) {
             {doc.slug !== "terms" ? (
               <Link
                 href="/terms"
-                className="btt-focus text-stone-200/90 underline-offset-4 outline-none hover:text-stone-100 hover:underline"
+                className="btt-focus text-amber-400/90 underline-offset-4 outline-none hover:text-amber-300 hover:underline"
               >
                 {l === "ru" ? "Оферта" : l === "uz" ? "Oferta" : "Terms"}
               </Link>
             ) : null}
             <Link
               href="/company-details"
-              className="btt-focus text-stone-200/90 underline-offset-4 outline-none hover:text-stone-100 hover:underline"
+              className="btt-focus text-amber-400/90 underline-offset-4 outline-none hover:text-amber-300 hover:underline"
             >
               {l === "ru"
                 ? "Реквизиты компании"

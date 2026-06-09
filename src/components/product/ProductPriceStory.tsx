@@ -41,7 +41,7 @@ export function ProductPriceStory({ product, qty }: Props) {
 
   return (
     <p className="mt-3 text-xs leading-relaxed text-stone-500">
-      <span className="font-medium text-stone-200/90">{t(tierKey as "tier_retail")}</span>
+      <span className="font-medium text-amber-200/90">{t(tierKey as "tier_retail")}</span>
       {" · "}
       {t("price_story_ppk", { price: formatUzs(ppk) })}
       {nextHint && nextHint.price < ppk ? (

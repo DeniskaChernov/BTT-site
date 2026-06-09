@@ -11,7 +11,7 @@ export function CatalogMegaMenuPanel({ config, onNavigate }: Props) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {config.columns.map((col) => (
           <div key={col.title}>
-            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-400/80">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-500/80">
               {col.title}
             </p>
             <ul className="space-y-0.5">
@@ -21,7 +21,7 @@ export function CatalogMegaMenuPanel({ config, onNavigate }: Props) {
                     href={link.href}
                     role="menuitem"
                     onClick={onNavigate}
-                    className="btt-focus block rounded-lg px-2 py-2 text-sm font-medium text-stone-200 transition hover:bg-white/[0.06] hover:text-stone-50"
+                    className="btt-focus block rounded-lg px-2 py-2 text-sm font-medium text-stone-200 transition hover:bg-white/[0.06] hover:text-amber-100"
                   >
                     {link.label}
                   </Link>
@@ -43,7 +43,7 @@ export function CatalogMegaMenuPanel({ config, onNavigate }: Props) {
                   href={r.href}
                   role="menuitem"
                   onClick={onNavigate}
-                  className="btt-focus block rounded-lg px-2 py-1.5 text-sm text-stone-300 transition hover:bg-white/[0.06] hover:text-stone-50"
+                  className="btt-focus block rounded-lg px-2 py-1.5 text-sm text-stone-300 transition hover:bg-white/[0.06] hover:text-amber-100"
                 >
                   {r.label}
                 </Link>
@@ -64,7 +64,7 @@ export function CatalogMegaMenuPanel({ config, onNavigate }: Props) {
                 href={p.href}
                 role="menuitem"
                 onClick={onNavigate}
-                className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-stone-300 transition hover:border-white/20 hover:text-stone-50"
+                className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-stone-300 transition hover:border-amber-500/35 hover:text-amber-100"
               >
                 {p.label}
               </Link>
@@ -80,7 +80,7 @@ export function CatalogMegaMenuPanel({ config, onNavigate }: Props) {
               href={f.href}
               role="menuitem"
               onClick={onNavigate}
-              className="text-xs font-medium text-stone-500 transition hover:text-stone-200"
+              className="text-xs font-medium text-stone-500 transition hover:text-amber-200"
             >
               {f.label}
             </Link>

@@ -3,48 +3,49 @@
 @tailwind utilities;
 
 :root {
-  /* Apple-like dark glass — нейтральный, без янтарного */
-  --btt-bg: #050506;
-  --btt-bg-mid: #0c0c0e;
-  --btt-elevated: #141416;
-  --btt-surface: rgba(255, 255, 255, 0.06);
-  --btt-foreground: #f5f5f7;
-  --btt-muted: #a1a1aa;
-  --btt-muted-2: #71717a;
-  --btt-border: rgba(255, 255, 255, 0.1);
-  --btt-glass-highlight: rgba(255, 255, 255, 0.14);
-  --btt-primary: #f5f5f7;
-  --btt-primary-hover: #ffffff;
-  --btt-primary-soft: rgba(255, 255, 255, 0.1);
-  --btt-accent: #a1a1aa;
-  --btt-accent-soft: rgba(255, 255, 255, 0.08);
-  --btt-ios: #0a84ff;
-  --btt-success: #30d158;
+  /* Чёрно-коричневая палитра 2026 + стекло */
+  --btt-bg: #070605;
+  --btt-bg-mid: #120f0e;
+  --btt-elevated: #1c1816;
+  --btt-surface: rgba(28, 24, 22, 0.55);
+  --btt-foreground: #faf8f5;
+  --btt-muted: #a89f98;
+  --btt-muted-2: #78716c;
+  --btt-border: rgba(255, 255, 255, 0.06);
+  --btt-glass-highlight: rgba(251, 191, 36, 0.14);
+  --btt-primary: #c2410c;
+  --btt-primary-hover: #ea580c;
+  --btt-primary-soft: rgba(234, 88, 12, 0.15);
+  --btt-accent: #f59e0b;
+  --btt-accent-soft: rgba(245, 158, 11, 0.12);
+  --btt-brown-deep: #431407;
+  --btt-success: #34d399;
   --btt-radius: 1.25rem;
   --btt-radius-sm: 0.75rem;
   --btt-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
   --btt-shadow-sm: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --btt-glow: 0 0 48px rgba(255, 255, 255, 0.06);
+  --btt-glow: 0 0 60px rgba(234, 88, 12, 0.12);
 
-  --background: 240 6% 4%;
-  --foreground: 240 5% 96%;
-  --card: 240 5% 7%;
-  --card-foreground: 240 5% 96%;
-  --popover: 240 5% 7%;
-  --popover-foreground: 240 5% 96%;
-  --primary: 240 5% 96%;
-  --primary-foreground: 240 6% 8%;
-  --secondary: 240 4% 14%;
-  --secondary-foreground: 240 5% 96%;
-  --muted: 240 4% 16%;
-  --muted-foreground: 240 4% 62%;
-  --accent: 240 4% 18%;
-  --accent-foreground: 240 5% 96%;
+  /* shadcn/ui — HSL-компоненты (bg-background, text-primary и т.д.) */
+  --background: 20 14% 4%;
+  --foreground: 40 33% 97%;
+  --card: 20 12% 7%;
+  --card-foreground: 40 33% 97%;
+  --popover: 20 12% 7%;
+  --popover-foreground: 40 33% 97%;
+  --primary: 24 95% 48%;
+  --primary-foreground: 40 33% 98%;
+  --secondary: 24 8% 14%;
+  --secondary-foreground: 40 33% 97%;
+  --muted: 24 8% 16%;
+  --muted-foreground: 24 6% 62%;
+  --accent: 38 92% 50%;
+  --accent-foreground: 20 14% 6%;
   --destructive: 0 72% 51%;
-  --destructive-foreground: 240 5% 98%;
-  --border: 240 4% 18%;
-  --input: 240 4% 18%;
-  --ring: 240 5% 80%;
+  --destructive-foreground: 40 33% 98%;
+  --border: 24 8% 18%;
+  --input: 24 8% 18%;
+  --ring: 32 95% 44%;
   --radius: 0.75rem;
 }
 
@@ -63,13 +64,13 @@
     font-feature-settings: "ss01" on, "cv02" on;
     background-color: hsl(var(--background));
     background-image:
-      radial-gradient(ellipse 100% 80% at 50% -30%, rgba(255, 255, 255, 0.06), transparent 55%),
-      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(255, 255, 255, 0.04), transparent 50%),
-      radial-gradient(ellipse 50% 35% at 0% 100%, rgba(0, 0, 0, 0.45), transparent 45%);
+      radial-gradient(ellipse 100% 80% at 50% -30%, rgba(120, 53, 15, 0.35), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(194, 65, 12, 0.12), transparent 50%),
+      radial-gradient(ellipse 50% 35% at 0% 100%, rgba(67, 20, 7, 0.5), transparent 45%);
     background-attachment: fixed;
   }
   ::selection {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(245, 158, 11, 0.25);
     color: var(--btt-foreground);
   }
 }
@@ -79,33 +80,34 @@
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10;
   }
 
+  /* Glass — как на 21st.dev / community glass-morphism */
   .btt-glass {
-    @apply rounded-[var(--btt-radius)] border border-white/[0.1] bg-white/[0.05] shadow-[var(--btt-shadow-sm)] backdrop-blur-2xl;
+    @apply rounded-[var(--btt-radius)] border border-white/[0.08] bg-white/[0.04] shadow-[var(--btt-shadow-sm)] backdrop-blur-2xl;
     box-shadow:
       var(--btt-shadow-sm),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
   }
 
   .btt-glass-strong {
-    @apply rounded-[var(--btt-radius)] border border-white/[0.14] bg-white/[0.08] backdrop-blur-3xl;
+    @apply rounded-[var(--btt-radius)] border border-amber-500/20 bg-stone-900/50 backdrop-blur-3xl;
     box-shadow:
       var(--btt-shadow),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
-      0 0 0 1px rgba(0, 0, 0, 0.25);
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+      0 0 0 1px rgba(0, 0, 0, 0.2);
   }
 
   .btt-glass-cta {
-    @apply rounded-full border border-white/20 bg-white/[0.1] px-6 py-3 text-sm font-semibold text-stone-50 shadow-lg backdrop-blur-2xl transition hover:border-white/30 hover:bg-white/[0.14];
+    @apply rounded-full border border-amber-400/35 bg-gradient-to-b from-amber-500/22 via-amber-600/14 to-amber-700/10 px-6 py-3 text-sm font-semibold text-amber-50 shadow-lg backdrop-blur-xl transition hover:border-amber-400/50 hover:from-amber-500/30 hover:via-amber-600/18 hover:to-amber-700/12;
     box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
-      0 8px 32px rgba(0, 0, 0, 0.28);
+      inset 0 1px 0 0 rgba(251, 191, 36, 0.14),
+      0 8px 28px rgba(0, 0, 0, 0.35);
   }
 
   .btt-mesh {
     background-image:
-      radial-gradient(at 40% 20%, rgba(255, 255, 255, 0.05) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, rgba(255, 255, 255, 0.04) 0px, transparent 45%),
-      radial-gradient(at 0% 50%, rgba(0, 0, 0, 0.35) 0px, transparent 50%);
+      radial-gradient(at 40% 20%, rgba(194, 65, 12, 0.2) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(120, 53, 15, 0.25) 0px, transparent 45%),
+      radial-gradient(at 0% 50%, rgba(67, 20, 7, 0.4) 0px, transparent 50%);
   }
 
   .btt-grid-bg {
@@ -139,20 +141,22 @@
     }
   }
 
+  /* Интерактив: фокус и «живые» карточки */
   .btt-interactive-lift {
     @apply transition-[transform,box-shadow,border-color] duration-500 ease-btt motion-reduce:transition-none;
   }
   .btt-interactive-lift:hover {
-    @apply -translate-y-0.5 border-white/20 shadow-lg shadow-black/30 motion-reduce:translate-y-0;
+    @apply -translate-y-0.5 shadow-lg shadow-amber-950/20 motion-reduce:translate-y-0;
   }
 
   .btt-card-surface {
     @apply transition-[transform,box-shadow,border-color,background-color] duration-500 ease-btt motion-reduce:transition-none;
   }
   .btt-card-surface:hover {
-    @apply -translate-y-0.5 border-white/20 bg-white/[0.07] shadow-lg shadow-black/25 motion-reduce:translate-y-0;
+    @apply -translate-y-0.5 border-amber-500/25 shadow-lg shadow-amber-950/15 motion-reduce:translate-y-0;
   }
 
+  /** Длинные списки каталога — отложенный layout/paint вне viewport */
   .btt-catalog-grid-item {
     content-visibility: auto;
     contain-intrinsic-size: auto 420px;
@@ -163,7 +167,7 @@
   }
 
   .btt-focus {
-    @apply outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--btt-bg)];
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--btt-bg)];
   }
 }
 

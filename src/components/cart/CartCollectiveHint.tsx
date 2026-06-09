@@ -33,7 +33,7 @@ export function CartCollectiveHint() {
               href={telegramBotStartUrl(m.botStartParam) ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-stone-200 hover:text-stone-100"
+              className="text-amber-400 hover:text-amber-300"
             >
               {t("collective_match_cta")}
             </a>

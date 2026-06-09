@@ -16,7 +16,7 @@ export function HomeNewsTicker() {
   return (
     <div className="border-y border-white/[0.06] bg-white/[0.02] py-3">
       <div className="btt-container flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-        <span className="font-semibold text-stone-200/90">{t("news_ticker_label")}</span>
+        <span className="font-semibold text-amber-400/90">{t("news_ticker_label")}</span>
         <ul className="flex flex-wrap gap-x-4 gap-y-1">
           {items.map((a) => (
             <li key={a.slug}>

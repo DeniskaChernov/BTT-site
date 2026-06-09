@@ -26,7 +26,7 @@ function Scene() {
         color="#fcd9a8"
       />
       <directionalLight position={[-4, 3, -2]} intensity={0.35} color="#64748b" />
-      <pointLight position={[0, 2.2, 1.8]} intensity={0.55} color="#f5f5f7" />
+      <pointLight position={[0, 2.2, 1.8]} intensity={0.55} color="#f59e0b" />
 
       <Suspense fallback={null}>
         <Environment preset="city" />

@@ -299,7 +299,7 @@ export function AccountForm() {
               <button
                 type="button"
                 onClick={() => void logout()}
-                className="btt-focus rounded-2xl border border-white/15 px-4 py-3 text-sm text-stone-300 transition hover:border-white/18 hover:bg-white/[0.04]"
+                className="btt-focus rounded-2xl border border-white/15 px-4 py-3 text-sm text-stone-300 transition hover:border-amber-500/30 hover:bg-white/[0.04]"
               >
                 {t("sign_out")}
               </button>
@@ -316,7 +316,7 @@ export function AccountForm() {
                   className={cn(
                     "btt-focus rounded-full border px-4 py-2 text-sm font-medium transition",
                     authTab === "login"
-                      ? "border-white/22 bg-white/[0.05] text-stone-100"
+                      ? "border-amber-500/50 bg-amber-500/10 text-amber-100"
                       : "border-white/15 text-stone-400 hover:border-white/25",
                   )}
                 >
@@ -331,7 +331,7 @@ export function AccountForm() {
                   className={cn(
                     "btt-focus rounded-full border px-4 py-2 text-sm font-medium transition",
                     authTab === "register"
-                      ? "border-white/22 bg-white/[0.05] text-stone-100"
+                      ? "border-amber-500/50 bg-amber-500/10 text-amber-100"
                       : "border-white/15 text-stone-400 hover:border-white/25",
                   )}
                 >
@@ -537,7 +537,7 @@ export function AccountForm() {
                       className="flex justify-between gap-3 border-b border-white/[0.06] pb-2 last:border-0"
                     >
                       <span className="min-w-0 truncate text-stone-300">{l.name}</span>
-                      <span className="shrink-0 tabular-nums text-stone-200/95">
+                      <span className="shrink-0 tabular-nums text-amber-400/95">
                         {formatUzs(lineTotalUz(l))}
                       </span>
                     </li>
@@ -570,19 +570,19 @@ export function AccountForm() {
             <nav className="mt-4 grid gap-2 text-sm" aria-label={t("shortcuts")}>
               <Link
                 href="/catalog"
-                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-white/18 hover:bg-white/[0.06] motion-reduce:transition-none"
+                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06] motion-reduce:transition-none"
               >
                 {n("catalog")}
               </Link>
               <Link
                 href="/cart"
-                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-white/18 hover:bg-white/[0.06] motion-reduce:transition-none"
+                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06] motion-reduce:transition-none"
               >
                 {n("cart")}
               </Link>
               <Link
                 href="/checkout"
-                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-white/18 hover:bg-white/[0.06] motion-reduce:transition-none"
+                className="btt-focus rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-stone-200 transition hover:border-amber-500/30 hover:bg-white/[0.06] motion-reduce:transition-none"
               >
                 {tc("to_checkout")}
               </Link>

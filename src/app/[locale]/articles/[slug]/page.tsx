@@ -160,7 +160,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       <div className="mx-auto max-w-3xl">
         <PageBackNav fallbackHref="/articles" />
 
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-400/85">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/85">
           {ta("kicker")}
         </p>
         <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">
@@ -219,7 +219,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           <p>{t("sec3_a")}</p>
           <p>{t("sec3_b")}</p>
 
-          <p className="mt-8 border-l-2 border-white/20 pl-4 text-stone-300">
+          <p className="mt-8 border-l-2 border-amber-500/40 pl-4 text-stone-300">
             {t("outro")}
           </p>
         </article>
