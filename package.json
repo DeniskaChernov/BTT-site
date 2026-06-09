@@ -26,7 +26,8 @@
     "validate": "npm run verify && npm run build",
     "media:fetch": "node scripts/fetch-catalog-media.mjs",
     "media:import": "node scripts/import-bententrade-media.mjs",
-    "media:optimize": "node scripts/media-optimize.mjs"
+    "media:optimize": "node scripts/media-optimize.mjs",
+    "lighthouse:baseline": "node scripts/lighthouse-baseline.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",

@@ -2,20 +2,23 @@
 
 ## Фазы 0–4 ✅
 
-Квиз удалён, WebP/LCP, safe-area, EN/UZ, compare в nav.
-
 ## Фаза 5 🟡
 
 | Задача | Статус |
 |--------|--------|
-| `trackBttEvent` на checkout/PDP | ✅ |
-| `/api/health?deep=1` + тест | ✅ |
-| `/compare` в sitemap | ✅ |
-| `docs/qa-checklist.md`, `analytics-funnel.md` | ✅ |
-| GTM в проде | 🔴 |
-| Lighthouse preview/prod | 🔴 |
+| Аналитика, health deep, compare, SEO ItemList | ✅ |
+| Telegram менеджеру (заказы + заявки) | ✅ |
+| Чипы каталога, `?stock=`, лента заказа | ✅ |
+| E2E viewports + compare, copy-audit | ✅ |
+| `npm run lighthouse:baseline` | ✅ скрипт |
+| GTM на проде | 🔴 |
+| Lighthouse на preview/prod | 🔴 |
 
-## Фаза 7 🔴
+## Backlog (до фазы 7)
+
+Админка статусов UI, Telegram клиенту, uptime health.
+
+## Фаза 7 — в самый конец 🔴
 
 `TODO(legal)` — после юриста.
 

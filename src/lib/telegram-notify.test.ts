@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { formatManagerOrderTelegramHtml } from "./telegram-notify";
+import {
+  formatManagerLeadTelegramHtml,
+  formatManagerOrderTelegramHtml,
+} from "./telegram-notify";
 
 const baseOrder = {
   id: "ord-abc-123",
@@ -45,5 +48,18 @@ describe("formatManagerOrderTelegramHtml", () => {
     expect(html).not.toContain("<b>Адрес:</b>");
     expect(html).toContain("Самовывоз");
     expect(html).toContain("Счёт для юрлица");
+  });
+});
+
+describe("formatManagerLeadTelegramHtml", () => {
+  it("includes lead kind and fields", () => {
+    const html = formatManagerLeadTelegramHtml({
+      kind: "wholesale",
+      locale: "ru",
+      leadId: "lead-1",
+      fields: { wholesale_phone: "+998901234567" },
+    });
+    expect(html).toContain("Опт / производство");
+    expect(html).toContain("lead-1");
   });
 });

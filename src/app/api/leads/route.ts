@@ -2,6 +2,7 @@ import { MAX_LEAD_JSON_BYTES } from "@/lib/api-limits";
 import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
 import { getSessionUser } from "@/lib/auth-session";
 import { notifyCrmLeadSubmitted } from "@/lib/crm-webhook";
+import { notifyManagerNewLead } from "@/lib/telegram-notify";
 import { prisma } from "@/lib/db";
 import { validateLeadBody } from "@/lib/leads-api";
 import { log } from "@/lib/logger";
@@ -93,6 +94,15 @@ export async function POST(request: Request) {
       locale: validated.locale,
       fields: validated.fields,
       intentSnapshot: validated.intentSnapshot,
+      leadId,
+    },
+    requestId,
+  );
+  notifyManagerNewLead(
+    {
+      kind: validated.kind,
+      locale: validated.locale,
+      fields: validated.fields,
       leadId,
     },
     requestId,

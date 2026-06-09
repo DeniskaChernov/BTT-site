@@ -2,15 +2,10 @@
 
 `BTT_EVENTS` + `trackBttEvent` в `src/lib/analytics.ts`.
 
-## Цепочка
+Цепочка: `view_pdp` → `add_to_cart` → `start_checkout` → `purchase` → `lead_submit`
 
-`view_pdp` → `add_to_cart` → `start_checkout` → `purchase` → `lead_submit`
+GTM: `NEXT_PUBLIC_GTM_ID`. Data Layer `event` = имя из `BTT_EVENTS`.
 
-## GTM
+Мониторинг: `GET /api/health`, `GET /api/health?deep=1`
 
-Data Layer Event = имя из `BTT_EVENTS`. Документация триггеров — в GTM-контейнере.
-
-## Мониторинг
-
-- `GET /api/health`
-- `GET /api/health?deep=1`
+Менеджер: `telegram-manager-config.ts` — заказы и заявки.
