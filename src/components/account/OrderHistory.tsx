@@ -1,10 +1,7 @@
 "use client";
 
-import {
-  normalizeOrderStatus,
-  orderFulfillmentType,
-  orderStatusChain,
-} from "@/lib/order-fulfillment";
+import { OrderStatusTimeline } from "@/components/account/OrderStatusTimeline";
+import { normalizeOrderStatus } from "@/lib/order-fulfillment";
 import { formatUzs } from "@/lib/pricing";
 import { readOrderAccessToken } from "@/lib/order-access-client";
 import type { StoredOrder } from "@/lib/order-history";
@@ -336,33 +333,8 @@ export function OrderHistory({ profilePhone }: Props) {
                     >
                       {statusText(order)}
                     </span>
-                    {order.statusNote ? (
-                      <span className="text-xs text-stone-400">{order.statusNote}</span>
-                    ) : null}
                   </div>
-                  <ol className="mb-4 flex flex-wrap gap-2 text-xs text-stone-500">
-                    {orderStatusChain(orderFulfillmentType(order)).map((step) => {
-                      const current = normalizeOrderStatus(order.status);
-                      const chain = orderStatusChain(orderFulfillmentType(order));
-                      const active = step === current;
-                      const passed =
-                        chain.indexOf(step) < chain.indexOf(current);
-                      return (
-                        <li
-                          key={step}
-                          className={`rounded-full border px-2.5 py-1 ${
-                            active
-                              ? "border-amber-400/50 bg-amber-500/10 text-amber-100"
-                              : passed
-                                ? "border-white/15 bg-white/[0.04] text-stone-300"
-                                : "border-white/10 text-stone-600"
-                          }`}
-                        >
-                          {t(`status_${step.toLowerCase()}`)}
-                        </li>
-                      );
-                    })}
-                  </ol>
+                  <OrderStatusTimeline order={order} />
                   <dl className="grid gap-2 text-sm text-stone-400 sm:grid-cols-2">
                     <div>
                       <dt className="text-xs uppercase tracking-wide text-stone-600">

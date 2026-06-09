@@ -2,7 +2,7 @@
 
 import { useCart } from "@/contexts/CartContext";
 import { formatUzs } from "@/lib/pricing";
-import { readUtmFromSearch, trackEvent } from "@/lib/analytics";
+import { BTT_EVENTS, readUtmFromSearch, trackBttEvent } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { appendOrder } from "@/lib/order-history";
@@ -13,6 +13,7 @@ import { BTT_EASE } from "@/lib/motion";
 import {
   bttFieldClass,
   bttMobileCommerceBarClass,
+  bttMobilePageBottomClass,
   bttPillButtonActiveClass,
   bttPillButtonInactiveClass,
   bttPrimaryButtonClass,
@@ -93,19 +94,17 @@ export function CheckoutForm() {
     setSubmitting(true);
     setCreatedOrderId(null);
     try {
-      trackEvent("start_checkout", {
+      trackBttEvent(BTT_EVENTS.StartCheckout, {
         lines: lines.map((l) => l.sku),
         ship,
       });
 
-      const payload = {
-        event: "purchase",
+      trackBttEvent(BTT_EVENTS.OrderSubmit, {
         value: subtotalUz,
         currency: "UZS",
         sku: lines.map((l) => l.sku),
         utm,
-      };
-      trackEvent("purchase", payload);
+      });
 
       const orderBody = {
         totalUz: subtotalUz,
@@ -272,7 +271,7 @@ export function CheckoutForm() {
   }
 
   return (
-    <div className="btt-container pb-28 py-8 md:py-10 lg:pb-10">
+    <div className={cn("btt-container py-8 md:py-10", bttMobilePageBottomClass)}>
       <PageBackNav fallbackHref="/cart" />
       <div className="mt-2 grid gap-8 lg:grid-cols-[1fr_380px] lg:gap-10">
         <form

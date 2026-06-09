@@ -27,6 +27,7 @@ const PAGE_ROUTES: { href: string; titleKey: string }[] = [
   { href: "/contacts", titleKey: "contacts" },
   { href: "/faq", titleKey: "faq" },
   { href: "/cart", titleKey: "cart" },
+  { href: "/compare", titleKey: "compare" },
 ];
 
 export function buildCommandIndex(

@@ -1,4 +1,5 @@
 import { CommerceHero } from "@/components/commerce-hero";
+import { HomeCatalogQuickChips } from "@/components/home/HomeCatalogQuickChips";
 import { HeroPromisesStrip } from "@/components/home/HeroPromisesStrip";
 import {
   HomeExamplesLazy,
@@ -14,6 +15,7 @@ export default async function HomePage() {
   return (
     <>
       <CommerceHero />
+      <HomeCatalogQuickChips />
       <HeroPromisesStrip />
       <HomeNewsTicker />
       <WhyBeneficialSection />

@@ -1,7 +1,11 @@
 # Analytics funnel
 
-Словарь событий: `src/lib/analytics.ts` → `BTT_EVENTS`.
+`BTT_EVENTS` + `trackBttEvent` в `src/lib/analytics.ts`.
 
-Ключевые: `catalog_filter_apply`, `add_to_cart`, `view_pdp`, `article_read_progress`, `lead_submit`.
+Цепочка: `view_pdp` → `add_to_cart` → `start_checkout` → `purchase` → `lead_submit`
 
-Внутренние ссылки с контента: `?from=article:{slug}`.
+GTM: `NEXT_PUBLIC_GTM_ID`. Data Layer `event` = имя из `BTT_EVENTS`.
+
+Мониторинг: `GET /api/health`, `GET /api/health?deep=1`
+
+Менеджер: `telegram-manager-config.ts` — заказы и заявки.

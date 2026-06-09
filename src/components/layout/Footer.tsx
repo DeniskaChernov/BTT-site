@@ -47,6 +47,9 @@ export async function Footer() {
           >
             {n("cart")}
           </Link>
+          <Link className={bttFooterLinkClass} href="/compare">
+            {n("compare")}
+          </Link>
           <Link className={bttFooterLinkClass} href="/cart">
             {cart("to_checkout")}
           </Link>

@@ -5,7 +5,6 @@ export const LEAD_KINDS = [
   "contacts_b2b",
   "wholesale",
   "export_quote",
-  "quiz_quote",
 ] as const;
 
 export type LeadKind = (typeof LEAD_KINDS)[number];
@@ -28,26 +27,6 @@ function trimRecord(input: Record<string, unknown>): Record<string, string> | st
     out[k] = t;
     n += 1;
     if (n > MAX_FIELDS) return "Too many fields";
-  }
-  return out;
-}
-
-function trimQuiz(input: unknown): Record<string, string> | string | undefined {
-  if (input === undefined || input === null) return undefined;
-  if (typeof input !== "object" || input === null) return "Invalid quiz";
-  const out: Record<string, string> = {};
-  let n = 0;
-  for (const [k, v] of Object.entries(input as Record<string, unknown>)) {
-    if (typeof k !== "string" || k.length > 80) return "Invalid quiz";
-    if (v === null || v === undefined) {
-      out[k] = "";
-    } else if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
-      const s = String(v).trim();
-      if (s.length > 2000) return "Invalid quiz";
-      out[k] = s;
-    } else return "Invalid quiz";
-    n += 1;
-    if (n > 24) return "Invalid quiz";
   }
   return out;
 }
@@ -79,11 +58,6 @@ function validateByKind(
       if (country.length < 2) return "Country required";
       return true;
     }
-    case "quiz_quote": {
-      const phone = fields.phone ?? "";
-      if (!isMeaningfulPhone(normalizePhone(phone))) return "Invalid phone";
-      return true;
-    }
     default:
       return "Invalid kind";
   }
@@ -103,7 +77,6 @@ export type ValidatedLead = {
   kind: LeadKind;
   locale: string;
   fields: Record<string, string>;
-  quiz?: Record<string, string>;
   intentSnapshot?: IntentLeadSnapshot;
 };
 
@@ -122,16 +95,6 @@ export function validateLeadBody(raw: unknown): ValidatedLead | string {
 
   const ok = validateByKind(kind as LeadKind, fields);
   if (ok !== true) return ok;
-
-  let quiz: Record<string, string> | undefined;
-  if (kind === "quiz_quote") {
-    const quizParsed = trimQuiz(b.quiz);
-    if (typeof quizParsed === "string") return quizParsed;
-    if (!quizParsed || Object.keys(quizParsed).length === 0) {
-      return "Quiz context required";
-    }
-    quiz = quizParsed;
-  }
 
   let intentSnapshot: IntentLeadSnapshot | undefined;
   const snap = b.intentSnapshot;
@@ -162,7 +125,6 @@ export function validateLeadBody(raw: unknown): ValidatedLead | string {
     kind: kind as LeadKind,
     locale,
     fields,
-    ...(quiz ? { quiz } : {}),
     ...(intentSnapshot ? { intentSnapshot } : {}),
   };
 }

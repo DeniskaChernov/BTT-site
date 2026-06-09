@@ -66,6 +66,7 @@ type CatalogClientProps = {
   initialSource?: "all" | "pdf";
   /** ╨Ш╨╖ URL `?kind=` */
   initialKind?: "all" | "regular" | "twisted" | "semi";
+  initialStock?: "all" | "in_stock" | "on_order";
 };
 
 function CatalogSkeletonGrid({ label }: { label: string }) {
@@ -106,6 +107,7 @@ export function CatalogClient({
   initialColor,
   initialSource = "all",
   initialKind = "all",
+  initialStock = "all",
 }: CatalogClientProps) {
   const t = useTranslations("catalog");
   const locale = useLocale();
@@ -124,7 +126,7 @@ export function CatalogClient({
     color: color0,
     shape: initialShape,
     hardness: "all",
-    stock: "all",
+    stock: initialStock,
     source: initialSource,
     kind: initialKind,
   }));
@@ -660,9 +662,9 @@ export function CatalogClient({
               searchLagging && "opacity-60 transition-opacity duration-200",
             )}
           >
-            {filtered.map((p: Product) => (
+            {filtered.map((p: Product, index: number) => (
               <div key={p.sku} className="btt-catalog-grid-item h-full min-h-0">
-                <ProductCard product={p} />
+                <ProductCard product={p} priority={index < 6} />
               </div>
             ))}
           </div>

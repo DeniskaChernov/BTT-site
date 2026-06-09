@@ -1,7 +1,6 @@
 import { products } from "@/data/products";
 import { topicScoreForProduct } from "@/data/commerce-graph";
 import { recordCartAdd } from "@/lib/intent/profile";
-import { rankQuizRecommendations } from "@/lib/intent/rank-quiz";
 import { rankProducts, rankProductsSimple } from "@/lib/intent/rank-products";
 import {
   cartComplementScore,
@@ -59,24 +58,6 @@ describe("advanced rankProducts", () => {
     );
     const keys = ranked.map((r) => `${r.product.shape}-${r.product.thicknessMm}`);
     expect(new Set(keys).size).toBe(keys.length);
-  });
-});
-
-describe("rankQuizRecommendations", () => {
-  it("seating quiz includes HR-5", () => {
-    const ranked = rankQuizRecommendations(
-      products,
-      {
-        productKind: "material",
-        place: "both",
-        workGoal: "furniture",
-        furnitureUse: "seating",
-        planterPath: null,
-      },
-      { ...EMPTY_PROFILE, topics: ["furniture"] },
-      3,
-    );
-    expect(ranked.some((p) => p.sku === "RTN-HR-5-NAT")).toBe(true);
   });
 });
 

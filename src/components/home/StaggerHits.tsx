@@ -25,7 +25,7 @@ export function StaggerHits({ products }: Props) {
       }}
       className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-3"
     >
-      {products.map((p) => (
+      {products.map((p, index) => (
         <motion.div
           key={p.sku}
           className="h-full min-h-0"
@@ -41,7 +41,7 @@ export function StaggerHits({ products }: Props) {
             ease: BTT_EASE,
           }}
         >
-          <ProductCard product={p} />
+          <ProductCard product={p} priority={index < 3} />
         </motion.div>
       ))}
     </motion.div>

@@ -6,7 +6,7 @@ import { useEffect } from "react";
 const SCROLL_ANCHORS = new Set(["hits"]);
 
 /**
- * На главной: при заходе с `/#hits`, `/#quiz` или смене hash — плавный скролл к секции.
+ * На главной: при заходе с `/#hits` или смене hash — плавный скролл к секции.
  */
 export function ScrollToHash() {
   const pathname = usePathname();
