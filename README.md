@@ -46,7 +46,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Тест `order-post.spec.ts` создаёт реальный заказ, если у **запущенного** сервера на `E2E_BASE_URL` база отвечает на `GET /api/health?db=1` с `db: "up"`. Без PostgreSQL сценарий пропускается.
+Тест `order-post.spec.ts` создаёт реальный заказ, если у **запущенного** сервера на `E2E_BASE_URL` база отвечает на `GET /api/health?deep=1` с `database: "ok"`. Без PostgreSQL сценарий пропускается.
 
 ## Прочее
 

@@ -2,7 +2,7 @@ import { ApiErrorCode, apiJsonError } from "@/lib/api-response";
 import { orderToJson } from "@/lib/admin-order-json";
 import { gateAdminRequest, withRequestId } from "@/lib/admin-request";
 import { prisma } from "@/lib/db";
-import { MANAGER_BOT_TOKEN, MANAGER_CHAT_ID } from "@/lib/telegram-manager-config";
+import { isManagerTelegramConfigured } from "@/lib/telegram-manager-config";
 import { log } from "@/lib/logger";
 import { isDbConnectionError } from "@/lib/prisma-errors";
 import { NextResponse } from "next/server";
@@ -74,7 +74,7 @@ export async function GET(request: Request) {
         process.env.PAYMENT_WEBHOOK_SHARED_SECRET &&
           process.env.PAYMENT_WEBHOOK_SHARED_SECRET.trim().length >= 16,
       ),
-      managerTelegramConfigured: Boolean(MANAGER_BOT_TOKEN && MANAGER_CHAT_ID),
+      managerTelegramConfigured: isManagerTelegramConfigured(),
     });
     return withRequestId(res, requestId);
   } catch (e) {

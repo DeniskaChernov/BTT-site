@@ -4,16 +4,19 @@ import { lineItemTotalUz } from "@/lib/pricing";
 
 /**
  * Успешное создание заказа через POST /api/orders при доступной БД.
- * Локально без DATABASE_URL на сервере тест пропускается (health не сообщает db: up).
+ * Локально без DATABASE_URL на сервере тест пропускается (health не сообщает database: ok).
  */
 test("POST /api/orders creates order when database is up", async ({ request }) => {
-  const health = await request.get("/api/health?db=1").catch(() => null);
+  const health = await request.get("/api/health?deep=1").catch(() => null);
   if (health === null) {
     test.skip(true, "Dev server not running on baseURL (start npm run dev before test:e2e)");
     return;
   }
-  const meta = (await health.json().catch(() => ({}))) as { ok?: boolean; db?: string };
-  if (!(health.ok() && meta.db === "up")) {
+  const meta = (await health.json().catch(() => ({}))) as {
+    ok?: boolean;
+    database?: string;
+  };
+  if (!(health.ok() && meta.ok && meta.database === "ok")) {
     test.skip(true, "PostgreSQL not configured or unreachable for this server");
   }
 

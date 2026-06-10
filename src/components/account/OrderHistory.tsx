@@ -192,7 +192,8 @@ export function OrderHistory({ profilePhone }: Props) {
   const orders = useMemo(() => {
     const remote = remoteOrders ?? [];
     const merged = new Map<string, StoredOrder>();
-    for (const o of [...localOrders, ...remote]) {
+    for (const o of remote) merged.set(o.id, o);
+    for (const o of localOrders) {
       if (!merged.has(o.id)) merged.set(o.id, o);
     }
     return [...merged.values()].sort((a, b) => {
@@ -206,6 +207,40 @@ export function OrderHistory({ profilePhone }: Props) {
 
   const statusText = (order: StoredOrder) =>
     t(`status_${normalizeOrderStatus(order.status).toLowerCase()}`);
+
+  const paymentStatusKey = (order: StoredOrder) => {
+    const ps = order.paymentStatus ?? "PENDING";
+    switch (ps) {
+      case "REQUIRES_ACTION":
+        return "payment_requires_action";
+      case "PAID":
+        return "payment_paid";
+      case "FAILED":
+        return "payment_failed";
+      case "REFUNDED":
+        return "payment_refunded";
+      case "PARTIALLY_REFUNDED":
+        return "payment_partially_refunded";
+      default:
+        return "payment_pending";
+    }
+  };
+
+  const paymentTone = (order: StoredOrder) => {
+    switch (order.paymentStatus ?? "PENDING") {
+      case "PAID":
+        return "border-emerald-500/35 bg-emerald-500/10 text-emerald-300";
+      case "FAILED":
+        return "border-red-500/35 bg-red-500/10 text-red-300";
+      case "REQUIRES_ACTION":
+        return "border-amber-500/35 bg-amber-500/10 text-amber-300";
+      case "REFUNDED":
+      case "PARTIALLY_REFUNDED":
+        return "border-violet-500/35 bg-violet-500/10 text-violet-300";
+      default:
+        return "border-white/20 bg-white/[0.04] text-stone-300";
+    }
+  };
 
   const statusTone = (order: StoredOrder) => {
     switch (normalizeOrderStatus(order.status)) {
@@ -332,6 +367,11 @@ export function OrderHistory({ profilePhone }: Props) {
                       className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(order)}`}
                     >
                       {statusText(order)}
+                    </span>
+                    <span
+                      className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${paymentTone(order)}`}
+                    >
+                      {t(paymentStatusKey(order))}
                     </span>
                   </div>
                   <OrderStatusTimeline order={order} />

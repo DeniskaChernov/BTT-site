@@ -22,6 +22,7 @@ type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
 const HERO_CATEGORIES: {
   href: string;
   messageKey: CardKey;
+  segment: "master" | "production" | "pick";
   imageSrc: string;
   imageFit?: "cover" | "contain";
   blendScreen?: boolean;
@@ -32,14 +33,21 @@ const HERO_CATEGORIES: {
   {
     href: "/catalog/rattan",
     messageKey: "card_rattan",
+    segment: "production",
     imageSrc: "/media/catalog/rattan-hero.webp",
     imageFit: "contain",
     imageInsetClass: "inset-3 sm:inset-4",
   },
-  { href: "/catalog/planters", messageKey: "card_planter", imageSrc: "/media/catalog/btt-kshbskm.webp" },
+  {
+    href: "/catalog/planters",
+    messageKey: "card_planter",
+    segment: "pick",
+    imageSrc: "/media/catalog/btt-kshbskm.webp",
+  },
   {
     href: "/catalog/twisted-rattan",
     messageKey: "card_twisted",
+    segment: "production",
     imageSrc: "/media/catalog/twisted-rattan-hero.webp",
     imageFit: "contain",
     imageInsetClass: "inset-3 sm:inset-4",
@@ -48,6 +56,7 @@ const HERO_CATEGORIES: {
   {
     href: "/catalog/furniture",
     messageKey: "card_fourth",
+    segment: "master",
     imageSrc: "/media/catalog/furniture-chair-hero.webp",
     blendScreen: true,
   },
@@ -214,6 +223,11 @@ export function CommerceHero() {
               >
                 <Link
                   href={cat.href}
+                  onClick={() =>
+                    trackBttEvent(BTT_EVENTS.SegmentCardClick, {
+                      segment: cat.segment,
+                    })
+                  }
                   className="group btt-focus relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-5 pb-6 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.03] outline-none transition hover:-translate-y-0.5 hover:border-amber-500/35 motion-reduce:transition-none sm:min-h-[320px]"
                 >
                   <div

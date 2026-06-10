@@ -2,7 +2,10 @@ import type { Order, OrderLine } from "@prisma/client";
 import type { LeadKind } from "@/lib/leads-api";
 import { log } from "@/lib/logger";
 import { formatUzs } from "@/lib/pricing";
-import { MANAGER_BOT_TOKEN, MANAGER_CHAT_ID } from "@/lib/telegram-manager-config";
+import {
+  getManagerBotToken,
+  getManagerChatId,
+} from "@/lib/telegram-manager-config";
 
 export type ManagerOrderNotifyInput = Pick<
   Order,
@@ -51,10 +54,12 @@ function escapeTelegramHtml(value: string): string {
 function notifyConfig():
   | { token: string; chatId: string; timeoutMs: number }
   | undefined {
-  if (!MANAGER_BOT_TOKEN || !MANAGER_CHAT_ID) return undefined;
+  const token = getManagerBotToken();
+  const chatId = getManagerChatId();
+  if (!token || !chatId) return undefined;
   return {
-    token: MANAGER_BOT_TOKEN,
-    chatId: MANAGER_CHAT_ID,
+    token,
+    chatId,
     timeoutMs: 12_000,
   };
 }

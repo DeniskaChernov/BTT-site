@@ -20,8 +20,9 @@ describe("/api/health", () => {
     delete process.env.DATABASE_URL;
     try {
       const res = await GET(new Request("http://localhost/api/health?deep=1"));
-      expect(res.status).toBe(200);
-      const body = (await res.json()) as { database?: string };
+      expect(res.status).toBe(503);
+      const body = (await res.json()) as { ok?: boolean; database?: string };
+      expect(body.ok).toBe(false);
       expect(body.database).toBe("not_configured");
     } finally {
       if (prev !== undefined) process.env.DATABASE_URL = prev;

@@ -99,13 +99,6 @@ export function CheckoutForm() {
         ship,
       });
 
-      trackBttEvent(BTT_EVENTS.OrderSubmit, {
-        value: subtotalUz,
-        currency: "UZS",
-        sku: lines.map((l) => l.sku),
-        utm,
-      });
-
       const orderBody = {
         totalUz: subtotalUz,
         lines: lines.map((l) => ({
@@ -147,6 +140,12 @@ export function CheckoutForm() {
           if (saved?.historyAccessToken) {
             saveOrderAccessToken(orderBody.phone, saved.historyAccessToken);
           }
+          trackBttEvent(BTT_EVENTS.OrderSubmit, {
+            value: subtotalUz,
+            currency: "UZS",
+            sku: lines.map((l) => l.sku),
+            utm,
+          });
           serverOk = true;
         } else if (res.status === 429) {
           setErr(t("error_rate_limit"));

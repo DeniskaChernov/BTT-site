@@ -58,7 +58,7 @@ export function CompareTable() {
       label: t("row_price"),
       value: (p) => {
         const qty = isPricedPerKg(p) ? 5 : 1;
-        return `${formatUzs(getPricePerKgForQty(p, qty))} / ${isPricedPerKg(p) ? tc("per_kg") : "шт"}`;
+        return `${formatUzs(getPricePerKgForQty(p, qty))} / ${isPricedPerKg(p) ? tc("per_kg") : tc("per_piece")}`;
       },
     },
   ];

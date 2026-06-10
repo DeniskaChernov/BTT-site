@@ -11,7 +11,7 @@ export const bttFieldCompactClass =
 
 /** База мягкой стеклянной CTA с тёплым янтарным оттенком (не яркий градиент) */
 export const bttWarmGlassSurfaceClass =
-  "border border-amber-400/[0.35] bg-gradient-to-b from-amber-500/[0.22] via-amber-600/[0.14] to-amber-700/10 text-amber-50 shadow-lg backdrop-blur-xl transition-[transform,box-shadow,background-color,border-color,filter] duration-300 ease-btt hover:border-amber-400/50 hover:from-amber-500/30 hover:via-amber-600/[0.18] hover:to-amber-700/[0.12] hover:shadow-amber-950/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none [box-shadow:inset_0_1px_0_0_rgba(251,191,36,0.14),0_8px_28px_rgba(0,0,0,0.35)]";
+  "border border-amber-400/35 bg-gradient-to-b from-amber-500/22 via-amber-600/14 to-amber-700/10 text-amber-50 shadow-lg backdrop-blur-xl transition-[transform,box-shadow,background-color,border-color,filter] duration-300 ease-btt hover:border-amber-400/50 hover:from-amber-500/30 hover:via-amber-600/18 hover:to-amber-700/12 hover:shadow-amber-950/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none [box-shadow:inset_0_1px_0_0_rgba(251,191,36,0.14),0_8px_28px_rgba(0,0,0,0.35)]";
 
 /** Основная CTA-кнопка — мягкое стекло */
 export const bttPrimaryButtonClass = cn(
@@ -21,15 +21,15 @@ export const bttPrimaryButtonClass = cn(
 
 /** Активный чип / фильтр каталога */
 export const bttWarmGlassChipActiveClass =
-  "border-amber-400/[0.45] bg-gradient-to-b from-amber-500/[0.28] via-amber-600/[0.16] to-amber-700/10 text-amber-50 shadow-md shadow-amber-950/30 ring-1 ring-amber-400/25 backdrop-blur-xl";
+  "border-amber-400/45 bg-gradient-to-b from-amber-500/28 via-amber-600/16 to-amber-700/10 text-amber-50 shadow-md shadow-amber-950/30 ring-1 ring-amber-400/25 backdrop-blur-xl";
 
 /** Маленький бейдж (корзина в меню и т.п.) */
 export const bttWarmGlassBadgeClass =
-  "border border-amber-400/40 bg-gradient-to-b from-amber-500/40 to-amber-600/[0.22] text-amber-50 shadow-sm shadow-amber-950/[0.35] backdrop-blur-md";
+  "border border-amber-400/40 bg-gradient-to-b from-amber-500/40 to-amber-600/22 text-amber-50 shadow-sm shadow-amber-950/35 backdrop-blur-md";
 
 /** Вторичные CTA-пилюли для hero/page intro блоков */
 export const bttSecondaryAmberButtonClass =
-  "btt-focus inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 backdrop-blur-xl transition-[color,background-color,border-color,transform] duration-300 ease-btt hover:border-amber-400/[0.45] hover:bg-amber-500/[0.16] motion-reduce:transition-none min-h-11";
+  "btt-focus inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 backdrop-blur-xl transition-[color,background-color,border-color,transform] duration-300 ease-btt hover:border-amber-400/45 hover:bg-amber-500/16 motion-reduce:transition-none min-h-11";
 
 export const bttSecondaryNeutralButtonClass =
   "btt-focus inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-stone-200 transition-[color,background-color,border-color,transform] duration-300 ease-btt hover:border-white/25 motion-reduce:transition-none min-h-11";

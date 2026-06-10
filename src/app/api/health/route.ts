@@ -27,8 +27,9 @@ export async function GET(request: Request) {
   }
 
   if (!databaseConfigured) {
+    body.ok = false;
     body.database = "not_configured";
-    return NextResponse.json(body);
+    return NextResponse.json(body, { status: 503 });
   }
 
   try {
