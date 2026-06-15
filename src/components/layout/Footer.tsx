@@ -16,140 +16,107 @@ export async function Footer() {
   return (
     <footer className="relative mt-24 border-t border-white/[0.08] bg-gradient-to-b from-transparent to-black/40">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/25 to-transparent" />
-      <div className="btt-container grid gap-12 pt-16 pb-[calc(4rem+env(safe-area-inset-bottom,0px))] md:grid-cols-2 lg:grid-cols-4">
-        <AnimatedReveal className="min-w-0" delay={0}>
-        <div>
-          <BrandLogo variant="footer" />
-          <p className="mt-2 text-[11px] font-medium text-stone-500">{t("logo_sub")}</p>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-stone-500">
-            {t("rights")}
-          </p>
-        </div>
+      <div className="btt-container grid gap-10 pt-16 pb-[calc(4rem+env(safe-area-inset-bottom,0px))] sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-8">
+        <AnimatedReveal className="min-w-0 sm:col-span-2 lg:col-span-1" delay={0}>
+          <div>
+            <BrandLogo variant="footer" />
+            <p className="mt-2 text-[11px] font-medium text-stone-500">{t("logo_sub")}</p>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-stone-500">
+              {t("rights")}
+            </p>
+          </div>
         </AnimatedReveal>
 
         <AnimatedReveal className="min-w-0" delay={0.07}>
-        <div className="grid gap-3 text-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            {t("col_shop")}
-          </p>
-          <Link className={bttFooterLinkClass} href="/catalog">
-            {n("catalog")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/catalog/brochure"
-          >
-            {t("pdf_catalog")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/cart"
-          >
-            {n("cart")}
-          </Link>
-          <Link className={bttFooterLinkClass} href="/compare">
-            {n("compare")}
-          </Link>
-          <Link className={bttFooterLinkClass} href="/cart">
-            {cart("to_checkout")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/account"
-          >
-            {n("account")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/articles"
-          >
-            {n("articles")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/faq"
-          >
-            {n("faq")}
-          </Link>
-          {botUrl ? (
-            <a
-              className={bttFooterLinkClass}
-              href={botUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {col("footer_bot")}
-            </a>
-          ) : null}
-          {channelUrl ? (
-            <a
-              className={bttFooterLinkClass}
-              href={channelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {col("footer_channel")}
-            </a>
-          ) : null}
-        </div>
+          <div className="grid gap-3 text-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              {t("col_shop")}
+            </p>
+            <Link className={bttFooterLinkClass} href="/catalog">
+              {n("catalog")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/catalog/brochure">
+              {t("pdf_catalog")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/cart">
+              {n("cart")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/compare">
+              {n("compare")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/checkout">
+              {cart("to_checkout")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/account">
+              {n("account")}
+            </Link>
+          </div>
         </AnimatedReveal>
 
         <AnimatedReveal className="min-w-0" delay={0.14}>
-        <div className="grid gap-3 text-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            {t("col_company")}
-          </p>
-          <Link
-            className={bttFooterLinkClass}
-            href="/about"
-          >
-            {n("about")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/contacts"
-          >
-            {n("contacts")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/wholesale"
-          >
-            {n("wholesale")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/export"
-          >
-            {n("export")}
-          </Link>
-          <Link
-            className={bttFooterLinkClass}
-            href="/faq"
-          >
-            {n("faq")}
-          </Link>
-        </div>
+          <div className="grid gap-3 text-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              {t("col_company")}
+            </p>
+            <Link className={bttFooterLinkClass} href="/about">
+              {n("about")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/contacts">
+              {n("contacts")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/wholesale">
+              {n("wholesale")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/export">
+              {n("export")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/articles">
+              {n("articles")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/faq">
+              {n("faq")}
+            </Link>
+            {botUrl ? (
+              <a
+                className={bttFooterLinkClass}
+                href={botUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {col("footer_bot")}
+              </a>
+            ) : null}
+            {channelUrl ? (
+              <a
+                className={bttFooterLinkClass}
+                href={channelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {col("footer_channel")}
+              </a>
+            ) : null}
+          </div>
         </AnimatedReveal>
 
         <AnimatedReveal className="min-w-0" delay={0.21}>
-        <div className="grid gap-3 text-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            {t("col_docs")}
-          </p>
-          <Link className={bttFooterLinkClass} href="/privacy">
-            {t("privacy")}
-          </Link>
-          <Link className={bttFooterLinkClass} href="/cookies">
-            {t("cookies")}
-          </Link>
-          <Link className={bttFooterLinkClass} href="/terms">
-            {t("offer")}
-          </Link>
-          <Link className={bttFooterLinkClass} href="/company-details">
-            {t("company_details")}
-          </Link>
-        </div>
+          <div className="grid gap-3 text-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              {t("col_docs")}
+            </p>
+            <Link className={bttFooterLinkClass} href="/privacy">
+              {t("privacy")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/cookies">
+              {t("cookies")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/terms">
+              {t("offer")}
+            </Link>
+            <Link className={bttFooterLinkClass} href="/company-details">
+              {t("company_details")}
+            </Link>
+          </div>
         </AnimatedReveal>
       </div>
     </footer>

@@ -282,7 +282,7 @@ export function ProductDetail({ product }: Props) {
                   {c("total_to_pay")}: {formatUzs(lineTotal)} ·{" "}
                   {perKg ? (
                     <>
-                      {t("qty")}: {qty} kg
+                      {t("qty")}: {qty} {c("kg_unit")}
                     </>
                   ) : (
                     <>

@@ -9,6 +9,8 @@ import { QuoteEstimatorPanel } from "@/components/cart/QuoteEstimatorPanel";
 import { PageBackNav } from "@/components/layout/PageBackNav";
 import { Link } from "@/i18n/navigation";
 import { useCart } from "@/contexts/CartContext";
+import { cartHasInvalidPreorder } from "@/lib/cart-preorder";
+import { validateCartMoq } from "@/lib/cart/moq-validator";
 import { getProductBySlug } from "@/data/products";
 import { formatUzs, getQtyRules, isPricedPerKg } from "@/lib/pricing";
 import { BTT_EASE } from "@/lib/motion";
@@ -22,12 +24,16 @@ import {
 import { cn } from "@/lib/utils";
 import { Home, ShoppingBag } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 
 export function CartView() {
   const { lines, subtotalUz, lineTotalUz, updateQty, remove, clear } = useCart();
   const t = useTranslations("cart");
   const reduceMotion = useReducedMotion();
+  const moqIssues = useMemo(() => validateCartMoq(lines), [lines]);
+  const checkoutBlocked =
+    moqIssues.length > 0 || cartHasInvalidPreorder(lines);
 
   const onClear = () => {
     if (typeof window !== "undefined" && window.confirm(t("clear_confirm"))) {
@@ -171,12 +177,23 @@ export function CartView() {
           <p className="mt-2 text-3xl font-bold tabular-nums text-stone-50">
             {formatUzs(subtotalUz)}
           </p>
+          {checkoutBlocked ? (
+            <p
+              className="mt-6 rounded-xl border border-red-500/30 bg-red-950/25 px-4 py-3 text-sm text-red-100/95"
+              role="status"
+            >
+              {t("checkout_blocked_hint")}
+            </p>
+          ) : null}
           <Link
             href="/checkout"
+            aria-disabled={checkoutBlocked}
+            tabIndex={checkoutBlocked ? -1 : undefined}
             className={cn(
               bttPrimaryButtonClass,
               "btt-focus mt-8 hidden w-full justify-center py-3.5 transition active:scale-[0.99] lg:flex",
               bttTapReduceClass,
+              checkoutBlocked && "pointer-events-none opacity-45",
             )}
           >
             {t("to_checkout")}
@@ -204,10 +221,13 @@ export function CartView() {
           </div>
           <Link
             href="/checkout"
+            aria-disabled={checkoutBlocked}
+            tabIndex={checkoutBlocked ? -1 : undefined}
             className={cn(
               bttPrimaryButtonClass,
               "btt-focus shrink-0 px-5 active:scale-[0.99]",
               bttTapReduceClass,
+              checkoutBlocked && "pointer-events-none opacity-45",
             )}
           >
             {t("to_checkout")}

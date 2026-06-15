@@ -59,15 +59,15 @@ const CATALOG_COLORS = [
 type CatalogColor = (typeof CATALOG_COLORS)[number];
 
 type CatalogClientProps = {
-  /** ╨Ш╨╖ URL `?tab=` (╤Б╤Б╤Л╨╗╨║╨╕ ╤Б ╨│╨╗╨░╨▓╨╜╨╛╨╣) */
+  /** Из URL `?tab=` (ссылки с главной) */
   initialTab?: CategoryTab;
-  /** ╨Ш╨╖ URL `?shape=` */
+  /** Из URL `?shape=` */
   initialShape?: "all" | Product["shape"];
-  /** ╨Ш╨╖ URL `?color=` */
+  /** Из URL `?color=` */
   initialColor?: string;
-  /** ╨Ш╨╖ URL `?source=` */
+  /** Из URL `?source=` */
   initialSource?: "all" | "pdf";
-  /** ╨Ш╨╖ URL `?kind=` */
+  /** Из URL `?kind=` */
   initialKind?: "all" | "regular" | "twisted" | "semi";
   initialStock?: "all" | "in_stock" | "on_order";
 };
@@ -174,8 +174,13 @@ export function CatalogClient({
     } else {
       next.searchParams.delete("kind");
     }
+    if (f.stock !== "all") {
+      next.searchParams.set("stock", f.stock);
+    } else {
+      next.searchParams.delete("stock");
+    }
     window.history.replaceState(window.history.state, "", `${next.pathname}${next.search}${next.hash}`);
-  }, [f.tab, f.shape, f.color, f.source, f.kind]);
+  }, [f.tab, f.shape, f.color, f.source, f.kind, f.stock]);
 
   useEffect(() => {
     trackCatalogFilters({
@@ -534,7 +539,16 @@ export function CatalogClient({
           style={{ ["--btt-z-sticky" as string]: BTT_Z.stickyBar }}
         >
           <p className="text-sm font-medium text-stone-200">
-            {t("skip_to_products")} ┬╖ {t("results_count", { count: filtered.length })}
+            <a
+              href="#catalog-products"
+              className="text-amber-200/90 underline-offset-2 transition hover:text-amber-100 hover:underline"
+            >
+              {t("skip_to_products")}
+            </a>
+            <span className="mx-2 text-stone-600" aria-hidden>
+              ·
+            </span>
+            <span>{t("results_count", { count: filtered.length })}</span>
           </p>
           <div className="flex flex-wrap gap-2 xl:hidden">
             {(
@@ -617,7 +631,7 @@ export function CatalogClient({
                   onClick={() => setQuery("")}
                   className="rounded-full border border-amber-500/35 bg-amber-500/10 px-3 py-1 text-xs text-amber-200 transition hover:bg-amber-500/20"
                 >
-                  {`"${query.trim()}" ├Ч`}
+                  {`"${query.trim()}" ×`}
                 </button>
               ) : null}
               {activeFilters.map((x) => (
@@ -631,7 +645,7 @@ export function CatalogClient({
                   }
                   className="rounded-full border border-amber-500/35 bg-amber-500/10 px-3 py-1 text-xs text-amber-200 transition hover:bg-amber-500/20"
                 >
-                  {x.label} ├Ч
+                  {x.label} ×
                 </button>
               ))}
               <button

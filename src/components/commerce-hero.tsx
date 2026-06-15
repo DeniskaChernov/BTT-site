@@ -22,6 +22,7 @@ type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
 const HERO_CATEGORIES: {
   href: string;
   messageKey: CardKey;
+  badgeKey?: "card_fourth_badge";
   segment: "master" | "production" | "pick";
   imageSrc: string;
   imageFit?: "cover" | "contain";
@@ -56,6 +57,7 @@ const HERO_CATEGORIES: {
   {
     href: "/catalog/furniture",
     messageKey: "card_fourth",
+    badgeKey: "card_fourth_badge",
     segment: "master",
     imageSrc: "/media/catalog/furniture-chair-hero.webp",
     blendScreen: true,
@@ -166,7 +168,7 @@ export function CommerceHero() {
 
               <div className="mt-12 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
                 <Link
-                  href="/catalog"
+                  href="/catalog?stock=in_stock"
                   onClick={() =>
                     trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "stock" })
                   }
@@ -237,6 +239,11 @@ export function CommerceHero() {
                   <h2 className="relative z-10 text-center text-lg font-bold leading-tight tracking-tight text-white md:text-xl">
                     {title}
                   </h2>
+                  {cat.badgeKey ? (
+                    <p className="relative z-10 mt-1 text-center text-xs font-medium text-amber-300/90">
+                      {t(cat.badgeKey)}
+                    </p>
+                  ) : null}
 
                   <div className="relative mt-4 min-h-0 flex-1">
                     <div className="relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl">

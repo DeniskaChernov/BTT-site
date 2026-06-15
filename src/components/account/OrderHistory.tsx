@@ -299,11 +299,13 @@ export function OrderHistory({ profilePhone }: Props) {
         ) : remoteDenied ? (
           <p className="mt-3 text-sm text-amber-400/95">{t("orders_verify_needed")}</p>
         ) : remoteError ? (
-          <p className="mt-3 text-sm text-amber-400/95">{t("orders_server_error")}</p>
+          <>
+            <p className="mt-3 text-sm text-amber-400/95">{t("orders_server_error")}</p>
+            <p className="mt-2 text-xs text-stone-600">{t("orders_local_hint")}</p>
+          </>
         ) : (
           <p className="mt-3 text-sm text-stone-500">{t("orders_empty")}</p>
         )}
-        <p className="mt-2 text-xs text-stone-600">{t("orders_local_hint")}</p>
       </section>
     );
   }
@@ -316,9 +318,11 @@ export function OrderHistory({ profilePhone }: Props) {
       ) : remoteDenied ? (
         <p className="mt-2 text-xs text-amber-500/90">{t("orders_verify_needed")}</p>
       ) : remoteError ? (
-        <p className="mt-2 text-xs text-amber-500/90">{t("orders_server_error")}</p>
+        <>
+          <p className="mt-2 text-xs text-amber-500/90">{t("orders_server_error")}</p>
+          <p className="mt-1 text-xs text-stone-600">{t("orders_local_hint")}</p>
+        </>
       ) : null}
-      <p className="mt-1 text-xs text-stone-600">{t("orders_local_hint")}</p>
       <ul className="mt-6 space-y-4">
         {orders.map((order) => {
           const expanded = openId === order.id;
