@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { describe, expect, it, vi, beforeEach, beforeAll } from "vitest";
 import { products } from "@/data/products";
 import { lineItemTotalUz } from "@/lib/pricing";
 
@@ -23,6 +23,15 @@ vi.mock("@/lib/customer-notify", () => ({
 }));
 
 describe("/api/orders route", () => {
+  let GET: typeof import("./route").GET;
+  let POST: typeof import("./route").POST;
+
+  beforeAll(async () => {
+    const route = await import("./route");
+    GET = route.GET;
+    POST = route.POST;
+  });
+
   beforeEach(() => {
     vi.resetAllMocks();
     vi.stubEnv("DATABASE_URL", "postgres://example");
@@ -30,7 +39,6 @@ describe("/api/orders route", () => {
   });
 
   it("rejects GET history without access token", async () => {
-    const { GET } = await import("./route");
     const res = await GET(new Request("http://localhost/api/orders?phone=%2B998901112233"));
     expect(res.status).toBe(401);
   });
@@ -56,7 +64,6 @@ describe("/api/orders route", () => {
       paymentUrl: null,
       lines: [],
     });
-    const { POST } = await import("./route");
     const res = await POST(
       new Request("http://localhost/api/orders", {
         method: "POST",
