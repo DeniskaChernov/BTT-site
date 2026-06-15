@@ -16,13 +16,13 @@ export default async function HomePage() {
     <>
       <CommerceHero />
       <HomeCatalogQuickChips />
-      <HeroPromisesStrip />
-      <HomeNewsTicker />
-      <WhyBeneficialSection />
-      <MaterialTrustStrip />
-      <HomeExamplesLazy />
       <HomeMerchandising />
+      <HomeExamplesLazy />
+      <HeroPromisesStrip />
+      <WhyBeneficialSection />
       <HomeTrustLazy />
+      <MaterialTrustStrip />
+      <HomeNewsTicker />
       <HomeLazySections />
     </>
   );

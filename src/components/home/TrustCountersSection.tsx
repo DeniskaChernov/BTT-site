@@ -1,6 +1,8 @@
 "use client";
 
+import { Link } from "@/i18n/navigation";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
+import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { motion, useReducedMotion } from "framer-motion";
 import { Building2, Camera, CalendarDays, Users2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -84,10 +86,22 @@ export function TrustCountersSection() {
             ))}
           </ul>
 
-          <p className="mt-6 flex items-center justify-center gap-2 text-center text-xs text-stone-500 md:text-sm">
+          <p className="mt-6 flex flex-wrap items-center justify-center gap-2 text-center text-xs text-stone-500 md:text-sm">
             <Camera className="h-4 w-4 text-amber-500/70" aria-hidden />
-            {s("trust_photos")}
+            <span>{s("trust_photos")}</span>
           </p>
+
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link href="/catalog" className={bttPrimaryButtonClass}>
+              {s("trust_cta_catalog")}
+            </Link>
+            <Link
+              href="/catalog/brochure"
+              className="btt-focus rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-stone-200 transition hover:border-amber-500/35 hover:text-amber-100"
+            >
+              {s("trust_cta_brochure")}
+            </Link>
+          </div>
         </div>
       </div>
     </section>

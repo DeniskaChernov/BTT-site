@@ -28,6 +28,7 @@ function resolveActiveNavId(pathname: string): string | undefined {
 export function GlowSiteNav() {
   const t = useTranslations("nav");
   const tc = useTranslations("catalog");
+  const tCommon = useTranslations("common");
   const pathname = usePathname();
   const { lines } = useCart();
   const cartCount = lines.length;
@@ -54,39 +55,26 @@ export function GlowSiteNav() {
         label: t("catalog"),
         href: "/catalog",
         megaMenu: {
-          columns: [
-            {
-              title: t("catalog_section_twisted"),
-              links: [
-                { href: "/catalog?tab=material&kind=twisted", label: t("catalog_section_twisted") },
-              ],
-            },
-            {
-              title: t("catalog_section_semi"),
-              links: [
-                { href: "/catalog?tab=material&kind=semi", label: t("catalog_section_semi") },
-              ],
-            },
-            {
-              title: t("catalog_section_rattan"),
-              links: [
-                { href: "/catalog?tab=material&kind=regular", label: t("catalog_section_rattan") },
-              ],
-            },
-            {
-              title: t("catalog_section_planter"),
-              links: [
-                { href: "/catalog?tab=planter", label: t("catalog_section_planter") },
-                { href: "/catalog/furniture", label: t("catalog_section_furniture") },
-              ],
-            },
+          catalogAll: { href: "/catalog", label: t("mega_all_catalog") },
+          materialsTitle: t("mega_materials"),
+          materials: [
+            { href: "/catalog?tab=material&kind=twisted", label: t("catalog_section_twisted") },
+            { href: "/catalog?tab=material&kind=semi", label: t("catalog_section_semi") },
+            { href: "/catalog?tab=material&kind=regular", label: t("catalog_section_rattan") },
           ],
-          presetsTitle: t("mega_presets"),
-          presets: [
+          sectionsTitle: t("mega_sections"),
+          sections: [
+            { href: "/catalog?tab=planter", label: t("catalog_section_planter") },
+            { href: "/catalog/furniture", label: t("catalog_section_furniture") },
+          ],
+          stockTitle: t("mega_stock"),
+          stock: [
+            { href: "/catalog?stock=in_stock", label: tCommon("in_stock") },
+            { href: "/catalog?stock=on_order", label: tCommon("on_order") },
+          ],
+          tasksTitle: t("mega_presets"),
+          tasks: [
             { href: "/catalog?tab=material&shape=half_round", label: tc("preset_furniture") },
-            { href: "/catalog?tab=planter", label: tc("preset_planter") },
-            { href: "/catalog?tab=material&kind=semi", label: tc("preset_semi") },
-            { href: "/catalog?tab=material&stock=in_stock", label: tc("preset_stock") },
           ],
           footer: megaFooter,
         },
@@ -115,7 +103,7 @@ export function GlowSiteNav() {
             : undefined,
       },
     ],
-    [t, tc, cartCount, cartBulkHint, megaFooter],
+    [t, tc, tCommon, cartCount, cartBulkHint, megaFooter],
   );
 
   const navMenu = (

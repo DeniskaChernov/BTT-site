@@ -127,9 +127,7 @@ export function AccountForm() {
         error?: string;
       };
       if (!res.ok || !data.user) {
-        setAuthError(
-          typeof data.error === "string" ? data.error : t("auth_error"),
-        );
+        setAuthError(t("auth_error"));
         return;
       }
       setSession(data.user);
@@ -165,9 +163,7 @@ export function AccountForm() {
         error?: string;
       };
       if (!res.ok || !data.user) {
-        setAuthError(
-          typeof data.error === "string" ? data.error : t("auth_error"),
-        );
+        setAuthError(t("auth_error"));
         return;
       }
       setSession(data.user);
@@ -206,9 +202,7 @@ export function AccountForm() {
         error?: string;
       };
       if (!res.ok || !data.user) {
-        setAuthError(
-          typeof data.error === "string" ? data.error : t("auth_error"),
-        );
+        setAuthError(t("auth_error"));
         return;
       }
       setSession(data.user);

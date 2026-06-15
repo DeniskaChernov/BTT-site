@@ -44,6 +44,10 @@
     "cart_sr": "Savatcha: buyurtmada {count} ta pozitsiya",
     "cart_bulk_hint": "ulgurji uchun yana {kg} kg",
     "mega_presets": "Vazifa bo'yicha",
+    "mega_all_catalog": "Butun katalog",
+    "mega_materials": "Materiallar",
+    "mega_sections": "Bo'limlar",
+    "mega_stock": "Mavjudligi",
     "compare": "Taqqoslash"
   },
   "common": {
@@ -158,6 +162,8 @@
     "trust_years_value": "3",
     "trust_years_label": "yil bozorda",
     "trust_photos": "Mahsulotlarning haqiqiy fotolari — katalog va ijtimoiy tarmoqlarda",
+    "trust_cta_catalog": "Katalogni ko'rish",
+    "trust_cta_brochure": "PDF yuklab olish",
     "collective_kicker": "Kollektiv buyurtmalar",
     "collective_title": "Ulgurji xarid uchun hajm yetmayaptimi?",
     "collective_item_1": "5 kg dan buyurtma qilish mumkin",
@@ -412,6 +418,8 @@
     "hits_lead": "Rattan va kashpo — kg narxi aniq: kartochkadan savatchaga, batafsil yoki bosh sahifada material tanlash.",
     "hits_cta": "Butun katalog",
     "quick_chips_title": "Katalogga tezkor o'tish",
+    "quick_chips_stock": "Mavjudligi",
+    "quick_chips_catalog": "Bo'limlar",
     "quick_chip_in_stock": "Omborda",
     "quick_chip_on_order": "Buyurtmaga",
     "quick_chip_planter": "Kashpo",

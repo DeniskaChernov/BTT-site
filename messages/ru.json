@@ -44,6 +44,10 @@
     "cart_sr": "Корзина: {count} позиций в заказе",
     "cart_bulk_hint": "−{kg} кг до опта",
     "mega_presets": "По задаче",
+    "mega_all_catalog": "Весь каталог",
+    "mega_materials": "Материалы",
+    "mega_sections": "Разделы",
+    "mega_stock": "Наличие",
     "compare": "Сравнение"
   },
   "common": {
@@ -158,6 +162,8 @@
     "trust_years_value": "3",
     "trust_years_label": "года на рынке",
     "trust_photos": "Реальные фото изделий — в каталоге и соцсетях",
+    "trust_cta_catalog": "Смотреть каталог",
+    "trust_cta_brochure": "Скачать PDF",
     "collective_kicker": "Коллективные заказы",
     "collective_title": "Не хватает объёма для оптовой закупки?",
     "collective_item_1": "Можно заказать от 5 кг",
@@ -412,6 +418,8 @@
     "hits_lead": "Ротанг и кашпо с ценой за килограмм: в корзину с карточки, детали по профилю или подбор материала на главной.",
     "hits_cta": "Весь каталог",
     "quick_chips_title": "Быстрый переход в каталог",
+    "quick_chips_stock": "Наличие",
+    "quick_chips_catalog": "Разделы",
     "quick_chip_in_stock": "В наличии",
     "quick_chip_on_order": "Под заказ",
     "quick_chip_planter": "Кашпо",

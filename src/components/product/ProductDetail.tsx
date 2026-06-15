@@ -398,7 +398,7 @@ export function ProductDetail({ product }: Props) {
               {c("add_cart")}
             </motion.button>
             <Link
-              href="/catalog"
+              href="/contacts"
               className={cn(
                 "btt-focus order-3 inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.02] px-5 py-3 text-sm font-semibold text-stone-200 transition hover:border-amber-500/40 hover:bg-white/[0.05] sm:order-none sm:min-w-[10rem] sm:flex-none",
                 bttTapReduceClass,

@@ -44,6 +44,10 @@
     "cart_sr": "Cart: {count} items in your order",
     "cart_bulk_hint": "{kg} kg to wholesale tier",
     "mega_presets": "By task",
+    "mega_all_catalog": "Full catalog",
+    "mega_materials": "Materials",
+    "mega_sections": "Sections",
+    "mega_stock": "Availability",
     "compare": "Compare"
   },
   "common": {
@@ -158,6 +162,8 @@
     "trust_years_value": "3",
     "trust_years_label": "years on the market",
     "trust_photos": "Real photos of items — in the catalog and social feeds",
+    "trust_cta_catalog": "Browse catalog",
+    "trust_cta_brochure": "Download PDF",
     "collective_kicker": "Group buys",
     "collective_title": "Not enough volume for wholesale on Your own?",
     "collective_item_1": "Order from 5 kg",
@@ -412,6 +418,8 @@
     "hits_lead": "Rattan and planters with per-kg pricing — add from the card, open specs, or browse the catalog with filters.",
     "hits_cta": "Full catalog",
     "quick_chips_title": "Quick catalog filters",
+    "quick_chips_stock": "Availability",
+    "quick_chips_catalog": "Sections",
     "quick_chip_in_stock": "In stock",
     "quick_chip_on_order": "Made to order",
     "quick_chip_planter": "Planters",

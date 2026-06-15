@@ -17,13 +17,19 @@ import {
 import { createPortal } from "react-dom";
 import { CatalogMegaMenuPanel } from "@/components/layout/CatalogMegaMenuPanel";
 
+export type CatalogMegaMenuLink = { href: string; label: string };
+
 export type CatalogMegaMenuConfig = {
-  columns: { title: string; links: { href: string; label: string }[] }[];
-  presets: { href: string; label: string }[];
-  presetsTitle: string;
-  recentTitle?: string;
-  recent?: { href: string; label: string }[];
-  footer?: { href: string; label: string }[];
+  catalogAll: CatalogMegaMenuLink;
+  materialsTitle: string;
+  materials: CatalogMegaMenuLink[];
+  sectionsTitle: string;
+  sections: CatalogMegaMenuLink[];
+  stockTitle: string;
+  stock: CatalogMegaMenuLink[];
+  tasksTitle: string;
+  tasks: CatalogMegaMenuLink[];
+  footer?: CatalogMegaMenuLink[];
 };
 
 export type SlideTabItem = {
@@ -159,7 +165,7 @@ const SlideTab = forwardRef<HTMLLIElement, SlideTabProps>(
   ) => {
     const reduceMotion = useReducedMotion();
     const showBadge = typeof badge === "number" && badge > 0;
-    const hasMegaMenu = megaMenu != null && megaMenu.columns.length > 0;
+    const hasMegaMenu = megaMenu != null && megaMenu.materials.length > 0;
     const hasDropdown =
       hasMegaMenu || (Array.isArray(dropdown) && dropdown.length > 0);
 
