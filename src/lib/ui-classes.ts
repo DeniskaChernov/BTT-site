@@ -11,7 +11,7 @@ export const bttFieldCompactClass =
 
 /** База мягкой стеклянной CTA с тёплым янтарным оттенком (не яркий градиент) */
 export const bttWarmGlassSurfaceClass =
-  "border border-amber-400/35 bg-gradient-to-b from-amber-500/22 via-amber-600/14 to-amber-700/10 text-amber-50 shadow-lg backdrop-blur-xl transition-[transform,box-shadow,background-color,border-color,filter] duration-300 ease-btt hover:border-amber-400/50 hover:from-amber-500/30 hover:via-amber-600/18 hover:to-amber-700/12 hover:shadow-amber-950/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none [box-shadow:inset_0_1px_0_0_rgba(251,191,36,0.14),0_8px_28px_rgba(0,0,0,0.35)]";
+  "border border-amber-400/35 bg-gradient-to-b from-amber-500/20 via-amber-600/15 to-amber-700/10 text-amber-50 shadow-lg backdrop-blur-xl transition-[transform,box-shadow,background-color,border-color,filter] duration-300 ease-btt hover:border-amber-400/50 hover:from-amber-500/30 hover:via-amber-600/20 hover:to-amber-700/10 hover:shadow-amber-950/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none [box-shadow:inset_0_1px_0_0_rgba(251,191,36,0.14),0_8px_28px_rgba(0,0,0,0.35)]";
 
 /** Основная CTA-кнопка — мягкое стекло */
 export const bttPrimaryButtonClass = cn(
@@ -21,7 +21,7 @@ export const bttPrimaryButtonClass = cn(
 
 /** Активный чип / фильтр каталога */
 export const bttWarmGlassChipActiveClass =
-  "border-amber-400/45 bg-gradient-to-b from-amber-500/28 via-amber-600/16 to-amber-700/10 text-amber-50 shadow-md shadow-amber-950/30 ring-1 ring-amber-400/25 backdrop-blur-xl";
+  "border-amber-400/45 bg-gradient-to-b from-amber-500/25 via-amber-600/15 to-amber-700/10 text-amber-50 shadow-md shadow-amber-950/30 ring-1 ring-amber-400/25 backdrop-blur-xl";
 
 /** Маленький бейдж (корзина в меню и т.п.) */
 export const bttWarmGlassBadgeClass =
@@ -46,7 +46,7 @@ export const bttFieldStepperInputClass =
   "w-16 min-h-11 border-x border-white/10 bg-transparent px-2 py-2 text-center text-sm text-stone-100 outline-none transition focus:border-amber-500/40 focus:ring-2 focus:ring-inset focus:ring-amber-500/20";
 
 export const bttMobileCommerceBarClass =
-  "fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[#070605]/92 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden";
+  "btt-glass-nav fixed bottom-0 left-0 right-0 z-40 border-b-0 border-t border-white/10 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_rgba(0,0,0,0.4)] lg:hidden";
 
 export const bttMobilePageBottomClass =
   "pb-[calc(7rem+env(safe-area-inset-bottom,0px))] lg:pb-14";

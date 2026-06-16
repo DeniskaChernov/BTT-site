@@ -64,7 +64,7 @@ export function CompareTable() {
   ];
 
   return (
-    <div className="mt-8 overflow-x-auto">
+    <div className="btt-glass-sticky mt-8 overflow-x-auto rounded-3xl p-1 sm:p-2">
       <table className="w-full min-w-[640px] border-collapse text-sm">
         <thead>
           <tr>

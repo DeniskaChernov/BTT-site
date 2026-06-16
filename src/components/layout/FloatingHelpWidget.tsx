@@ -72,7 +72,7 @@ export function FloatingHelpWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.96 }}
             transition={reduceMotion ? { duration: 0 } : BTT_SPRING_SNAPPY}
-            className="pointer-events-auto w-[min(88vw,18rem)] overflow-hidden rounded-3xl border border-amber-500/25 bg-[#0c0a09]/95 p-4 shadow-[0_24px_64px_-12px_rgba(245,158,11,0.3)] backdrop-blur-xl"
+            className="btt-glass-strong pointer-events-auto w-[min(88vw,18rem)] overflow-hidden rounded-3xl p-4 shadow-[0_24px_64px_-12px_rgba(245,158,11,0.25)]"
           >
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">

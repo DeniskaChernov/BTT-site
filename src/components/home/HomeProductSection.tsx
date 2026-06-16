@@ -2,6 +2,7 @@ import { HomeHitsGrid } from "@/components/home/HomeHitsGrid";
 import { Link } from "@/i18n/navigation";
 import type { RankPurpose } from "@/lib/intent/types";
 import type { Product } from "@/types/product";
+import { bttSecondaryNeutralButtonClass } from "@/lib/ui-classes";
 import { ArrowRight } from "lucide-react";
 
 type Props = {
@@ -43,7 +44,7 @@ export function HomeProductSection({
           </div>
           <Link
             href={ctaHref}
-            className="group btt-focus inline-flex items-center justify-center gap-2 self-start rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-stone-200 transition hover:border-amber-500/35 hover:text-amber-100 motion-reduce:transition-none md:self-end"
+            className={`${bttSecondaryNeutralButtonClass} group gap-2 self-start px-5 py-2.5 hover:border-amber-500/35 hover:text-amber-100 md:self-end`}
           >
             {cta}
             <ArrowRight

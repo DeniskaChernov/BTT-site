@@ -535,7 +535,7 @@ export function CatalogClient({
 
       <div className="min-w-0 pb-[calc(5.25rem+env(safe-area-inset-bottom,0px))] lg:pb-0">
         <div
-          className="sticky top-[calc(4.5rem+env(safe-area-inset-top,0px))] z-[var(--btt-z-sticky)] mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/[0.08] bg-[#070605]/80 px-4 py-3 backdrop-blur-lg"
+          className="btt-glass-sticky sticky top-[calc(4.5rem+env(safe-area-inset-top,0px))] z-[var(--btt-z-sticky)] mb-4 flex flex-wrap items-center justify-between gap-3 px-4 py-3"
           style={{ ["--btt-z-sticky" as string]: BTT_Z.stickyBar }}
         >
           <p className="text-sm font-medium text-stone-200">
@@ -571,7 +571,7 @@ export function CatalogClient({
           </div>
         </div>
 
-        <div className="mb-4 grid gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3 md:grid-cols-[1fr_auto_auto] md:items-center md:p-4">
+        <div className="btt-glass mb-4 grid gap-3 p-3 md:grid-cols-[1fr_auto_auto] md:items-center md:p-4">
           <label className="relative block">
             <Search
               className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-500"

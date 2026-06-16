@@ -32,7 +32,7 @@ export function TrustCountersSection() {
   return (
     <section className="relative py-8 md:py-12" aria-labelledby="home-trust-title">
       <div className="btt-container">
-        <div className="rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-br from-white/[0.05] to-transparent p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-xl md:p-10">
+        <div className="btt-glass-strong rounded-[1.75rem] p-6 md:p-10">
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
