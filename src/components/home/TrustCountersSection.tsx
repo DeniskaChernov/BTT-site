@@ -32,7 +32,7 @@ export function TrustCountersSection() {
   return (
     <section className="relative py-8 md:py-12" aria-labelledby="home-trust-title">
       <div className="btt-container">
-        <div className="btt-glass-strong rounded-[1.75rem] p-6 md:p-10">
+        <div className="btt-glass-strong btt-section-shell">
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +40,7 @@ export function TrustCountersSection() {
             transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
             className="mx-auto max-w-3xl text-center"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+            <p className="btt-section-kicker">
               {s("trust_kicker")}
             </p>
             <h2
@@ -71,7 +71,7 @@ export function TrustCountersSection() {
                     ? undefined
                     : { y: -3, transition: { duration: 0.22, ease: [...BTT_EASE] } }
                 }
-                className="group flex items-start gap-4 rounded-2xl border border-white/[0.07] bg-black/25 p-5 shadow-inner shadow-black/20 transition-colors duration-200 hover:border-amber-500/30 hover:bg-black/35 motion-reduce:hover:translate-y-0"
+                className="group btt-bento-card flex items-start gap-4 p-5"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600/25 to-orange-950/40 text-amber-300 ring-1 ring-white/[0.07] transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
                   <Icon className="h-5 w-5" aria-hidden />

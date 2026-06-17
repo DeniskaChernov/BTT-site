@@ -42,15 +42,10 @@ export function HeroPromisesStrip() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-8%" }}
           transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
-          className="relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-br from-white/[0.05] to-transparent p-6 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-xl md:p-8"
+          className="btt-glass btt-section-shell relative"
         >
-          <div
-            className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-amber-500/10 blur-3xl"
-            aria-hidden
-          />
-
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+            <p className="btt-section-kicker">
               {s("promises_kicker")}
             </p>
             <h2
@@ -79,7 +74,7 @@ export function HeroPromisesStrip() {
                     ? undefined
                     : { y: -3, transition: { duration: 0.22, ease: [...BTT_EASE] } }
                 }
-                className="group relative flex h-full flex-col gap-3 rounded-2xl border border-white/[0.07] bg-black/25 p-5 shadow-inner shadow-black/20 transition-colors duration-200 hover:border-amber-500/35 hover:bg-black/35 motion-reduce:hover:translate-y-0 md:p-6"
+                className="group btt-bento-card relative flex h-full flex-col gap-3 p-5 md:p-6"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300 ring-1 ring-white/[0.06] transition-transform duration-200 group-hover:scale-105 motion-reduce:group-hover:scale-100">
                   <Icon className="h-5 w-5" aria-hidden />

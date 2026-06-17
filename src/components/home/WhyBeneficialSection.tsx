@@ -22,7 +22,7 @@ export function WhyBeneficialSection() {
     >
       <div className="btt-container">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+          <p className="btt-section-kicker">
             {s("benefits_kicker")}
           </p>
           <h2
@@ -40,7 +40,7 @@ export function WhyBeneficialSection() {
             return (
               <article
                 key={it.title}
-                className="group relative flex h-full gap-4 overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-white/[0.04] to-transparent p-6 shadow-xl backdrop-blur-xl transition-colors duration-300 hover:border-amber-500/35 motion-reduce:hover:translate-y-0 md:p-7"
+                className="group btt-glass btt-bento-card relative flex h-full gap-4 p-6 md:p-7"
               >
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-600/30 to-orange-950/40 text-amber-300 ring-1 ring-white/[0.06] transition-transform duration-300 group-hover:scale-105 motion-reduce:group-hover:scale-100">
                   <Icon className="h-5 w-5" aria-hidden />

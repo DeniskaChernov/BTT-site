@@ -167,6 +167,18 @@
     background: #111110;
   }
 
+  .btt-section-kicker {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80;
+  }
+
+  .btt-section-shell {
+    @apply overflow-hidden rounded-[2.5rem] p-6 md:p-8 lg:rounded-[3rem];
+  }
+
+  .btt-bento-card {
+    @apply rounded-[1.75rem] border border-white/[0.08] bg-black/20 transition-colors duration-200 hover:border-amber-500/30 motion-reduce:transition-none;
+  }
+
   .btt-glass-cta {
     @apply rounded-full border border-amber-400/40 bg-gradient-to-b from-amber-500/25 via-amber-600/15 to-amber-800/10 px-6 py-3 text-sm font-semibold text-amber-50 shadow-lg transition;
     backdrop-filter: blur(20px) saturate(165%);

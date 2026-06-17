@@ -34,7 +34,7 @@ export function HomeProductSection({
       <div className="relative btt-container">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+            <p className="btt-section-kicker">
               {kicker}
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-stone-50 md:text-4xl">

@@ -70,7 +70,7 @@ export function ExamplesSection() {
           transition={{ duration: reduceMotion ? 0 : 0.5, ease: [...BTT_EASE] }}
           className="mx-auto max-w-3xl text-center"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-500/80">
+          <p className="btt-section-kicker">
             {s("examples_kicker")}
           </p>
           <h2
@@ -108,12 +108,8 @@ export function ExamplesSection() {
                 onClick={() =>
                   trackBttEvent(BTT_EVENTS.ExampleCardClick, { type: it.id })
                 }
-                className="group btt-focus relative block h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.02] shadow-xl ring-1 ring-white/[0.03] backdrop-blur-xl transition-colors duration-300 hover:border-amber-500/35 motion-reduce:transition-none"
+                className="group btt-focus btt-glass relative block h-full overflow-hidden rounded-[2rem] transition-colors duration-300 hover:border-amber-500/35 motion-reduce:transition-none"
               >
-                <div
-                  className="pointer-events-none absolute inset-x-4 top-0 z-[1] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                  aria-hidden
-                />
                 <div className="relative aspect-[4/3] overflow-hidden bg-stone-950">
                   <Image
                     src={SITE_MEDIA.categoryCard(it.seed)}

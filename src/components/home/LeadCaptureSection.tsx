@@ -33,20 +33,11 @@ export function LeadCaptureSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-8%" }}
           transition={{ duration: reduceMotion ? 0 : 0.55, ease: [...BTT_EASE] }}
-          className="relative overflow-hidden rounded-[2rem] border border-amber-500/20 bg-gradient-to-br from-amber-950/40 via-stone-950/80 to-orange-950/30 p-6 shadow-[0_24px_60px_-20px_rgba(245,158,11,0.3)] md:p-10"
+          className="btt-glass-strong btt-section-shell relative border-amber-500/20 shadow-[0_24px_60px_-20px_rgba(245,158,11,0.2)]"
         >
-          <div
-            className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-amber-500/15 blur-3xl"
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute -bottom-24 -left-20 h-60 w-60 rounded-full bg-orange-900/20 blur-3xl"
-            aria-hidden
-          />
-
           <div className="relative grid gap-8 lg:grid-cols-[1fr_minmax(0,460px)] lg:items-start lg:gap-12">
             <div className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-400/90">
+              <p className="btt-section-kicker text-amber-400/90">
                 {s("lead_kicker")}
               </p>
               <h2

@@ -78,7 +78,7 @@ export function CommerceHero() {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="btt-mesh btt-grid-bg absolute inset-0 opacity-[0.85]" aria-hidden />
+      <div className="btt-mesh btt-grid-bg absolute inset-0 opacity-70" aria-hidden />
       <div
         className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-amber-600/12 blur-[100px]"
         aria-hidden
@@ -113,10 +113,10 @@ export function CommerceHero() {
 
               <HeroHeadlinePanel>
                 <span className="btt-hero-inline-pill">{s("hero_badge_pill")}</span>
-                <h1 className="mt-4 text-[1.65rem] font-bold leading-[1.06] tracking-tight text-stone-900 sm:mt-5 sm:text-[2.1rem] lg:text-[2.65rem]">
+                <h1 className="mt-3 text-[1.75rem] font-bold leading-[1.1] tracking-tight text-stone-900 sm:mt-3.5 sm:text-[2rem] lg:text-4xl">
                   {s("hero_headline_line1")}
                   <br />
-                  <span className="whitespace-nowrap">{s("hero_headline_line2")}</span>
+                  {s("hero_headline_line2")}
                 </h1>
               </HeroHeadlinePanel>
 
@@ -205,7 +205,7 @@ export function CommerceHero() {
                       segment: cat.segment,
                     })
                   }
-                  className="group btt-focus btt-glass relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] p-5 pb-6 outline-none transition hover:-translate-y-0.5 hover:border-amber-500/30 motion-reduce:transition-none sm:min-h-[320px]"
+                  className="group btt-focus btt-glass relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[2rem] p-5 pb-6 outline-none transition hover:-translate-y-0.5 hover:border-amber-500/30 motion-reduce:transition-none sm:min-h-[320px]"
                 >
                   <h2 className="relative z-10 text-center text-lg font-bold leading-tight tracking-tight text-white md:text-xl">
                     {title}
