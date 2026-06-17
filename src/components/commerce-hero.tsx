@@ -1,5 +1,6 @@
 "use client";
 
+import { HeroHeadlinePanel } from "@/components/hero/HeroHeadlinePanel";
 import { Link } from "@/i18n/navigation";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
@@ -110,14 +111,14 @@ export function CommerceHero() {
                 aria-hidden
               />
 
-              <div className="btt-hero-headline-cutout">
+              <HeroHeadlinePanel>
                 <span className="btt-hero-inline-pill">{s("hero_badge_pill")}</span>
-                <h1 className="mt-5 max-w-[14rem] text-[2rem] font-bold leading-[1.05] tracking-tight text-stone-900 sm:max-w-none sm:text-[2.35rem] lg:text-[2.75rem]">
+                <h1 className="mt-4 text-[1.65rem] font-bold leading-[1.06] tracking-tight text-stone-900 sm:mt-5 sm:text-[2.1rem] lg:text-[2.65rem]">
                   {s("hero_headline_line1")}
                   <br />
-                  {s("hero_headline_line2")}
+                  <span className="whitespace-nowrap">{s("hero_headline_line2")}</span>
                 </h1>
-              </div>
+              </HeroHeadlinePanel>
 
               <div className="absolute bottom-6 right-5 z-10 text-right sm:bottom-8 sm:right-8">
                 <span className="btt-hero-corner-pill">{s("hero_corner_tag")}</span>

@@ -155,25 +155,6 @@
       0 4px 24px rgba(0, 0, 0, 0.15);
   }
 
-  .btt-hero-headline-cutout {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: min(62%, 30rem);
-    padding: 1.75rem 2rem 2.5rem 1.75rem;
-    background: #f7f5f2;
-    color: #1c1917;
-    border-bottom-right-radius: 3.5rem;
-  }
-
-  @media (min-width: 640px) {
-    .btt-hero-headline-cutout {
-      padding: 2rem 2.5rem 3rem 2.25rem;
-      border-bottom-right-radius: 4rem;
-    }
-  }
-
   .btt-hero-inline-pill {
     @apply inline-flex items-center rounded-full border border-stone-300/80 bg-transparent px-3.5 py-1.5 text-[11px] font-normal text-stone-600;
   }
