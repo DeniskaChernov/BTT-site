@@ -90,11 +90,11 @@ export function CommerceHero() {
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="pt-10 pb-8 md:pt-12 md:pb-10">
           <motion.div
-            className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:grid-rows-6 lg:gap-5"
+            className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:grid-rows-5 lg:gap-4 lg:min-h-[540px]"
             {...fadeUp(reduceMotion)}
           >
             <motion.div
-              className="relative min-h-[420px] overflow-hidden rounded-[2.5rem] border border-white/[0.08] shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:min-h-[480px] lg:col-span-8 lg:row-span-6 lg:min-h-0 lg:rounded-[3rem]"
+              className="relative min-h-[440px] overflow-hidden rounded-[3rem] sm:min-h-[500px] lg:col-span-8 lg:row-span-5 lg:min-h-0"
               {...fadeUp(reduceMotion, 0.05)}
             >
               <Image
@@ -106,32 +106,32 @@ export function CommerceHero() {
                 sizes="(max-width: 1024px) 100vw, 66vw"
               />
               <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"
                 aria-hidden
               />
 
-              <div className="absolute left-4 top-4 z-10 max-w-[min(100%,20rem)] rounded-[1.75rem] p-5 sm:left-6 sm:top-6 sm:max-w-xs sm:p-6 btt-hero-headline-panel">
+              <div className="btt-hero-headline-cutout">
                 <span className="btt-hero-inline-pill">{s("hero_badge_pill")}</span>
-                <h1 className="mt-4 text-3xl font-bold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
+                <h1 className="mt-5 max-w-[14rem] text-[2rem] font-bold leading-[1.05] tracking-tight text-stone-900 sm:max-w-none sm:text-[2.35rem] lg:text-[2.75rem]">
                   {s("hero_headline_line1")}
                   <br />
                   {s("hero_headline_line2")}
                 </h1>
               </div>
 
-              <div className="absolute bottom-5 right-4 z-10 text-right sm:bottom-6 sm:right-6">
+              <div className="absolute bottom-6 right-5 z-10 text-right sm:bottom-8 sm:right-8">
                 <span className="btt-hero-corner-pill">{s("hero_corner_tag")}</span>
-                <p className="mt-3 text-sm font-medium text-white/90 sm:text-base">
+                <p className="mt-3 text-sm font-medium text-white sm:text-base">
                   {s("hero_corner_line1")}
                 </p>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/75 sm:text-sm">
+                <p className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.16em] text-white/85 sm:text-xs">
                   {s("hero_corner_line2")}
                 </p>
               </div>
             </motion.div>
 
             <motion.div
-              className="relative min-h-[280px] overflow-hidden rounded-[2.5rem] border border-white/[0.08] sm:min-h-[320px] lg:col-span-4 lg:row-span-4 lg:min-h-0 lg:rounded-[3rem]"
+              className="relative min-h-[300px] overflow-hidden rounded-[3rem] sm:min-h-[340px] lg:col-span-4 lg:row-span-3 lg:min-h-0"
               {...fadeUp(reduceMotion, 0.1)}
             >
               <Link
@@ -139,43 +139,39 @@ export function CommerceHero() {
                 onClick={() =>
                   trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
                 }
-                className="group btt-focus relative block h-full min-h-[280px] sm:min-h-[320px]"
+                className="group btt-focus relative block h-full min-h-[300px] sm:min-h-[340px]"
               >
                 <Image
                   src="/media/catalog/rattan-hero.webp"
                   alt=""
                   fill
-                  className="object-cover object-center transition duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  className="object-cover object-center transition duration-500 group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                   sizes="(max-width: 1024px) 100vw, 33vw"
-                />
-                <div
-                  className="absolute inset-0 bg-black/20 transition group-hover:bg-black/15 motion-reduce:transition-none"
-                  aria-hidden
                 />
 
                 <div className="absolute inset-0 flex items-center justify-center p-6">
-                  <span className="btt-glass-orbit h-[7.5rem] w-[7.5rem] transition group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100 sm:h-32 sm:w-32">
-                    <ArrowUpRight className="h-4 w-4 text-amber-200" aria-hidden />
-                    <span className="max-w-[5.5rem] leading-tight">{s("hero_tile_go")}</span>
+                  <span className="btt-glass-orbit h-[8.5rem] w-[8.5rem] p-3 transition group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100 sm:h-36 sm:w-36">
+                    <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden />
+                    <span className="max-w-[5.75rem] leading-tight">{s("hero_tile_go")}</span>
                   </span>
                 </div>
               </Link>
             </motion.div>
 
             <motion.div
-              className="grid min-h-[7.5rem] grid-cols-3 overflow-hidden rounded-[2.5rem] lg:col-span-4 lg:row-span-2 lg:rounded-[3rem] btt-hero-stats-panel"
+              className="grid min-h-[8.5rem] grid-cols-3 overflow-hidden rounded-[3rem] lg:col-span-4 lg:row-span-2 btt-hero-stats-panel"
               {...fadeUp(reduceMotion, 0.14)}
             >
               {HERO_STATS.map(({ valueKey, labelKey, plus }) => (
                 <div
                   key={valueKey}
-                  className="flex flex-col items-center justify-center gap-1 border-r border-white/[0.06] px-3 py-5 text-center last:border-r-0 sm:px-4"
+                  className="flex flex-col items-center justify-center gap-1.5 px-3 py-6 text-center sm:px-4"
                 >
-                  <p className="text-xl font-bold tabular-nums text-white sm:text-2xl lg:text-[1.65rem]">
+                  <p className="text-2xl font-bold tabular-nums text-white sm:text-[1.75rem]">
                     {s(valueKey)}
-                    {plus ? <span className="text-amber-400">+</span> : null}
+                    {plus ? <span className="text-amber-500">+</span> : null}
                   </p>
-                  <p className="text-[10px] leading-snug text-stone-400 sm:text-xs">
+                  <p className="max-w-[6.5rem] text-[11px] leading-snug text-stone-400 sm:text-xs">
                     {s(labelKey)}
                   </p>
                 </div>
