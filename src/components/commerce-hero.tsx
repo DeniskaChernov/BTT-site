@@ -3,19 +3,18 @@
 import { Link } from "@/i18n/navigation";
 import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
-import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
 
 const HERO_STATS = [
-  { valueKey: "hero_stat_bulk_value", labelKey: "hero_stat_bulk_label" },
-  { valueKey: "hero_stat_moq_value", labelKey: "hero_stat_moq_label" },
-  { valueKey: "hero_stat_stock_value", labelKey: "hero_stat_stock_label" },
+  { valueKey: "hero_stat_bulk_value", labelKey: "hero_stat_bulk_label", plus: true },
+  { valueKey: "hero_stat_moq_value", labelKey: "hero_stat_moq_label", plus: true },
+  { valueKey: "hero_stat_stock_value", labelKey: "hero_stat_stock_label", plus: false },
 ] as const;
 
 const HERO_CATEGORIES: {
@@ -91,11 +90,11 @@ export function CommerceHero() {
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="pt-10 pb-8 md:pt-12 md:pb-10">
           <motion.div
-            className="grid grid-cols-1 gap-4 lg:grid-cols-12"
+            className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:grid-rows-6 lg:gap-5"
             {...fadeUp(reduceMotion)}
           >
             <motion.div
-              className="relative min-h-[400px] overflow-hidden rounded-[2rem] border border-white/[0.08] shadow-[0_24px_80px_rgba(0,0,0,0.45)] lg:col-span-8 lg:min-h-[460px]"
+              className="relative min-h-[420px] overflow-hidden rounded-[2.5rem] border border-white/[0.08] shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:min-h-[480px] lg:col-span-8 lg:row-span-6 lg:min-h-0 lg:rounded-[3rem]"
               {...fadeUp(reduceMotion, 0.05)}
             >
               <Image
@@ -107,63 +106,32 @@ export function CommerceHero() {
                 sizes="(max-width: 1024px) 100vw, 66vw"
               />
               <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/25"
-                aria-hidden
-              />
-              <div
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_80%_30%,rgba(245,158,11,0.12),transparent_55%)]"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10"
                 aria-hidden
               />
 
-              <span className="btt-glass-pill absolute left-5 top-5 z-10 sm:left-6 sm:top-6">
-                {s("hero_image_tag")}
-              </span>
-
-              <div className="btt-glass-strong absolute bottom-5 left-5 right-5 z-10 max-w-xl p-5 sm:bottom-6 sm:left-6 sm:p-6 md:right-auto">
-                <p className="relative z-10 text-[10px] font-semibold uppercase tracking-[0.28em] text-amber-200/90 sm:text-[11px]">
-                  {s("hero_kicker")}
-                </p>
-                <h1 className="relative z-10 mt-3 text-balance text-2xl font-bold leading-[1.12] tracking-tight sm:text-3xl lg:text-4xl">
-                  <span className="bg-gradient-to-r from-amber-200 via-orange-300 to-amber-400 bg-clip-text text-transparent">
-                    {s("hero_title_accent")}
-                  </span>{" "}
-                  <span className="text-white">{s("hero_title_rest")}</span>
+              <div className="absolute left-4 top-4 z-10 max-w-[min(100%,20rem)] rounded-[1.75rem] p-5 sm:left-6 sm:top-6 sm:max-w-xs sm:p-6 btt-hero-headline-panel">
+                <span className="btt-hero-inline-pill">{s("hero_badge_pill")}</span>
+                <h1 className="mt-4 text-3xl font-bold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
+                  {s("hero_headline_line1")}
+                  <br />
+                  {s("hero_headline_line2")}
                 </h1>
-                <div className="relative z-10 mt-5 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
-                  <Link
-                    href="/catalog?stock=in_stock"
-                    onClick={() =>
-                      trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "stock" })
-                    }
-                    className="btt-focus inline-flex"
-                  >
-                    <span
-                      className={cn(
-                        bttPrimaryButtonClass,
-                        "group inline-flex w-full items-center justify-center gap-2 px-6 py-3 sm:w-auto",
-                      )}
-                    >
-                      {s("hero_cta_stock")}
-                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
-                    </span>
-                  </Link>
-                  <Link
-                    href="/catalog"
-                    onClick={() =>
-                      trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
-                    }
-                    className="btt-focus inline-flex"
-                  >
-                    <span className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-black/25 px-6 py-3 text-sm font-semibold text-stone-100 backdrop-blur-sm transition hover:border-white/35 hover:bg-black/40 sm:w-auto">
-                      {s("hero_cta_pick")}
-                    </span>
-                  </Link>
-                </div>
+              </div>
+
+              <div className="absolute bottom-5 right-4 z-10 text-right sm:bottom-6 sm:right-6">
+                <span className="btt-hero-corner-pill">{s("hero_corner_tag")}</span>
+                <p className="mt-3 text-sm font-medium text-white/90 sm:text-base">
+                  {s("hero_corner_line1")}
+                </p>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/75 sm:text-sm">
+                  {s("hero_corner_line2")}
+                </p>
               </div>
             </motion.div>
 
             <motion.div
-              className="relative min-h-[200px] overflow-hidden rounded-[2rem] border border-white/[0.08] lg:col-span-4 lg:min-h-[220px]"
+              className="relative min-h-[280px] overflow-hidden rounded-[2.5rem] border border-white/[0.08] sm:min-h-[320px] lg:col-span-4 lg:row-span-4 lg:min-h-0 lg:rounded-[3rem]"
               {...fadeUp(reduceMotion, 0.1)}
             >
               <Link
@@ -171,7 +139,7 @@ export function CommerceHero() {
                 onClick={() =>
                   trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
                 }
-                className="group btt-focus relative block h-full min-h-[200px]"
+                className="group btt-focus relative block h-full min-h-[280px] sm:min-h-[320px]"
               >
                 <Image
                   src="/media/catalog/rattan-hero.webp"
@@ -181,30 +149,33 @@ export function CommerceHero() {
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
                 <div
-                  className="absolute inset-0 bg-black/45 transition group-hover:bg-black/35 motion-reduce:transition-none"
+                  className="absolute inset-0 bg-black/20 transition group-hover:bg-black/15 motion-reduce:transition-none"
                   aria-hidden
                 />
+
                 <div className="absolute inset-0 flex items-center justify-center p-6">
-                  <span className="btt-glass-orbit h-[5.5rem] w-[5.5rem] transition group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100 sm:h-24 sm:w-24">
-                    <ArrowUpRight className="h-5 w-5 text-amber-200" aria-hidden />
-                    <span className="max-w-[4.5rem] leading-tight">
-                      {s("hero_tile_go")}
-                    </span>
+                  <span className="btt-glass-orbit h-[7.5rem] w-[7.5rem] transition group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100 sm:h-32 sm:w-32">
+                    <ArrowUpRight className="h-4 w-4 text-amber-200" aria-hidden />
+                    <span className="max-w-[5.5rem] leading-tight">{s("hero_tile_go")}</span>
                   </span>
                 </div>
               </Link>
             </motion.div>
 
             <motion.div
-              className="btt-glass-strong grid grid-cols-3 gap-3 rounded-[2rem] p-4 sm:p-5 lg:col-span-4"
+              className="grid min-h-[7.5rem] grid-cols-3 overflow-hidden rounded-[2.5rem] lg:col-span-4 lg:row-span-2 lg:rounded-[3rem] btt-hero-stats-panel"
               {...fadeUp(reduceMotion, 0.14)}
             >
-              {HERO_STATS.map(({ valueKey, labelKey }) => (
-                <div key={valueKey} className="relative z-10 text-center">
-                  <p className="text-lg font-bold tabular-nums text-amber-300 sm:text-xl">
+              {HERO_STATS.map(({ valueKey, labelKey, plus }) => (
+                <div
+                  key={valueKey}
+                  className="flex flex-col items-center justify-center gap-1 border-r border-white/[0.06] px-3 py-5 text-center last:border-r-0 sm:px-4"
+                >
+                  <p className="text-xl font-bold tabular-nums text-white sm:text-2xl lg:text-[1.65rem]">
                     {s(valueKey)}
+                    {plus ? <span className="text-amber-400">+</span> : null}
                   </p>
-                  <p className="mt-1 text-[10px] leading-snug text-stone-400 sm:text-xs">
+                  <p className="text-[10px] leading-snug text-stone-400 sm:text-xs">
                     {s(labelKey)}
                   </p>
                 </div>
