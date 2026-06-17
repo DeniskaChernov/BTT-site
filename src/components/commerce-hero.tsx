@@ -5,19 +5,18 @@ import { BTT_EVENTS, trackBttEvent } from "@/lib/analytics";
 import { BTT_EASE, bttStaggerDelay } from "@/lib/motion";
 import { bttPrimaryButtonClass } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-import { SITE_MEDIA } from "@/lib/site-media";
 import { useTranslations } from "next-intl";
-import { useRef } from "react";
 
 type CardKey = "card_rattan" | "card_planter" | "card_twisted" | "card_fourth";
+
+const HERO_STATS = [
+  { valueKey: "hero_stat_bulk_value", labelKey: "hero_stat_bulk_label" },
+  { valueKey: "hero_stat_moq_value", labelKey: "hero_stat_moq_label" },
+  { valueKey: "hero_stat_stock_value", labelKey: "hero_stat_stock_label" },
+] as const;
 
 const HERO_CATEGORIES: {
   href: string;
@@ -28,7 +27,6 @@ const HERO_CATEGORIES: {
   imageFit?: "cover" | "contain";
   blendScreen?: boolean;
   imageScaleClass?: string;
-  /** Отступ от краёв кадра превью (inner inset для fill + contain). */
   imageInsetClass?: string;
 }[] = [
   {
@@ -64,18 +62,19 @@ const HERO_CATEGORIES: {
   },
 ];
 
+const fadeUp = (reduceMotion: boolean | null, delay = 0) =>
+  reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 14 } as const,
+        animate: { opacity: 1, y: 0 } as const,
+        transition: { duration: 0.5, delay, ease: BTT_EASE },
+      };
+
 export function CommerceHero() {
   const t = useTranslations("commerceHero");
   const s = useTranslations("sales");
   const reduceMotion = useReducedMotion();
-  const parallaxRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: parallaxRef,
-    offset: ["start start", "end start"],
-  });
-  // Лёгкий parallax: двигаем фоновое изображение вверх и чуть масштабируем.
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
 
   return (
     <section className="relative overflow-hidden">
@@ -90,119 +89,127 @@ export function CommerceHero() {
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div ref={parallaxRef} className="pt-10 pb-8 md:pt-12 md:pb-10">
+        <div className="pt-10 pb-8 md:pt-12 md:pb-10">
           <motion.div
-            className="relative flex min-h-[420px] w-full flex-col justify-center overflow-hidden rounded-[2rem] border border-white/[0.1] bg-[#1a1a1a] shadow-[0_24px_80px_rgba(0,0,0,0.5)] ring-1 ring-white/[0.04] md:min-h-[480px] lg:min-h-[520px]"
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: reduceMotion ? 0 : 0.5,
-              ease: [...BTT_EASE],
-            }}
+            className="grid grid-cols-1 gap-4 lg:grid-cols-12"
+            {...fadeUp(reduceMotion)}
           >
-            <div className="pointer-events-none absolute inset-0">
-              <motion.div
-                className="absolute inset-0"
-                style={
-                  reduceMotion
-                    ? undefined
-                    : { y: bgY, scale: bgScale, willChange: "transform" }
+            <motion.div
+              className="relative min-h-[400px] overflow-hidden rounded-[2rem] border border-white/[0.08] shadow-[0_24px_80px_rgba(0,0,0,0.45)] lg:col-span-8 lg:min-h-[460px]"
+              {...fadeUp(reduceMotion, 0.05)}
+            >
+              <Image
+                src="/media/catalog/furniture-chair-hero.webp"
+                alt=""
+                fill
+                priority
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 66vw"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/25"
+                aria-hidden
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_80%_30%,rgba(245,158,11,0.12),transparent_55%)]"
+                aria-hidden
+              />
+
+              <span className="btt-glass-pill absolute left-5 top-5 z-10 sm:left-6 sm:top-6">
+                {s("hero_image_tag")}
+              </span>
+
+              <div className="btt-glass-strong absolute bottom-5 left-5 right-5 z-10 max-w-xl p-5 sm:bottom-6 sm:left-6 sm:p-6 md:right-auto">
+                <p className="relative z-10 text-[10px] font-semibold uppercase tracking-[0.28em] text-amber-200/90 sm:text-[11px]">
+                  {s("hero_kicker")}
+                </p>
+                <h1 className="relative z-10 mt-3 text-balance text-2xl font-bold leading-[1.12] tracking-tight sm:text-3xl lg:text-4xl">
+                  <span className="bg-gradient-to-r from-amber-200 via-orange-300 to-amber-400 bg-clip-text text-transparent">
+                    {s("hero_title_accent")}
+                  </span>{" "}
+                  <span className="text-white">{s("hero_title_rest")}</span>
+                </h1>
+                <div className="relative z-10 mt-5 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
+                  <Link
+                    href="/catalog?stock=in_stock"
+                    onClick={() =>
+                      trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "stock" })
+                    }
+                    className="btt-focus inline-flex"
+                  >
+                    <span
+                      className={cn(
+                        bttPrimaryButtonClass,
+                        "group inline-flex w-full items-center justify-center gap-2 px-6 py-3 sm:w-auto",
+                      )}
+                    >
+                      {s("hero_cta_stock")}
+                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
+                    </span>
+                  </Link>
+                  <Link
+                    href="/catalog"
+                    onClick={() =>
+                      trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
+                    }
+                    className="btt-focus inline-flex"
+                  >
+                    <span className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-black/25 px-6 py-3 text-sm font-semibold text-stone-100 backdrop-blur-sm transition hover:border-white/35 hover:bg-black/40 sm:w-auto">
+                      {s("hero_cta_pick")}
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="relative min-h-[200px] overflow-hidden rounded-[2rem] border border-white/[0.08] lg:col-span-4 lg:min-h-[220px]"
+              {...fadeUp(reduceMotion, 0.1)}
+            >
+              <Link
+                href="/catalog"
+                onClick={() =>
+                  trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
                 }
+                className="group btt-focus relative block h-full min-h-[200px]"
               >
                 <Image
-                  src={SITE_MEDIA.heroPanel}
+                  src="/media/catalog/rattan-hero.webp"
                   alt=""
                   fill
-                  priority
-                  className="object-cover object-center saturate-[0.85]"
-                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  className="object-cover object-center transition duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
                 />
-              </motion.div>
-              {/* Базовый scrim: чуть тяжелее снизу, чтобы CTA «дышали», а текст вверху лежал на глубокой области. */}
-              <div
-                className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-black/88"
-                aria-hidden
-              />
-              {/* Боковая виньетка на холодную сторону, чтобы вытянуть фокус к центру и приглушить тёплые края. */}
-              <div
-                className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_55%,transparent_35%,rgba(0,0,0,0.55)_100%)]"
-                aria-hidden
-              />
-              {/* Лёгкая amber-подсветка внизу под CTA — совпадает с зоной тёплого света на новом фоне. */}
-              <div
-                className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_95%,rgba(180,83,9,0.28),transparent_55%)]"
-                aria-hidden
-              />
-            </div>
+                <div
+                  className="absolute inset-0 bg-black/45 transition group-hover:bg-black/35 motion-reduce:transition-none"
+                  aria-hidden
+                />
+                <div className="absolute inset-0 flex items-center justify-center p-6">
+                  <span className="btt-glass-orbit h-[5.5rem] w-[5.5rem] transition group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100 sm:h-24 sm:w-24">
+                    <ArrowUpRight className="h-5 w-5 text-amber-200" aria-hidden />
+                    <span className="max-w-[4.5rem] leading-tight">
+                      {s("hero_tile_go")}
+                    </span>
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
 
-            <div className="relative z-10 flex flex-col items-center px-6 py-14 text-center sm:px-10 sm:py-16 md:px-14">
-              <motion.p
-                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.45,
-                  delay: reduceMotion ? 0 : 0.05,
-                  ease: [...BTT_EASE],
-                }}
-                className="inline-flex items-center rounded-full border border-white/15 bg-black/45 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-amber-100/95 backdrop-blur-md sm:text-[11px]"
-              >
-                {s("hero_kicker")}
-              </motion.p>
-
-              <motion.h1
-                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.55,
-                  delay: reduceMotion ? 0 : 0.12,
-                  ease: [...BTT_EASE],
-                }}
-                className="mt-8 max-w-4xl text-balance text-3xl font-bold leading-[1.15] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.55)] md:text-5xl lg:text-[3.25rem]"
-              >
-                <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
-                  {s("hero_title_accent")}
-                </span>
-                <br />
-                <span className="text-white">{s("hero_title_rest")}</span>
-              </motion.h1>
-
-              <div className="mt-12 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
-                <Link
-                  href="/catalog?stock=in_stock"
-                  onClick={() =>
-                    trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "stock" })
-                  }
-                  className="btt-focus inline-block rounded-full sm:inline-flex sm:justify-center"
-                >
-                  <motion.span
-                    className={cn(
-                      bttPrimaryButtonClass,
-                      "group inline-flex w-full items-center justify-center gap-2 px-8 py-3.5 shadow-black/30 sm:w-auto",
-                    )}
-                    whileHover={reduceMotion ? undefined : { scale: 1.02 }}
-                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                  >
-                    {s("hero_cta_stock")}
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
-                  </motion.span>
-                </Link>
-                <Link
-                  href="/catalog"
-                  onClick={() =>
-                    trackBttEvent(BTT_EVENTS.HeroCtaClick, { cta: "pick" })
-                  }
-                  className="btt-focus inline-block rounded-full sm:inline-flex sm:justify-center"
-                >
-                  <motion.span
-                    className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-black/35 px-8 py-3.5 text-sm font-semibold text-neutral-100 backdrop-blur-sm transition hover:border-white/30 hover:bg-black/45 motion-reduce:transition-none sm:w-auto"
-                    whileHover={reduceMotion ? undefined : { scale: 1.02 }}
-                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                  >
-                    {s("hero_cta_pick")}
-                  </motion.span>
-                </Link>
-              </div>
-            </div>
+            <motion.div
+              className="btt-glass-strong grid grid-cols-3 gap-3 rounded-[2rem] p-4 sm:p-5 lg:col-span-4"
+              {...fadeUp(reduceMotion, 0.14)}
+            >
+              {HERO_STATS.map(({ valueKey, labelKey }) => (
+                <div key={valueKey} className="relative z-10 text-center">
+                  <p className="text-lg font-bold tabular-nums text-amber-300 sm:text-xl">
+                    {s(valueKey)}
+                  </p>
+                  <p className="mt-1 text-[10px] leading-snug text-stone-400 sm:text-xs">
+                    {s(labelKey)}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
 
@@ -220,7 +227,7 @@ export function CommerceHero() {
                 transition={{
                   duration: reduceMotion ? 0 : 0.45,
                   delay: reduceMotion ? 0 : bttStaggerDelay(index, 0.06) + 0.06,
-                  ease: [...BTT_EASE],
+                  ease: BTT_EASE,
                 }}
               >
                 <Link
@@ -230,12 +237,8 @@ export function CommerceHero() {
                       segment: cat.segment,
                     })
                   }
-                  className="group btt-focus relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-[#1d1d1d] to-[#171717] p-5 pb-6 shadow-[0_8px_40px_rgba(0,0,0,0.35)] ring-1 ring-white/[0.03] outline-none transition hover:-translate-y-0.5 hover:border-amber-500/35 motion-reduce:transition-none sm:min-h-[320px]"
+                  className="group btt-focus btt-glass relative flex min-h-[300px] w-full flex-col overflow-hidden rounded-[1.75rem] p-5 pb-6 outline-none transition hover:-translate-y-0.5 hover:border-amber-500/30 motion-reduce:transition-none sm:min-h-[320px]"
                 >
-                  <div
-                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-40"
-                    aria-hidden
-                  />
                   <h2 className="relative z-10 text-center text-lg font-bold leading-tight tracking-tight text-white md:text-xl">
                     {title}
                   </h2>
@@ -246,7 +249,7 @@ export function CommerceHero() {
                   ) : null}
 
                   <div className="relative mt-4 min-h-0 flex-1">
-                    <div className="relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl">
+                    <div className="relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl border border-white/[0.06] bg-black/20">
                       <div
                         className={cn(
                           "absolute overflow-hidden rounded-xl",
@@ -268,11 +271,16 @@ export function CommerceHero() {
                           sizes="(max-width: 640px) 80vw, 220px"
                         />
                       </div>
+                      <div className="btt-glass-overlay pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100 motion-reduce:transition-none">
+                        <span className="btt-glass-pill normal-case tracking-normal">
+                          {s("hero_cta_pick")}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   <span
-                    className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#121212] text-neutral-100 shadow-lg transition group-hover:border-amber-500/40 group-hover:text-amber-200 motion-reduce:transition-none"
+                    className="btt-glass-orbit absolute bottom-4 right-4 z-10 h-10 w-10 rounded-full p-0 transition group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     aria-hidden
                   >
                     <ArrowUpRight className="h-4 w-4" />

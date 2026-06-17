@@ -80,27 +80,122 @@
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10;
   }
 
-  /* Glass — как на 21st.dev / community glass-morphism */
+  /* Glass — blur + saturate + inset edge */
   .btt-glass {
-    @apply rounded-[var(--btt-radius)] border border-white/[0.08] bg-white/[0.04] shadow-[var(--btt-shadow-sm)] backdrop-blur-2xl;
+    @apply rounded-[var(--btt-radius)] border border-white/[0.12];
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.09) 0%,
+      rgba(255, 255, 255, 0.04) 45%,
+      rgba(28, 24, 22, 0.35) 100%
+    );
+    backdrop-filter: blur(16px) saturate(165%);
+    -webkit-backdrop-filter: blur(16px) saturate(165%);
     box-shadow:
       var(--btt-shadow-sm),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.15);
   }
 
   .btt-glass-strong {
-    @apply rounded-[var(--btt-radius)] border border-amber-500/20 bg-stone-900/50 backdrop-blur-3xl;
+    @apply relative isolate overflow-hidden rounded-[var(--btt-radius)] border border-amber-500/25;
+    background: linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.11) 0%,
+      rgba(251, 191, 36, 0.06) 38%,
+      rgba(12, 10, 9, 0.62) 100%
+    );
+    backdrop-filter: blur(24px) saturate(165%);
+    -webkit-backdrop-filter: blur(24px) saturate(165%);
     box-shadow:
       var(--btt-shadow),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
-      0 0 0 1px rgba(0, 0, 0, 0.2);
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.11),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.22),
+      0 0 48px rgba(245, 158, 11, 0.06);
+  }
+
+  .btt-glass-strong::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.03) 28%,
+      transparent 52%
+    );
+    opacity: 0.85;
+  }
+
+  .btt-glass-pill {
+    @apply inline-flex items-center rounded-full border border-white/[0.15] px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-50/95 sm:text-[11px];
+    background: rgba(12, 10, 9, 0.45);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+      0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .btt-glass-overlay {
+    background: rgba(7, 6, 5, 0.35);
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+  }
+
+  .btt-glass-orbit {
+    @apply flex flex-col items-center justify-center gap-1 rounded-full border border-white/[0.2] text-center text-xs font-semibold text-stone-100;
+    background: rgba(12, 10, 9, 0.5);
+    backdrop-filter: blur(16px) saturate(165%);
+    -webkit-backdrop-filter: blur(16px) saturate(165%);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.35);
   }
 
   .btt-glass-cta {
-    @apply rounded-full border border-amber-400/35 bg-gradient-to-b from-amber-500/20 via-amber-600/15 to-amber-700/10 px-6 py-3 text-sm font-semibold text-amber-50 shadow-lg backdrop-blur-xl transition hover:border-amber-400/50 hover:from-amber-500/30 hover:via-amber-600/20 hover:to-amber-700/10;
+    @apply rounded-full border border-amber-400/40 bg-gradient-to-b from-amber-500/25 via-amber-600/15 to-amber-800/10 px-6 py-3 text-sm font-semibold text-amber-50 shadow-lg transition;
+    backdrop-filter: blur(20px) saturate(165%);
+    -webkit-backdrop-filter: blur(20px) saturate(165%);
     box-shadow:
-      inset 0 1px 0 0 rgba(251, 191, 36, 0.14),
+      inset 0 1px 0 0 rgba(251, 191, 36, 0.22),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
       0 8px 28px rgba(0, 0, 0, 0.35);
+  }
+
+  .btt-glass-cta:hover {
+    @apply border-amber-400/55 from-amber-500/35 via-amber-600/20 to-amber-800/15;
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .btt-glass,
+    .btt-glass-strong,
+    .btt-glass-pill,
+    .btt-glass-orbit {
+      background: rgba(28, 24, 22, 0.94);
+    }
+
+    .btt-glass-strong::before {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .btt-glass,
+    .btt-glass-strong,
+    .btt-glass-pill,
+    .btt-glass-orbit,
+    .btt-glass-overlay {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: rgba(28, 24, 22, 0.96);
+    }
+
+    .btt-glass-strong::before {
+      display: none;
+    }
   }
 
   /** Sticky chrome: шапка, нижние commerce-бары */
