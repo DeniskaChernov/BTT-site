@@ -113,7 +113,7 @@ export function CommerceHero() {
 
               <HeroHeadlinePanel>
                 <span className="btt-hero-inline-pill">{s("hero_badge_pill")}</span>
-                <h1 className="mt-3 text-[1.75rem] font-bold leading-[1.1] tracking-tight text-stone-900 sm:mt-3.5 sm:text-[2rem] lg:text-4xl">
+                <h1 className="mt-3 text-xl font-bold leading-[1.08] tracking-tight text-stone-900 sm:mt-3.5 sm:text-2xl lg:text-[1.65rem] xl:text-[2rem]">
                   {s("hero_headline_line1")}
                   <br />
                   {s("hero_headline_line2")}
